@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navBarPublic */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<a class="navbar-brand" th:href="@{/public/show/page?id=home}">
+			<span th:text="#{navBar.title}"></span>
+		</a>
+		
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+	
+			<div class="collapse navbar-collapse" id="navbarText">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/show/page?id=home}, #{navBar.home}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/greeting/page}, #{navBar.sample}, '')}"></div>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] your company  All rights reserved.
+	</div>
+	
+</body>
+</html>

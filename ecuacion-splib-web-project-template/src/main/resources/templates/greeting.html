@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{sample.title}
+				, titleDesc=#{sample.titleDesc}
+				">
+
+<body>
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{sample.greetingBox.title}, #{sample.greetingBox.titleDesc}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('firstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('greeting', #{sample.greetingBox.button}, '')}"></div>
+		
+		<div class="mt-7"></div>
+		<div th:replace="~{bootstrap/components :: inputText('message', 'readOnly')}"></div>
+	</div>
+</body>
+</html>
