@@ -13,12 +13,17 @@ public class WebApplication extends SpringBootServletInitializer {
     SpringApplication.run(WebApplication.class, args);
   }
 
-  /** 既存tomcatにwarとして配置するために必要. */
+  /** 
+   * Needed for deploy to an existing web application server. 
+   */
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
     return application.sources(WebApplication.class);
   }
-  
+
+  /**
+   * Returns SplibModelAttributes for app settings.
+   */
   @Bean
   SplibModelAttributes appCommonModelAttributes() {
     SplibModelAttributes atr = new SplibModelAttributes();
