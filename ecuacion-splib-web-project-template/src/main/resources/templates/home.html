@@ -4,10 +4,11 @@
 		layout:decorate="~{bootstrap/page-base-wide}"
 		data-show-page-login-state="public"
 		th:with="title=#{home.title}
-				, titleDesc=#{home.titleDesc}
 				">
 <body>
+
 	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph(#{home.titleDesc}, '')}"></div>
 	</div>
 </body>
 </html>
