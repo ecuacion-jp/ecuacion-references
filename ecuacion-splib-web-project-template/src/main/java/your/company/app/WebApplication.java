@@ -29,7 +29,7 @@ public class WebApplication extends SpringBootServletInitializer {
     SplibModelAttributes atr = new SplibModelAttributes();
     atr.setBsBgGradient(true);
     atr.setShowsMessagesLinkedToItemsAtTheTop(true);
-    atr.setShowsMessagesLinkedToItemsAtEachField(false);
+    atr.setShowsMessagesLinkedToItemsAtEachItem(false);
     
     return atr;
   }
