@@ -1,5 +1,6 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial;
 
+import jp.ecuacion.lib.core.util.PropertyFileUtil;
 import jp.ecuacion.splib.web.bean.SplibModelAttributes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,18 +14,26 @@ public class WebApplication extends SpringBootServletInitializer {
     SpringApplication.run(WebApplication.class, args);
   }
 
-  /** 既存tomcatにwarとして配置するために必要. */
+  /** 
+   * Needed for deploy to an existing web application server. 
+   */
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
     return application.sources(WebApplication.class);
   }
   
+  /**
+   * Returns SplibModelAttributes for app settings.
+   */
   @Bean
   SplibModelAttributes appCommonModelAttributes() {
     SplibModelAttributes atr = new SplibModelAttributes();
     atr.setBsBgGradient(true);
-    atr.setShowsMessagesLinkedToItemsAtTheTop(true);
-    atr.setShowsMessagesLinkedToItemsAtEachField(false);
+    atr.setShowsMessagesLinkedToItemsAtTheTop(false);
+    atr.setShowsMessagesLinkedToItemsAtEachItem(true);
+    if (PropertyFileUtil.hasApplication("app.html.body.backgroundColor")) {
+      atr.setBodyBgColor(PropertyFileUtil.getApplication("app.html.body.backgroundColor"));
+    }
     
     return atr;
   }

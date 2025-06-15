@@ -18,8 +18,59 @@
 	
 			<div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				
 					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/show/page?id=home}, #{navBar.home}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/greeting/page}, #{navBar.sample}, '')}"></div>
+
+					<div th:replace="~{bootstrap/components :: navBarSubMenu(#{navBar.component}, ~{::navBarSubMenuComponentTemplate}, '')}"></div>
+					<th:block th:if="false">
+						<div th:fragment="navBarSubMenuComponentTemplate" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/firstGreeting/page}, #{component.firstGreeting.title}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.basics}, ~{::navBarSubMenuComponentBasics}, '')}"></div>
+							<th:block th:if="false">
+								<div th:fragment="navBarSubMenuComponentBasics" th:remove="tag">
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/basics/additionOfTextbox/page}, #{component.additionOfTextbox.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basics/label}, #{component.label.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/basics/errorMessage/page}, #{component.errorMessage.title}, '')}"></div>
+								</div>
+							</th:block>
+
+							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.htmlItem}, ~{::navBarSubMenuComponentHtmlItem}, '')}"></div>
+							<th:block th:if="false">
+								<div th:fragment="navBarSubMenuComponentHtmlItem" th:remove="tag">
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.explanation}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemAndHtmlItem}, #{component.itemAndHtmlItem.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.basics}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/notEmpty/page}, #{component.notEmpty.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemKindIdFieldForName/page}, #{component.itemKindIdFieldForName.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/relationAndItemKindId/page}, #{component.relationAndItemKindId.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/propertyPath/page}, #{component.propertyPath.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.advanced}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/selectiveNotEmpty/page}, #{component.selectiveNotEmpty.title}, '')}"></div>
+								</div>
+							</th:block>
+
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/firstGreeting/page}, #{component.options.title}, '')}"></div>
+							
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.inputComponents}, ~{::navBarSubMenuComponentInputComponents}, '')}"></div>
+							<th:block th:if="false">
+								<div th:fragment="navBarSubMenuComponentInputComponents" th:remove="tag">
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.explanation}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemAndHtmlItem}, #{component.itemAndHtmlItem.title}, '')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.basics}, '')}"></div>
+								</div>
+							</th:block>
+
+						</div>
+					</th:block>
+					
 				</ul>
 			</div>
 		</div>
@@ -27,7 +78,7 @@
 
 	<!--/* footer */-->
 	<div th:fragment="footer-string" th:remove="tag">
-			© [[${#temporals.year(#temporals.createNow())}]] your company  All rights reserved.
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
 	</div>
 	
 </body>

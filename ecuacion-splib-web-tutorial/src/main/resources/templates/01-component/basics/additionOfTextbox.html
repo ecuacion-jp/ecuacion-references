@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title='component.additionOfTextbox.title'">
+
+<body>
+
+	<div layout:fragment="top-space" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('component.additionOfTextbox.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.firstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.additionOfTextbox.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('additionOfTextbox.html', 'additionOfTextbox.lastName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('AdditionOfTextboxRecord.java', 'additionOfTextbox.lastNameJava', '')}"></div>
+	</div>
+	
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, 'greetingBox.title', 'greetingBox.titleDesc', '')}"></div>
+	</div>
+
+
+	<th:block th:if="false"><div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('firstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: inputText('lastName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('greetingButton', #{greetingBox.button}, '')}"></div>
+		
+		<div class="mt-7"></div>
+		<div th:replace="~{bootstrap/components :: inputText('message', 'readOnly')}"></div>
+	</div></th:block>
+
+</body>
+</html>

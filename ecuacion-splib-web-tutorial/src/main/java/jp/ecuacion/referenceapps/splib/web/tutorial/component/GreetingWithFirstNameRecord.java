@@ -1,10 +1,10 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.record;
+package jp.ecuacion.referenceapps.splib.web.tutorial.component;
 
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.form.record.RecordInterface;
 
-public class GreetingRecord extends SplibRecord implements RecordInterface {
+public class GreetingWithFirstNameRecord extends SplibRecord implements RecordInterface {
 
   private String firstName;
   private String message;
@@ -29,4 +29,5 @@ public class GreetingRecord extends SplibRecord implements RecordInterface {
   public HtmlItem[] getHtmlItems() {
     return new HtmlItem[] {};
   }
+
 }

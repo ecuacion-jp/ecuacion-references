@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PROJ_NAME=ecuacion-tool-code-generator/ecuacion-tool-code-generator-web
+export PROJ_NAME=ecuacion-references/ecuacion-splib-web-tutorial
 
 ../../../ecuacion-internal-utils/ecuacion-util-bootstrap/script/command.sh `pwd`/custom.scss
 
