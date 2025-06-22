@@ -54,8 +54,9 @@
 
 	<!-- mvn versions plugin can't understand parameterized module name like ${app.name}-core... -->
 	<modules>
-		<module>ecuacion-reference-apps-util</module>
-		<module>ecuacion-splib-web-tutorial</module>
+		<module>ecuacion-references-apps-util</module>
+		<module>ecuacion-references-splib-web-tutorial</module>
+		<module>ecuacion-references-splib-web-project-template</module>
 		<!--
 		<module>ecuacion-splib-web-introduction</module>
 		-->
