@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-search-list-wide}"
+		th:with="
+			title=#{PT_SLE_21_PTN_LIST_TITLE},
+			needsSearchPane=true,
+			idFieldName='id',
+			versionFieldName='version',
+			itemDisplayedOnDelete='nameJapanese'
+		">
+<body>
+	<div layout:fragment="search-content" th:remove="tag">
+		<div class="row">
+			<div th:replace="~{bootstrap/components :: searchText('nameJapanese', '')}"></div>
+			<div th:replace="~{bootstrap/components :: searchText('nameJapaneseOld', '')}"></div>
+			<div th:replace="~{bootstrap/components :: searchText('nameEnglish', '')}"></div>
+			<div th:replace="~{bootstrap/components :: searchText('nameGerman', '')}"></div>
+			<div th:replace="~{bootstrap/components :: searchText('nameFrench', '')}"></div>
+			<div th:replace="~{bootstrap/components :: searchSelectFromEnum('season', '')}"></div>
+ 		</div>
+	</div>
+	
+	<div layout:fragment="list-table-header-content" th:remove="tag">
+		<th th:replace="~{bootstrap/components :: thSortable('id', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('nameJapanese', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('nameJapaneseOld', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('nameEnglish', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('nameGerman', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('nameFrench', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('season', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thSortable('numberOfDays', '')}"></th>
+		<th th:replace="~{bootstrap/components :: thFreeText(${@msgUtil.get(#locale, 'jp.ecuacion.splib.web.common.button.update')}, 'center')}"></th>
+		<th th:replace="~{bootstrap/components :: thFreeText(${@msgUtil.get(#locale, 'jp.ecuacion.splib.web.common.button.delete')}, 'center')}"></th>
+	</div>
+	
+	<div layout:fragment="list-table-body-content" th:remove="tag">
+		<tr>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyText('id', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameJapanese', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameJapaneseOld', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameEnglish', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameGerman', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameFrench', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyEnumText('season', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdReadOnlyNumber('numberOfDays', '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdUpdateButton(*{id}, *{version}, '')}"></td>
+			<td th:replace="~{bootstrap/components :: tdDeleteButton(*{id}, *{nameJapanese}, *{version}, '')}"></td>
+		</tr>
+	</div>
+	
+	<div layout:fragment="list-buttons-content" th:remove="tag">
+		<div class="d-flex justify-content-center">
+			<div th:replace="~{bootstrap/components :: showInsertFormButton('')}"></div>
+		</div>
+	</div>
+</body>
+</html>

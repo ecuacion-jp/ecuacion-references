@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='component.kindsOfComponents.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('component.kindsOfComponents.paragraph-1', '')}"></div>
+		<br>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: simpleTableHeader(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, 'componentId=test')}"></tr>
+			<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
+				${ {
+				 		{
+				 			{'start', 'base-page components', 6, 1}, 
+				 			{'start', 'message display'}, {'start', 'title, paragraph, referenceBox, ...'}, {'start', 'component.kindsOfComponents.messageDisplaying'}
+						}, {
+				 			{'start', 'dynamic message display'}, {'start', 'speechBalloon, ...'}, {'start', 'component.kindsOfComponents.dynamicMessageDisplaying'}
+						}, {
+				 			{'start', 'table'}, {'start', 'simpleTableHeader, ...'}, {'start', 'component.kindsOfComponents.table'}
+						}, {
+				 			{'start', 'shape'}, {'start', 'horizontalLine, ...'}, {'start', 'component.kindsOfComponents.shape'}
+						}, {
+				 			{'start', 'navbar'}, {'start', 'navBarMenuItem, navBarSubMenu, ...'}, {'start', 'component.kindsOfComponents.navbar'}
+						}, {
+				 			{'start', 'server message display'}, {'start', 'messages, ...'}, {'start', 'component.kindsOfComponents.serverMessageDisplaying'}
+						}, {
+				 			{'start', 'general-page components', 4, 1}, 
+				 			{'start', 'form'}, {'start', 'generalForm'}, {'start', 'component.kindsOfComponents.form'}
+						}, {
+				 			{'start', 'input'}, {'start', 'inputText, inputNumber, inputSelect, ...'}, {'start', 'component.kindsOfComponents.input'}
+						}, {
+				 			{'start', 'general-page button'}, {'start', '...'}, {'start', 'component.kindsOfComponents.generalFormButton'}
+						}, {
+				 			{'start', 'general-page hidden'}, {'start', 'version, token, ...'}, {'start', 'component.kindsOfComponents.generalFormHidden'}
+						}, {
+				 			{'start', 'search-page components', 3, 1}, 
+				 			{'start', 'search input'}, {'start', 'searchText, searchNumber, ...'}, {'start', 'component.kindsOfComponents.searchInput'}
+						}, {
+				 			{'start', 'search-page button'}, {'start', 'searchButton, ...'}, {'start', 'component.kindsOfComponents.searchButton'}
+						}, {
+				 			{'start', 'search-page script'}, {'start', 'scriptForThSortable, ...'}, {'start', 'component.kindsOfComponents.searchScript'}
+						}, {
+				 			{'start', 'list-page components', 3, 1}, 
+				 			{'start', 'list input'}, {'start', 'thText,  tdReadOnly, ...'}, {'start', 'component.kindsOfComponents.listInput'}
+						}, {
+				 			{'start', 'list-page button'}, {'start', 'tdButton, ...'}, {'start', 'component.kindsOfComponents.listButton'}
+						}, {
+				 			{'start', 'list-page script'}, {'start', 'scriptFortdUpdateButton, ...'}, {'start', 'component.kindsOfComponents.listScript'}
+
+						}
+	 			} }, '')}">
+ 			</tr>
+		</table>
+	</div>
+	
+</body>
+</html>

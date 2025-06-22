@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{PT_GENERAL_MLT_FORMS_MLT_CTLS_TITLE}
+				, titleDesc=#{PT_GENERAL_MLT_FORMS_MLT_CTLS_TITLE_DESC}
+				, multipleForms=true
+				, usesForm2=true
+				, subFunction1='input'
+				, subFunction2='output'
+				">
+
+<body>
+	<div layout:fragment="title-space">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_MLT_FORMS_MLT_CTLS_COMMUNICATION_BETWEEN_CTLS_SUBTITLE}, 'PT_GENERAL_MLT_FORMS_MLT_CTLS_COMMUNICATION_BETWEEN_CTLS_SUBTITLE_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_MLT_FORMS_MLT_CTLS_FLOW_SUBTITLE}, 'PT_GENERAL_MLT_FORMS_MLT_CTLS_FLOW_SUBTITLE_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_MLT_FORMS_MLT_CTLS_FORWARD_BEHAVIOR_SUBTITLE}, 'PT_GENERAL_MLT_FORMS_MLT_CTLS_FORWARD_BEHAVIOR_SUBTITLE_DESC', '')}"></div>
+	</div>
+
+	<div layout:fragment="form-content-1">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{PT_COMMON_GREETING_TITLE}, #{PT_COMMON_GREETING_TITLE_DESC}, '')}"></div>
+ 	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('name', '')}"></div>
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
+	</div>
+
+	<div layout:fragment="form-content-2">
+		<div th:replace="~{bootstrap/components :: box(~{::box-2}, 'ご挨拶', 'ご挨拶します。', '')}"></div>
+	</div>
+
+	<div th:fragment="box-2" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('greetingMessage', 'readOnly')}"></div>
+	</div>
+		<!--/* 
+ */-->
+</body>
+</html>

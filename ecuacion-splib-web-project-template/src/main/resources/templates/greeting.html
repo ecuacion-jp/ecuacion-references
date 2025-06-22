@@ -12,7 +12,7 @@
 	</div>
 
 	<div layout:fragment="form-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{sample.greetingBox.title}, #{sample.greetingBox.titleDesc}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{sample.greetingBox.title}, #{sample.greetingBox.description}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">

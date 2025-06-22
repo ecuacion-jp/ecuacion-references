@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-edit-wide}"
+		th:with="
+			title=#{PT_SLE_21_PTN_EDIT_TITLE},
+			versionFieldName='version',
+			versionInitialValue=${ptSle21PtnEditForm.month.version}
+		">
+<body>
+
+	<div layout:fragment="edit-fields-content" th:remove="tag">
+		<div class="row mb-5">
+			<div th:replace="~{bootstrap/components :: inputText('id', *{isInsert ? '' : 'readOnly'})}"></div>
+			<div th:replace="~{bootstrap/components :: inputText('nameJapanese', '')}"></div>
+			<div th:replace="~{bootstrap/components :: inputText('nameJapaneseOld', '')}"></div>
+			<div th:replace="~{bootstrap/components :: inputText('nameEnglish', '')}"></div>
+			<div th:replace="~{bootstrap/components :: inputText('nameGerman', '')}"></div>
+			<div th:replace="~{bootstrap/components :: inputText('nameFrench', '')}"></div>
+			<div th:replace="~{bootstrap/components :: inputSelectFromEnum('season', '')}"></div>
+			<div th:replace="~{bootstrap/components :: inputNumber('numberOfDays', '')}"></div>
+ 		</div>
+	</div>
+	
+	<div layout:fragment="edit-buttons-content" th:remove="tag">
+		<div class="container"><div class="row">
+			<div class="col-4"></div>
+			<div class="col-4 d-flex justify-content-center" th:with="insertOrUpdateMsg=*{isInsert} ? 'jp.ecuacion.splib.web.common.button.insert' : 'jp.ecuacion.splib.web.common.button.update'">
+				<div th:replace="~{bootstrap/components :: insertOrUpdateButton(${@msgUtil.get(#locale, insertOrUpdateMsg)}, '')}"></div>
+			</div>
+			<div class="col-4 d-flex justify-content-end">
+				<div th:replace="~{bootstrap/components :: backButton(${@msgUtil.get(#locale, 'jp.ecuacion.splib.web.common.button.back')}, '')}"></div>
+			</div>
+		</div></div>
+	</div>
+</body>
+</html>

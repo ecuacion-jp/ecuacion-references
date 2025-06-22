@@ -1,7 +1,7 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.component.htmlItem;
+package jp.ecuacion.referenceapps.splib.web.tutorial.component.components;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.web.tutorial.component.htmlItem.ItemKindIdFieldForNameController.ItemKindIdFieldForNameForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.component.htmlItem.ItemNameKeyController.ItemNameKeyForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/01-component/htmlItem/itemKindIdFieldForName")
-public class ItemKindIdFieldForNameController extends
-    SplibGeneral1FormController<ItemKindIdFieldForNameForm, SplibGeneral1FormDoNothingService<ItemKindIdFieldForNameForm>> {
+@RequestMapping("/public/01-component/components/kindOfComponents")
+public class KindsOfComponentsController extends
+    SplibGeneral1FormController<ItemNameKeyForm, SplibGeneral1FormDoNothingService<ItemNameKeyForm>> {
 
-  public ItemKindIdFieldForNameController() {
-    super("itemKindIdFieldForName",
-        newContext().functionKinds("01-component", "htmlItem").mainRootRecordName("greeting"));
+  public KindsOfComponentsController() {
+    super("kindsOfComponents",
+        newContext().functionKinds("01-component", "components").mainRootRecordName("greeting"));
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated ItemKindIdFieldForNameForm form,
-      BindingResult result) throws Exception {
+  public String greeting(Model model, @Validated KindsOfComponentsForm form, BindingResult result)
+      throws Exception {
     prepare(model, form.validate(result));
 
     return redirectToSamePageTakingOverModel(model, true);
@@ -40,7 +40,7 @@ public class ItemKindIdFieldForNameController extends
    * 
    * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
    */
-  public static class ItemKindIdFieldForNameForm extends SplibGeneralForm {
+  public static class KindsOfComponentsForm extends SplibGeneralForm {
 
     @Valid
     private MyRecord greeting = new MyRecord();
@@ -56,22 +56,12 @@ public class ItemKindIdFieldForNameController extends
 
   public static class MyRecord extends SplibRecord implements RecordInterface {
 
-    private String anotherFirstName1;
-    private String anotherFirstName2;
-
-    public String getAnotherFirstName1() {
-      return anotherFirstName1;
-    }
-
-    public String getAnotherFirstName2() {
-      return anotherFirstName2;
-    }
+    // private String anotherFirstName1;
 
     @Override
     public HtmlItem[] getHtmlItems() {
-      return new HtmlItem[] {
-          new HtmlItem("anotherFirstName1").itemKindIdFieldForName("firstName"),
-          new HtmlItem("anotherFirstName2").itemKindIdFieldForName("explanatoryFirstName")};
+      // TODO Auto-generated method stub
+      return null;
     }
   }
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{component.options.title}">
+
+<body>
+
+	<div layout:fragment="top-space" th:remove="tag">
+	</div>
+	
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph(#{component.options.paragraph-1}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.definitionOfFirstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph(#{component.options.paragraph-2}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'component.options.definitionOfFirstNameWithReadOnly', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-readOnly}, '', '', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph(#{component.options.paragraph-3}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'component.options.definitionOfFirstNameWithWidth', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-width}, '', '', '')}"></div>
+	</div>
+
+	<div th:fragment="box-readOnly" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('firstName', 'readOnly')}"></div>
+	</div>
+
+	<div th:fragment="box-width" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('firstName', 'width=half')}"></div>
+		<div th:replace="~{bootstrap/components :: inputText('firstName', 'width=full')}"></div>
+	</div>
+</body>
+</html>

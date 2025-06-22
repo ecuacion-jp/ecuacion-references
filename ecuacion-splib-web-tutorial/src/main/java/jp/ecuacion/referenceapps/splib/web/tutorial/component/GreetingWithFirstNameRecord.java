@@ -6,6 +6,14 @@ import jp.ecuacion.splib.web.form.record.RecordInterface;
 
 public class GreetingWithFirstNameRecord extends SplibRecord implements RecordInterface {
 
+  public GreetingWithFirstNameRecord() {
+
+  }
+
+  public GreetingWithFirstNameRecord(String firstName) {
+    this.firstName = firstName;
+  }
+
   private String firstName;
   private String message;
 

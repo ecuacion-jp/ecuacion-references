@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title=#{component.itemKindIdAndPropertyPath.title}">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: subtitle('itemKindId', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemKindIdAndPropertyPath.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: subtitle('propertyPath', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemKindIdAndPropertyPath.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: subtitle('component.itemKindIdAndPropertyPath.subtitle-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemKindIdAndPropertyPath.paragraph-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.itemAndHtmlItem.definitionOfHtmlItem', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemKindIdAndPropertyPath.paragraph-4', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.definitionOfFirstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemKindIdAndPropertyPath.paragraph-5', '')}"></div>
+	</div>
+	
+</body>
+</html>

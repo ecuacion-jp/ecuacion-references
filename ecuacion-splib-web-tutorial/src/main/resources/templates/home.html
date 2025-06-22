@@ -7,7 +7,9 @@
 		
 <body>
 	<div layout:fragment="base-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph('home.titleDesc', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('home.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('home.subtitle-2', 'home.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('home.subtitle-3', 'home.paragraph-3', '')}"></div>
 	</div>
 </body>
 </html>

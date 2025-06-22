@@ -7,13 +7,13 @@
 <body>
 
 	<div layout:fragment="top-space" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph(#{component.errorMessage.paragraph-1}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: referenceBox('ErrorMessageController.java', #{errorMessage.validators}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.errorMessage.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('ErrorMessageController.java', 'errorMessage.validators', '')}"></div>
 		
 	</div>
 	
 	<div layout:fragment="form-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{greetingBox.title}, #{greetingBox.titleDesc}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, 'greetingBox.title', 'greetingBox.description', '')}"></div>
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">

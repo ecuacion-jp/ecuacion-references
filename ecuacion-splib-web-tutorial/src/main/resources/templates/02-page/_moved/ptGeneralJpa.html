@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{PT_GENERAL_JPA_TITLE}
+				, titleDesc=#{PT_GENERAL_JPA_TITLE_DESC}
+				, versionInitialValue=${ptGeneralJpaForm.yourName.version}
+				, formMethod='post'
+		">
+<body>
+	<div layout:fragment="form-content">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{PT_GENERAL_JPA_YOUR_NAME_SUBTITLE}, #{PT_GENERAL_JPA_YOUR_NAME_MSG_SUBTITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('name', '')}"></div>
+		<div th:replace="~{bootstrap/components :: inputText('lstUpdTime', 'readonly')}"></div>
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('update', #{COMMON_BUTTON_UPDATE}, '')}"></div>
+	</div>
+</body>
+</html>

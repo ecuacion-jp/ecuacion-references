@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-2-forms-wide}"
+		th:with="title=#{PT_GENERAL_2_FORMS_SAMPLE_TITLE}
+				, titleDesc=#{PT_GENERAL_2_FORMS_SAMPLE_TITLE_DESC}
+				, ctrlSubFunction=''
+				, subFunction1='input'
+				, subFunction2='output'
+				">
+
+<body>
+	<div layout:fragment="form-content-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{PT_COMMON_GREETING_TITLE}, #{PT_COMMON_GREETING_TITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('name', '')}"></div>
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
+	</div>
+
+	<div layout:fragment="form-content-2" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-2}, #{PT_COMMON_GREETING_OUTPUT_TITLE}, #{PT_COMMON_GREETING_OUTPUT_TITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-2" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: inputText('greetingMessage', 'readOnly')}"></div>
+	</div>
+</body>
+</html>

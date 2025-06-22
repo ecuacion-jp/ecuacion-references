@@ -22,52 +22,218 @@
 					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/show/page?id=home}, #{navBar.home}, '')}"></div>
 
 					<div th:replace="~{bootstrap/components :: navBarSubMenu(#{navBar.component}, ~{::navBarSubMenuComponentTemplate}, '')}"></div>
+					<th:block th:if="false"><div th:fragment="navBarSubMenuComponentTemplate" th:remove="tag">
+						
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/firstGreeting/page}, #{component.firstGreeting.title}, '')}"></div>
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.basics}, ~{::navBarSubMenuComponentBasics}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentBasics" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/basics/additionOfTextbox/page}, #{component.additionOfTextbox.title}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basics/label}, 'component.label.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/basics/errorMessage/page}, #{component.errorMessage.title}, '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel('HtmlItem', '')}"></div>
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.htmlItem}, ~{::navBarSubMenuComponentHtmlItem}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentHtmlItem" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.explanation}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemAndHtmlItem}, 'component.itemAndHtmlItem.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemKindIdAndPropertyPath}, 'component.itemKindIdAndPropertyPath.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.basics}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/notEmpty/page}, 'component.notEmpty.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemNameKey/page}, 'component.itemNameKey.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.advanced}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/conditionalNotEmpty}, 'component.conditionalNotEmpty.title', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('navBar.group.itemPatterns', ~{::navBarSubMenuItemPatterns}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuItemPatterns" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemPatternSimple/page}, 'component.itemPatternSimple.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemPatternItemNameKeyChange/page}, 'component.itemPatternItemNameKeyChange.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemPatternItemKindIdChange/page}, 'component.itemPatternItemKindIdChange.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemPatternRelation/page}, 'component.itemPatternRelation.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemPatternRelationItemNameKeyChange/page}, 'component.itemPatternRelationItemNameKeyChange.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemPatternRelationItemKindIdChange/page}, 'component.itemPatternRelationItemKindIdChange.title', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('navBar.component.htmlItemWithDataType', ~{::navBarSubMenuHtmlItemWithDataType}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuHtmlItemWithDataType" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/htmlItemString/page}, '★HtmlItemString', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/htmlItemNumber/page}, '★HtmlItemNumber', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel('Components', '')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/kindsOfComponents}, 'component.kindsOfComponents.title', '')}"></div>
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('base-page components', ~{::navBarSubMenuComponentBasePageComponents}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentBasePageComponents" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basePageComponents/messageDisplay}, '★message display components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basePageComponents/dynamicMessageDisplay}, '★dynamic message display components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basePageComponents/table}, '★table components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basePageComponents/shape}, '★shape components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basePageComponents/navbar}, '★navbar components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basePageComponents/serverMessageDisplay}, '★server message display components', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('general-page components', ~{::navBarSubMenuComponentGeneralPageComponents}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentGeneralPageComponents" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/generalPage/form/page}, '★form components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/generalPage/input/page}, '★input components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/generalPage/generalPageButton/page}, '★general-page button components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/generalPage/generalPageHidden/page}, '★general-page hidden components', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('search-page components', ~{::navBarSubMenuComponentSearchPageComponents}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentSearchPageComponents" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/searchPage/searchInput/page}, '★search input components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/searchPage/searchPageButton/page}, '★search-page button components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/searchPage/searchPageScript/page}, '★search-page script components', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('list-page components', ~{::navBarSubMenuComponentListPageComponents}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentListPageComponents" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/listPage/listInput/page}, '★list input components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/listPage/listPageButton/page}, '★list-page button components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/listPage/listPageScript/page}, '★list-page script components', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel('Options', '')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/page}, #{component.options.title}, '')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('common options', ~{::navBarSubMenuComponentCommonOptions}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentCommonOptions" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToAll/page}, '★common to all components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToGeneralPage/page}, '★common to general page components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonTo★★★Page/page}, '★common to ★★★ components', '')}"></div>
+						</div></th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('indivisual options', ~{::navBarSubMenuComponentIndivisualOptions}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentIndivisualOptions" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToAll/page}, '★ components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToGeneralPage/page}, '★ components', '')}"></div>
+						</div></th:block>
+
+					</div></th:block>
+					
+					<div th:replace="~{bootstrap/components :: navBarSubMenu('Page Template', ~{::navBarSubMenuPageTemplate}, '')}"></div>
+					<th:block th:if="false"><div th:fragment="navBarSubMenuPageTemplate" th:remove="tag">
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=02-page/home}, 'page.home.title', '')}"></div>
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('navBar.page.commonFeatures', ~{::navBarSubMenuPageTemplateCommonFeatures}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuPageTemplateCommonFeatures" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=02-page/commonFeatures/width}, 'page.width.title', '')}"></div>
+						</div></th:block>
+						
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel('navBar.page.pageTemplates', '')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('base-page template', ~{::navBarSubMenuPageTemplateBase}, '')}"></div>
+						<th:block th:if="false"><div th:fragment="navBarSubMenuPageTemplateBase" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=02-page/base/introduction}, 'page.base.introduction.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptBaseFeatures}, #{PT_BASE_FEATURES_TITLE}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{NAVBAR_MENU_GROUP_NAVBAR}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptNavBar}, #{ST_NAVBAR_TITLE}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L2_ST_NAVBAR_SAMPLE}, ~{::navBarSubMenuSystemTemplateNavBar}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{NAVBAR_MENU_GROUP_PARAMETERS}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptBaseBsBgGradient/page}, #{PT_BASE_BS_BG_GRADIENT_TITLE}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptBaseNavbarBgColor}, #{PT_BASE_NAVBAR_BG_COLOR_TITLE}, '')}"></div>
+	
+						</div></th:block>
+
+
+						
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L2_PT_GENERAL}, ~{::navBarSubMenuPageTemplateGeneral}, '')}"></div>
+						<th:block th:if="false">
+							<div th:fragment="navBarSubMenuPageTemplateGeneral" th:remove="tag">
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptGeneral}, #{PT_GENERAL_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneralFeatures/page}, #{PT_GENERAL_FEATURES_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{NAVBAR_MENU_GROUP_PT_GENERAL_COMPOSITION_PATTERNS}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptGeneralCompositionPatterns}, #{PT_GENERAL_COMPOSITION_PATTERNS_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptGeneralSubFunction}, #{PT_GENERAL_SUBFUNCTION_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneral1Form1Record/page}, #{PT_GENERAL_1_FORM_1_RECORD_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneral1FormMltRecords/page}, #{PT_GENERAL_1_FORM_MLT_RECORDS_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneralMltForms1Ctl/page}, #{PT_GENERAL_MLT_FORMS_1_CTL_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneral1Form1CtlWithSubFunction/inputOutput/page}, #{PT_GENERAL_1_FORM_1_CTL_WITH_FN_PF_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneralMltForms1CtlWithSubFunction/inputOutput/page}, #{PT_GENERAL_MLT_FORMS_1_CTL_WITH_FN_PF_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneralMltFormsMltCtls/input/page}, #{PT_GENERAL_MLT_FORMS_MLT_CTLS_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{NAVBAR_MENU_GROUP_PT_GENERAL_WITH_RDB}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneralJpa/page}, #{PT_GENERAL_JPA_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneralMultipleTablesAndLock/page}, #{PT_GENERAL_MULTIPLE_TABLES_AND_LOCK_TITLE}, '')}"></div>
+							</div>
+						</th:block>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L2_PT_GENERAL_X_FORMS}, ~{::navBarSubMenuPageTemplateGeneralXForms}, '')}"></div>
+						<th:block th:if="false">
+							<div th:fragment="navBarSubMenuPageTemplateGeneralXForms" th:remove="tag">
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptGeneralXForms}, #{PT_GENERAL_X_FORMS_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneral1FormSample/page}, #{PT_GENERAL_1_FORM_SAMPLE_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptGeneral2FormsSample/page}, #{PT_GENERAL_2_FORMS_SAMPLE_TITLE}, '')}"></div>
+							</div>
+						</th:block>
+
+						<li style="color: orange; font-weight: bold">以下要見直し！！</li>
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L2_PT_EDIT}, ~{::navBarSubMenuPageTemplateEdit}, '')}"></div>
+						<th:block th:if="false">
+							<div th:fragment="navBarSubMenuPageTemplateEdit" th:remove="tag">
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptEdit}, #{PT_EDIT_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptEditFeaturesFromGeneral/edit/page}, #{NAVBAR_L3_PT_EDIT_FEATURES_FROM_GENERAL}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptEditFeatures/edit/page}, #{NAVBAR_L3_PT_EDIT_FEATURES}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptEditInsert/edit/page}, #{NAVBAR_L3_PT_EDIT_INSERT}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptEditUpdate/edit/page}, #{NAVBAR_L3_PT_EDIT_UPDATE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptEditInsert/edit/page}, #{NAVBAR_L3_PT_EDIT_INSERT_JPA}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptEditUpdate/edit/page}, #{NAVBAR_L3_PT_EDIT_UPDATE_JPA}, '')}"></div>
+							</div>
+						</th:block>
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L2_PT_SEARCH_LIST}, ~{::navBarSubMenuPageTemplateSearchList}, '')}"></div>
+						<th:block th:if="false">
+							<div th:fragment="navBarSubMenuPageTemplateSearchList" th:remove="tag">
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=ptSearchList}, #{PT_SEARCH_LIST_TITLE}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptSearchListFeaturesFromGeneral/search/page}, #{NAVBAR_L3_PT_SEARCH_LIST_FEATURES_FROM_GENERAL}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptSearchListFeatures/search/page}, #{NAVBAR_L3_PT_SEARCH_LIST_FEATURES}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptSearchListDelete/search/page}, #{NAVBAR_L3_PT_SEARCH_LIST_HIDE_SEARCH}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptSearchListJpaDelete/search/page}, #{NAVBAR_L3_PT_SEARCH_LIST_JPA}, '')}"></div>
+							</div>
+						</th:block>
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+
+						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L2_PT_SLE}, ~{::navBarSubMenuPageTemplateSle}, '')}"></div>
+						<th:block th:if="false">
+							<div th:fragment="navBarSubMenuPageTemplateSle" th:remove="tag">
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptSle21Ptn/searchList/page}, #{NAVBAR_L3_PT_SLE_2_1}, '')}"></div>
+								<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/ptSle3Ptn/searchList/page}, #{NAVBAR_L3_PT_SLE_3}, '')}"></div>
+							</div>
+						</th:block>
+					</div></th:block>
+					
+					<div th:replace="~{bootstrap/components :: navBarSubMenu('System Template', ~{::navBarSubMenuSystemTemplate}, '')}"></div>
 					<th:block th:if="false">
-						<div th:fragment="navBarSubMenuComponentTemplate" th:remove="tag">
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/firstGreeting/page}, #{component.firstGreeting.title}, '')}"></div>
+						<div th:fragment="navBarSubMenuSystemTemplate" th:remove="tag">
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=stHome}, #{ST_HOME_TITLE}, '')}"></div>
 							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
-
-							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.basics}, ~{::navBarSubMenuComponentBasics}, '')}"></div>
-							<th:block th:if="false">
-								<div th:fragment="navBarSubMenuComponentBasics" th:remove="tag">
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/basics/additionOfTextbox/page}, #{component.additionOfTextbox.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/basics/label}, #{component.label.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/basics/errorMessage/page}, #{component.errorMessage.title}, '')}"></div>
-								</div>
-							</th:block>
-
-							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.htmlItem}, ~{::navBarSubMenuComponentHtmlItem}, '')}"></div>
-							<th:block th:if="false">
-								<div th:fragment="navBarSubMenuComponentHtmlItem" th:remove="tag">
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.explanation}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemAndHtmlItem}, #{component.itemAndHtmlItem.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.basics}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/notEmpty/page}, #{component.notEmpty.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/itemKindIdFieldForName/page}, #{component.itemKindIdFieldForName.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/relationAndItemKindId/page}, #{component.relationAndItemKindId.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/propertyPath/page}, #{component.propertyPath.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.advanced}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/htmlItem/selectiveNotEmpty/page}, #{component.selectiveNotEmpty.title}, '')}"></div>
-								</div>
-							</th:block>
-
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/firstGreeting/page}, #{component.options.title}, '')}"></div>
-							
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
-
-							<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{navBar.component.inputComponents}, ~{::navBarSubMenuComponentInputComponents}, '')}"></div>
-							<th:block th:if="false">
-								<div th:fragment="navBarSubMenuComponentInputComponents" th:remove="tag">
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.explanation}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemAndHtmlItem}, #{component.itemAndHtmlItem.title}, '')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
-									<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{navBar.group.basics}, '')}"></div>
-								</div>
-							</th:block>
-
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/stPagesProvidedByLibrary/page}, #{NAVBAR_L2_ST_PAGES_PROVIDED_BY_LIBRARY}, '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/stCommonFeatures/page}, #{NAVBAR_L2_ST_COMMON_FEATURES}, '')}"></div>
 						</div>
 					</th:block>
 					
@@ -75,7 +241,31 @@
 			</div>
 		</div>
 	</div>
-
+	
+	<!--/* deeper layer of menu extracted */-->
+	<div th:fragment="navBarSubMenuSystemTemplateNavBar" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L3_ST_NAVBAR_SAMPLE_1}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
+		<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{NAVBAR_L3_ST_NAVBAR_SAMPLE_3_GROUP_WHICH_HAS_SUB_MENU}, '')}"></div>
+	
+		<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L3_ST_NAVBAR_SAMPLE_2}, ~{::stnavBarDropDownSubMenuL3_2}, 'direction=left')}"></div>
+		<th:block th:if="false">
+			<div th:fragment="stnavBarDropDownSubMenuL3_2" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L4_ST_NAVBAR_SAMPLE_3_2_1}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L4_ST_NAVBAR_SAMPLE_3_2_2}, '')}"></div>
+			</div>
+		</th:block>
+	
+		<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L3_ST_NAVBAR_SAMPLE_3}, ~{::stnavBarDropDownSubMenuL3_3}, '')}"></div>
+		<th:block th:if="false">
+			<div th:fragment="stnavBarDropDownSubMenuL3_3" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L4_ST_NAVBAR_SAMPLE_3_3_1}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L4_ST_NAVBAR_SAMPLE_3_3_2}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L4_ST_NAVBAR_SAMPLE_3_3_3}, '')}"></div>
+			</div>
+		</th:block>
+	</div>
+	
 	<!--/* footer */-->
 	<div th:fragment="footer-string" th:remove="tag">
 			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.

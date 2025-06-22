@@ -8,14 +8,14 @@
 
 	<div layout:fragment="top-space" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: paragraph('component.additionOfTextbox.paragraph-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.firstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.definitionOfFirstName', '')}"></div>
 		<div th:replace="~{bootstrap/components :: paragraph('component.additionOfTextbox.paragraph-2', '')}"></div>
-		<div th:replace="~{bootstrap/components :: referenceBox('additionOfTextbox.html', 'additionOfTextbox.lastName', '')}"></div>
-		<div th:replace="~{bootstrap/components :: referenceBox('AdditionOfTextboxRecord.java', 'additionOfTextbox.lastNameJava', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('additionOfTextbox.html', 'additionOfTextbox.definitionOfLastName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('AdditionOfTextboxRecord.java', 'additionOfTextbox.definitionOfLastNameJava', '')}"></div>
 	</div>
 	
 	<div layout:fragment="form-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: box(~{::box-1}, 'greetingBox.title', 'greetingBox.titleDesc', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, 'greetingBox.title', 'greetingBox.description', '')}"></div>
 	</div>
 
 

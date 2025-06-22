@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title=#{PT_GENERAL_COMPOSITION_PATTERNS_TITLE}
+				, titleDesc=#{PT_GENERAL_COMPOSITION_PATTERNS_TITLE_DESC}
+				">
+
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_ELEMENTS}, 'PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_ELEMENTS_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_FORM_AND_RECORD}, 'PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_FORM_AND_RECORD_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_HTML_FORM_AND_JAVA_FORM}, 'PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_HTML_FORM_AND_JAVA_FORM_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_FORM_AND_JAVA_CONTROLLER}, 'PT_GENERAL_COMPOSITION_PATTERNS_SUBTITLE_FORM_AND_JAVA_CONTROLLER_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_COMPOSITION_PATTERNS_JAVA_CONTROLLER_AND_HTML_PAGE}, 'PT_GENERAL_COMPOSITION_PATTERNS_JAVA_CONTROLLER_AND_HTML_PAGE_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_COMPOSITION_PATTERNS_PAGE_AND_FUNCTION}, 'PT_GENERAL_COMPOSITION_PATTERNS_PAGE_AND_FUNCTION_DESC', '')}"></div>
+	</div>
+</body>
+</html>

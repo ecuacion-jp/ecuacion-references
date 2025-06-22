@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{splib-web/page-base-wide-with-page-template-params}"
+		data-show-page-login-state="public"
+		th:with="title=#{PT_GENERAL_X_FORMS_TITLE}
+				, titleDesc=#{PT_GENERAL_X_FORMS_TITLE_DESC}
+				">
+
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_GENERAL_X_FORMS_ADDED_FEATURES_SUBTITLE}, 'PT_GENERAL_X_FORMS_ADDED_FEATURES_SUBTITLE_DESC', '')}"></div>
+		
+		<div class="table-responsive">
+			<table class="table table-striped text-nowrap table-bordered">
+					<div th:replace="~{app-components :: simpleTableHeader(${ {'機能', '対象モジュール', '変更内容'} }, '')}"></div>
+					<div th:replace="~{app-components :: simpleTableBodyFromLinesOfCellElements(
+						${ {
+						 		{
+						 			{'start', 'controllerに対する<br>form数の指定', '3', '1'}, {'start', 'page-general-1-form.html<br>page-general-2-forms.html<br>page-general-3-forms.html'}, 
+						 			{'start', 'multipleForms, usesForm2, usesForm3のparameterを指定。<br>（併せてpage-general-1-form-wide.htmlなども追加）'}
+								}
+								, {
+									{'start', 'SplibGeneralXForm[s]Controller'}, {'start', 'classへのgenericsパラメータ追加と、formを引数に持つ以下メソッドの追加。<br>- page メソッド<br>- submitOnChangeToRefresh メソッド'}
+								}
+								, {
+									{'start', 'SplibGeneralXForm[s]Service'}, {'start', 'pageメソッドの追加。'}
+								}
+			 			} }, '')}">
+		 			</div>
+				
+			</table>
+		</div>
+		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE}, 'PT_GENERAL_X_FORMS_INSERT_POINT_SUBTITLE_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parametersは以下の通り。', '')}"></div>
+		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-parameters}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="free-space-parameters" th:remove="tag">
+			尚、form毎に存在するparameterは、formの数だけ存在する。それを表現するために、formMethod[x]のように記載。<br>
+			（multipleForms == falseならformMethodのみ使用可、<br>
+			　multipleForms == trueでかつusesForm2 == trueなら、formMethod1, formMethod2が使用可、など）<br><br>
+
+			<div class="table-responsive">
+				<table class="table table-striped text-nowrap table-bordered" th:with="thisPageParameter=${
+				{
+				} }">
+					<div th:replace="~{app-components :: simpleTableHeader(${parameterHeaders}, '')}"></div>
+					<div th:replace="~{app-components :: simpleTableBodyFromArrayOfLinesOfCellElements(
+						${ {generalParameterRelatedToSubfunction, generalParameter, baseParameter} }, '')}">
+					</div>
+				</table>
+			</div>
+		</div></th:block>
+
+	</div>
+</body>
+</html>

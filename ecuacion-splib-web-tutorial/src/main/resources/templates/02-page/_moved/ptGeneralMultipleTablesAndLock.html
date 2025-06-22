@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{PT_GENERAL_MULTIPLE_TABLES_AND_LOCK_TITLE}
+				, titleDesc=#{PT_GENERAL_MULTIPLE_TABLES_AND_LOCK_TITLE_DESC}
+				, versionFieldName=versions
+				, versionInitialValue=${ptGeneralMultipleTablesAndLockForm.bookRentalStatus.version + ',' + ptGeneralMultipleTablesAndLockForm.bookRentalStatus.book.version}
+				, formMethod='post'
+		">
+<body>
+	<div layout:fragment="form-content">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{PT_GENERAL_MULTIPLE_TABLES_AND_LOCK_BOOK_SUBTITLE}, #{PT_GENERAL_MULTIPLE_TABLES_AND_LOCK_BOOK_SUBTITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		(book テーブル)<br><br>
+		<div th:replace="~{bootstrap/components :: inputText('book.name', '')}"></div>
+		<div th:replace="~{bootstrap/components :: inputText('book.lstUpdTime', 'readonly')}"></div>
+		<br>(book_rental_status テーブル)<br><br>
+		<div th:replace="~{bootstrap/components :: inputText('status', '')}"></div>
+		<div th:replace="~{bootstrap/components :: inputText('lstUpdTime', 'readonly')}"></div>
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('update', #{COMMON_BUTTON_UPDATE}, '')}"></div>
+	</div>
+</body>
+</html>

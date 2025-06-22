@@ -8,10 +8,13 @@
 <body>
 
 	<div layout:fragment="base-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph(#{component.itemAndHtmlItem.paragraph-1}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: referenceBox('', #{component.itemAndHtmlItem.definitionOfHtmlItem}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph(#{component.itemAndHtmlItem.paragraph-2}, '')}"></div>
-		
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemAndHtmlItem.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.definitionOfFirstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemAndHtmlItem.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('GreetingWithFirstNameRecord.java', 'component.itemAndHtmlItem.definitionOfFirstNameJava', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemAndHtmlItem.paragraph-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.itemAndHtmlItem.definitionOfHtmlItem', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemAndHtmlItem.paragraph-4', '')}"></div>
 	</div>
 	
 </body>

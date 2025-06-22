@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{splib-web/page-base-wide-with-page-template-params}"
+		data-show-page-login-state="public"
+		th:with="title=#{PT_GENERAL_TITLE}
+				, titleDesc=#{PT_GENERAL_TITLE_DESC}
+				">
+
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_COMMON_CONTENTS_SUBTITLE_PAGE_AND_COMPONENT_OF_GENERAL}, 
+				'PT_COMMON_CONTENTS_SUBTITLE_PAGE_AND_COMPONENT_OF_GENERAL_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE}, 
+				'PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-contents-insert-points}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="free-space-contents-insert-points" th:remove="tag">
+			尚、form毎に存在するinsert pointは、formの数だけ存在する。それを表現するために、form-content[-x]のように記載。<br>
+			（multipleForms == falseならform-contentのみ使用可、<br>
+			　multipleForms == trueでかつusesForm2 == trueなら、form-content-1, form-content-2が使用可、など）<br><br>
+			
+			<div class="table-responsive">
+				<table class="table table-striped text-nowrap table-bordered" th:with="thisPageInsertPoint=${
+				{
+					{
+						{'center', 'base', '6', '1'}, {'start', 'base-content', '6', '1'}, {'start', 'top-space'}, {'start', '個別app'}, 
+						{'start', '画面上部、画面タイトルとメッセージ表示部分の間の位置。<br>あまり使う想定はないが一応用意。'}
+					}
+					, {
+						{'start', 'bottom-space'}, {'start', '個別app'}, {'start', 'base-contentの下部。scriptsのすぐ上。<br>
+							追加で下部にコンテンツを追加したい場合に使用。'}
+					}
+					, {
+						{'start', 'scripts'}, {'start', '個別app'}, {'start', 'base-contentの一番下。javascript記載用のスペース。<br>
+							位置的にはbottom-spaceと同位置なので分けずとも運用は可能なのだが、<br>役割を明確にするために敢えて分けた。'}
+					}
+					, {
+						{'start', 'form-content[-x]'}, {'start', '子template<br>/ 個別app'}, {'start', 'formのmain contentsをここに記述。'}
+					}
+					, {
+						{'start', 'form-top-space<br>-content[-x]'}, {'start', '個別app'}, {'start', 'generalForm内で、formタグの上に記載できる場所。'}
+					}
+					, {
+						{'start', 'form-bottom-space<br>-content[-x]'}, {'start', '個別app'}, {'start', 'generalForm内で、formタグの下に記載できる場所。'}
+					}
+				} }
+				">
+					<div th:replace="~{app-components :: simpleTableHeader(${insertPointHeaders}, '')}"></div>
+					<div th:replace="~{app-components :: simpleTableBodyFromArrayOfLinesOfCellElements(${ {thisPageInsertPoint, baseInsertPoint} }, '')}"></div>
+				</table>
+			</div>
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parametersは以下の通り。', '')}"></div>
+		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-parameters}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="free-space-parameters" th:remove="tag">
+			尚、form毎に存在するparameterは、formの数だけ存在する。それを表現するために、formMethod[x]のように記載。<br>
+			（multipleForms == falseならformMethodのみ使用可、<br>
+			　multipleForms == trueでかつusesForm2 == trueなら、formMethod1, formMethod2が使用可、など）<br><br>
+
+			<div class="table-responsive">
+				<table class="table table-striped text-nowrap table-bordered" th:with="thisPageParameter=${
+				{
+				} }">
+					<div th:replace="~{app-components :: simpleTableHeader(${parameterHeaders}, '')}"></div>
+					<div th:replace="~{app-components :: simpleTableBodyFromArrayOfLinesOfCellElements(
+						${ {generalParameterRelatedToNumberOfForms, generalParameterRelatedToSubfunction, generalParameter, baseParameter} }, '')}">
+					</div>
+				</table>
+			</div>
+		</div></th:block>
+	</div>
+</body>
+</html>

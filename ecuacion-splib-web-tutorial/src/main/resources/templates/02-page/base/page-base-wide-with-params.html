@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		th:with="
+			insertPointHeaders=${ {'page.common.contentsInsertPoint.header.parent', 'page.common.contentsInsertPoint.header.parentInsertPoint', 'insert point', 'page.common.contentsInsertPoint.header.usingModule', 'page.common.contentsInsertPoint.header.desc'} }
+			, parameterHeaders=${ {'定義元page', '設定箇所分類', '設定箇所', 'parameter名', '必須／任意', '説明'} }
+			, baseInsertPoint=${
+				{
+					{
+			 			{'center', 'base', '3', '1'}, {'start', 'title-space'}, {'center', '-'}, {'start', '個別app'}, 
+			 			{'start', '(当該pageの説明を参照)'}
+					}, {
+						{'start', 'nav-bar-public<br>nav-bar-account<br>nav-bar-admin'}, {'center', '-'}, 
+						{'start', '個別App<br>(parts.html)'}, {'start', '(当該pageの説明を参照)'}
+					}, {
+						{'start', 'footer-string'}, {'center', '-'}, {'start', '個別App<br>(parts.html)'}, 
+						{'start', '(当該pageの説明を参照)'}
+					}
+				} 
+			}
+			, baseParameter=${
+				{
+					{
+						{'center', 'base', '9', '1'}, {'center', '個別app', '7', '1'}, {'center', 'htmlファイルにて設定<br>(htmlタグの&quot;th:with&quot;に記載)', '4', '1'}, {'start', 'headTitle'}, 
+						{'center', '任意'}, {'start', '&lt;head&gt;タグ内のtitleタグに記載される文言を指定。<br>指定がない場合はtitleと同じ文字列となる。'}
+					}
+					, {
+						{'start', 'title'}, {'center', '任意'}, {'start', '画面のtitle文字列で使用。<br>	未指定の場合は非表示となる。'}
+					}
+					, {
+						{'start', 'titleDesc'}, {'center', '任意'}, {'start', 'titleの直下に配置され、画面の説明などを記載。'}
+					}
+					, {
+						{'start', 'noMessages'}, {'center', '任意'}, 
+						{'start', 'messageを非表示にする。<br>システムエラー画面に「正常に終了しました。」などのメッセージが<br>出るのは不適切であることから一部画面で使用。'}
+					}
+					, {
+						{'center', 'SplibModelAttributes<br>にて設定', '3', '1'}, 
+						{'start', 'bsBgGradient'}, {'center', '任意'}, {'start', 'navBar、ボタンなどの色がついたobjectのグラデーションの有無を指定。'}
+					}
+					, {
+						{'start', 'navbarBgColor<br>navbarBgColorPublic<br>navbarBgColorAccount<br>navbarBgColorAdmin'}, 
+						{'center', '任意'}, {'start', 'navBarの色を指定。全て未設定であればbg-color-navbarが設定される。<br>
+							loginStateに依存せず色を変更したい場合はnavbarBgColorを、<br>loginState毎に異なる色にしたい場合はnavbarBgColorXxxを使用。<br>
+							adminだけはnavbarの色を変更したい、というloginState別の色分けと、<br>環境（本番、staging、...）毎に色を分ける、という使い方を想定。'}
+					}
+					, {
+						{'start', 'bsDarkMode'}, {'center', '任意'}, {'start', 'darkModeか否かを指定。<br>現時点では値を渡してはいるものの、使用はしていない。'}
+					}
+					, {
+						{'center', 'web template<br>（自動設定）', '2', '1'}, {'center', '子のpage templateにて設定'}, 
+						{'start', 'width'}, {'center', '必須'}, {'start', 'wideまたはnarrowを指定。それ以外はエラーとなる。<br>
+							page-xxx-wide[narrow].html 等の使用が推奨であり、<br>その場合各appからのparameter渡しは不要。<br>
+							page-xxx.htmlを使用し各appから渡すこともできるがサポート対象外。'}
+					}
+					, {
+						{'center', 'controllerにて設定'}, {'start', 'loginState'}, {'center', '必須'}, 
+						{'start', 'public, account, admin などの値を取る。<br>値の詳細はjava側のLoginStateEnumを参照。'}
+					}
+				}
+			}
+			, generalParameterRelatedToNumberOfForms=${
+				{
+					{
+						{'center', 'general', '2', '1'}, {'center', '個別app', '2', '1'}, {'center', 'htmlファイルにて設定<br>(htmlタグの&quot;th:with&quot;に記載)', '2', '1'}, 
+						{'start', 'multipleForms'}, {'center', '任意'}, {'start', '複数のformを使用するか否かを指定。<br>指定がない場合は1 form。'}
+					}
+					, {
+						{'start', 'usesForm2<br>usesForm3'}, {'center', '任意'}, 
+						{'start', 'multipleForms &#61;&#61; trueの場合、defaultでは1つのformのみ使用可能となる。<br>usesForm2 &#61;&#61; trueとすることで2つ目のformが使用可能となる。<br>usesForm3も同様。'}
+					}
+				}
+			}
+			, generalParameterRelatedToSubfunction=${
+				{
+					{
+						{'center', 'general', '2', '1'}, {'center', '個別app', '2', '1'}, {'center', 'htmlファイルにて設定<br>(htmlタグの&quot;th:with&quot;に記載)', '2', '1'}, 
+						{'start', 'subFunction[x]'}, {'center', '任意'}, 
+						{'start', 'formに対するsubFunctionを設定。<br>subFunctionに対する詳細は後述。'}
+					}
+					, {
+						{'start', 'ctrlSubFunction'}, {'center', '任意'}, 
+						{'start', '1controller・複数formの場合で、<br>controller側のsubFunctionを指定する目的で使用する。<br>これを使用する場合はsubFunctionは必須。<br><br>
+							※厳密には、1画面でcontroller2つ、form3つ、という場合を考えると、<br>　これも1画面に複数存在すべきと思われる。（[x]が必要？）<br>　それについては必要時に検討。'}
+					}
+				}
+			}
+			, generalParameter=${
+				{
+					{
+						{'center', 'general', '6', '1'}, {'center', '個別app', '6', '1'}, {'center', 'htmlファイルにて設定<br>(htmlタグの&quot;th:with&quot;に記載)', '6', '1'}, 
+						{'start', 'formMethod[x]'}, {'center', '任意'}, 
+						{'start', 'formのaction method。<br>urlバー表示が好ましくない場合もあるためdefaultはPOSTとしている。'}
+					}
+					, {
+						{'start', 'multipart[x]'}, {'center', '任意'}, 
+						{'start', 'formのenctype設定。<br>defaultはfalse。trueにするとmultipartでの送信が可能。'}
+					}
+					, {
+						{'start', 'versionFieldName[x]'}, {'center', '任意'}, 
+						{'start', '排他制御で使用する、versionを保持するhiddenのnameを指定。<br>defaultは&quot;version&quot;。'}
+					}
+					, {
+						{'start', 'versionInitialValue[x]'}, {'center', '任意'}, 
+						{'start', '排他制御において、画面表示時のversionを保持するために使用。<br>
+						versionFieldNameで指定したhiddenのvalueに格納される。<br>
+						一覧画面においては、一覧から削除対象のレコードを指定したときに<br>
+						そのversionを	当該hiddenに格納する形もあり、<br>
+						その場合は画面表示時の値としての本値は指定なしも可能。<br>
+						また、本項目は排他制御を便利にするために保持しているのであって、<br>
+						排他制御の不要な画面、または本項目では処理しきれないなどの理由で<br>
+						別の形で排他制御をする場合は本項目は不使用でも良いが、<br>機能の統一という意味で使用が推奨。'}
+					}
+					, {
+						{'start', 'showsMessagesLinked-<br>ToItemsAtTheTop'}, {'center', '任意'}, 
+						{'start', '個別項目に紐づくエラーメッセージを<br>画面上部に表示する場合はtrue。defaultはtrue。'}
+					}
+				}
+			}
+		">
+</html>
