@@ -1,4 +1,4 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.component;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component;
 
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;

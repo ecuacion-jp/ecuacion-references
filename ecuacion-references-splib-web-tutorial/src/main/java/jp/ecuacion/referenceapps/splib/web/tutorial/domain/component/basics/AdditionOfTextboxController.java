@@ -1,8 +1,8 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.component.basics;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.web.tutorial.component.GreetingWithFirstNameRecord;
-import jp.ecuacion.referenceapps.splib.web.tutorial.component.basics.AdditionOfTextboxController.AdditionOfTextboxForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.GreetingWithFirstNameRecord;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics.AdditionOfTextboxController.AdditionOfTextboxForm;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;

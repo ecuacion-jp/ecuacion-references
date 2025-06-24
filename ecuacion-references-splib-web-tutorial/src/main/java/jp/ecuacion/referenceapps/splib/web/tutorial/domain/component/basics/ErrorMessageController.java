@@ -1,9 +1,9 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.component.basics;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import jp.ecuacion.referenceapps.splib.web.tutorial.component.basics.ErrorMessageController.ErrorMessageForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics.ErrorMessageController.ErrorMessageForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;

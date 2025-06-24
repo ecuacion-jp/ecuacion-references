@@ -1,7 +1,7 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.component.components;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.htmlitem;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.web.tutorial.component.htmlItem.ItemNameKeyController.ItemNameKeyForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.htmlitem.ItemNameKeyController.ItemNameKeyForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/01-component/components/kindOfComponents")
-public class KindsOfComponentsController extends
+@RequestMapping("/public/01-component/htmlItem/itemNameKey")
+public class ItemNameKeyController extends
     SplibGeneral1FormController<ItemNameKeyForm, SplibGeneral1FormDoNothingService<ItemNameKeyForm>> {
 
-  public KindsOfComponentsController() {
-    super("kindsOfComponents",
-        newContext().functionKinds("01-component", "components").mainRootRecordName("greeting"));
+  public ItemNameKeyController() {
+    super("itemNameKey",
+        newContext().functionKinds("01-component", "htmlItem").mainRootRecordName("greeting"));
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated KindsOfComponentsForm form, BindingResult result)
-      throws Exception {
+  public String greeting(Model model, @Validated ItemNameKeyForm form,
+      BindingResult result) throws Exception {
     prepare(model, form.validate(result));
 
     return redirectToSamePageTakingOverModel(model, true);
@@ -40,7 +40,7 @@ public class KindsOfComponentsController extends
    * 
    * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
    */
-  public static class KindsOfComponentsForm extends SplibGeneralForm {
+  public static class ItemNameKeyForm extends SplibGeneralForm {
 
     @Valid
     private MyRecord greeting = new MyRecord();
@@ -56,12 +56,22 @@ public class KindsOfComponentsController extends
 
   public static class MyRecord extends SplibRecord implements RecordInterface {
 
-    // private String anotherFirstName1;
+    private String anotherFirstName1;
+    private String anotherFirstName2;
+
+    public String getAnotherFirstName1() {
+      return anotherFirstName1;
+    }
+
+    public String getAnotherFirstName2() {
+      return anotherFirstName2;
+    }
 
     @Override
     public HtmlItem[] getHtmlItems() {
-      // TODO Auto-generated method stub
-      return null;
+      return new HtmlItem[] {
+          new HtmlItem("anotherFirstName1").itemNameKey("greeting.firstName"),
+          new HtmlItem("anotherFirstName2").itemNameKey("explanatoryFirstName")};
     }
   }
 }

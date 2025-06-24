@@ -1,7 +1,7 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.component;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.web.tutorial.component.FirstGreetingController.FirstGreetingForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.FirstGreetingController.FirstGreetingForm;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;

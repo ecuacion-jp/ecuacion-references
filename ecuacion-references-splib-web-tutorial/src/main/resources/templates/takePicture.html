@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html data-show-page-login-state="public">
+<head>
+<meta charset="UTF-8">
+<title>写真撮影＆アップロード</title>
+</head>
+<body>
+  <video id="video" width="640" height="480" autoplay muted></video>
+  <button id="capture">撮影</button>
+  <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+  <img id="photo" src="#" alt="撮影した写真" style="display:none;">
+  <button id="upload">アップロード</button>
+  <div id="result"></div>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const photo = document.getElementById('photo');
+    const captureButton = document.getElementById('capture');
+    const uploadButton = document.getElementById('upload');
+    const resultDiv = document.getElementById('result');
+    let stream;
+
+    // カメラへのアクセス許可を要求
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(mediaStream) {
+        stream = mediaStream;
+        video.srcObject = stream;
+        video.onloadedmetadata = function(e) {
+          video.play();
+        };
+      })
+      .catch(function(err) {
+        console.log("カメラへのアクセスエラー: " + err);
+      });
+
+    // 撮影ボタンがクリックされた時の処理
+    captureButton.addEventListener('click', function() {
+      const context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      // video要素を非表示、canvasとimg要素を表示
+      video.style.display = 'none';
+      canvas.style.display = 'block';
+      photo.style.display = 'block';
+
+      // canvasから画像データを取得
+      photo.setAttribute('src', canvas.toDataURL('image/png'));
+    });
+
+    // アップロードボタンがクリックされた時の処理
+    uploadButton.addEventListener('click', function() {
+      canvas.toBlob(function(blob) {
+        const formData = new FormData();
+        formData.append('image', blob, 'photo.png');
+
+        fetch('/upload', { // ここにアップロード先のURLを指定
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          resultDiv.textContent = data.message; // サーバーからのレスポンスを表示
+        })
+        .catch(error => {
+          console.error('アップロードエラー:', error);
+          resultDiv.textContent = 'アップロードに失敗しました。';
+        });
+      }, 'image/png');
+    });
+  </script>
+</body>
+</html>
