@@ -18,8 +18,8 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>jp.ecuacion.referenceapps</groupId>
-	<artifactId>ecuacion-reference-apps-parent</artifactId>
+	<groupId>jp.ecuacion.references</groupId>
+	<artifactId>ecuacion-references-parent</artifactId>
 	<packaging>pom</packaging>
 	<organization>
 		<name>ecuacion.jp</name>
@@ -54,7 +54,7 @@
 
 	<!-- mvn versions plugin can't understand parameterized module name like ${app.name}-core... -->
 	<modules>
-		<module>ecuacion-references-apps-util</module>
+		<module>ecuacion-references-util</module>
 		<module>ecuacion-references-splib-web-tutorial</module>
 		<module>ecuacion-references-splib-web-project-template</module>
 		<!--
