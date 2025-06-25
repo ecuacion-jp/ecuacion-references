@@ -30,7 +30,8 @@
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputFile}, 'inputFile', '', '')}"></div>
 		 */-->
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoMobile}, 'inputTakenPhotoMobile', '', '')}"></div>
-	
+		
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('button', 'button', '')}"></div>
 	</div>
 
 	<div th:fragment="box-inputText" th:remove="tag">
@@ -115,6 +116,7 @@
 	<div th:fragment="box-inputTakenPhotoMobile" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.components.inputTakenPhotoMobile', '')}"></div>
 		<div class="mt-5"></div>
+		<img th:src="*{input.previousTakenPhotoMobileBase64}">
 		<div th:replace="~{bootstrap/components :: inputTakenPhotoMobile('inputTakenPhotoMobile', '')}"></div>
   	</div>
   	

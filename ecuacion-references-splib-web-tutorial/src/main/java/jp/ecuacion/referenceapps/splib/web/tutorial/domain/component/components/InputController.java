@@ -1,7 +1,12 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components;
 
 import jakarta.validation.Valid;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.InputController.InputForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
@@ -17,21 +22,38 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/components/input")
-public class InputController extends
-    SplibGeneral1FormController<InputForm, SplibGeneral1FormDoNothingService<InputForm>> {
+public class InputController
+    extends SplibGeneral1FormController<InputForm, SplibGeneral1FormDoNothingService<InputForm>> {
 
   public InputController() {
-    super("input",
-        newContext().functionKinds("01-component", "components"));
+    super("input", newContext().functionKinds("01-component", "components"));
   }
 
   @PostMapping(value = "action", params = "button")
   public String execute(Model model, @Validated InputForm form, BindingResult result)
       throws Exception {
+
+    // Save uploaded file here because large tmpFile will disappear after the execution of "prepare"
+    // method.
+    new File("./target/tmp").mkdirs();
+    MultipartFile file = form.getInput().getInputTakenPhotoMobile();
+    String tmpFilePath = "./target/tmp/" + file.getName();
+    if (new File(tmpFilePath).exists()) {
+      Files.delete(Path.of(tmpFilePath));
+    }
+    try (FileOutputStream output = new FileOutputStream(tmpFilePath);) {
+      output.write(file.getBytes());
+    }
+
+    Base64.Encoder encoder = Base64.getEncoder();
+    form.getInput().setPreviousTakenPhotoMobileBase64(
+        "data:image/jpeg;base64," + encoder.encodeToString(Files.readAllBytes(Path.of(tmpFilePath))));
+    
     prepare(model, form.validate(result));
 
     return redirectToSamePageTakingOverModel(model, true);
@@ -70,12 +92,15 @@ public class InputController extends
     private String inputSelect;
     private String inputSelectFromEnum;
     private String inputFile;
-    private String inputTakenPhotoMobile;
+    private MultipartFile inputTakenPhotoMobile;
+    private String previousTakenPhotoMobileBase64;
 
-    private List<String[]> inputCheckboxesList = Arrays.asList(new String[][] {
-      new String[] {"A", "selection-A"}, new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
-    private List<String[]> inputSelectList = Arrays.asList(new String[][] {
-      new String[] {"A", "selection-A"}, new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
+    private List<String[]> inputCheckboxesList =
+        Arrays.asList(new String[][] {new String[] {"A", "selection-A"},
+            new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
+    private List<String[]> inputSelectList =
+        Arrays.asList(new String[][] {new String[] {"A", "selection-A"},
+            new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
 
     @Override
     public HtmlItem[] getHtmlItems() {
@@ -193,7 +218,7 @@ public class InputController extends
     public void setInputCheckboxesList(List<String[]> inputCheckboxesList) {
       this.inputCheckboxesList = inputCheckboxesList;
     }
-    
+
     public List<String[]> getInputSelectList() {
       return inputSelectList;
     }
@@ -203,15 +228,23 @@ public class InputController extends
     }
 
     public void getInputSelectFromEnumList() {
-      
+
     }
 
-    public String getInputTakenPhotoMobile() {
+    public MultipartFile getInputTakenPhotoMobile() {
       return inputTakenPhotoMobile;
     }
 
-    public void setInputTakenPhotoMobile(String inputTakenPhotoMobile) {
+    public void setInputTakenPhotoMobile(MultipartFile inputTakenPhotoMobile) {
       this.inputTakenPhotoMobile = inputTakenPhotoMobile;
+    }
+
+    public String getPreviousTakenPhotoMobileBase64() {
+      return previousTakenPhotoMobileBase64;
+    }
+
+    public void setPreviousTakenPhotoMobileBase64(String previousTakenPhotoMobileBase64) {
+      this.previousTakenPhotoMobileBase64 = previousTakenPhotoMobileBase64;
     }
   }
 }
