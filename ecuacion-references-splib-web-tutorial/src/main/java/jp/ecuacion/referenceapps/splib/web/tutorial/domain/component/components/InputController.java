@@ -70,7 +70,7 @@ public class InputController extends
     private String inputSelect;
     private String inputSelectFromEnum;
     private String inputFile;
-    private String inputTakenPhoto;
+    private String inputTakenPhotoMobile;
 
     private List<String[]> inputCheckboxesList = Arrays.asList(new String[][] {
       new String[] {"A", "selection-A"}, new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
@@ -186,14 +186,6 @@ public class InputController extends
       this.inputFile = inputFile;
     }
 
-    public String getInputTakenPhoto() {
-      return inputTakenPhoto;
-    }
-
-    public void setInputTakenPhoto(String inputTakenPhoto) {
-      this.inputTakenPhoto = inputTakenPhoto;
-    }
-
     public List<String[]> getInputCheckboxesList() {
       return inputCheckboxesList;
     }
@@ -210,5 +202,16 @@ public class InputController extends
       this.inputSelectList = inputSelectList;
     }
 
+    public void getInputSelectFromEnumList() {
+      
+    }
+
+    public String getInputTakenPhotoMobile() {
+      return inputTakenPhotoMobile;
+    }
+
+    public void setInputTakenPhotoMobile(String inputTakenPhotoMobile) {
+      this.inputTakenPhotoMobile = inputTakenPhotoMobile;
+    }
   }
 }
