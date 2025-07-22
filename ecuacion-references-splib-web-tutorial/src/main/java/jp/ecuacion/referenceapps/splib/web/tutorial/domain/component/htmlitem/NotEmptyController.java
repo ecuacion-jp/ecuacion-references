@@ -62,7 +62,7 @@ public class NotEmptyController extends
 
     @Override
     public HtmlItem[] getHtmlItems() {
-      return new HtmlItem[] {new HtmlItem("firstName").isNotEmpty(true)};
+      return new HtmlItem[] {new HtmlItem("firstName").required()};
     }
   }
 }

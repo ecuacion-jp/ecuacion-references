@@ -1,20 +1,20 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components;
 
 import jakarta.validation.Valid;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.InputController.InputForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
+import jp.ecuacion.splib.web.bean.HtmlItemNumber;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
 import jp.ecuacion.splib.web.form.record.RecordInterface;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
+import jp.ecuacion.splib.web.util.SplibComponentUtil;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,23 +40,31 @@ public class InputController
 
     // Save uploaded file here because large tmpFile will disappear after the execution of "prepare"
     // method.
-    new File("./target/tmp").mkdirs();
-    MultipartFile file = form.getInput().getInputTakenPhotoMobile();
-    String tmpFilePath = "./target/tmp/" + file.getName();
-    if (new File(tmpFilePath).exists()) {
-      Files.delete(Path.of(tmpFilePath));
-    }
-    try (FileOutputStream output = new FileOutputStream(tmpFilePath);) {
-      output.write(file.getBytes());
-    }
+    String tmpFilePathFile = SplibComponentUtil.saveUploadedFile(form.getInput().getInputFile());
+    String tmpFilePathMobile =
+        SplibComponentUtil.saveUploadedFile(form.getInput().getInputTakenPhotoMobile());
+    String tmpFilePathPc =
+        SplibComponentUtil.saveUploadedFile(form.getInput().getInputTakenPhotoPc());
 
-    Base64.Encoder encoder = Base64.getEncoder();
-    form.getInput().setPreviousTakenPhotoMobileBase64(
-        "data:image/jpeg;base64," + encoder.encodeToString(Files.readAllBytes(Path.of(tmpFilePath))));
-    
     prepare(model, form.validate(result));
 
+    Files.delete(Path.of(tmpFilePathFile));
+    form.getInput()
+        .setInputTakenPhotoMobileRegisteredBase64(readPhotoInBase64Format(tmpFilePathMobile));
+    form.getInput().setInputTakenPhotoPcRegisteredBase64(readPhotoInBase64Format(tmpFilePathPc));
+
     return redirectToSamePageTakingOverModel(model, true);
+  }
+
+  private String readPhotoInBase64Format(String path) throws Exception {
+    String rtn = null;
+    if (path != null) {
+      rtn = SplibComponentUtil.getPictureDataBase64(path, "jpeg");
+
+      Files.delete(Path.of(path));
+    }
+
+    return rtn;
   }
 
   /**
@@ -90,21 +98,25 @@ public class InputController
     private String inputSwitch;
     private String inputCheckboxes;
     private String inputSelect;
+    private String inputSelectWithLocale;
     private String inputSelectFromEnum;
-    private String inputFile;
+    private MultipartFile inputFile;
     private MultipartFile inputTakenPhotoMobile;
-    private String previousTakenPhotoMobileBase64;
+    private String inputTakenPhotoMobileRegisteredBase64;
+    private String inputTakenPhotoPc;
+    private String inputTakenPhotoPcRegisteredBase64;
 
-    private List<String[]> inputCheckboxesList =
+    private List<String[]> inputSelectionList =
         Arrays.asList(new String[][] {new String[] {"A", "selection-A"},
             new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
-    private List<String[]> inputSelectList =
-        Arrays.asList(new String[][] {new String[] {"A", "selection-A"},
-            new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
+
+    static {
+      getStringLengthMap().put("inputText", 3);
+    }
 
     @Override
     public HtmlItem[] getHtmlItems() {
-      return new HtmlItem[] {new HtmlItem("inputText").isNotEmpty(true)};
+      return new HtmlItem[] {new HtmlItemNumber("inputNumber").needsCommas(true)};
     }
 
     public String getInputText() {
@@ -195,6 +207,14 @@ public class InputController
       this.inputSelect = inputSelect;
     }
 
+    public String getInputSelectWithLocale() {
+      return inputSelectWithLocale;
+    }
+
+    public void setInputSelectWithLocale(String inputSelectWithLocale) {
+      this.inputSelectWithLocale = inputSelectWithLocale;
+    }
+
     public String getInputSelectFromEnum() {
       return inputSelectFromEnum;
     }
@@ -203,32 +223,28 @@ public class InputController
       this.inputSelectFromEnum = inputSelectFromEnum;
     }
 
-    public String getInputFile() {
+    public MultipartFile getInputFile() {
       return inputFile;
     }
 
-    public void setInputFile(String inputFile) {
+    public void setInputFile(MultipartFile inputFile) {
       this.inputFile = inputFile;
     }
 
     public List<String[]> getInputCheckboxesList() {
-      return inputCheckboxesList;
-    }
-
-    public void setInputCheckboxesList(List<String[]> inputCheckboxesList) {
-      this.inputCheckboxesList = inputCheckboxesList;
+      return inputSelectionList;
     }
 
     public List<String[]> getInputSelectList() {
-      return inputSelectList;
+      return inputSelectionList;
     }
 
-    public void setInputSelectList(List<String[]> inputSelectList) {
-      this.inputSelectList = inputSelectList;
+    public List<String[]> getInputSelectWithLocaleList(Locale locale, String options) {
+      return inputSelectionList;
     }
 
-    public void getInputSelectFromEnumList() {
-
+    public List<String[]> getInputSelectFromEnumList(Locale locale, String options) {
+      return inputSelectionList;
     }
 
     public MultipartFile getInputTakenPhotoMobile() {
@@ -239,12 +255,29 @@ public class InputController
       this.inputTakenPhotoMobile = inputTakenPhotoMobile;
     }
 
-    public String getPreviousTakenPhotoMobileBase64() {
-      return previousTakenPhotoMobileBase64;
+    public String getInputTakenPhotoMobileRegisteredBase64() {
+      return inputTakenPhotoMobileRegisteredBase64;
     }
 
-    public void setPreviousTakenPhotoMobileBase64(String previousTakenPhotoMobileBase64) {
-      this.previousTakenPhotoMobileBase64 = previousTakenPhotoMobileBase64;
+    public void setInputTakenPhotoMobileRegisteredBase64(
+        String inputTakenPhotoMobileRegisteredBase64) {
+      this.inputTakenPhotoMobileRegisteredBase64 = inputTakenPhotoMobileRegisteredBase64;
+    }
+
+    public String getInputTakenPhotoPc() {
+      return inputTakenPhotoPc;
+    }
+
+    public void setInputTakenPhotoPc(String inputTakenPhotoPc) {
+      this.inputTakenPhotoPc = inputTakenPhotoPc;
+    }
+
+    public String getInputTakenPhotoPcRegisteredBase64() {
+      return inputTakenPhotoPcRegisteredBase64;
+    }
+
+    public void setInputTakenPhotoPcRegisteredBase64(String inputTakenPhotoPcRegisteredBase64) {
+      this.inputTakenPhotoPcRegisteredBase64 = inputTakenPhotoPcRegisteredBase64;
     }
   }
 }
