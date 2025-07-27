@@ -2,34 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-general-wide}"
-		th:with="title='component.general-form-page-input.title'
+		th:with="title='component.general-form-page.input.title'
 				, multipart=true
 				, formMethod='post'">
 
 <body>
 
 	<div layout:fragment="top-space" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.paragraph-1', '')}"></div>
 	</div>
 	
 	<div layout:fragment="form-content" th:remove="tag" th:with="htmlFileName=input.html">
 	
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputText}, 'inputText', '', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputPassword}, 'inputPassword', '', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputHidden}, 'inputHidden', 'component.general-form-page-input.inputHidden.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputHidden}, 'inputHidden', 'component.general-form-page.input.inputHidden.comment', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputNumber}, 'inputNumber', '', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputYearMonth}, 'inputYearMonth', 'component.general-form-page-input.inputYearMonth.comment', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputDate}, 'inputDate', 'component.general-form-page-input.inputDate.comment', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputTime}, 'inputTime', 'component.general-form-page-input.inputTime.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputYearMonth}, 'inputYearMonth', 'component.general-form-page.input.inputYearMonth.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputDate}, 'inputDate', 'component.general-form-page.input.inputDate.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputTime}, 'inputTime', 'component.general-form-page.input.inputTime.comment', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputTextArea}, 'inputTextArea', '', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputSwitch}, 'inputSwitch', '', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputCheckboxes}, 'inputCheckboxes', '', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputSelect}, 'inputSelect', 'component.general-form-page-input.inputSelect.comment-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputSelectWithLocale}, 'inputSelectWithLocale', 'component.general-form-page-input.inputSelectWithLocale.comment-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputSelectFromEnum}, 'inputSelectFromEnum', 'component.general-form-page-input.inputSelectFromEnum.comment-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputFile}, 'inputFile', 'component.general-form-page-input.inputFile.comment-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoMobile}, 'inputTakenPhotoMobile', 'component.general-form-page-input.inputTakenPhotoMobile.comment-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoPc}, 'inputTakenPhotoPc', 'component.general-form-page-input.inputTakenPhotoPc.comment-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputSelect}, 'inputSelect', 'component.general-form-page.input.inputSelect.comment-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputSelectWithLocale}, 'inputSelectWithLocale', 'component.general-form-page.input.inputSelectWithLocale.comment-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputSelectFromEnum}, 'inputSelectFromEnum', 'component.general-form-page.input.inputSelectFromEnum.comment-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputFile}, 'inputFile', 'component.general-form-page.input.inputFile.comment-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoMobile}, 'inputTakenPhotoMobile', 'component.general-form-page.input.inputTakenPhotoMobile.comment-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoPc}, 'inputTakenPhotoPc', 'component.general-form-page.input.inputTakenPhotoPc.comment-1', '')}"></div>
 		<!--/*  
 		 */-->
 		<br>
@@ -38,7 +38,7 @@
 
 	<div th:fragment="box-inputText" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputText', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputText.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputText.comment', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('InputController$InputRecord', 'component.components.inputText.length', '')}"></div>
 		<div class="mt-5"></div>
 		<div th:replace="~{bootstrap/components :: inputText('inputText', '')}"></div>
@@ -58,7 +58,7 @@
 
 	<div th:fragment="box-inputNumber" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputNumber', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputNumber.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputNumber.comment', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('InputController$InputRecord', 'component.components.inputNumber.needsCommas', '')}"></div>
 		<div class="mt-5"></div>
 		<div th:replace="~{bootstrap/components :: inputNumber('inputNumber', '')}"></div>
@@ -96,7 +96,7 @@
 
 	<div th:fragment="box-inputCheckboxes" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputCheckboxes', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputCheckboxes.comment', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputCheckboxes.comment', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('InputController$InputRecord', 'component.components.inputCheckboxes.selectionList', '')}"></div>
 		<div class="mt-5"></div>
 		
@@ -123,7 +123,7 @@
 
 	<div th:fragment="box-inputFile" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputFile', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputFile.comment-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputFile.comment-2', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputFile.saveFile', '')}"></div>
 		<div class="mt-5"></div>
 		<div th:replace="~{bootstrap/components :: inputFile('inputFile', '')}"></div>
@@ -131,9 +131,9 @@
  
 	<div th:fragment="box-inputTakenPhotoMobile" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputTakenPhotoMobile', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputTakenPhotoMobile.comment-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputTakenPhotoMobile.comment-2', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('InputController$InputRecord', 'component.components.inputTakenPhotoMobile.registeredPhoto', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputTakenPhotoMobile.comment-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputTakenPhotoMobile.comment-3', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('InputController$InputRecord', 'component.components.inputTakenPhotoMobile.processPicture1stPart', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('InputController$InputRecord', 'component.components.inputTakenPhotoMobile.processPicture2ndPart', '')}"></div>
 		<div class="mt-5"></div>
@@ -142,7 +142,7 @@
  
 	<div th:fragment="box-inputTakenPhotoPc" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.inputTakenPhotoPc', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page-input.inputTakenPhotoPc.comment-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.input.inputTakenPhotoPc.comment-2', '')}"></div>
 		<div class="mt-5"></div>
 		<div th:replace="~{bootstrap/components :: inputTakenPhotoPc('inputTakenPhotoPc', '')}"></div>
   	</div>

@@ -75,7 +75,7 @@
 						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/kindsOfComponents}, 'component.kindsOfComponents.title', '')}"></div>
 						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('base-page components', ~{::navBarSubMenuComponentBasePageComponents}, '')}"></div>
 						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentBasePageComponents" th:remove="tag">
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/messageDisplay}, '★message display components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/message}, 'message components', '')}"></div>
 							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/dynamicMessageDisplay}, '★dynamic message display components', '')}"></div>
 							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/table}, '★table components', '')}"></div>
 							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/shape}, '★shape components', '')}"></div>
@@ -85,10 +85,10 @@
 
 						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('general-form-page components', ~{::navBarSubMenuComponentGeneralPageComponents}, '')}"></div>
 						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentGeneralPageComponents" th:remove="tag">
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/form/page}, '★form components', '')}"></div>
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/input/page}, 'component.general-form-page-input.title', '')}"></div>
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/generalPageButton/page}, '★general-form-page button components', '')}"></div>
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/generalPageHidden/page}, '★general-form-page hidden components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/components/general-form-page/form}, 'form components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/general-form-page/input/page}, 'component.general-form-page.input.title', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/general-form-page/button/page}, '★general-form-page button components', '')}"></div>
+							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/components/general-form-page/script/page}, '★general-form-page script components', '')}"></div>
 						</div></th:block>
 
 						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('search-page components', ~{::navBarSubMenuComponentSearchPageComponents}, '')}"></div>

@@ -1,6 +1,7 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components;
 
 import jakarta.validation.Valid;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import jp.ecuacion.splib.web.form.SplibGeneralForm;
 import jp.ecuacion.splib.web.form.record.RecordInterface;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
 import jp.ecuacion.splib.web.util.SplibComponentUtil;
+import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,12 +28,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/01-component/components/input")
+@RequestMapping("/public/01-component/components/general-form-page/input")
 public class InputController
     extends SplibGeneral1FormController<InputForm, SplibGeneral1FormDoNothingService<InputForm>> {
 
   public InputController() {
-    super("input", newContext().functionKinds("01-component", "components"));
+    super("input", newContext().functionKinds("01-component", "components", "general-form-page"));
   }
 
   @PostMapping(value = "action", params = "button")
@@ -48,7 +50,10 @@ public class InputController
 
     prepare(model, form.validate(result));
 
-    Files.delete(Path.of(tmpFilePathFile));
+    if (!StringUtils.isEmpty(tmpFilePathPc) && new File(tmpFilePathFile).exists()) {
+      Files.delete(Path.of(tmpFilePathFile));
+    }
+
     form.getInput()
         .setInputTakenPhotoMobileRegisteredBase64(readPhotoInBase64Format(tmpFilePathMobile));
     form.getInput().setInputTakenPhotoPcRegisteredBase64(readPhotoInBase64Format(tmpFilePathPc));

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='component.base-page.message.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='message.html'">
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.message.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-title}, 'title', 'component.base-page.message.title.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-subtitle}, 'subtitle', 'component.base-page.message.subtitle.paragraph-1', '')}"></div>
+	</div>
+
+	<div th:fragment="box-title" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.titleComponent', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: title('title', '')}"></div>
+	</div>
+
+	<div th:fragment="box-subtitle" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.subtitle', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: subtitle('subtitle', '')}"></div>
+	</div>
+	
+</body>
+</html>
