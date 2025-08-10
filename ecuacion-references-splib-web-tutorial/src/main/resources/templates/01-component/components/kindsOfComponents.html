@@ -11,7 +11,7 @@
 		<div th:replace="~{bootstrap/components :: paragraph('component.kindsOfComponents.paragraph-1', '')}"></div>
 		<br>
 		<table class="table table-striped text-nowrap table-bordered">
-			<tr th:replace="~{bootstrap/components :: simpleTableHeader(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, 'componentId=test')}"></tr>
+			<tr th:replace="~{bootstrap/components :: simpleTableHeader(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, '')}"></tr>
 			<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
 				${ {
 				 		{
@@ -28,10 +28,12 @@
 						}, {
 				 			{'start', 'base-page script'}, {'start', 'sendZoneOffset, ...'}, {'start', 'component.kindsOfComponents.generalFormHidden'}
 						}, {
-				 			{'start', 'general-form-page components', 3, 1}, 
+				 			{'start', 'general-form-page components', 4, 1}, 
 				 			{'start', 'form'}, {'start', 'generalForm'}, {'start', 'component.kindsOfComponents.form'}
 						}, {
 				 			{'start', 'general-form-page input'}, {'start', 'inputText, inputNumber, inputSelect, ...'}, {'start', 'component.kindsOfComponents.input'}
+						}, {
+				 			{'start', 'general-form-page message'}, {'start', 'inputText, inputNumber, inputSelect, ...'}, {'start', 'component.kindsOfComponents.general-form-page.message'}
 						}, {
 				 			{'start', 'general-form-page button'}, {'start', '...'}, {'start', 'component.kindsOfComponents.generalFormButton'}
 						}, {

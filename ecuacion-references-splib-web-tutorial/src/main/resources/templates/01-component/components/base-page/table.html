@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='component.base-page.table.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='table.html'">
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.table.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-simpleTableHeader}, 'simpleTableHeader', 'component.base-page.message.simpleTableHeader.paragraph-1', '')}"></div>
+	</div>
+
+	<div th:fragment="box-simpleTableHeader" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.titleComponent', '')}"></div>
+		<div class="mt-5"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: simpleTableHeaderLines(
+				${ {
+						{ {'header-1', 'colspan=2'}, {'header-2', 'colspan=2'} },
+						{'header-1-1', 'header-1-2', 'header-2-1', 'header-2-2'}
+				} }
+			, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
+				${ {
+				 		{ {'value-x-1', 'rowspan=2'}, {'value-1-2', 'textColor=red,backgroundColor=yellow'}, {'value-1-3-4', 'colspan=2'} }, 
+				 		{ {'value-2-2'}, {'key-2-3'}, {'value-2-4'}, {null, 'textColor=white, backgroundColor=blue'} }, 
+				 		' textAlignment = center'
+				} }
+			, '')}"></tr>
+		</table>
+	</div>
+	
+</body>
+</html>

@@ -11,6 +11,14 @@
 		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.message.paragraph-1', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-title}, 'title', 'component.base-page.message.title.paragraph-1', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-subtitle}, 'subtitle', 'component.base-page.message.subtitle.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-paragraphWithSubtitle}, 'paragraphWithSubtitle', 'component.base-page.message.paragraphWithSubtitle.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-subsubtitle}, 'subsubtitle', 'component.base-page.message.subsubtitle.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-paragraphWithSubsubtitle}, 'paragraphWithSubsubtitle', 'component.base-page.message.paragraphWithSubsubtitle.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-paragraph}, 'paragraph', 'component.base-page.message.paragraph.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-referenceBox}, 'referenceBox', 'component.base-page.message.referenceBox.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-box}, 'box', 'component.base-page.message.box.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-freeSpace}, 'freeSpace', 'component.base-page.message.freeSpace.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-speechBalloon}, 'speechBalloon', 'component.base-page.message.speechBalloon.paragraph-1', '')}"></div>
 	</div>
 
 	<div th:fragment="box-title" th:remove="tag">
@@ -23,6 +31,62 @@
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.subtitle', '')}"></div>
 		<div class="mt-5"></div>
 		<div th:replace="~{bootstrap/components :: subtitle('subtitle', '')}"></div>
+	</div>
+
+	<div th:fragment="box-paragraphWithSubtitle" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.paragraphWithSubtitle', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('paragraphWithSubtitle-title', 'paragraphWithSubtitle-paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-subsubtitle" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.subsubtitle', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: subsubtitle('subsubtitle', '')}"></div>
+	</div>
+
+	<div th:fragment="box-paragraphWithSubsubtitle" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.paragraphWithSubsubtitle', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubsubtitle('paragraphWithSubsubtitle-subsubTitle', 'paragraphWithSubsubtitle-paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-paragraph" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.paragraph', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-referenceBox" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.referenceBox', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('referenceBox-title', 'referenceBox-paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-box" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.box', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: box(~{:: fragment-box}, 'box-title', 'box-description', '')}"></div>
+		
+		<th:block th:if="false"><div th:fragment="fragment-box" th:remove="tag">
+			<div class="background-color: orange; color: white">Hello!</div>
+		</div></th:block>
+	</div>
+
+	<div th:fragment="box-freeSpace" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.freeSpace', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: freeSpace(~{:: fragment-freeSpace}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="fragment-freeSpace" th:remove="tag">
+			<b><u>Hello!</u></b>
+		</div></th:block>
+	</div>
+
+	<div th:fragment="box-speechBalloon" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.speechBalloon', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: speechBalloon('Someone\'s speechBalloon', false, 'John', ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: speechBalloon('My speechBalloon', true, '', ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}, '')}"></div>
 	</div>
 	
 </body>
