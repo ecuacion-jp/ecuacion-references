@@ -15,55 +15,55 @@
 				'PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE_DESC', '')}"></div>
 		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-contents-insert-points}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="free-space-contents-insert-points" th:remove="tag">
-			尚、form毎に存在するinsert pointは、formの数だけ存在する。それを表現するために、form-content[-x]のように記載。<br>
-			（multipleForms == falseならform-contentのみ使用可、<br>
-			　multipleForms == trueでかつusesForm2 == trueなら、form-content-1, form-content-2が使用可、など）<br><br>
+			蟆壹�’orm豈弱↓蟄伜惠縺吶ｋinsert point縺ｯ縲’orm縺ｮ謨ｰ縺�縺大ｭ伜惠縺吶ｋ縲ゅ◎繧後ｒ陦ｨ迴ｾ縺吶ｋ縺溘ａ縺ｫ縲’orm-content[-x]縺ｮ繧医≧縺ｫ險倩ｼ峨��<br>
+			�ｼ�multipleForms == false縺ｪ繧映orm-content縺ｮ縺ｿ菴ｿ逕ｨ蜿ｯ縲�<br>
+			縲�multipleForms == true縺ｧ縺九▽usesForm2 == true縺ｪ繧峨�’orm-content-1, form-content-2縺御ｽｿ逕ｨ蜿ｯ縲√↑縺ｩ�ｼ�<br><br>
 			
 			<div class="table-responsive">
 				<table class="table table-striped text-nowrap table-bordered" th:with="thisPageInsertPoint=${
 				{
 					{
-						{'center', 'base', '6', '1'}, {'start', 'base-content', '6', '1'}, {'start', 'top-space'}, {'start', '個別app'}, 
-						{'start', '画面上部、画面タイトルとメッセージ表示部分の間の位置。<br>あまり使う想定はないが一応用意。'}
+						{'center', 'base', '6', '1'}, {'start', 'base-content', '6', '1'}, {'start', 'top-space'}, {'start', '蛟句挨app'}, 
+						{'start', '逕ｻ髱｢荳企Κ縲∫判髱｢繧ｿ繧､繝医Ν縺ｨ繝｡繝�繧ｻ繝ｼ繧ｸ陦ｨ遉ｺ驛ｨ蛻�縺ｮ髢薙�ｮ菴咲ｽｮ縲�<br>縺ゅ∪繧贋ｽｿ縺�諠ｳ螳壹�ｯ縺ｪ縺�縺御ｸ�蠢懃畑諢上��'}
 					}
 					, {
-						{'start', 'bottom-space'}, {'start', '個別app'}, {'start', 'base-contentの下部。scriptsのすぐ上。<br>
-							追加で下部にコンテンツを追加したい場合に使用。'}
+						{'start', 'bottom-space'}, {'start', '蛟句挨app'}, {'start', 'base-content縺ｮ荳矩Κ縲Ｔcripts縺ｮ縺吶＄荳翫��<br>
+							霑ｽ蜉�縺ｧ荳矩Κ縺ｫ繧ｳ繝ｳ繝�繝ｳ繝�繧定ｿｽ蜉�縺励◆縺�蝣ｴ蜷医↓菴ｿ逕ｨ縲�'}
 					}
 					, {
-						{'start', 'scripts'}, {'start', '個別app'}, {'start', 'base-contentの一番下。javascript記載用のスペース。<br>
-							位置的にはbottom-spaceと同位置なので分けずとも運用は可能なのだが、<br>役割を明確にするために敢えて分けた。'}
+						{'start', 'scripts'}, {'start', '蛟句挨app'}, {'start', 'base-content縺ｮ荳�逡ｪ荳九�Ｋavascript險倩ｼ臥畑縺ｮ繧ｹ繝壹�ｼ繧ｹ縲�<br>
+							菴咲ｽｮ逧�縺ｫ縺ｯbottom-space縺ｨ蜷御ｽ咲ｽｮ縺ｪ縺ｮ縺ｧ蛻�縺代★縺ｨ繧る°逕ｨ縺ｯ蜿ｯ閭ｽ縺ｪ縺ｮ縺�縺後��<br>蠖ｹ蜑ｲ繧呈�守｢ｺ縺ｫ縺吶ｋ縺溘ａ縺ｫ謨｢縺医※蛻�縺代◆縲�'}
 					}
 					, {
-						{'start', 'form-content[-x]'}, {'start', '子template<br>/ 個別app'}, {'start', 'formのmain contentsをここに記述。'}
+						{'start', 'form-content[-x]'}, {'start', '蟄腎emplate<br>/ 蛟句挨app'}, {'start', 'form縺ｮmain contents繧偵％縺薙↓險倩ｿｰ縲�'}
 					}
 					, {
-						{'start', 'form-top-space<br>-content[-x]'}, {'start', '個別app'}, {'start', 'generalForm内で、formタグの上に記載できる場所。'}
+						{'start', 'form-top-space<br>-content[-x]'}, {'start', '蛟句挨app'}, {'start', 'generalForm蜀�縺ｧ縲’orm繧ｿ繧ｰ縺ｮ荳翫↓險倩ｼ峨〒縺阪ｋ蝣ｴ謇�縲�'}
 					}
 					, {
-						{'start', 'form-bottom-space<br>-content[-x]'}, {'start', '個別app'}, {'start', 'generalForm内で、formタグの下に記載できる場所。'}
+						{'start', 'form-bottom-space<br>-content[-x]'}, {'start', '蛟句挨app'}, {'start', 'generalForm蜀�縺ｧ縲’orm繧ｿ繧ｰ縺ｮ荳九↓險倩ｼ峨〒縺阪ｋ蝣ｴ謇�縲�'}
 					}
 				} }
 				">
 					<div th:replace="~{app-components :: simpleTableHeader(${insertPointHeaders}, '')}"></div>
-					<div th:replace="~{app-components :: simpleTableBodyFromArrayOfLinesOfCellElements(${ {thisPageInsertPoint, baseInsertPoint} }, '')}"></div>
+					<div th:replace="~{app-components :: staticTableBodyWithArrayOfLinesOfCellElements(${ {thisPageInsertPoint, baseInsertPoint} }, '')}"></div>
 				</table>
 			</div>
 		</div></th:block>
 
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parametersは以下の通り。', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parameters縺ｯ莉･荳九�ｮ騾壹ｊ縲�', '')}"></div>
 		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-parameters}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="free-space-parameters" th:remove="tag">
-			尚、form毎に存在するparameterは、formの数だけ存在する。それを表現するために、formMethod[x]のように記載。<br>
-			（multipleForms == falseならformMethodのみ使用可、<br>
-			　multipleForms == trueでかつusesForm2 == trueなら、formMethod1, formMethod2が使用可、など）<br><br>
+			蟆壹�’orm豈弱↓蟄伜惠縺吶ｋparameter縺ｯ縲’orm縺ｮ謨ｰ縺�縺大ｭ伜惠縺吶ｋ縲ゅ◎繧後ｒ陦ｨ迴ｾ縺吶ｋ縺溘ａ縺ｫ縲’ormMethod[x]縺ｮ繧医≧縺ｫ險倩ｼ峨��<br>
+			�ｼ�multipleForms == false縺ｪ繧映ormMethod縺ｮ縺ｿ菴ｿ逕ｨ蜿ｯ縲�<br>
+			縲�multipleForms == true縺ｧ縺九▽usesForm2 == true縺ｪ繧峨�’ormMethod1, formMethod2縺御ｽｿ逕ｨ蜿ｯ縲√↑縺ｩ�ｼ�<br><br>
 
 			<div class="table-responsive">
 				<table class="table table-striped text-nowrap table-bordered" th:with="thisPageParameter=${
 				{
 				} }">
 					<div th:replace="~{app-components :: simpleTableHeader(${parameterHeaders}, '')}"></div>
-					<div th:replace="~{app-components :: simpleTableBodyFromArrayOfLinesOfCellElements(
+					<div th:replace="~{app-components :: staticTableBodyWithArrayOfLinesOfCellElements(
 						${ {generalParameterRelatedToNumberOfForms, generalParameterRelatedToSubfunction, generalParameter, baseParameter} }, '')}">
 					</div>
 				</table>

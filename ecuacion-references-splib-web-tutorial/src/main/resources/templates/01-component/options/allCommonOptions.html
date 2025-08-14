@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title=#{component.options.allCommonOptions.title}">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('componentId', 'component.options.allCommonOptions.componentId.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('source', 'component.options.allCommonOptions.componentId.source', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('result html', 'component.options.allCommonOptions.componentId.result', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('mt / mb', 'component.options.allCommonOptions.mtmb.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('source', 'component.options.allCommonOptions.mtmb.source', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('result html', 'component.options.allCommonOptions.mtmb.result', '')}"></div>
+	</div>
+
+</body>
+</html>

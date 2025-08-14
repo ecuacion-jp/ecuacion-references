@@ -13,18 +13,18 @@
 		
 		<div class="table-responsive">
 			<table class="table table-striped text-nowrap table-bordered">
-					<div th:replace="~{app-components :: simpleTableHeader(${ {'機能', '対象モジュール', '変更内容'} }, '')}"></div>
-					<div th:replace="~{app-components :: simpleTableBodyFromLinesOfCellElements(
+					<div th:replace="~{app-components :: simpleTableHeader(${ {'髫ｶ蛹�ｽｺ�ｽｯ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｽ', '髯晢ｿｽ�ｿｽ�ｽｽ�ｽｾ鬮ｮ雜｣�ｽｽ�ｽ｡驛｢譎｢�ｽｽ�ｽ｢驛｢�ｽｧ�ｿｽ�ｽｽ�ｽｸ驛｢譎｢�ｽｽ�ｽ･驛｢譎｢�ｽｽ�ｽｼ驛｢譎｢�ｽｽ�ｽｫ', '髯樊ｺｽ蛻､陝ｲ�ｽｩ髯ｷ�ｿｽ�ｿｽ�ｽｿ�ｽｽ髯橸ｽｳ�ｿｽ�ｽｽ�ｽｹ'} }, '')}"></div>
+					<div th:replace="~{app-components :: staticTableBodyWithLinesOfCellElements(
 						${ {
 						 		{
-						 			{'start', 'controllerに対する<br>form数の指定', '3', '1'}, {'start', 'page-general-1-form.html<br>page-general-2-forms.html<br>page-general-3-forms.html'}, 
-						 			{'start', 'multipleForms, usesForm2, usesForm3のparameterを指定。<br>（併せてpage-general-1-form-wide.htmlなども追加）'}
+						 			{'start', 'controller驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｫ髯晢ｿｽ�ｿｽ�ｽｽ�ｽｾ驍ｵ�ｽｺ陷ｷ�ｽｶ�ｿｽ�ｽｽ�ｿｽ<br>form髫ｰ�ｽｨ�ｿｽ�ｽｽ�ｽｰ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｮ髫ｰ蜴�ｽｿ�ｽｽ髯橸ｽｳ�ｿｽ�ｽｿ�ｽｽ', '3', '1'}, {'start', 'page-general-1-form.html<br>page-general-2-forms.html<br>page-general-3-forms.html'}, 
+						 			{'start', 'multipleForms, usesForm2, usesForm3驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｮparameter驛｢�ｽｧ陷ｻ蝓滂ｽｬ�ｿｽ髯橸ｽｳ陞｢�ｽｹ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｿ�ｽｽ<br>�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｼ闔�蛹��ｽｽ�ｽｽ�ｿｽ�ｽｽ�ｽｵ驍ｵ�ｽｺ陝ｶ蜷ｮ�ｿｽ�ｽｻpage-general-1-form-wide.html驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｪ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｩ驛｢�ｽｧ郢ｧ螂��ｽｽ�ｽｿ�ｿｽ�ｽｽ�ｽｽ髯ｷ莨夲ｽｿ�ｽｽ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｼ�ｿｽ�ｽｿ�ｽｽ'}
 								}
 								, {
-									{'start', 'SplibGeneralXForm[s]Controller'}, {'start', 'classへのgenericsパラメータ追加と、formを引数に持つ以下メソッドの追加。<br>- page メソッド<br>- submitOnChangeToRefresh メソッド'}
+									{'start', 'SplibGeneralXForm[s]Controller'}, {'start', 'class驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｸ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｮgenerics驛｢譏懶ｽｻ�ｽ｣�ｾ主ｸｷ�ｽｹ譎｢�ｽｽ�ｽ｡驛｢譎｢�ｽｽ�ｽｼ驛｢�ｽｧ�ｿｽ�ｽｽ�ｽｿ鬮ｴ謇假ｽｽ�ｽｽ髯ｷ莨夲ｽｿ�ｽｽ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｨ驍ｵ�ｽｲ遯ｶ蜀ｩrm驛｢�ｽｧ髮区ｩｸ�ｽｽ�ｽｼ陟�骰具ｿｽ螟ゑｽｸ�ｽｺ�ｿｽ�ｽｽ�ｽｫ髫ｰ蝠擾ｿｽ螢ｺ蜻ｽ髣比ｼ夲ｽｽ�ｽ･髣包ｽｳ闕ｵ譁滄豪�ｽｹ�ｽｧ�ｿｽ�ｽｽ�ｽｽ驛｢譎｢�ｽｿ�ｽｽ驛｢譎擾ｽｳ�ｽｨ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｮ鬮ｴ謇假ｽｽ�ｽｽ髯ｷ莨夲ｽｿ�ｽｽ驍ｵ�ｽｲ�ｿｽ�ｽｿ�ｽｽ<br>- page 驛｢譎｢�ｽｽ�ｽ｡驛｢�ｽｧ�ｿｽ�ｽｽ�ｽｽ驛｢譎｢�ｽｿ�ｽｽ驛｢譎｢�ｽｿ�ｽｽ<br>- submitOnChangeToRefresh 驛｢譎｢�ｽｽ�ｽ｡驛｢�ｽｧ�ｿｽ�ｽｽ�ｽｽ驛｢譎｢�ｽｿ�ｽｽ驛｢譎｢�ｽｿ�ｽｽ'}
 								}
 								, {
-									{'start', 'SplibGeneralXForm[s]Service'}, {'start', 'pageメソッドの追加。'}
+									{'start', 'SplibGeneralXForm[s]Service'}, {'start', 'page驛｢譎｢�ｽｽ�ｽ｡驛｢�ｽｧ�ｿｽ�ｽｽ�ｽｽ驛｢譎｢�ｽｿ�ｽｽ驛｢譎擾ｽｳ�ｽｨ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｮ鬮ｴ謇假ｽｽ�ｽｽ髯ｷ莨夲ｽｿ�ｽｽ驍ｵ�ｽｲ�ｿｽ�ｽｿ�ｽｽ'}
 								}
 			 			} }, '')}">
 		 			</div>
@@ -33,19 +33,19 @@
 		</div>
 		
 		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE}, 'PT_GENERAL_X_FORMS_INSERT_POINT_SUBTITLE_DESC', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parametersは以下の通り。', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parameters驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｯ髣比ｼ夲ｽｽ�ｽ･髣包ｽｳ闕ｵ譎｢�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｮ鬯ｨ�ｽｾ陞｢�ｽｹ�ｿｽ�ｽｽ鬘費ｽｸ�ｽｲ�ｿｽ�ｽｿ�ｽｽ', '')}"></div>
 		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-parameters}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="free-space-parameters" th:remove="tag">
-			尚、form毎に存在するparameterは、formの数だけ存在する。それを表現するために、formMethod[x]のように記載。<br>
-			（multipleForms == falseならformMethodのみ使用可、<br>
-			　multipleForms == trueでかつusesForm2 == trueなら、formMethod1, formMethod2が使用可、など）<br><br>
+			髯晢ｿｽ陞｢�ｽｹ�ｿｽ�ｽｿ�ｽｽ遯ｶ蜀ｩrm髮惹ｺ･�ｽｼ�ｽｱ遶頑･｢豌幄耳諛夷帝し�ｽｺ陷ｷ�ｽｶ�ｿｽ�ｽｽ蜊ｴarameter驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｯ驍ｵ�ｽｲ遯ｶ蜀ｩrm驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｮ髫ｰ�ｽｨ�ｿｽ�ｽｽ�ｽｰ驍ｵ�ｽｺ�ｿｽ�ｽｿ�ｽｽ驍ｵ�ｽｺ陞滂ｽｧ�ｿｽ�ｽｽ�ｽｭ闔ｨ諛夷帝し�ｽｺ陷ｷ�ｽｶ�ｿｽ�ｽｽ迢暦ｽｸ�ｽｲ郢ｧ�ｿｽ隨ｳ螳茨ｽｹ�ｽｧ陟暮ｯ会ｽｽ蟶晏距�ｿｽ�ｽｽ�ｽｨ髴托ｽｴ�ｿｽ�ｽｽ�ｽｾ驍ｵ�ｽｺ陷ｷ�ｽｶ�ｿｽ�ｽｽ迢暦ｽｸ�ｽｺ雋�蛛��ｽｽ竏ｫ�ｽｸ�ｽｺ�ｿｽ�ｽｽ�ｽｫ驍ｵ�ｽｲ遯ｶ蜀ｩrmMethod[x]驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｮ驛｢�ｽｧ陋ｹ�ｽｻ遶包ｽｧ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｫ鬮ｫ�ｽｪ陋滂ｽｩ�ｿｽ�ｽｽ�ｽｼ陝ｲ�ｽｨ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｿ�ｽｽ<br>
+			�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｼ�ｿｽ�ｽｿ�ｽｽmultipleForms == false驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｪ驛｢�ｽｧ隴擾ｿｽormMethod驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｮ驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｿ髣厄ｽｴ�ｿｽ�ｽｽ�ｽｿ鬨ｾ蛹��ｽｽ�ｽｨ髯ｷ�ｽｿ�ｿｽ�ｽｽ�ｽｯ驍ｵ�ｽｲ�ｿｽ�ｽｿ�ｽｽ<br>
+			驍ｵ�ｽｲ�ｿｽ�ｽｿ�ｽｽmultipleForms == true驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｧ驍ｵ�ｽｺ闕ｵ譏ｶ蜻ｽusesForm2 == true驍ｵ�ｽｺ�ｿｽ�ｽｽ�ｽｪ驛｢�ｽｧ陝ｲ�ｽｨ�ｿｽ�ｽｿ�ｽｽ遯ｶ蜀ｩrmMethod1, formMethod2驍ｵ�ｽｺ陟包ｽ｡�ｿｽ�ｽｽ�ｽｽ�ｿｽ�ｽｽ�ｽｿ鬨ｾ蛹��ｽｽ�ｽｨ髯ｷ�ｽｿ�ｿｽ�ｽｽ�ｽｯ驍ｵ�ｽｲ遶丞｣ｺ�ｿｽ驢搾ｽｸ�ｽｺ�ｿｽ�ｽｽ�ｽｩ�ｿｽ�ｽｿ�ｽｽ�ｿｽ�ｽｽ�ｽｼ�ｿｽ�ｽｿ�ｽｽ<br><br>
 
 			<div class="table-responsive">
 				<table class="table table-striped text-nowrap table-bordered" th:with="thisPageParameter=${
 				{
 				} }">
 					<div th:replace="~{app-components :: simpleTableHeader(${parameterHeaders}, '')}"></div>
-					<div th:replace="~{app-components :: simpleTableBodyFromArrayOfLinesOfCellElements(
+					<div th:replace="~{app-components :: staticTableBodyWithArrayOfLinesOfCellElements(
 						${ {generalParameterRelatedToSubfunction, generalParameter, baseParameter} }, '')}">
 					</div>
 				</table>

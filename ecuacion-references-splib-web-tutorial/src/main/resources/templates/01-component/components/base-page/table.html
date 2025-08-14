@@ -9,20 +9,88 @@
 
 	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='table.html'">
 		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.table.paragraph-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-simpleTableHeader}, 'simpleTableHeader', 'component.base-page.message.simpleTableHeader.paragraph-1', '')}"></div>
+		
+		<div th:replace="~{bootstrap/components :: box(~{::box-internalStaticTableCellAndLineDesc}, 'component.base-page.table.cellAndLine.subtitle', '', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-staticTableHeaderWithLine}, 'staticTableHeaderWithLine', 'component.base-page.table.staticTableHeaderWithLine.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-staticTableHeaderWithLines}, 'staticTableHeaderWithLines', 'component.base-page.table.staticTableHeaderWithLines.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-staticTableBodyWithLines}, 'staticTableBodyWithLines', 'component.base-page.table.staticTableBodyWithLines.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-staticTableBodyWithArrayOfLines}, 'staticTableBodyWithArrayOfLines', 'component.base-page.table.staticTableBodyWithArrayOfLines.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-staticTableCellOptions}, 'component.base-page.table.staticTableCellOptions.subtitle', 'component.base-page.table.staticTableCellOptions.paragraph', '')}"></div>
 	</div>
 
-	<div th:fragment="box-simpleTableHeader" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.titleComponent', '')}"></div>
+	<div th:fragment="box-internalStaticTableCellAndLineDesc" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.table.cellAndLine.staticTable.subtitle', 'component.base-page.table.cellAndLine.staticTable.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.table.cellAndLine.thAndTd.subtitle', 'component.base-page.table.cellAndLine.thAndTd.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.table.cellAndLine.definitionOfCell.subtitle', 'component.base-page.table.cellAndLine.definitionOfCell.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.table.cellAndLine.definitionOfLine.subtitle', 'component.base-page.table.cellAndLine.definitionOfLine.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.table.cellAndLine.definitionOfLines.subtitle', 'component.base-page.table.cellAndLine.definitionOfLines.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.table.cellAndLine.definitionOfTables.subtitle', 'component.base-page.table.cellAndLine.definitionOfTables.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.table.cellAndLine.definitionOfTables.code', '')}"></div>
 		<div class="mt-5"></div>
 		<table class="table table-striped text-nowrap table-bordered">
-			<tr th:replace="~{bootstrap/components :: simpleTableHeaderLines(
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLines(${ {
+					{ {'header-1-1&2', 'colspan=2'}, {'header-1-3&4', 'colspan=2'} },
+					{'header-2-1', 'header-2-2', 'header-2-3', 'header-2-4'}
+			} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ { 'value-x-1', 'rowspan=2'}, 'value-1-2', { 'value-1-3&4', 'colspan=2'} }, 
+					{'value-2-2', 'value-2-3','value-2-4'}
+			} }, '')}"></tr>
+		</table>
+		<div th:fragment="" th:remove="tag">
+		</div>
+		<div class="mt-5"></div>
+	</div>
+
+	<div th:fragment="box-staticTableHeaderWithLine" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.base-page.table.staticTableHeaderWithLine.code', '')}"></div>
+		<div class="mt-5"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'header-1-1', 'header-1-2', 'header-2-1', 'header-2-2'} }, '')}"></tr>
+		</table>
+		<br>
+	</div>
+
+	<div th:fragment="box-staticTableHeaderWithLines" th:remove="tag">
+	</div>
+
+	<div th:fragment="box-staticTableBodyWithLines" th:remove="tag">
+	</div>
+
+	<div th:fragment="box-staticTableBodyWithArrayOfLines" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.base-page.table.staticTableBodyWithArrayOfLines.code', '')}"></div>
+		<div class="mt-5"></div>
+		<table class="table table-striped text-nowrap table-bordered" th:with="commonLines=
+				${ { {'common-1-1', 'common-1-2', 'common-1-3', 'common-1-4'}, {'common-2-1', 'common-2-2', 'common-2-3', 'common-2-4'} } }">
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithArrayOfLines(${ { commonLines, {
+				 	{ {'value-x-1', 'rowspan=2'}, 'value-1-2', {'value-1-3-4', 'colspan=2'} }, 
+				 	{ 'value-2-2', 'value-2-3', 'value-2-4' }
+				 	} } }, '')}"></tr>
+		</table>
+	</div>
+
+	<div th:fragment="box-staticTableCellOptions" th:remove="tag">
+		<div class="mt-5"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'option', '型', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ 'rowspan', 'integer', 'Specifies the rowspan value. The value can take a number. default value is 1.' }, 
+					{ 'colspan', 'integer', 'Specifies the colspan value. The value can take a number. default value is 1.' },
+					{ 'textAlignment', 'string', 'Specifies the text-alignment. The value can take either start, end, center.' },
+					{ 'textColor', 'string', 'Specifies the color attribute. The value can take color code (''#abcdef'' or ''#abc''), or color name like ''red''.' },
+					{ 'backgroundColor', 'string', 'Specifies the background-color attribute.' }
+			} }, '')}"></tr>
+		</table>
+	</div>
+
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLines(
 				${ {
 						{ {'header-1', 'colspan=2'}, {'header-2', 'colspan=2'} },
 						{'header-1-1', 'header-1-2', 'header-2-1', 'header-2-2'}
 				} }
 			, '')}"></tr>
-			<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 				${ {
 				 		{ {'value-x-1', 'rowspan=2'}, {'value-1-2', 'textColor=red,backgroundColor=yellow'}, {'value-1-3-4', 'colspan=2'} }, 
 				 		{ {'value-2-2'}, {'key-2-3'}, {'value-2-4'}, {null, 'textColor=white, backgroundColor=blue'} }, 
@@ -30,7 +98,5 @@
 				} }
 			, '')}"></tr>
 		</table>
-	</div>
-	
 </body>
 </html>

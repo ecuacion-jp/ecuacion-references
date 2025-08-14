@@ -11,47 +11,32 @@
 		<div th:replace="~{bootstrap/components :: paragraph('component.kindsOfComponents.paragraph-1', '')}"></div>
 		<br>
 		<table class="table table-striped text-nowrap table-bordered">
-			<tr th:replace="~{bootstrap/components :: simpleTableHeader(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, '')}"></tr>
-			<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 				${ {
-				 		{
-				 			{'start', 'base-page components', 6, 1}, 
-				 			{'start', 'message'}, {'start', 'title, paragraph, referenceBox, ...'}, {'start', 'component.kindsOfComponents.messageDisplaying'}
-						}, {
-				 			{'start', 'table'}, {'start', 'simpleTableHeader, ...'}, {'start', 'component.kindsOfComponents.table'}
-						}, {
-				 			{'start', 'shape'}, {'start', 'horizontalLine, ...'}, {'start', 'component.kindsOfComponents.shape'}
-						}, {
-				 			{'start', 'navbar'}, {'start', 'navBarMenuItem, navBarSubMenu, ...'}, {'start', 'component.kindsOfComponents.navbar'}
-						}, {
-				 			{'start', 'process result message'}, {'start', 'messages, ...'}, {'start', 'component.kindsOfComponents.serverMessageDisplaying'}
-						}, {
-				 			{'start', 'base-page script'}, {'start', 'sendZoneOffset, ...'}, {'start', 'component.kindsOfComponents.generalFormHidden'}
-						}, {
-				 			{'start', 'general-form-page components', 4, 1}, 
-				 			{'start', 'form'}, {'start', 'generalForm'}, {'start', 'component.kindsOfComponents.form'}
-						}, {
-				 			{'start', 'general-form-page input'}, {'start', 'inputText, inputNumber, inputSelect, ...'}, {'start', 'component.kindsOfComponents.input'}
-						}, {
-				 			{'start', 'general-form-page message'}, {'start', 'inputText, inputNumber, inputSelect, ...'}, {'start', 'component.kindsOfComponents.general-form-page.message'}
-						}, {
-				 			{'start', 'general-form-page button'}, {'start', '...'}, {'start', 'component.kindsOfComponents.generalFormButton'}
-						}, {
-				 			{'start', 'search-page components', 3, 1}, 
-				 			{'start', 'search-page input'}, {'start', 'searchText, searchNumber, ...'}, {'start', 'component.kindsOfComponents.searchInput'}
-						}, {
-				 			{'start', 'search-page button'}, {'start', 'searchButton, ...'}, {'start', 'component.kindsOfComponents.searchButton'}
-						}, {
-				 			{'start', 'search-page script'}, {'start', 'scriptForThSortable, ...'}, {'start', 'component.kindsOfComponents.searchScript'}
-						}, {
-				 			{'start', 'list-page components', 3, 1}, 
-				 			{'start', 'list-page input'}, {'start', 'thText,  tdReadOnly, ...'}, {'start', 'component.kindsOfComponents.listInput'}
-						}, {
-				 			{'start', 'list-page button'}, {'start', 'tdButton, ...'}, {'start', 'component.kindsOfComponents.listButton'}
-						}, {
-				 			{'start', 'list-page script'}, {'start', 'scriptFortdUpdateButton, ...'}, {'start', 'component.kindsOfComponents.listScript'}
+				 		{{'base-page components', 'rowspan=6'}, 
+				 			'message', 'title, paragraph, referenceBox, ...', 'component.kindsOfComponents.messageDisplaying'}, 
+			 			{'table', 'simpleTableHeader, ...', 'component.kindsOfComponents.table'}, 
+			 			{'shape', 'horizontalLine, ...', 'component.kindsOfComponents.shape'},
+			 			{'navbar', 'navBarMenuItem, navBarSubMenu, ...', 'component.kindsOfComponents.navbar'}, 
+				 		{'process result message', 'messages, ...', 'component.kindsOfComponents.serverMessageDisplaying'},
+				 		{'base-page script', 'sendZoneOffset, ...', 'component.kindsOfComponents.generalFormHidden'}, 
 
-						}
+				 		{{'general-form-page components', 'rowspan=4'}, 
+							'form', 'generalForm', 'component.kindsOfComponents.form'}, 
+						{'general-form-page input', 'inputText, inputNumber, inputSelect, ...', 'component.kindsOfComponents.input'},
+			 			{'general-form-page message', 'inputText, inputNumber, inputSelect, ...', 'component.kindsOfComponents.general-form-page.message'},
+			 			{'general-form-page button', '...', 'component.kindsOfComponents.generalFormButton'},
+				 		
+				 		{{'search-page components', 'rowspan=3'}, 
+				 			'search-page input', 'searchText, searchNumber, ...', 'component.kindsOfComponents.searchInput'},
+			 			{'search-page button', 'searchButton, ...', 'component.kindsOfComponents.searchButton'},
+			 			{'search-page script', 'scriptForThSortable, ...', 'component.kindsOfComponents.searchScript'},
+			 			
+						{{'list-page components', 'rowspan=3'}, 
+				 			'list-page input', 'thText,  tdReadOnly, ...', 'component.kindsOfComponents.listInput'}, 
+				 		{'list-page button', 'tdButton, ...', 'component.kindsOfComponents.listButton'}, 
+				 		{'list-page script', 'scriptFortdUpdateButton, ...', 'component.kindsOfComponents.listScript'}
 	 			} }, '')}">
  			</tr>
 		</table>

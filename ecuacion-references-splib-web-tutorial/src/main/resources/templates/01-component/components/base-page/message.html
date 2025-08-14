@@ -19,6 +19,15 @@
 		<div th:replace="~{bootstrap/components :: box(~{::box-box}, 'box', 'component.base-page.message.box.paragraph-1', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-freeSpace}, 'freeSpace', 'component.base-page.message.freeSpace.paragraph-1', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-speechBalloon}, 'speechBalloon', 'component.base-page.message.speechBalloon.paragraph-1', '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: horizontalLine('')}"></div>
+		
+		<div th:replace="~{bootstrap/components :: title('component.xxx-page.commonOptions', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('selectable', 'component.base-page.message.commonOptions.selectable', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.message.commonOptions.selectable.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: speechBalloon('My speechBalloon', true, '', ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}, 'selectable')}"></div>
+		
+
 	</div>
 
 	<div th:fragment="box-title" th:remove="tag">

@@ -19,7 +19,7 @@
 			<div class="collapse navbar-collapse" id="navbarText">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				
-					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/show/page?id=home}, #{navBar.home}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navBarMenuItem(@{/public/show/page?id=home}, 'navBar.home', '')}"></div>
 
 					<div th:replace="~{bootstrap/components :: navBarSubMenu(#{navBar.component}, ~{::navBarSubMenuComponentTemplate}, '')}"></div>
 					<th:block th:if="false"><div th:fragment="navBarSubMenuComponentTemplate" th:remove="tag">
@@ -58,7 +58,7 @@
 
 						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
 
-						<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel('Options', '')}"></div>
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel('options', '')}"></div>
 
 						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('navBar.group.basics', ~{::navBarSubMenuOptions}, '')}"></div>
 						<th:block th:if="false"><div th:fragment="navBarSubMenuOptions" th:remove="tag">
@@ -66,18 +66,8 @@
 							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/wayOfAddingOptions/page}, 'component.options.wayOfAddingOptions.title', '')}"></div>
 						</div></th:block>
 
-						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('common options', ~{::navBarSubMenuComponentCommonOptions}, '')}"></div>
-						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentCommonOptions" th:remove="tag">
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToAll/page}, '★common to all components', '')}"></div>
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToGeneralPage/page}, '★common to general page components', '')}"></div>
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonTo★★★Page/page}, '★common to ★★★ components', '')}"></div>
-						</div></th:block>
+						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=01-component/options/allCommonOptions}, 'component.options.allCommonOptions.title', '')}"></div>
 
-						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('indivisual options', ~{::navBarSubMenuComponentIndivisualOptions}, '')}"></div>
-						<th:block th:if="false"><div th:fragment="navBarSubMenuComponentIndivisualOptions" th:remove="tag">
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToAll/page}, '★ components', '')}"></div>
-							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/01-component/options/commonToGeneralPage/page}, '★ components', '')}"></div>
-						</div></th:block>
 						
 						<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
 
@@ -116,8 +106,8 @@
 						</div></th:block>
 
 					</div></th:block>
-					
-					<div th:replace="~{bootstrap/components :: navBarSubMenu('Page Template', ~{::navBarSubMenuPageTemplate}, '')}"></div>
+
+					<div th:replace="~{bootstrap/components :: navBarSubMenu('★Page Template', ~{::navBarSubMenuPageTemplate}, '')}"></div>
 					<th:block th:if="false"><div th:fragment="navBarSubMenuPageTemplate" th:remove="tag">
 						<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=02-page/home}, 'page.home.title', '')}"></div>
 						<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu('navBar.page.commonFeatures', ~{::navBarSubMenuPageTemplateCommonFeatures}, '')}"></div>
@@ -220,7 +210,7 @@
 						</th:block>
 					</div></th:block>
 					
-					<div th:replace="~{bootstrap/components :: navBarSubMenu('System Template', ~{::navBarSubMenuSystemTemplate}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navBarSubMenu('★System Template', ~{::navBarSubMenuSystemTemplate}, '')}"></div>
 					<th:block th:if="false">
 						<div th:fragment="navBarSubMenuSystemTemplate" th:remove="tag">
 							<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/show/page?id=stHome}, #{ST_HOME_TITLE}, '')}"></div>
@@ -240,7 +230,7 @@
 		<div th:replace="~{bootstrap/components :: navBarDropDownMenuItem(@{/public/home/page}, #{NAVBAR_L3_ST_NAVBAR_SAMPLE_1}, '')}"></div>
 		<div th:replace="~{bootstrap/components :: navBarDropDownMenuDivider('')}"></div>
 		<div th:replace="~{bootstrap/components :: navBarDropDownMenuGroupLabel(#{NAVBAR_L3_ST_NAVBAR_SAMPLE_3_GROUP_WHICH_HAS_SUB_MENU}, '')}"></div>
-	
+
 		<div th:replace="~{bootstrap/components :: navBarDropDownSubMenu(#{NAVBAR_L3_ST_NAVBAR_SAMPLE_2}, ~{::stnavBarDropDownSubMenuL3_2}, 'direction=left')}"></div>
 		<th:block th:if="false">
 			<div th:fragment="stnavBarDropDownSubMenuL3_2" th:remove="tag">

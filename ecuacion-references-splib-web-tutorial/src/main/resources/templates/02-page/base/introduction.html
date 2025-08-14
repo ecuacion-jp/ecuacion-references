@@ -16,7 +16,7 @@
 			<div class="table-responsive">
 				<table class="table table-striped text-nowrap table-bordered">
 					<tr th:replace="~{bootstrap/components :: simpleTableHeader(${insertPointHeaders}, '')}"></tr>
-					<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
+					<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 ${ {
  		{
  			{'center', '-', '4', '1'}, {'center', '-', '4', '1'}, 
@@ -42,11 +42,8 @@ ${ {
 			<div class="table-responsive">
 				<table class="table table-striped text-nowrap table-bordered">
 					<tr th:replace="~{bootstrap/components :: simpleTableHeader(${parameterHeaders}, '')}"></tr>
-					<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(${baseParameter}, '')}">
-					</tr>
-				</table>
+					<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(${baseParameter},staticTableBodyLines/table>
 			</div>
-		</div></th:block>
-	</div>
+		</staticTableBodyWithLinesiv>
 </body>
 </html>

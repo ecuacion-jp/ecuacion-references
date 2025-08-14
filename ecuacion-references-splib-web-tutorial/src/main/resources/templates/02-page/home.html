@@ -14,7 +14,7 @@
 		<div class="table-responsive">
 			<table class="table table-striped text-nowrap table-bordered">
 				<div th:replace="~{bootstrap/components :: simpleTableHeader(${ {'template', 'page.home.table.explanation'} }, '')}"></div>
-				<div th:replace="~{bootstrap/components :: simpleTableBodyFromLines(
+				<div th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 					${ {
 					 		{{'start', 'base-page template'}, {'start', 'page.home.table.base-page'}}, 
 					 		{{'start', 'general-form-page template'}, {'start', 'page.home.table.general-page'}}, 
