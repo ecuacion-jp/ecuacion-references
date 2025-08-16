@@ -14,23 +14,25 @@
 			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, '')}"></tr>
 			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 				${ {
-				 		{{'base-page components', 'rowspan=6'}, 
+				 		{{'base-page components', 'rowspan=7'}, 
 				 			'message', 'title, paragraph, referenceBox, ...', 'component.kindsOfComponents.messageDisplaying'}, 
 			 			{'table', 'simpleTableHeader, ...', 'component.kindsOfComponents.table'}, 
 			 			{'shape', 'horizontalLine, ...', 'component.kindsOfComponents.shape'},
-			 			{'navbar', 'navBarMenuItem, navBarSubMenu, ...', 'component.kindsOfComponents.navbar'}, 
-				 		{'process result message', 'messages, ...', 'component.kindsOfComponents.serverMessageDisplaying'},
-				 		{'base-page script', 'sendZoneOffset, ...', 'component.kindsOfComponents.generalFormHidden'}, 
+			 			{'navbar', 'navbarMenuItem, navbarSubMenu, ...', 'component.kindsOfComponents.navbar'}, 
+				 		{'process result message', 'messages, ...', 'component.kindsOfComponents.processResultMessage'},
+				 		{'base-page button', 'button, ...', 'component.kindsOfComponents.basePageButton'}, 
+				 		{'base-page script', 'sendZoneOffset, ...', 'component.kindsOfComponents.basePageScript'}, 
+				 		
 
-				 		{{'general-form-page components', 'rowspan=4'}, 
+				 		{{'general-form-page components', 'rowspan=3'}, 
 							'form', 'generalForm', 'component.kindsOfComponents.form'}, 
 						{'general-form-page input', 'inputText, inputNumber, inputSelect, ...', 'component.kindsOfComponents.input'},
-			 			{'general-form-page message', 'inputText, inputNumber, inputSelect, ...', 'component.kindsOfComponents.general-form-page.message'},
 			 			{'general-form-page button', '...', 'component.kindsOfComponents.generalFormButton'},
 				 		
-				 		{{'search-page components', 'rowspan=3'}, 
+				 		{{'search-page components', 'rowspan=4'}, 
 				 			'search-page input', 'searchText, searchNumber, ...', 'component.kindsOfComponents.searchInput'},
 			 			{'search-page button', 'searchButton, ...', 'component.kindsOfComponents.searchButton'},
+			 			{'search result display condition', ' ...', 'component.kindsOfComponents.searchScript'},
 			 			{'search-page script', 'scriptForThSortable, ...', 'component.kindsOfComponents.searchScript'},
 			 			
 						{{'list-page components', 'rowspan=3'}, 

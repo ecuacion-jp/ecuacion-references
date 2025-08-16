@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='component.base-page.shape.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='shape.html'">
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.shape.paragraph', '')}"></div>
+		
+		<div th:replace="~{bootstrap/components :: box(~{::box-horizontalLine}, 'horizontalLine', 'component.base-page.shape.horizontalLine.paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-horizontalLine" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.shape.horizontalLine.code', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: horizontalLine('')}"></div>
+	</div>
+	
+</body>
+</html>
