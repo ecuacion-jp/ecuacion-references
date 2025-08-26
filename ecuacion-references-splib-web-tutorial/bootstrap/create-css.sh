@@ -1,9 +1,4 @@
 #!/bin/bash
 
-export PROJ_NAME=ecuacion-references/ecuacion-splib-web-tutorial
-
-../../../ecuacion-internal-utils/ecuacion-util-bootstrap/script/command.sh `pwd`/custom.scss
-
-mv ../../../ecuacion-internal-utils/ecuacion-util-bootstrap/script/bootstrap* .
-cp bootstrap* ../../../${PROJ_NAME}/src/main/resources/static/css/
-rm bootstrap*
+export app_script_path=$(cd $(dirname $0); pwd)
+${app_script_path}/../../../ecuacion-internal-utils/ecuacion-util-bootstrap/script/command.sh 

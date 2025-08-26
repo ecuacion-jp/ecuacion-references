@@ -137,3 +137,7 @@ buildNumber.properties
 
 # mac
 .DS_Store
+
+# sass
+.sass-cache/
+

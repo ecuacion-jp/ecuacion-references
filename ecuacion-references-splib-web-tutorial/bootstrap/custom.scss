@@ -1,3 +1,8 @@
+// fnctions needs to be imported first.
+@import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/functions";
+
+// vvv updatable vvv 
+
 /******************
  * Basic Color Settings
  ******************/
@@ -13,15 +18,13 @@ $light:         rgb(170, 255, 177);
 $dark:          rgb(20, 61, 3);
 
 // ecuacion-splib-web Standadrd Colors.
-// Don't forget to add the additional color at "$custom-colors:" part at the bottom of this file too 
-// when you add a color definition here.
-$color-navbar:    $primary;
-$color-subtitle:  $primary;
-$color-btn:       $primary;
-$color-btn-danger:$danger;
-$color-footer:    $secondary;
-$color-paging-btn:$secondary;
-$color-tbl-header:$secondary;
+$color-navbar:     $primary;
+$color-subtitle:   $primary;
+$color-btn:        $primary;
+$color-btn-danger: $danger;
+$color-footer:     $secondary;
+$color-paging-btn: $secondary;
+$color-tbl-header: $secondary;
 
 $color-msg-success-bg: #f0f0f0;
 $color-msg-error-bg:   #fff0f0;
@@ -34,6 +37,39 @@ $input-bg: rgb(255, 255, 245);
 
 // Background Color for input-group addon
 $input-group-addon-bg: #e9ecef;
+
+
+
+
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "info":       $info,
+  "warning":    $warning,
+  "danger":     $danger,
+  "light":      $light,
+  "dark":       $dark
+);
+
+// Colors for Components
+$custom-colors: (
+  "color-navbar": $color-navbar,
+  "color-subtitle": $color-subtitle,
+  "color-btn": $color-btn,
+  "color-btn-danger": $color-btn-danger,
+  "color-footer": $color-footer,
+  "color-paging-btn": $color-paging-btn,
+  "color-tbl-header": $color-tbl-header,
+  "color-msg-success-bg": $color-msg-success-bg,
+  "color-msg-error-bg": $color-msg-error-bg,
+);
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
+
+
 
 
 
@@ -142,34 +178,12 @@ $enable-gradients: true;
 $gradient: linear-gradient(180deg, rgba(#fff, .15), rgba(#fff, 0));
 */
 
-
-
-/*!
- * Bootstrap v5.0.2 (https://getbootstrap.com/)
- * Copyright 2011-2021 The Bootstrap Authors
- * Copyright 2011-2021 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
- */
+// ^^^ updatable ^^^ 
 
 // scss-docs-start import-stack
 // Configuration
-@import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/functions";
 @import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/variables";
-
-
-// Colors for Components
-$custom-colors: (
-  "color-navbar": $color-navbar,
-  "color-subtitle": $color-subtitle,
-  "color-btn": $color-btn,
-  "color-btn-danger": $color-btn-danger,
-  "color-footer": $color-footer,
-  "color-paging-btn": $color-paging-btn,
-  "color-tbl-header": $color-tbl-header,
-  "color-msg-success-bg": $color-msg-success-bg,
-  "color-msg-error-bg": $color-msg-error-bg,
-);
-$theme-colors: map-merge($theme-colors, $custom-colors);
+@import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/variables-dark";
 
 // Spacer: Customized because the default size seems a little large.
 $spacer: 1rem;
@@ -187,7 +201,7 @@ $custom-spacers: (
 );
 $spacers: map-merge($spacers, $custom-spacers);
 
-
+@import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/maps";
 @import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/mixins";
 @import "../../../ecuacion-internal-utils/ecuacion-util-bootstrap/lib/bootstrap/scss/utilities";
 
