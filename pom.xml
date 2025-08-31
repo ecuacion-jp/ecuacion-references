@@ -31,8 +31,8 @@
 		<relativePath>../ecuacion-splib</relativePath>
 	</parent>
 	<properties>
-		<!-- deploy to private repository-->
-		<altDeploymentRepository>ecuacion-repo-sftp-private::${repository.ecuacion-repo-sftp-private-root}/profile-none</altDeploymentRepository>
+		<!-- deploy to public repository without "profile-xxx" directory -->
+		<altDeploymentRepository>ecuacion-repo-sftp-public::${repository.ecuacion-repo-sftp-public-root}</altDeploymentRepository>
 
 		<app.name>ecuacion-reference-apps</app.name>
 		<app.version>0.0.1-SNAPSHOT</app.version>
