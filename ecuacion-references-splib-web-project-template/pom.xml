@@ -12,7 +12,7 @@
 
 	<properties>
 		<!-- deploy to public repository without "profile-xxx" directory -->
-		<altDeploymentRepository>ecuacion-repo-sftp-public::${repository.ecuacion-repo-sftp-root}</altDeploymentRepository>
+		<altDeploymentRepository>ecuacion-repo-sftp::${repository.ecuacion-repo-sftp-root}</altDeploymentRepository>
 
 		<app.name>ecuacion-tool-code-generator</app.name>
 		<app.version>0.0.1-SNAPSHOT</app.version>
