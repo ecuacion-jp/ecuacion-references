@@ -1,6 +1,7 @@
 package your.company.app.controller;
 
 import jakarta.validation.Valid;
+import jp.ecuacion.lib.core.logging.DetailLogger;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
@@ -23,7 +24,9 @@ public class GreetingController extends
 
   public GreetingController() {
     super("greeting");
-
+    
+    // logging
+    new DetailLogger(this).info("Controller constructed");
   }
 
   @PostMapping(value = "action", params = "greeting")

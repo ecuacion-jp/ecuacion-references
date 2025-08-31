@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<included>
+
+	<property name="project-name" value="aws-instance-manager" />
+	<property name="app-root" value="your.company" />
+
+</included>
