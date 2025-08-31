@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/basics/additionOfTextbox")
-public class AdditionOfTextboxController extends
-    SplibGeneral1FormController<AdditionOfTextboxForm, SplibGeneral1FormDoNothingService<AdditionOfTextboxForm>> {
+//@formatter:off
+public class AdditionOfTextboxController extends SplibGeneral1FormController<AdditionOfTextboxForm, 
+    SplibGeneral1FormDoNothingService<AdditionOfTextboxForm>> {
+  //@formatter:on
 
   public AdditionOfTextboxController() {
     super("additionOfTextbox",
@@ -46,7 +48,8 @@ public class AdditionOfTextboxController extends
   /**
    * Provides a form for greeting page.
    * 
-   * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
+   * <p>It's okay for this class to be an independent one. 
+   *     This is just an saving of class files.</p>
    */
   public static class AdditionOfTextboxForm extends SplibGeneralForm {
 

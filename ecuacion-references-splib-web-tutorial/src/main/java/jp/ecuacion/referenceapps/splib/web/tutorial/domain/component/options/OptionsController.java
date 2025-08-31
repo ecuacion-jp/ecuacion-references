@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/options/introduction")
-public class OptionsController extends
-    SplibGeneral1FormController<IntroductionForm, SplibGeneral1FormDoNothingService<IntroductionForm>> {
+//@formatter:off
+public class OptionsController extends SplibGeneral1FormController<IntroductionForm, 
+    SplibGeneral1FormDoNothingService<IntroductionForm>> {
+  //@formatter:on
 
   public OptionsController() {
     super("introduction",
@@ -24,7 +26,8 @@ public class OptionsController extends
   /**
    * Provides a form for greeting page.
    * 
-   * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
+   * <p>It's okay for this class to be an independent one. 
+   *     This is just an saving of class files.</p>
    */
   public static class IntroductionForm extends SplibGeneralForm {
 

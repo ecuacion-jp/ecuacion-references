@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/htmlItem/itemPatternSimple")
-public class ItemPatternSimpleController extends
-    SplibGeneral1FormController<ItemPatternSimpleForm, SplibGeneral1FormDoNothingService<ItemPatternSimpleForm>> {
+//@formatter:off
+public class ItemPatternSimpleController extends SplibGeneral1FormController<ItemPatternSimpleForm, 
+    SplibGeneral1FormDoNothingService<ItemPatternSimpleForm>> {
+  //@formatter:on
 
   public ItemPatternSimpleController() {
     super("itemPatternSimple",
@@ -27,8 +29,8 @@ public class ItemPatternSimpleController extends
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated ItemPatternSimpleForm form,
-      BindingResult result) throws Exception {
+  public String greeting(Model model, @Validated ItemPatternSimpleForm form, BindingResult result)
+      throws Exception {
     prepare(model, form.validate(result));
 
     String firstName = form.getGreeting().getFirstName();
@@ -41,7 +43,8 @@ public class ItemPatternSimpleController extends
   /**
    * Provides a form for greeting page.
    * 
-   * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
+   * <p>It's okay for this class to be an independent one. 
+   *     This is just an saving of class files.</p>
    */
   public static class ItemPatternSimpleForm extends SplibGeneralForm {
 

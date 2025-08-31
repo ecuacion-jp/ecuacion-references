@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/firstGreeting")
-public class FirstGreetingController extends
-    SplibGeneral1FormController<FirstGreetingForm, SplibGeneral1FormDoNothingService<FirstGreetingForm>> {
+//@formatter:off
+public class FirstGreetingController extends SplibGeneral1FormController<FirstGreetingForm,
+    SplibGeneral1FormDoNothingService<FirstGreetingForm>> {
+  //@formatter:on
 
   public FirstGreetingController() {
     super("firstGreeting",
@@ -40,7 +42,8 @@ public class FirstGreetingController extends
   /**
    * Provides a form for greeting page.
    * 
-   * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
+   * <p>It's okay for this class to be an independent one. 
+   *     This is just an saving of class files.</p>
    */
   public static class FirstGreetingForm extends SplibGeneralForm {
 

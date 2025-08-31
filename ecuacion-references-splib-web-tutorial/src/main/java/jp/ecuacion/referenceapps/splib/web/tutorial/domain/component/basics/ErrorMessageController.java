@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/basics/errorMessage")
-public class ErrorMessageController extends
-    SplibGeneral1FormController<ErrorMessageForm, SplibGeneral1FormDoNothingService<ErrorMessageForm>> {
+//@formatter:off
+public class ErrorMessageController extends SplibGeneral1FormController<ErrorMessageForm,
+    SplibGeneral1FormDoNothingService<ErrorMessageForm>> {
+  //@formatter:on
 
   public ErrorMessageController() {
     super("errorMessage",
@@ -45,7 +47,8 @@ public class ErrorMessageController extends
   /**
    * Provides a form for greeting page.
    * 
-   * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
+   * <p>It's okay for this class to be an independent one. 
+   *     This is just an saving of class files.</p>
    */
   public static class ErrorMessageForm extends SplibGeneralForm {
 

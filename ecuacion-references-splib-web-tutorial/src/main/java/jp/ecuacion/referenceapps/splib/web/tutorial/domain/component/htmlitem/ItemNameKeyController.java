@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @Scope("prototype")
 @RequestMapping("/public/01-component/htmlItem/itemNameKey")
-public class ItemNameKeyController extends
-    SplibGeneral1FormController<ItemNameKeyForm, SplibGeneral1FormDoNothingService<ItemNameKeyForm>> {
+//@formatter:off
+public class ItemNameKeyController extends SplibGeneral1FormController<ItemNameKeyForm, 
+    SplibGeneral1FormDoNothingService<ItemNameKeyForm>> {
+  //@formatter:on
 
   public ItemNameKeyController() {
     super("itemNameKey",
@@ -28,8 +30,8 @@ public class ItemNameKeyController extends
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated ItemNameKeyForm form,
-      BindingResult result) throws Exception {
+  public String greeting(Model model, @Validated ItemNameKeyForm form, BindingResult result)
+      throws Exception {
     prepare(model, form.validate(result));
 
     return redirectToSamePageTakingOverModel(model, true);
@@ -38,7 +40,8 @@ public class ItemNameKeyController extends
   /**
    * Provides a form for greeting page.
    * 
-   * <p>It's okay for this class to be an independent one. This is just an saving of class files.</p>
+   * <p>It's okay for this class to be an independent one. 
+   *     This is just an saving of class files.</p>
    */
   public static class ItemNameKeyForm extends SplibGeneralForm {
 
@@ -59,8 +62,16 @@ public class ItemNameKeyController extends
     private String anotherFirstName1;
     private String anotherFirstName2;
 
+    public void setAnotherFirstName1(String anotherFirstName1) {
+      this.anotherFirstName1 = anotherFirstName1;
+    }
+
     public String getAnotherFirstName1() {
       return anotherFirstName1;
+    }
+
+    public void setAnotherFirstName2(String anotherFirstName2) {
+      this.anotherFirstName2 = anotherFirstName2;
     }
 
     public String getAnotherFirstName2() {
@@ -69,8 +80,7 @@ public class ItemNameKeyController extends
 
     @Override
     public HtmlItem[] getHtmlItems() {
-      return new HtmlItem[] {
-          new HtmlItem("anotherFirstName1").itemNameKey("greeting.firstName"),
+      return new HtmlItem[] {new HtmlItem("anotherFirstName1").itemNameKey("greeting.firstName"),
           new HtmlItem("anotherFirstName2").itemNameKey("explanatoryFirstName")};
     }
   }
