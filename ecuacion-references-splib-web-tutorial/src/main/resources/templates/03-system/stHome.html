@@ -3,13 +3,13 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-base-wide}"
 		data-show-page-login-state="public"
-		th:with="title='component.general-form-page.form.title'">
+		th:with="title=#{ST_HOME_TITLE}
+				, titleDesc=#{ST_HOME_TITLE_DESC}
+				">
 
 <body>
-
 	<div layout:fragment="base-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.form.paragraph-1', '')}"></div>
-	</div>
 	
+ 	</div>
 </body>
 </html>

@@ -132,6 +132,9 @@ buildNumber.properties
 
 ### ecuacion ###
 
+# ecuacion-tool-code-generator-batch
+products/
+
 # checkstyle
 .checkstyle
 

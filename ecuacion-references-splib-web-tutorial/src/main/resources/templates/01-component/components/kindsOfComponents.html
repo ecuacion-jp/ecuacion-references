@@ -14,13 +14,12 @@
 			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'component.kindsOfComponents.availablePattern', 'component.kindsOfComponents.kind', 'component.kindsOfComponents.examples', 'component.kindsOfComponents.description'} }, '')}"></tr>
 			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 				${ {
-				 		{{'base-page components', 'rowspan=7'}, 
+				 		{{'base-page components', 'rowspan=6'}, 
 				 			'message', 'title, paragraph, referenceBox, ...', 'component.kindsOfComponents.messageDisplaying'}, 
 			 			{'table', 'simpleTableHeader, ...', 'component.kindsOfComponents.table'}, 
 			 			{'shape', 'horizontalLine, ...', 'component.kindsOfComponents.shape'},
 			 			{'navbar', 'navbarMenuItem, navbarSubMenu, ...', 'component.kindsOfComponents.navbar'}, 
-				 		{'process result message', 'messages, ...', 'component.kindsOfComponents.processResultMessage'},
-				 		{'base-page button', 'button, ...', 'component.kindsOfComponents.basePageButton'}, 
+				 		{'base-page button', 'scriptButton, ...', 'component.kindsOfComponents.basePageButton'}, 
 				 		{'base-page script', 'sendZoneOffset, ...', 'component.kindsOfComponents.basePageScript'}, 
 				 		
 

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{ST_PAGES_PROVIDED_BY_LIBRARY_TITLE}
+				, titleDesc=#{ST_PAGES_PROVIDED_BY_LIBRARY_TITLE_DESC}
+				, formMethod='get'
+		">
+<body>
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_SUBTITLE}, #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_SUBTITLE_DESC}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-2}, #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_SUBTITLE}, #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_SUBTITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('systemError', #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_BUTTON}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-2" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('config', #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_BUTTON}, '')}"></div>
+	</div>
+</body>
+</html>

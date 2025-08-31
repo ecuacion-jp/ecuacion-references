@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='component.base-page.button.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='basePageButton.html'">
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.button.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-button}, 'scriptButton', 'component.base-page.button.scriptButton.paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-button" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('arguments', 'component.arguments.common.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'引数', '型', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ 'id', 'string', 'id 属性を指定' },
+					{ 'label', 'string', 'ボタンに表示するラベルを指定' },
+					{ 'options', 'string', 'options を指定' }
+			} }, '')}"></tr>
+		</table>	
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.button.basic.code', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: scriptButton('basic', 'script button', '')}"></div>
+		<script>
+			document.getElementById('basic').addEventListener('click', function() {alert('Hello, script button.');});
+		</script>
+
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('options', 'component.options.common.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'option', '型', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ 'backgroundColorClass', 'string', 'Specifies background-color with class name. ex. bg-secondary.'}
+			} }, '')}"></tr>
+		</table>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.button.options.code', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: scriptButton('options', 'go to google!', 'backgroundColorClass=bg-secondary')}"></div>
+		<script>
+			document.getElementById('options').addEventListener('click', function() {location.href='http://www.google.com';});
+		</script>
+	</div>
+	
+	<div th:fragment="box-navbarRoot" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.navbar.navbarRoot.argument.title', 'component.base-page.navbar.navbarRoot.argument.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.navbar.navbarRoot.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.navbar.navbarRoot.argument.paragraph-2', 'mt=5')}"></div>
+
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.navbar.navbarRoot.argument.paragraph-3', 'mt=5')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.navbar.navbarRoot.basic.code', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: navbarRoot(~{bootstrap/components :: nullFragment}, 
+				'app menu', '/images/bootstrap-logo.svg', '/public/show/page?id=home', ~{bootstrap/components :: nullFragment},'')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.base-page.navbar.navbarRoot.options.title', 'component.base-page.navbar.navbarRoot.options.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'option', '型', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ 'backgroundColorClass', 'string', 'Specifies background-color with class name. ex. bg-secondary.'}, 
+					{ 'isBackgroundGradient', 'boolean', 'Specifies whether isBackgroundGradient.' }
+			} }, '')}"></tr>
+		</table>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'引数', '型', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ 'contentsOfNavBarRoot', 'fragment', 'navigation bar の各メニューを構成する fragment'}, 
+					{ 'title', 'string', '設定した文字列が navigation bar の左に title として表示される。任意' },
+					{ 'imagePath', 'string', '設定したパスに存在する画像をnavigation bar の左に表示する。任意' },
+					{ 'defaultPagePath', 'string', 'title や image をクリックした際に遷移する先のURL path を指定。任意' },
+					{ 'contentsOfNavBarRootRight', 'fragment', 'navigation bar の右側に表示される各メニューを構成する fragment' },
+					{ 'options', 'string', 'options を指定' }
+			} }, '')}"></tr>
+		</table>
+	</div>
+
+</body>
+</html>

@@ -8,6 +8,7 @@
 <body>
 
 	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('component.options.allCommonOptions.paragraph', '')}"></div>
 		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('componentId', 'component.options.allCommonOptions.componentId.paragraph', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('source', 'component.options.allCommonOptions.componentId.source', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('result html', 'component.options.allCommonOptions.componentId.result', '')}"></div>

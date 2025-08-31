@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{ST_COMMON_FEATURES_TITLE}
+				, titleDesc=#{ST_COMMON_FEATURES_TITLE_DESC}
+				, formMethod='get'
+		">
+<body>
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{ST_COMMON_FEATURES_404_SUBTITLE}, #{ST_COMMON_FEATURES_404_SUBTITLE_DESC}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-2}, #{ST_COMMON_FEATURES_ACCESS_DENIED_SUBTITLE}, #{ST_COMMON_FEATURES_ACCESS_DENIED_SUBTITLE_DESC}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-none}, #{ST_COMMON_FEATURES_PRG_SUBTITLE}, #{ST_COMMON_FEATURES_PRG_SUBTITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-none" th:remove="tag">
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('404', #{ST_COMMON_FEATURES_404_BUTTON}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-2" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: commonPrimaryButton('accessDenied', #{ST_COMMON_FEATURES_ACCESS_DENIED_BUTTON}, '')}"></div>
+	</div>
+</body>
+</html>
