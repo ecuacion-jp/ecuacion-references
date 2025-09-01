@@ -13,11 +13,11 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('systemError', #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('systemError', #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('config', #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('config', #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_BUTTON}, '')}"></div>
 	</div>
 </body>
 </html>

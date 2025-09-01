@@ -17,7 +17,7 @@
 
 	<div th:fragment="box-1" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: inputText('firstName', '')}"></div>
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('greeting', #{sample.greetingBox.button}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('greeting', #{sample.greetingBox.button}, '')}"></div>
 		
 		<div class="mt-7"></div>
 		<div th:replace="~{bootstrap/components :: inputText('message', 'readOnly')}"></div>

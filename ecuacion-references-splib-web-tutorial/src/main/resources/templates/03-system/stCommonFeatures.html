@@ -17,11 +17,11 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('404', #{ST_COMMON_FEATURES_404_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('404', #{ST_COMMON_FEATURES_404_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('accessDenied', #{ST_COMMON_FEATURES_ACCESS_DENIED_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('accessDenied', #{ST_COMMON_FEATURES_ACCESS_DENIED_BUTTON}, '')}"></div>
 	</div>
 </body>
 </html>

@@ -31,7 +31,7 @@
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoMobile}, 'inputTakenPhotoMobile', 'component.general-form-page.input.inputTakenPhotoMobile.comment-1', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-inputTakenPhotoPc}, 'inputTakenPhotoPc', 'component.general-form-page.input.inputTakenPhotoPc.comment-1', '')}"></div>
 		<br>
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('button', 'submit form', '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('button', 'submit form', '')}"></div>
 	</div>
 
 	<div th:fragment="box-inputText" th:remove="tag">

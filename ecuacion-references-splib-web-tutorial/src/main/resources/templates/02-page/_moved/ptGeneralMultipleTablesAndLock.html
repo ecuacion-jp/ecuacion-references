@@ -14,13 +14,13 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		(book 繝�繝ｼ繝悶Ν)<br><br>
+		(book 郢晢ｿｽ郢晢ｽｼ郢晄じﾎ�)<br><br>
 		<div th:replace="~{bootstrap/components :: inputText('book.name', '')}"></div>
 		<div th:replace="~{bootstrap/components :: inputText('book.lstUpdTime', 'readonly')}"></div>
-		<br>(book_rental_status 繝�繝ｼ繝悶Ν)<br><br>
+		<br>(book_rental_status 郢晢ｿｽ郢晢ｽｼ郢晄じﾎ�)<br><br>
 		<div th:replace="~{bootstrap/components :: inputText('status', '')}"></div>
 		<div th:replace="~{bootstrap/components :: inputText('lstUpdTime', 'readonly')}"></div>
-		<div th:replace="~{bootstrap/components :: commonPrimaryButton('update', #{jp.ecuacion.splib.web.common.button.update}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: submitButton('update', #{jp.ecuacion.splib.web.common.button.update}, '')}"></div>
 	</div>
 </body>
 </html>

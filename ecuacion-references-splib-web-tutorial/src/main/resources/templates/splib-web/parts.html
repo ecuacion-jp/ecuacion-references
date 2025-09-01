@@ -77,22 +77,7 @@
 			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentGeneralPageComponents" th:remove="tag">
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/general-form-page/form}, 'form components', '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/general-form-page/input/page}, 'component.general-form-page.input.title', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/general-form-page/button/page}, '★general-form-page button components', '')}"></div>
-			</div></th:block>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('search-page components', ~{::navbarSubMenuComponentSearchPageComponents}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentSearchPageComponents" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchInput/page}, '★search input components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchPageButton/page}, '★search-page button components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchResultDisplayCondition/page}, '★search result display condition components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchPageScript/page}, '★search-page script components', '')}"></div>
-			</div></th:block>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('list-page components', ~{::navbarSubMenuComponentListPageComponents}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentListPageComponents" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listInput/page}, '★list input components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listPageButton/page}, '★list-page button components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listPageScript/page}, '★list-page script components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/general-form-page/button/page}, 'general-form-page button components', '')}"></div>
 			</div></th:block>
 			<li style="color: orange; font-weight: bold">notEmptyかrequiredか決める！！</li>
 
@@ -199,6 +184,28 @@
 					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptSle3Ptn/searchList/page}, #{NAVBAR_L3_PT_SLE_3}, '')}"></div>
 				</div>
 			</th:block>
+			
+			
+			
+			
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('search-page components', ~{::navbarSubMenuComponentSearchPageComponents}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentSearchPageComponents" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchInput/page}, '★search input components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchPageButton/page}, '★search-page button components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchResultDisplayCondition/page}, '★search result display condition components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/searchPageScript/page}, '★search-page script components', '')}"></div>
+			</div></th:block>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('list-page components', ~{::navbarSubMenuComponentListPageComponents}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentListPageComponents" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listInput/page}, '★list input components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listPageButton/page}, '★list-page button components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listPageScript/page}, '★list-page script components', '')}"></div>
+			</div></th:block>
+			
+			
+			
 		</div></th:block>
 		
 		<div th:replace="~{bootstrap/components :: navbarSubMenu('System Template', ~{::navbarSubMenuSystemTemplate}, '')}"></div>
