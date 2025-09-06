@@ -1,4 +1,4 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage;
 
 import jakarta.validation.Valid;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage.InputController.InputForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage.InputController.InputForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.bean.HtmlItemNumber;
@@ -45,7 +45,7 @@ public class InputController
     String tmpFilePathFile = SplibComponentUtil.saveUploadedFile(form.getInput().getInputFile());
     String tmpFilePathMobile =
         SplibComponentUtil.saveUploadedFile(form.getInput().getInputTakenPhotoMobile());
-    String tmpFilePathPc =
+    final String tmpFilePathPc =
         SplibComponentUtil.saveUploadedFile(form.getInput().getInputTakenPhotoPc());
 
     prepare(model, form.validate(result));

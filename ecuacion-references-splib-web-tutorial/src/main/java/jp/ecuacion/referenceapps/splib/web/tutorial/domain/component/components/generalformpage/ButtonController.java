@@ -1,7 +1,7 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage.ButtonController.ButtonForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage.ButtonController.ButtonForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;

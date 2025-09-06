@@ -40,7 +40,7 @@ public class StPagesProvidedByLibraryController
 
     return "redirect:/ecuacion/public/config/page";
   }
-  
+
   public static class StPagesProvidedByLibraryForm extends SplibGeneralForm {
 
     @Valid
@@ -51,12 +51,14 @@ public class StPagesProvidedByLibraryController
       return stPagesProvidedByLibrary;
     }
 
-    public void setStPagesProvidedByLibrary(StPagesProvidedByLibraryRecord stPagesProvidedByLibrary) {
+    public void setStPagesProvidedByLibrary(
+        StPagesProvidedByLibraryRecord stPagesProvidedByLibrary) {
       this.stPagesProvidedByLibrary = stPagesProvidedByLibrary;
     }
   }
-  
-  public static class StPagesProvidedByLibraryRecord extends SplibRecord implements RecordInterface {
+
+  public static class StPagesProvidedByLibraryRecord extends SplibRecord
+      implements RecordInterface {
 
     @Override
     public HtmlItem[] getHtmlItems() {
