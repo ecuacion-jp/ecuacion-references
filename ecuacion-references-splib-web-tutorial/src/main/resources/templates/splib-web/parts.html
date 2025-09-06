@@ -83,6 +83,21 @@
 
 		</div></th:block>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		<div th:replace="~{bootstrap/components :: navbarSubMenu('★Page Template', ~{::navbarSubMenuPageTemplate}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarSubMenuPageTemplate" th:remove="tag">
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/home}, 'page.home.title', '')}"></div>
@@ -203,20 +218,27 @@
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listPageButton/page}, '★list-page button components', '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/listPageScript/page}, '★list-page script components', '')}"></div>
 			</div></th:block>
-			
-			
-			
+
 		</div></th:block>
 		
+
+
+
+
+
+
+
+
+
+
 		<div th:replace="~{bootstrap/components :: navbarSubMenu('System Template', ~{::navbarSubMenuSystemTemplate}, '')}"></div>
-		<th:block th:if="false">
-			<div th:fragment="navbarSubMenuSystemTemplate" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=stHome}, #{ST_HOME_TITLE}, '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/stPagesProvidedByLibrary/page}, #{NAVBAR_L2_ST_PAGES_PROVIDED_BY_LIBRARY}, '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/stCommonFeatures/page}, #{NAVBAR_L2_ST_COMMON_FEATURES}, '')}"></div>
-			</div>
-		</th:block>
+
+		<th:block th:if="false"><div th:fragment="navbarSubMenuSystemTemplate" th:remove="tag">
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=03-system/stHome}, 'st.home.title', '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/03-system/stPagesProvidedByLibrary/page}, 'st.providedByLibrary.title', '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/03-system/stCommonFeatures/page}, 'st.commonFeatures.title', '')}"></div>
+		</div></th:block>
 	</div>
 	
 	<!--/* deeper layer of menu extracted */-->

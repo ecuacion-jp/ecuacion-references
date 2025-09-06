@@ -2,26 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-general-wide}"
-		th:with="title=#{ST_COMMON_FEATURES_TITLE}
-				, titleDesc=#{ST_COMMON_FEATURES_TITLE_DESC}
+		th:with="title='st.commonFeatures.title'
 				, formMethod='get'
 		">
 <body>
 	<div layout:fragment="form-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{ST_COMMON_FEATURES_404_SUBTITLE}, #{ST_COMMON_FEATURES_404_SUBTITLE_DESC}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-2}, #{ST_COMMON_FEATURES_ACCESS_DENIED_SUBTITLE}, #{ST_COMMON_FEATURES_ACCESS_DENIED_SUBTITLE_DESC}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-none}, #{ST_COMMON_FEATURES_PRG_SUBTITLE}, #{ST_COMMON_FEATURES_PRG_SUBTITLE_DESC}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('st.commonFeatures.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-404}, 'st.commonFeatures.404.title', 'st.commonFeatures.404.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-accessDenied}, 'st.commonFeatures.accessDenied.title', 'st.commonFeatures.accessDenied.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-prg}, 'st.commonFeatures.prg.title', 'st.commonFeatures.prg.paragraph', '')}"></div>
 	</div>
 
-	<div th:fragment="box-none" th:remove="tag">
+	<div th:fragment="box-404" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: submitButton('404', 'st.commonFeatures.404.button', '')}"></div>
 	</div>
 
-	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('404', #{ST_COMMON_FEATURES_404_BUTTON}, '')}"></div>
+	<div th:fragment="box-accessDenied" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: submitButton('accessDenied', 'st.commonFeatures.accessDenied.button', '')}"></div>
 	</div>
 
-	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('accessDenied', #{ST_COMMON_FEATURES_ACCESS_DENIED_BUTTON}, '')}"></div>
+	<div th:fragment="box-prg" th:remove="tag">
 	</div>
+
 </body>
 </html>

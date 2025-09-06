@@ -2,22 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-general-wide}"
-		th:with="title=#{ST_PAGES_PROVIDED_BY_LIBRARY_TITLE}
-				, titleDesc=#{ST_PAGES_PROVIDED_BY_LIBRARY_TITLE_DESC}
+		th:with="title='st.providedByLibrary.title'
 				, formMethod='get'
 		">
 <body>
 	<div layout:fragment="form-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: box(~{::box-1}, #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_SUBTITLE}, #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_SUBTITLE_DESC}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: box(~{::box-2}, #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_SUBTITLE}, #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_SUBTITLE_DESC}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('st.providedByLibrary.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-systemError}, 'st.providedByLibrary.systemError.title', 'st.providedByLibrary.systemError.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-config}, 'st.providedByLibrary.config.title', 'st.providedByLibrary.config.paragraph', '')}"></div>
 	</div>
 
-	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('systemError', #{ST_PAGES_PROVIDED_BY_LIBRARY_SYSTEM_ERROR_BUTTON}, '')}"></div>
+	<div th:fragment="box-systemError" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: submitButton('systemError', 'st.providedByLibrary.systemError.button', '')}"></div>
 	</div>
 
-	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('config', #{ST_PAGES_PROVIDED_BY_LIBRARY_CONFIG_BUTTON}, '')}"></div>
+	<div th:fragment="box-config" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: submitButton('config', 'st.providedByLibrary.config.button', '')}"></div>
 	</div>
 </body>
 </html>
