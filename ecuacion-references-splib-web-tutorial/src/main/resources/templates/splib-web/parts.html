@@ -13,7 +13,7 @@
 		<div th:replace="~{bootstrap/components :: navbarSubMenu('navBar.component', ~{::navbarSubMenuComponentTemplate}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarSubMenuComponentTemplate" th:remove="tag">
 			
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/firstGreeting/page}, #{component.firstGreeting.title}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/introduction/page}, #{component.introduction.title}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(#{navBar.component.basics}, ~{::navbarSubMenuComponentBasics}, '')}"></div>
 			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentBasics" th:remove="tag">
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/basics/additionOfTextbox/page}, #{component.additionOfTextbox.title}, '')}"></div>
@@ -27,16 +27,13 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel('HtmlItem', '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('navBar.group.basics', ~{::navbarSubMenuComponentHtmlItem}, '')}"></div>
 			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentHtmlItem" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(#{navBar.group.explanation}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemAndHtmlItem}, 'component.itemAndHtmlItem.title', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/itemKindIdAndPropertyPath}, 'component.itemKindIdAndPropertyPath.title', '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(#{navBar.group.basics}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/htmlItem/notEmpty/page}, 'component.notEmpty.title', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/htmlItem/itemNameKey/page}, 'component.itemNameKey.title', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(#{navBar.group.advanced}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/conditionalNotEmpty}, 'component.conditionalNotEmpty.title', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/htmlItem/propertyPath}, 'component.propertyPath.title', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/htmlItem/itemNameKey/page}, 'component.itemNameKey.title', '')}"></div>
 			</div></th:block>
 			 
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('navBar.component.htmlItemWithDataType', ~{::navbarSubMenuHtmlItemWithDataType}, '')}"></div>
@@ -59,9 +56,13 @@
 			
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel('Components', '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel('components', '')}"></div>
 
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/introduction}, 'component.introduction.title', '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('navBar.group.basics', ~{:: navbarSubMenuComponentComponentsBasics}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentComponentsBasics" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/introduction}, 'component.components.introduction.title', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/creationRules}, 'component.components.creationRules.title', '')}"></div>
+			</div></th:block>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/kindsOfComponents}, 'component.kindsOfComponents.title', '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('base-page components', ~{::navbarSubMenuComponentBasePageComponents}, '')}"></div>
 			<th:block th:if="false"><div th:fragment="navbarSubMenuComponentBasePageComponents" th:remove="tag">
@@ -69,8 +70,8 @@
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/table}, 'table components', '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/shape}, 'shape components', '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/navbar}, 'navbar components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/basePageButton}, 'base-page button components', '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/basePageScript}, 'base-page script components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/button}, 'base-page button components', '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=01-component/components/base-page/script}, 'base-page script components', '')}"></div>
 			</div></th:block>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('general-form-page components', ~{::navbarSubMenuComponentGeneralPageComponents}, '')}"></div>
@@ -79,7 +80,6 @@
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/general-form-page/input/page}, 'component.general-form-page.input.title', '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/01-component/components/general-form-page/button/page}, 'general-form-page button components', '')}"></div>
 			</div></th:block>
-			<li style="color: orange; font-weight: bold">notEmptyかrequiredか決める！！</li>
 
 		</div></th:block>
 

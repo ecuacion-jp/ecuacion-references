@@ -1,7 +1,7 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.FirstGreetingController.FirstGreetingForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.IntroductionController.IntroductionForm;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/01-component/firstGreeting")
+@RequestMapping("/public/01-component/introduction")
 //@formatter:off
-public class FirstGreetingController extends SplibGeneral1FormController<FirstGreetingForm,
-    SplibGeneral1FormDoNothingService<FirstGreetingForm>> {
+public class IntroductionController extends SplibGeneral1FormController<IntroductionForm,
+    SplibGeneral1FormDoNothingService<IntroductionForm>> {
   //@formatter:on
 
-  public FirstGreetingController() {
-    super("firstGreeting",
+  public IntroductionController() {
+    super("introduction",
         newContext().functionKinds("01-component").mainRootRecordName("greeting"));
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated FirstGreetingForm form, BindingResult result)
+  public String greeting(Model model, @Validated IntroductionForm form, BindingResult result)
       throws Exception {
     prepare(model, form.validate(result));
 
@@ -45,7 +45,7 @@ public class FirstGreetingController extends SplibGeneral1FormController<FirstGr
    * <p>It's okay for this class to be an independent one. 
    *     This is just an saving of class files.</p>
    */
-  public static class FirstGreetingForm extends SplibGeneralForm {
+  public static class IntroductionForm extends SplibGeneralForm {
 
     @Valid
     private GreetingWithFirstNameRecord greeting = new GreetingWithFirstNameRecord();

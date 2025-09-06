@@ -1,6 +1,7 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics.ErrorMessageController.ErrorMessageForm;
@@ -66,6 +67,7 @@ public class ErrorMessageController extends SplibGeneral1FormController<ErrorMes
 
   public static class GreetingRecord extends SplibRecord implements RecordInterface {
 
+    @NotEmpty
     @Pattern(regexp = ".*[X-Z].*")
     @Size(min = 10, max = 12)
     private String firstName;

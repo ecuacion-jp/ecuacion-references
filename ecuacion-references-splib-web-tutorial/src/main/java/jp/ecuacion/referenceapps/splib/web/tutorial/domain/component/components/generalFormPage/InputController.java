@@ -1,4 +1,4 @@
-package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components;
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage;
 
 import jakarta.validation.Valid;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.InputController.InputForm;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage.InputController.InputForm;
 import jp.ecuacion.splib.core.form.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.bean.HtmlItemNumber;
@@ -50,7 +50,7 @@ public class InputController
 
     prepare(model, form.validate(result));
 
-    if (!StringUtils.isEmpty(tmpFilePathPc) && new File(tmpFilePathFile).exists()) {
+    if (!StringUtils.isEmpty(tmpFilePathFile) && new File(tmpFilePathFile).exists()) {
       Files.delete(Path.of(tmpFilePathFile));
     }
 

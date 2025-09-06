@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='component.base-page.script.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='basePageButton.html'">
+		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.script.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-sendZoneOffset}, 'sendZoneOffset', 'component.base-page.script.sendZoneOffset.paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-sendZoneOffset" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.script.sendZoneOffset.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: sendZoneOffset('')}"></div>
+
+	</div>
+
+</body>
+</html>

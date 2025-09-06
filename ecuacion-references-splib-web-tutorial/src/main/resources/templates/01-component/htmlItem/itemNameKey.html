@@ -8,9 +8,11 @@
 
 	<div layout:fragment="top-space" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: paragraph('component.itemNameKey.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.itemNameKey.title-2', 'component.itemNameKey.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.itemNameKey.title-3', 'component.itemNameKey.paragraph-3', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('ItemNameKeyController.java', 'component.itemNameKey.definitionOfHtmlItem', '')}"></div>
-		<div th:replace="~{bootstrap/components :: referenceBox('item_names_ja.properties', 'component.itemNameKey.itemNames', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.itemNameKey.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('item_names_ja.properties', 'component.itemNameKey.itemNames.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemNameKey.paragraph-4', '')}"></div>
 	</div>
 	
 	<div layout:fragment="form-content" th:remove="tag">

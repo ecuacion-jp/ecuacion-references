@@ -10,14 +10,10 @@
 	</div>
 	
 	<div layout:fragment="form-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: subtitle('component.options.wayOfAddingOptions.subtitle-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.options.wayOfAddingOptions.paragraph-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: subtitle('component.options.wayOfAddingOptions.subtitle-2', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.options.wayOfAddingOptions.paragraph-2', '')}"></div>
-		<div th:replace="~{bootstrap/components :: subtitle('component.options.wayOfAddingOptions.subtitle-3', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.options.wayOfAddingOptions.paragraph-3', '')}"></div>
-		<div th:replace="~{bootstrap/components :: subtitle('component.options.wayOfAddingOptions.subtitle-4', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraph('component.options.wayOfAddingOptions.paragraph-4', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-1', 'component.options.wayOfAddingOptions.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-2', 'component.options.wayOfAddingOptions.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-3', 'component.options.wayOfAddingOptions.paragraph-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-4', 'component.options.wayOfAddingOptions.paragraph-4', '')}"></div>
 	</div>
 
 	<div th:fragment="box-readOnly" th:remove="tag">

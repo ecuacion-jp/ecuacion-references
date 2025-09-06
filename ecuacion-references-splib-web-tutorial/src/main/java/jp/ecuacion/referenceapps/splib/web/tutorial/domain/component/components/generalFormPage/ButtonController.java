@@ -1,0 +1,57 @@
+package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage;
+
+import jakarta.validation.Valid;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalFormPage.ButtonController.ButtonForm;
+import jp.ecuacion.splib.core.form.record.SplibRecord;
+import jp.ecuacion.splib.web.bean.HtmlItem;
+import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
+import jp.ecuacion.splib.web.form.SplibGeneralForm;
+import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@Scope("prototype")
+@RequestMapping("/public/01-component/components/general-form-page/button")
+public class ButtonController
+    extends SplibGeneral1FormController<ButtonForm, SplibGeneral1FormDoNothingService<ButtonForm>> {
+
+  public ButtonController() {
+    super("button", newContext().functionKinds("01-component", "components", "general-form-page"));
+  }
+
+  @PostMapping(value = "action", params = "button")
+  public String execute(Model model, @Validated ButtonForm form, BindingResult result)
+      throws Exception {
+
+    return redirectToSamePageTakingOverModel(model, true);
+  }
+
+  public static class ButtonForm extends SplibGeneralForm {
+
+    @Valid
+    private ButtonRecord button = new ButtonRecord();
+
+    public ButtonRecord getButton() {
+      return button;
+    }
+
+    public void setButton(ButtonRecord input) {
+      this.button = input;
+    }
+  }
+
+  public static class ButtonRecord extends SplibRecord implements RecordInterface {
+
+    @Override
+    public HtmlItem[] getHtmlItems() {
+      return new HtmlItem[] {};
+    }
+  }
+}

@@ -3,21 +3,15 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-base-wide}"
 		data-show-page-login-state="public"
-		th:with="title='component.introduction.title'">
+		th:with="title='component.components.introduction.title'">
 
 <body>
 
 	<div layout:fragment="base-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph('component.introduction.paragraph-1', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.introduction.messageAndPath.title', 'component.introduction.messageAndPath.paragraph', '')}"></div>
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.introduction.externalParameters.title', 'component.introduction.externalParameters.paragraph', '')}"></div>
-		<table class="table table-striped text-nowrap table-bordered">
-			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'parameter', '型', '説明'} }, '')}"></tr>
-			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
-					{ {'-', 'textAlignment=center'}, {'-', 'textAlignment=center'}, '各種 component の背景色。parameter ではないが、bootstrap 設定により指定された色をそのまま使用'}, 
-					{ 'bsBgGradient', 'boolean', '背景色の gradient の有無' }
-			} }, '')}"></tr>
-		</table>
+		<div th:replace="~{bootstrap/components :: paragraph('component.components.introduction.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.components.introduction.inputText.title', 'component.components.introduction.inputText.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'additionOfTextbox.definitionOfFirstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.components.introduction.inputText.paragraph-2', '')}"></div>
 	</div>
 
 </body>
