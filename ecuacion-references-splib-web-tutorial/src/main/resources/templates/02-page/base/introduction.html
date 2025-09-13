@@ -1,49 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		layout:decorate="~{02-page/base/page-base-wide-with-params}"
+		layout:decorate="~{bootstrap/page-base-wide}"
 		data-show-page-login-state="public"
 		th:with="title='page.base.introduction.title'">
 
 <body>
-	<div layout:fragment="base-content" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-1', '')}" />
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.common.contentsInsertPoint.subtitle', 'page.common.contentsInsertPoint.paragraph', '')}" /> 
-		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-2', '')}"></div>
 
-		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-contents-insert-points}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="free-space-contents-insert-points" th:remove="tag">
-			<div class="table-responsive">
-				<table class="table table-striped text-nowrap table-bordered">
-					<tr th:replace="~{bootstrap/components :: simpleTableHeader(${insertPointHeaders}, '')}"></tr>
-					<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
-${ {
- 		{
- 			{'center', '-', '4', '1'}, {'center', '-', '4', '1'}, 
- 			{'start', 'title-space'}, {'start', 'page.common.contentsInsertPoint.module.apps'}, {'start', 'page.base.introduction.contentsInsertPoint.titleSpace.desc'}
-		}, {
-			{'start', 'base-content'}, {'start', 'page.common.contentsInsertPoint.module.childOrApps'}, {'start', 'page.base.introduction.contentsInsertPoint.baseContent.desc'}
-		}, {
-			{'start', 'nav-bar-public<br>nav-bar-account<br>nav-bar-admin'}, {'start', 'page.common.contentsInsertPoint.module.appsPartsHtml'}, {'start', 'page.base.introduction.contentsInsertPoint.navBar.desc'}
-		}, {
-			{'start', 'footer-string'}, {'start', 'page.common.contentsInsertPoint.module.appsPartsHtml'}, {'start', 'page.base.introduction.contentsInsertPoint.footerString.desc'}
-		}
-	} }, '')}">
-		 			</tr>
-				</table>
-			</div>
-		</div></th:block>
-		
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parametersは以下の通り。
+	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='basePageButton.html'">
+		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('introduction-sample.html', 'page.base.introduction.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-2', 'mt=5')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('<html> Tag', 'page.base.introduction.htmlTag.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('base-content fragment', 'page.base.introduction.baseContentFragment.paragraph', '')}"></div>
+	</div>
 
-※画面個別・サーバロジックに寄らないparameterは「htmlファイルにて設定」、その逆は「SplibModelAttributesにて設定」にしている。', '')}"></div>
-		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-parameters}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="free-space-parameters" th:remove="tag">
-			<div class="table-responsive">
-				<table class="table table-striped text-nowrap table-bordered">
-					<tr th:replace="~{bootstrap/components :: simpleTableHeader(${parameterHeaders}, '')}"></tr>
-					<tr th:replace="~{bootstrap/components :: simpleTableBodyFromLines(${baseParameter},staticTableBodyLines/table>
-			</div>
-		</staticTableBodyWithLinesiv>
 </body>
 </html>

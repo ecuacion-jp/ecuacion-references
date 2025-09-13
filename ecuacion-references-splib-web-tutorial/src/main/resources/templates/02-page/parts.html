@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8" /></head>
+<body>
+
+	<!--/* common */-->
+	<div th:fragment="ab" th:remove="tag">
+		<th:block th:with="
+				insertPointHeaders=${ {'page.common.contentsInsertPoint.header.parent', 'page.common.contentsInsertPoint.header.parentInsertPoint', 
+						{'contents<br>insert point', 'utext'}, 'page.common.contentsInsertPoint.header.usingModule', 'page.common.contentsInsertPoint.header.desc'} }
+				">
+		<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${insertPointHeaders}, '')}"></tr>
+	</div>
+
+</body></html>

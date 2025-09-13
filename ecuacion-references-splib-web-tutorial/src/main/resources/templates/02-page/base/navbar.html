@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='page.base.navbar.title', titleDesc='page.base.navbar.titleDesc'
+		">
+<body>
+	<div layout:fragment="base-content">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.navbar.loginState.title', 'page.base.navbar.loginState.paragraph', '')}"></div>
+		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.navbar.appProperties.title', 'page.base.navbar.appProperties.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'設定項目', 'loginState', 'key', '設定値例', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+						{{'navbar の title', 'rowspan=3'},
+				 			'共通', 'jp.ecuacion.splib.web.navbar.title', '（任意文字列）', 'messages.properties への設定も可能。'},
+			 			{'account', 'jp.ecuacion.splib.web.navbar.title-account', '（任意文字列）', 'messages.properties への設定も可能。'},
+			 			{'admin', 'jp.ecuacion.splib.web.navbar.title-admin', '（任意文字列）', 'messages.properties への設定も可能。'},
+						{{'navbar の image', 'rowspan=3'},
+							 '共通', 'jp.ecuacion.splib.web.navbar.image-path', '/images/bootstrap-logo.svg', ''},
+			 			{'account', 'jp.ecuacion.splib.web.navbar.image-path-account', '/images/bootstrap-logo.svg', ''},
+			 			{'admin', 'jp.ecuacion.splib.web.navbar.image-path-admin', '/images/bootstrap-logo.svg', ''},
+						{{'navbar の title・image を<br>押した際の遷移先', 'rowspan=3,utext'},
+							 '共通', 'jp.ecuacion.splib.web.navbar.default-page-path', '/public/show/page?id=home', ''},
+			 			{'account', 'jp.ecuacion.splib.web.navbar.default-page-path-account', '/public/show/page?id=home', ''},
+			 			{'admin', 'jp.ecuacion.splib.web.navbar.default-page-path-admin', '/public/show/page?id=home', ''},
+			 			{'navbar の背景色（class）', '共通', 'jp.ecuacion.splib.web.navbar.background-color-class', 'bg-secondary', {'class で設定。loginState 別設定はなし。<br>色を分けるのは基本環境別と思われるので。', 'utext'}}
+				} }, '')}"></tr>
+		</table>
+		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.navbar.fragment.title', 'page.base.navbar.fragment.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'分類', 'loginState', 'fragment', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+						{{'navbar 左側', 'rowspan=3'},
+				 			'public', 'nav-bar-public', ''},
+			 			{'account', 'nav-bar-account', ''},
+			 			{'admin', 'nav-bar-admin', ''},
+						{{'navbar 右側', 'rowspan=3'},
+				 			'public', 'nav-bar-public-right', ''},
+			 			{'account', 'nav-bar-account-right', ''},
+			 			{'admin', 'nav-bar-admin-right', ''},
+			 			{'footer', '（共通）', 'footer-string', {'以下のような文言を入れる。<br><pre style=''margin-bottom: 0px''>© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.</pre>', 'utext'}}	
+			} }, '')}"></tr>
+		</table>
+	</div>
+</body>
+</html>

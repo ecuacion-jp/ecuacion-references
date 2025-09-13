@@ -7,7 +7,6 @@
 
 	<!-- appenders -->
 	<property name="log-dir" value="/usr/local/tomcat/logs" />
-	<property name="loglevel-spring" value="INFO" />
 	<include resource="logback-spring-appenders.xml" />
 
 	<!-- loggers -->

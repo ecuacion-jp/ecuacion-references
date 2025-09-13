@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='page.base.details.title'
+				, titleDesc='page.base.details.titleDesc'
+		">
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.details.ingredient.title', 'page.base.details.ingredient.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.details.autoset.title', 'page.base.details.autoset.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'項目', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+			 			{'bootstrap CSS ファイル読み込み', '<classpath>/static/bootstrap.min.css を自動で読み込み'},
+			 			{'app CSS ファイル読み込み', '<classpath>/static/app.css を自動で読み込み'},
+			 			{'app Javascript ファイル読み込み', '<classpath>/js/app.js を自動で読み込み'},
+			 			{'', ''}
+				} }, '')}"></tr>
+		</table>
+		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.details.appProperties.title', 'page.base.details.appProperties.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'設定項目', 'key', '設定値', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+			 			{'page の背景色', 'jp.ecuacion.splib.web.body.background-color', '#abcdef など', 'style の background-color の値として設定される。'},
+			 			{'page の背景画像', 'jp.ecuacion.splib.web.body.background-color', 'linear-gradient(#abcdef, white) など', 'style の background-image の値として設定される。'},
+			 			{{'button などの<br>背景色のグラデーション', 'utext'}, 'jp.ecuacion.splib.web.bootstrap.is-background-gradient', 'true / false', {'navbar や button・table header などの<br>グラデーションの有無を指定。', 'utext'}}
+				} }, '')}"></tr>
+		</table>
+		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.details.appProperties.title', 'page.base.details.appProperties.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'設定項目', 'key', '設定値', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+			 			{'page の背景色', 'jp.ecuacion.splib.web.body.background-color', '#abcdef など', 'style の background-color の値として設定される。'},
+			 			{'page の背景画像', 'jp.ecuacion.splib.web.body.background-image', 'linear-gradient(#abcdef, white) など', 'style の background-image の値として設定される。'},
+			 			{{'button などの<br>背景色のグラデーション', 'utext'}, 'jp.ecuacion.splib.web.bootstrap.is-background-gradient', 'true / false', {'navbar や button・table header などの<br>グラデーションの有無を指定。', 'utext'}}
+				} }, '')}"></tr>
+		</table>
+
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.details.thWith.title', 'page.base.details.thWith.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'設定項目', 'key', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(	${ {
+						{'title', 'title', 'page title を設定。空欄も可'},
+						{'title description', 'titleDesc', 'title 直下に記載する説明を指定。空欄も可'},
+						{'head タグ内の title', 'headTitle', 'head タグ内の title タグを指定。空欄も可。未指定の場合、default でtitle の値が使用される'}
+				} }, '')}"></tr>
+		</table>
+		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.common.whatIsContentsInsertPoint.subtitle', 'page.common.whatIsContentsInsertPoint.paragraph', '')}" /> 
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.common.contentsInsertPoint.subtitle', 'page.common.contentsInsertPoint.paragraph', '')}" /> 
+
+		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-contents-insert-points}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="free-space-contents-insert-points" th:remove="tag">
+			<div class="table-responsive">
+				<table class="table table-striped text-nowrap table-bordered">
+					<tr th:replace="~{02-page/parts :: ab}"></tr>
+					<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+	${ {
+ 			{ {'-', 'rowspan=4,textAlignment=center'}, {'-', 'rowspan=4,textAlignment=center'}, 
+ 				'title-space', 'page.common.contentsInsertPoint.module.apps', 'page.base.introduction.contentsInsertPoint.titleSpace.desc'}, 
+ 			{'base-content', 'page.common.contentsInsertPoint.module.childOrApps', 'page.base.introduction.contentsInsertPoint.baseContent.desc'}
+	} }, '')}">
+		 			</tr>
+				</table>
+			</div>
+		</div></th:block>
+	</div>
+
+</body>
+</html>

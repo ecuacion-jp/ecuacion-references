@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = "jp.ecuacion.splib.web.config")
-// @PropertySources({@PropertySource(value = "classpath:application-profile.properties")})
 public class AppConfig {
 
 }

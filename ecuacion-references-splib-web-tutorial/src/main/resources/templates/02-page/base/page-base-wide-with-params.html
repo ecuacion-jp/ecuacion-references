@@ -3,7 +3,7 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-base-wide}"
 		th:with="
-			insertPointHeaders=${ {'page.common.contentsInsertPoint.header.parent', 'page.common.contentsInsertPoint.header.parentInsertPoint', 'insert point', 'page.common.contentsInsertPoint.header.usingModule', 'page.common.contentsInsertPoint.header.desc'} }
+
 			, parameterHeaders=${ {'定義元page', '設定箇所分類', '設定箇所', 'parameter名', '必須／任意', '説明'} }
 			, baseInsertPoint=${
 				{
@@ -19,47 +19,19 @@
 					}
 				} 
 			}
-			, baseParameter=${
-				{
-					{
-						{'center', 'base', '9', '1'}, {'center', '個別app', '7', '1'}, {'center', 'htmlファイルにて設定<br>(htmlタグの&quot;th:with&quot;に記載)', '4', '1'}, {'start', 'headTitle'}, 
-						{'center', '任意'}, {'start', '&lt;head&gt;タグ内のtitleタグに記載される文言を指定。<br>指定がない場合はtitleと同じ文字列となる。'}
-					}
-					, {
-						{'start', 'title'}, {'center', '任意'}, {'start', '画面のtitle文字列で使用。<br>	未指定の場合は非表示となる。'}
-					}
-					, {
-						{'start', 'titleDesc'}, {'center', '任意'}, {'start', 'titleの直下に配置され、画面の説明などを記載。'}
-					}
-					, {
-						{'start', 'noMessages'}, {'center', '任意'}, 
-						{'start', 'messageを非表示にする。<br>システムエラー画面に「正常に終了しました。」などのメッセージが<br>出るのは不適切であることから一部画面で使用。'}
-					}
-					, {
-						{'center', 'SplibModelAttributes<br>にて設定', '3', '1'}, 
-						{'start', 'bsBgGradient'}, {'center', '任意'}, {'start', 'navBar、ボタンなどの色がついたobjectのグラデーションの有無を指定。'}
-					}
-					, {
-						{'start', 'navbarBgColor<br>navbarBgColorPublic<br>navbarBgColorAccount<br>navbarBgColorAdmin'}, 
-						{'center', '任意'}, {'start', 'navBarの色を指定。全て未設定であればbg-color-navbarが設定される。<br>
-							loginStateに依存せず色を変更したい場合はnavbarBgColorを、<br>loginState毎に異なる色にしたい場合はnavbarBgColorXxxを使用。<br>
-							adminだけはnavbarの色を変更したい、というloginState別の色分けと、<br>環境（本番、staging、...）毎に色を分ける、という使い方を想定。'}
-					}
-					, {
-						{'start', 'bsDarkMode'}, {'center', '任意'}, {'start', 'darkModeか否かを指定。<br>現時点では値を渡してはいるものの、使用はしていない。'}
-					}
-					, {
-						{'center', 'web template<br>（自動設定）', '2', '1'}, {'center', '子のpage templateにて設定'}, 
-						{'start', 'width'}, {'center', '必須'}, {'start', 'wideまたはnarrowを指定。それ以外はエラーとなる。<br>
-							page-xxx-wide[narrow].html 等の使用が推奨であり、<br>その場合各appからのparameter渡しは不要。<br>
-							page-xxx.htmlを使用し各appから渡すこともできるがサポート対象外。'}
-					}
-					, {
-						{'center', 'controllerにて設定'}, {'start', 'loginState'}, {'center', '必須'}, 
-						{'start', 'public, account, admin などの値を取る。<br>値の詳細はjava側のLoginStateEnumを参照。'}
-					}
-				}
-			}
+			, baseParameter=${ {
+					{{'base', 'rowspan=9'}, {'個別app', 'rowspan=7'}, {'htmlファイルにて設定<br>(htmlタグの&quot;th:with&quot;に記載)', 'utext,rowspan=4'}, 'headTitle', 
+						'任意', '&lt;head&gt;タグ内のtitleタグに記載される文言を指定。<br>指定がない場合はtitleと同じ文字列となる。'},
+					{'title', '任意','画面のtitle文字列で使用。<br>	未指定の場合は非表示となる。'},
+					{'titleDesc', '任意','titleの直下に配置され、画面の説明などを記載。'},
+					{'noMessages','任意', 'messageを非表示にする。<br>システムエラー画面に「正常に終了しました。」などのメッセージが<br>出るのは不適切であることから一部画面で使用。'},
+					{{'SplibModelAttributes<br>にて設定', 'rowspan=3'},
+						'bsBgGradient','任意','navBar、ボタンなどの色がついたobjectのグラデーションの有無を指定。'},
+					{{'navbarBgColor<br>navbarBgColorPublic<br>navbarBgColorAccount<br>navbarBgColorAdmin', 'utext'}, '任意', {'navBarの色を指定。全て未設定であればbg-color-navbarが設定される。<br>loginStateに依存せず色を変更したい場合はnavbarBgColorを、<br>loginState毎に異なる色にしたい場合はnavbarBgColorXxxを使用。<br>adminだけはnavbarの色を変更したい、というloginState別の色分けと、<br>環境（本番、staging、...）毎に色を分ける、という使い方を想定。', 'utext'}},
+					{'bsDarkMode', '任意', 'darkModeか否かを指定。<br>現時点では値を渡してはいるものの、使用はしていない。'}	,
+					{{'web template<br>（自動設定）', 'rowspan=2'}, '子のpage templateにて設定', 'width', '必須', {'wideまたはnarrowを指定。それ以外はエラーとなる。<br>page-xxx-wide[narrow].html 等の使用が推奨であり、<br>その場合各appからのparameter渡しは不要。<br>page-xxx.htmlを使用し各appから渡すこともできるがサポート対象外。', 'utext'}},
+					{'controllerにて設定', 'loginState', '必須', 'public, account, admin などの値を取る。<br>値の詳細はjava側のLoginStateEnumを参照。'}
+			} }
 			, generalParameterRelatedToNumberOfForms=${
 				{
 					{

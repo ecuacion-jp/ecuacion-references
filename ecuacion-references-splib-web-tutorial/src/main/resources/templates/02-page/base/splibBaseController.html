@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='page.base.splibBaseController.title'
+				, titleDesc='page.base.splibBaseController.paragraph'
+		">
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.splibBaseController.initBinder.title', 'page.base.splibBaseController.initBinder.paragraph', '')}"></div>
+	</div>
+
+</body>
+</html>
