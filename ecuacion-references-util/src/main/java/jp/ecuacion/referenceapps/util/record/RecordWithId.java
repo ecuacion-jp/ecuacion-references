@@ -15,7 +15,7 @@
  */
 package jp.ecuacion.referenceapps.util.record;
 
-import jp.ecuacion.splib.core.form.record.SplibRecord;
+import jp.ecuacion.splib.core.record.SplibRecord;
 
 public class RecordWithId extends SplibRecord {
   

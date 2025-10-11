@@ -24,7 +24,7 @@ import java.util.Map;
 import jp.ecuacion.lib.core.exception.checked.BizLogicAppException;
 import jp.ecuacion.lib.core.exception.unchecked.EclibRuntimeException;
 import jp.ecuacion.referenceapps.util.record.RecordWithId;
-import jp.ecuacion.splib.core.form.record.SplibRecord;
+import jp.ecuacion.splib.core.record.SplibRecord;
 
 /**
  * Provides a data store access. The store keeps lists of objects 

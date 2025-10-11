@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage.InputController.InputForm;
-import jp.ecuacion.splib.core.form.record.SplibRecord;
+import jp.ecuacion.splib.core.record.SplibRecord;
 import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.bean.HtmlItemNumber;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
