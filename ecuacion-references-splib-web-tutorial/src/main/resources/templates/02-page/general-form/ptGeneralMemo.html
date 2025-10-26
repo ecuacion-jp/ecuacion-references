@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='メモ！'">
+		
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+		<ol>
+			<li>initBinder（SplibBaseController）によるsubmitデータ変換処理。<br>
+				""はnull（数値系項目などで変換エラーとならないため）、java側がbooleanの場合はnullはfalseに変換。
+				後者はcheckboxがoffの場合、offがsubmitされるのではなく何もsubmitされない（java側の値はnullのまま）が、それだとやりにくいので変換している。<br>
+				一方、その場合は検索条件でそのboolean項目に対する「true / false / （指定なし）」の項目を作成、選択する場合に、
+				「（指定なし）」を指定する場合通常""がsubmitされる。この場合は、falseにするのではなく、検索条件として看做さないためにnull扱いとしたい。
+				そのため、submitがない（java側の値がnull）場合はfalseに変換、""の場合はnullに変換、という処理となっている。
+			</li>
+			<li></li>
+			<li></li>
+		</ol>
+	</div>
+</body>
+</html>

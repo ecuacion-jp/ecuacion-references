@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='Introduction', 
+				titleDesc='recordAndItem.introduction.titleDesc'">
+		
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+	<!--/* 
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('recordAndItem-memo', 'recordAndItem.paragraph', '')}"></div>
+		 */-->
+	</div>
+</body>
+</html>
