@@ -3,11 +3,11 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.rec
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
-import jp.ecuacion.splib.web.bean.HtmlItemString;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemString;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
-public class PtGeneralFeaturesRecord extends SplibRecord implements RecordInterface {
+public class PtGeneralFeaturesRecord extends SplibRecord implements HtmlItemContainer {
   private String version;
 
   @DecimalMin(value = "100")

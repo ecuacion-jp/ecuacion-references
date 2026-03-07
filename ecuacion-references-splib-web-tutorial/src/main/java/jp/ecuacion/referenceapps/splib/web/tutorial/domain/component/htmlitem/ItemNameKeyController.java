@@ -3,10 +3,10 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.htmlitem;
 import jakarta.validation.Valid;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.htmlitem.ItemNameKeyController.ItemNameKeyForm;
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -57,7 +57,7 @@ public class ItemNameKeyController extends SplibGeneral1FormController<ItemNameK
     }
   }
 
-  public static class MyRecord extends SplibRecord implements RecordInterface {
+  public static class MyRecord extends SplibRecord implements HtmlItemContainer {
 
     private String anotherFirstName1;
     private String anotherFirstName2;

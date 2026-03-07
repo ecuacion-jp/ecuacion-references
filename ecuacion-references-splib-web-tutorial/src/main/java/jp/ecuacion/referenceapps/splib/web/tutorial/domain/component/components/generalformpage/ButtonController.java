@@ -3,10 +3,10 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components
 import jakarta.validation.Valid;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage.ButtonController.ButtonForm;
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -47,7 +47,7 @@ public class ButtonController
     }
   }
 
-  public static class ButtonRecord extends SplibRecord implements RecordInterface {
+  public static class ButtonRecord extends SplibRecord implements HtmlItemContainer {
 
     @Override
     public HtmlItem[] getHtmlItems() {

@@ -1,10 +1,10 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.record;
 
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
-public class ServerInfoRecord extends SplibRecord implements RecordInterface {
+public class ServerInfoRecord extends SplibRecord implements HtmlItemContainer {
   
   private String timestamp;
 

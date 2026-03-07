@@ -2,10 +2,10 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.domain.system;
 
 import jakarta.validation.Valid;
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 import jp.ecuacion.splib.web.service.SplibGeneralDoNothingService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -58,7 +58,7 @@ public class StPagesProvidedByLibraryController
   }
 
   public static class StPagesProvidedByLibraryRecord extends SplibRecord
-      implements RecordInterface {
+      implements HtmlItemContainer {
 
     @Override
     public HtmlItem[] getHtmlItems() {

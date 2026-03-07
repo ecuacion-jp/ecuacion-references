@@ -6,10 +6,10 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.basics.ErrorMessageController.ErrorMessageForm;
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
 import org.apache.groovy.parser.antlr4.util.StringUtils;
 import org.springframework.context.annotation.Scope;
@@ -65,7 +65,7 @@ public class ErrorMessageController extends SplibGeneral1FormController<ErrorMes
     }
   }
 
-  public static class GreetingRecord extends SplibRecord implements RecordInterface {
+  public static class GreetingRecord extends SplibRecord implements HtmlItemContainer {
 
     @NotEmpty
     @Pattern(regexp = ".*[X-Z].*")

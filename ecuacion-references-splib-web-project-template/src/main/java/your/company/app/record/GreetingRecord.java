@@ -1,10 +1,10 @@
 package your.company.app.record;
 
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
-public class GreetingRecord extends SplibRecord implements RecordInterface {
+public class GreetingRecord extends SplibRecord implements HtmlItemContainer {
 
   private String firstName;
   private String message;

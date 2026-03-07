@@ -5,13 +5,12 @@ import java.util.Locale;
 import java.util.Objects;
 import jp.ecuacion.lib.core.util.EnumUtil;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.SeasonEnum;
-import jp.ecuacion.splib.web.bean.HtmlItem;
-import jp.ecuacion.splib.web.bean.HtmlItemString;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
-import jp.ecuacion.splib.web.form.record.SearchRecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemString;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
 public class MonthRecord extends RecordWithId
-    implements RecordInterface, SearchRecordInterface {
+    implements HtmlItemContainer {
 
   // 月を示す1-12の数字をidとして保持
 

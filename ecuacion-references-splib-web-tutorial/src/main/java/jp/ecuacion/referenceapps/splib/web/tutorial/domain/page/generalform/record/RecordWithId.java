@@ -2,7 +2,7 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.rec
 
 import jp.ecuacion.splib.core.record.SplibRecord;
 
-public class RecordWithId extends SplibRecord {
+public abstract class RecordWithId extends SplibRecord {
   
   protected String id;
 

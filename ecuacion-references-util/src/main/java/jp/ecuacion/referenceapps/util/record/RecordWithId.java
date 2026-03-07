@@ -17,7 +17,7 @@ package jp.ecuacion.referenceapps.util.record;
 
 import jp.ecuacion.splib.core.record.SplibRecord;
 
-public class RecordWithId extends SplibRecord {
+public abstract class RecordWithId extends SplibRecord {
   
   protected String id;
 

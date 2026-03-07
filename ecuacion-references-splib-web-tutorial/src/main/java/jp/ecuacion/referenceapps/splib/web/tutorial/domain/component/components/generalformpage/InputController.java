@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Locale;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.component.components.generalformpage.InputController.InputForm;
 import jp.ecuacion.splib.core.record.SplibRecord;
-import jp.ecuacion.splib.web.bean.HtmlItem;
-import jp.ecuacion.splib.web.bean.HtmlItemNumber;
 import jp.ecuacion.splib.web.controller.SplibGeneral1FormController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
-import jp.ecuacion.splib.web.form.record.RecordInterface;
+import jp.ecuacion.splib.web.item.HtmlItem;
+import jp.ecuacion.splib.web.item.HtmlItemNumber;
+import jp.ecuacion.splib.web.item.HtmlItemContainer;
 import jp.ecuacion.splib.web.service.SplibGeneral1FormDoNothingService;
 import jp.ecuacion.splib.web.util.SplibComponentUtil;
 import org.apache.groovy.parser.antlr4.util.StringUtils;
@@ -92,7 +92,7 @@ public class InputController
     }
   }
 
-  public static class InputRecord extends SplibRecord implements RecordInterface {
+  public static class InputRecord extends SplibRecord implements HtmlItemContainer {
     private String inputText;
     private String inputPassword;
     private String inputHidden;
