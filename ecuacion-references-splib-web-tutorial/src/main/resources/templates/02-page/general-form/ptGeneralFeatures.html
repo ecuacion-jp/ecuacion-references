@@ -17,33 +17,33 @@
 	</div>
 	
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('successMsg', #{PT_GENERAL_FEATURES_SUCCESS_MSG_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('successMsg', #{PT_GENERAL_FEATURES_SUCCESS_MSG_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('appException', #{PT_GENERAL_FEATURES_APP_EXCEPTION_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('appException', #{PT_GENERAL_FEATURES_APP_EXCEPTION_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-3" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('exclusiveControlFile', #{PT_GENERAL_FEATURES_EXCLUSIVE_CONTROL_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('exclusiveControlFile', #{PT_GENERAL_FEATURES_EXCLUSIVE_CONTROL_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-4" th:remove="tag">
 	</div>
 
 	<div th:fragment="box-5" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: inputText('validationTest', '')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('validationTrue', #{PT_GENERAL_FEATURES_VALIDATION_TRUE_BUTTON}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('validationFalse', #{PT_GENERAL_FEATURES_VALIDATION_FALSE_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('validationTest', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('validationTrue', #{PT_GENERAL_FEATURES_VALIDATION_TRUE_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('validationFalse', #{PT_GENERAL_FEATURES_VALIDATION_FALSE_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-6" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('warning', #{PT_GENERAL_FEATURES_WARNING_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('warning', #{PT_GENERAL_FEATURES_WARNING_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-7" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: submitButton('redirectOnSuccess', #{PT_GENERAL_FEATURES_REDIRECT_ON_SUCCESS_BUTTON}, '')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('redirectOnAppException', #{PT_GENERAL_FEATURES_REDIRECT_ON_FAIL_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('redirectOnSuccess', #{PT_GENERAL_FEATURES_REDIRECT_ON_SUCCESS_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('redirectOnAppException', #{PT_GENERAL_FEATURES_REDIRECT_ON_FAIL_BUTTON}, '')}"></div>
 	</div>
 </body>
 </html>

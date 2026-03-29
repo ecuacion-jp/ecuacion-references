@@ -12,46 +12,46 @@
 <body>
 	<div layout:fragment="search-content" th:remove="tag">
 		<div class="row">
-			<div th:replace="~{bootstrap/components :: searchText('nameJapanese', '')}"></div>
-			<div th:replace="~{bootstrap/components :: searchText('nameJapaneseOld', '')}"></div>
-			<div th:replace="~{bootstrap/components :: searchText('nameEnglish', '')}"></div>
-			<div th:replace="~{bootstrap/components :: searchText('nameGerman', '')}"></div>
-			<div th:replace="~{bootstrap/components :: searchText('nameFrench', '')}"></div>
-			<div th:replace="~{bootstrap/components :: searchSelectFromEnum('season', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: text('nameJapanese', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: text('nameJapaneseOld', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: text('nameEnglish', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: text('nameGerman', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: text('nameFrench', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: selectFromEnum('season', '')}"></div>
  		</div>
 	</div>
 	
 	<div layout:fragment="list-table-header-content" th:remove="tag">
-		<th th:replace="~{bootstrap/components :: thSortable('id', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('nameJapanese', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('nameJapaneseOld', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('nameEnglish', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('nameGerman', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('nameFrench', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('season', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thSortable('numberOfDays', '')}"></th>
-		<th th:replace="~{bootstrap/components :: thFreeText(${@msgUtil.getValue(#locale, 'jp.ecuacion.splib.web.common.button.update')}, 'center')}"></th>
-		<th th:replace="~{bootstrap/components :: thFreeText(${@msgUtil.getValue(#locale, 'jp.ecuacion.splib.web.common.button.delete')}, 'center')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('id', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('nameJapanese', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('nameJapaneseOld', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('nameEnglish', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('nameGerman', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('nameFrench', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('season', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerSortable('numberOfDays', '')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerFreeText(${@msgUtil.getValue(#locale, 'jp.ecuacion.splib.web.common.button.update')}, 'center')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerFreeText(${@msgUtil.getValue(#locale, 'jp.ecuacion.splib.web.common.button.delete')}, 'center')}"></th>
 	</div>
 	
 	<div layout:fragment="list-table-body-content" th:remove="tag">
 		<tr>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyText('id', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameJapanese', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameJapaneseOld', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameEnglish', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameGerman', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyText('nameFrench', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyEnumText('season', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdReadOnlyNumber('numberOfDays', '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdUpdateButton(*{id}, *{version}, '')}"></td>
-			<td th:replace="~{bootstrap/components :: tdDeleteButton(*{id}, *{nameJapanese}, *{version}, '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyText('id', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameJapanese', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameJapaneseOld', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameEnglish', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameGerman', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameFrench', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyEnumText('season', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: readOnlyNumber('numberOfDays', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: updateButton(*{id}, *{version}, '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: deleteButton(*{id}, *{nameJapanese}, *{version}, '')}"></td>
 		</tr>
 	</div>
 	
 	<div layout:fragment="list-buttons-content" th:remove="tag">
 		<div class="d-flex justify-content-center">
-			<div th:replace="~{bootstrap/components :: showInsertFormButton('')}"></div>
+			<div th:replace="~{bootstrap/components-list :: showInsertFormButton('')}"></div>
 		</div>
 	</div>
 </body>

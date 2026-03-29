@@ -20,12 +20,12 @@
 
 
 	<th:block th:if="false"><div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: inputText('firstName', '')}"></div>
-		<div th:replace="~{bootstrap/components :: inputText('lastName', '')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('greetingButton', #{greetingBox.button}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('firstName', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('lastName', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('greetingButton', #{greetingBox.button}, '')}"></div>
 		
 		<div class="mt-7"></div>
-		<div th:replace="~{bootstrap/components :: inputText('message', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('message', 'readOnly')}"></div>
 	</div></th:block>
 
 </body>

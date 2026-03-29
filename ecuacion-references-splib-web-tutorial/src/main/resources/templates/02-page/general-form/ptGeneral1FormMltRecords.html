@@ -13,14 +13,14 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag" th:with="rootRecordName='serverInfo'">
-		<div th:replace="~{bootstrap/components :: inputText('timestamp', 'readOnly')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('serverInfoBtn', #{PT_GENERAL_1_FORM_MLT_RECORDS_SERVER_TIMESTAMP_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('timestamp', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('serverInfoBtn', #{PT_GENERAL_1_FORM_MLT_RECORDS_SERVER_TIMESTAMP_BUTTON}, '')}"></div>
 	</div>
 
 	<div th:fragment="box-2" th:remove="tag" th:with="rootRecordName='greeting'">
-		<div th:replace="~{bootstrap/components :: inputText('name', '')}"></div>
-		<div th:replace="~{bootstrap/components :: inputText('greetingMessage', 'readOnly')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('name', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('greetingMessage', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
 	</div>
 </body>
 </html>

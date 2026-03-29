@@ -12,9 +12,9 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: inputText('name', '')}"></div>
-		<div th:replace="~{bootstrap/components :: inputText('lstUpdTime', 'readonly')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('update', #{jp.ecuacion.splib.web.common.button.update}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('name', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('lstUpdTime', 'readonly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('update', #{jp.ecuacion.splib.web.common.button.update}, '')}"></div>
 	</div>
 </body>
 </html>

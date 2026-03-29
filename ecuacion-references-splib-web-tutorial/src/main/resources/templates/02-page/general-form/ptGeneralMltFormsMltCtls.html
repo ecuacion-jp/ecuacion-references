@@ -22,8 +22,8 @@
  	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: inputText('name', '')}"></div>
-		<div th:replace="~{bootstrap/components :: submitButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('name', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
 	</div>
 
 	<div layout:fragment="form-content-2">
@@ -31,7 +31,7 @@
 	</div>
 
 	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components :: inputText('greetingMessage', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('greetingMessage', 'readOnly')}"></div>
 	</div>
 		<!--/* 
  */-->
