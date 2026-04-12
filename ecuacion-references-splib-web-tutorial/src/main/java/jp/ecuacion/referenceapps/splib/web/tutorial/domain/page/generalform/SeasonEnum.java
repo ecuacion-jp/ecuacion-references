@@ -1,7 +1,7 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform;
 
 import java.util.Locale;
-import jp.ecuacion.lib.core.util.PropertyFileUtil;
+import jp.ecuacion.lib.core.util.PropertiesFileUtil;
 
 /**
  * 
@@ -29,7 +29,7 @@ public enum SeasonEnum {
    * localizeされた言語で返す。
    */
   public String getDisplayName(Locale locale) {
-    return PropertyFileUtil.getEnumName(locale,
+    return PropertiesFileUtil.getEnumName(locale,
         this.getClass().getSimpleName() + "." + this.toString());
   }
 
@@ -37,7 +37,7 @@ public enum SeasonEnum {
    * defaultのLocaleを使用。
    */
   public String getDisplayName() {
-    return PropertyFileUtil.getEnumName(Locale.getDefault(),
+    return PropertiesFileUtil.getEnumName(Locale.getDefault(),
         this.getClass().getSimpleName() + "." + this.toString());
   }
 }

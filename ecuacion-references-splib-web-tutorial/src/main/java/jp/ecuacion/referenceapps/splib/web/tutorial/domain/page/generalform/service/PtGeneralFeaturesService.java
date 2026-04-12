@@ -39,17 +39,17 @@ public class PtGeneralFeaturesService extends SplibGeneralService {
         FileUtil.lock(lockFile, form.getPtGeneralFeatures().getVersion());
 
     Thread.sleep(5000);
-    
+
     FileUtil.release(lockedObject);
   }
 
   public void warning(PtGeneralFeaturesForm form) throws AppWarningException {
     // warning1回目
-    throwWarning(form.getConfirmedWarningMessageSet(), request.getLocale(), "warning",
-        null, "PT_GENERAL_FEATURES_MSG_WARNING_1");
+    throwWarning(form.getConfirmedWarningMessageSet(), "warning", null,
+        "PT_GENERAL_FEATURES_MSG_WARNING_1");
 
     // warning2回目
-    throwWarning(form.getConfirmedWarningMessageSet(), request.getLocale(), "warning",
-        null, "PT_GENERAL_FEATURES_MSG_WARNING_2");
+    throwWarning(form.getConfirmedWarningMessageSet(), "warning", null,
+        "PT_GENERAL_FEATURES_MSG_WARNING_2");
   }
 }
