@@ -1,12 +1,11 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
-import jp.ecuacion.lib.core.exception.checked.AppWarningException;
 import jp.ecuacion.lib.core.util.FileUtil;
+import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.ServiceCommonUtil;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneralFeaturesForm;
 import jp.ecuacion.splib.web.service.SplibGeneralService;
@@ -16,9 +15,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PtGeneralFeaturesService extends SplibGeneralService {
-
-  @Autowired
-  private HttpServletRequest request;
 
   @Autowired
   private ServiceCommonUtil serviceUtil;
@@ -43,13 +39,16 @@ public class PtGeneralFeaturesService extends SplibGeneralService {
     FileUtil.release(lockedObject);
   }
 
-  public void warning(PtGeneralFeaturesForm form) throws AppWarningException {
+  /** Throws warning. */
+  public void warning(PtGeneralFeaturesForm form) {
     // warning1回目
-    throwWarning(form.getConfirmedWarningMessageSet(), "warning", null,
-        "PT_GENERAL_FEATURES_MSG_WARNING_1");
+    if (!form.getConfirmedWarningMessageSet().contains("PT_GENERAL_FEATURES_MSG_WARNING_1")) {
+      new Violations().add("PT_GENERAL_FEATURES_MSG_WARNING_1").throwWarningIfAny();
+    }
 
     // warning2回目
-    throwWarning(form.getConfirmedWarningMessageSet(), "warning", null,
-        "PT_GENERAL_FEATURES_MSG_WARNING_2");
+    if (!form.getConfirmedWarningMessageSet().contains("PT_GENERAL_FEATURES_MSG_WARNING_2")) {
+      new Violations().add("PT_GENERAL_FEATURES_MSG_WARNING_2").throwWarningIfAny();
+    }
   }
 }

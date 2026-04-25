@@ -1,6 +1,7 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service;
 
-import jp.ecuacion.lib.core.exception.checked.BizLogicAppException;
+import jp.ecuacion.lib.core.violation.BusinessViolation;
+import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneral2FormsSampleInputForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneral2FormsSampleOutputForm;
 import jp.ecuacion.splib.web.service.SplibGeneral2FormsService;
@@ -24,12 +25,15 @@ public class PtGeneral2FormsSampleService extends SplibGeneral2FormsService
 
   }
 
+  /** Gets greeting. */
   public void getGreeting(PtGeneral2FormsSampleInputForm inputForm,
-      PtGeneral2FormsSampleOutputForm outputForm) throws BizLogicAppException {
+      PtGeneral2FormsSampleOutputForm outputForm) {
     String name = inputForm.getGreeting().getName();
 
     if (!name.contains("X") && !name.contains("Y") && !name.contains("Z")) {
-      throw new BizLogicAppException("PT_GENERAL_MLT_FORMS_1_CTL_MSG_CHAR_INAPPROPRIATE");
+      new Violations()
+          .add(new BusinessViolation("PT_GENERAL_MLT_FORMS_1_CTL_MSG_CHAR_INAPPROPRIATE"))
+          .throwIfAny();
     }
 
     outputForm.getGreeting().setGreetingMessage("Hi, " + name + "!");

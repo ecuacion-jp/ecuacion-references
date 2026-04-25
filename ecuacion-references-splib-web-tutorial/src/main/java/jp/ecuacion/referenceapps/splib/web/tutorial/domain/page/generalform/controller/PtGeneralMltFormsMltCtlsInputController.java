@@ -1,6 +1,5 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.controller;
 
-import jp.ecuacion.lib.core.exception.checked.AppException;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneralMltFormsMltCtlsInputForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service.PtGeneralMltFormsMltCtlsInputService;
 import jp.ecuacion.splib.web.bean.ReturnUrlBean;
@@ -33,7 +32,8 @@ public class PtGeneralMltFormsMltCtlsInputController
   }
 
   @GetMapping(value = "page")
-  public String page(Model model, PtGeneralMltFormsMltCtlsInputForm inputForm) throws AppException {
+  /** Displays page. */
+  public String page(Model model, PtGeneralMltFormsMltCtlsInputForm inputForm) {
     prepare(model, inputForm);
 
     // エラーメッセージがある場合はそれをoutputControllerに引き継ぐ必要があるが、forwardではmodelは引き継がれないため引き継ぎ処理を行う。

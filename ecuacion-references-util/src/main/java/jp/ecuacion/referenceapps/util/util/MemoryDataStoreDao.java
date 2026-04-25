@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import jp.ecuacion.lib.core.exception.checked.BizLogicAppException;
-import jp.ecuacion.lib.core.exception.unchecked.EclibRuntimeException;
+import jp.ecuacion.lib.core.violation.BusinessViolation;
+import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.referenceapps.util.record.RecordWithId;
 import jp.ecuacion.splib.core.record.SplibRecord;
 
@@ -94,7 +94,7 @@ public class MemoryDataStoreDao {
   public void insert(RecordWithId record) {
     List<RecordWithId> list = findAll();
     if (list.stream().filter(rec -> rec.getId().equals(record.getId())).toList().size() > 0) {
-      throw new EclibRuntimeException("Record with specified ID duplicated.");
+      throw new RuntimeException("Record with specified ID duplicated.");
     }
 
     list.add(record);
@@ -104,7 +104,7 @@ public class MemoryDataStoreDao {
   /** update. */
   public void update(RecordWithId record) {
     if (findAll().stream().filter(rec -> rec.getId().equals(record.getId())).toList().size() == 0) {
-      throw new EclibRuntimeException("Record with specified ID not found.");
+      throw new RuntimeException("Record with specified ID not found.");
     }
 
     List<RecordWithId> list = new ArrayList<>(
@@ -122,20 +122,19 @@ public class MemoryDataStoreDao {
     }
   }
 
-  /** delete. 
-   *
-   * @throws BizLogicAppException BizLogicAppException
-   */
-  public void delete(String id) throws BizLogicAppException {
+  /** delete. */
+  public void delete(String id) {
     if (findAll().stream().filter(rec -> rec.getId().equals(id)).toList().size() == 0) {
-      throw new BizLogicAppException("Record with specified ID not found.");
+      new Violations().add(new BusinessViolation("Record with specified ID not found."))
+          .throwIfAny();
     }
-    
+
     List<RecordWithId> list = findAll().stream().filter(rec -> !rec.getId().equals(id)).toList();
     getRootMap().put(dataKind, list);
   }
-  
-  public void deleteIfExists(String id) throws BizLogicAppException {
+
+  /** Deletes by id if exists. */
+  public void deleteIfExists(String id) {
     if (findAll().stream().filter(rec -> rec.getId().equals(id)).toList().size() > 0) {
       delete(id);
     }

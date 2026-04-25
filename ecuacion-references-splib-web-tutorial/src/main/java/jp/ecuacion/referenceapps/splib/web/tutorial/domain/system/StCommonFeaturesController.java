@@ -1,7 +1,6 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.system;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.lib.core.exception.checked.AppException;
 import jp.ecuacion.splib.core.record.SplibRecord;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
 import jp.ecuacion.splib.web.form.SplibGeneralForm;
@@ -25,7 +24,8 @@ public class StCommonFeaturesController
   }
 
   @GetMapping("page")
-  public String page(Model model) throws AppException {
+  /** Displays page. */
+  public String page(Model model) {
     prepare(model, new StCommonFeaturesForm());
     return getDefaultHtmlPageName();
   }

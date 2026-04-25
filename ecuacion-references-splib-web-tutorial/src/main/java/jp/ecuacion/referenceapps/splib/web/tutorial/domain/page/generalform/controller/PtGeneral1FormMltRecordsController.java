@@ -1,6 +1,5 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.controller;
 
-import jp.ecuacion.lib.core.exception.checked.AppException;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneral1FormMltRecordsForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service.PtGeneral1FormMltRecordsService;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
@@ -29,7 +28,8 @@ public class PtGeneral1FormMltRecordsController
   }
 
   @GetMapping("page")
-  public String page(Model model, PtGeneral1FormMltRecordsForm form) throws AppException {
+  /** Displays page. */
+  public String page(Model model, PtGeneral1FormMltRecordsForm form) {
     prepare(model, form);
     return getDefaultHtmlPageName();
   }

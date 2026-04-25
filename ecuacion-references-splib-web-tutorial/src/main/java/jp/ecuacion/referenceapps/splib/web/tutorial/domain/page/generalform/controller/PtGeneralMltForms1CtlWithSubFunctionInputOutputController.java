@@ -1,6 +1,5 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.controller;
 
-import jp.ecuacion.lib.core.exception.checked.AppException;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneralMltForms1CtlWithSubFunctionInputForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneralMltForms1CtlWithSubFunctionOutputForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service.PtGeneralMltForms1CtlWithSubFunctionInputOutputService;
@@ -30,8 +29,9 @@ public class PtGeneralMltForms1CtlWithSubFunctionInputOutputController
   }
 
   @GetMapping(value = "page")
+  /** Displays page. */
   public String page(Model model, PtGeneralMltForms1CtlWithSubFunctionInputForm inputForm,
-      PtGeneralMltForms1CtlWithSubFunctionOutputForm outputForm) throws AppException {
+      PtGeneralMltForms1CtlWithSubFunctionOutputForm outputForm) {
 
     prepare(model, inputForm, outputForm);
     return getDefaultHtmlPageName();

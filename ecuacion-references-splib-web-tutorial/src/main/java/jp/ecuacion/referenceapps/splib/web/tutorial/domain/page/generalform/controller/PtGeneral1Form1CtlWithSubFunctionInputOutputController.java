@@ -1,7 +1,6 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jp.ecuacion.lib.core.exception.checked.AppException;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneral1Form1CtlWithSubFunctionInputOutputForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service.PtGeneral1Form1WithSubFunctionShowService;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
@@ -34,8 +33,8 @@ public class PtGeneral1Form1CtlWithSubFunctionInputOutputController
   }
 
   @GetMapping("page")
-  public String page(Model model, PtGeneral1Form1CtlWithSubFunctionInputOutputForm form)
-      throws AppException {
+  /** Displays page. */
+  public String page(Model model, PtGeneral1Form1CtlWithSubFunctionInputOutputForm form) {
 
     prepare(model, form);
     return getDefaultHtmlPageName();

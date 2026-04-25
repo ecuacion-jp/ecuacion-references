@@ -1,6 +1,7 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.controller;
 
-import jp.ecuacion.lib.core.exception.checked.BizLogicAppException;
+import jp.ecuacion.lib.core.violation.BusinessViolation;
+import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.form.PtGeneralFeaturesForm;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.service.PtGeneralFeaturesService;
 import jp.ecuacion.splib.web.bean.ReturnUrlBean;
@@ -48,7 +49,10 @@ public class PtGeneralFeaturesController extends SplibGeneralController<PtGenera
   public String appException(Model model, PtGeneralFeaturesForm form) throws Exception {
 
     prepare(model, form);
-    throw new BizLogicAppException("PT_GENERAL_FEATURES_APP_EXCEPTION_MSG", "abc");
+    new Violations()
+        .add(new BusinessViolation("PT_GENERAL_FEATURES_APP_EXCEPTION_MSG", "abc"))
+        .throwIfAny();
+    return null;
   }
 
   @PostMapping(value = "action", params = "exclusiveControlFile")
@@ -101,7 +105,10 @@ public class PtGeneralFeaturesController extends SplibGeneralController<PtGenera
 
     redirectUrlOnAppExceptionBean = new ReturnUrlBean(this, util, false, "transitionTo");
     prepare(model, form);
-    throw new BizLogicAppException("PT_GENERAL_FEATURES_REDIRECT_ON_FAIL_MSG");
+    new Violations()
+        .add(new BusinessViolation("PT_GENERAL_FEATURES_REDIRECT_ON_FAIL_MSG"))
+        .throwIfAny();
+    return null;
   }
 
   /** redirect先URLとして使用するのでget。 */
