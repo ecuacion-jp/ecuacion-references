@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
@@ -27,10 +28,10 @@ public class ButtonController
   }
 
   @PostMapping(value = "action", params = "button")
-  public String execute(Model model, @Validated ButtonForm form, BindingResult result)
-      throws Exception {
+  public String execute(Model model, @Validated ButtonForm form, BindingResult result,
+      RedirectAttributes redirectAttributes) throws Exception {
 
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 
   public static class ButtonForm extends SplibGeneralForm {

@@ -110,6 +110,26 @@
 	</div>
 
 	<div th:fragment="box-navbarDropDownMenuItem" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('arguments', 'component.arguments.common.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'引数', '型', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(${ {
+					{ 'href', 'string', '遷移先のURL を指定。navbarDropDownSubMenu 内に配置する場合は空文字列("")を指定' },
+					{ 'label', 'string', '表示するラベルを指定。messages.properties の key が存在する場合はその値が、存在しない場合はそのまま表示される。' },
+					{ 'options', 'string', 'options を指定' }
+			} }, '')}"></tr>
+		</table>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.base-page.navbar.navbarDropDownMenuItem.basic.code', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components :: navbarRoot(~{ :: fragmentNavbarDropDownMenuItemSample}, 'app menu', '', '', ~{bootstrap/components :: nullFragment}, '')}"></div>
+
+		<th:block th:if="false"><div th:fragment="fragmentNavbarDropDownMenuItemSample" th:remove="tag">
+			<div th:replace="~{bootstrap/components :: navbarSubMenu('sample menu', ~{ :: fragmentNavbarDropDownMenuItemItems}, '')}"></div>
+		</div></th:block>
+
+		<th:block th:if="false"><div th:fragment="fragmentNavbarDropDownMenuItemItems" th:remove="tag">
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=home}, 'navBar.home', '')}"></div>
+		</div></th:block>
 	</div>
 
 	<div th:fragment="box-navbarDropDownSubMenu" th:remove="tag">

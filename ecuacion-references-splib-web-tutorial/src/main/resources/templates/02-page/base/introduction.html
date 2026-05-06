@@ -7,7 +7,7 @@
 
 <body>
 
-	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='basePageButton.html'">
+	<div layout:fragment="base-content" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-1', '')}"></div>
 		<div th:replace="~{bootstrap/components :: referenceBox('introduction-sample.html', 'page.base.introduction.code', '')}"></div>
 		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-2', 'mt=5')}"></div>

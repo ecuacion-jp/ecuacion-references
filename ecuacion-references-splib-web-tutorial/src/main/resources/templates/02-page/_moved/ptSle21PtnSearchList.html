@@ -30,8 +30,8 @@
 		<th th:replace="~{bootstrap/components-list :: headerSortable('nameFrench', '')}"></th>
 		<th th:replace="~{bootstrap/components-list :: headerSortable('season', '')}"></th>
 		<th th:replace="~{bootstrap/components-list :: headerSortable('numberOfDays', '')}"></th>
-		<th th:replace="~{bootstrap/components-list :: headerFreeText(${@msgUtil.getValue(#locale, 'jp.ecuacion.splib.web.common.button.update')}, 'center')}"></th>
-		<th th:replace="~{bootstrap/components-list :: headerFreeText(${@msgUtil.getValue(#locale, 'jp.ecuacion.splib.web.common.button.delete')}, 'center')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerFreeText(#{jp.ecuacion.splib.web.common.button.update}, 'center')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerFreeText(#{jp.ecuacion.splib.web.common.button.delete}, 'center')}"></th>
 	</div>
 	
 	<div layout:fragment="list-table-body-content" th:remove="tag">

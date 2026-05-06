@@ -25,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
@@ -37,8 +38,8 @@ public class InputController
   }
 
   @PostMapping(value = "action", params = "button")
-  public String execute(Model model, @Validated InputForm form, BindingResult result)
-      throws Exception {
+  public String execute(Model model, @Validated InputForm form, BindingResult result,
+      RedirectAttributes redirectAttributes) throws Exception {
 
     // Save uploaded file here because large tmpFile will disappear after the execution of "prepare"
     // method.
@@ -58,7 +59,7 @@ public class InputController
         .setInputTakenPhotoMobileRegisteredBase64(readPhotoInBase64Format(tmpFilePathMobile));
     form.getInput().setInputTakenPhotoPcRegisteredBase64(readPhotoInBase64Format(tmpFilePathPc));
 
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 
   private String readPhotoInBase64Format(String path) throws Exception {
@@ -100,12 +101,23 @@ public class InputController
     private String inputYearMonth;
     private String inputDate;
     private String inputTime;
+    private String inputDateTime = "2025-04-29 10:00:00";
     private String inputTextArea;
+    private String inputDocumentViewer = "本サービスの利用規約（サンプル）\n\n"
+        + "第1条（目的）\n"
+        + "本規約は、当社が提供するサービスの利用に関する条件を定めることを目的とします。\n\n"
+        + "第2条（利用登録）\n"
+        + "サービスの利用を希望する方は、本規約に同意の上、利用登録を行うものとします。\n\n"
+        + "第3条（禁止事項）\n"
+        + "本サービスの利用に際し、以下の行為を禁止します。";
     private String inputSwitch;
+    private String inputCheckbox;
     private String inputCheckboxes;
     private String inputSelect;
     private String inputSelectWithLocale;
     private String inputSelectFromEnum;
+    private String inputCaptcha;
+    private String inputCaptchaImageData;
     private MultipartFile inputFile;
     private MultipartFile inputTakenPhotoMobile;
     private String inputTakenPhotoMobileRegisteredBase64;
@@ -181,6 +193,14 @@ public class InputController
       this.inputTime = inputTime;
     }
 
+    public String getInputDateTime() {
+      return inputDateTime;
+    }
+
+    public void setInputDateTime(String inputDateTime) {
+      this.inputDateTime = inputDateTime;
+    }
+
     public String getInputTextArea() {
       return inputTextArea;
     }
@@ -189,12 +209,28 @@ public class InputController
       this.inputTextArea = inputTextArea;
     }
 
+    public String getInputDocumentViewer() {
+      return inputDocumentViewer;
+    }
+
+    public void setInputDocumentViewer(String inputDocumentViewer) {
+      this.inputDocumentViewer = inputDocumentViewer;
+    }
+
     public String getInputSwitch() {
       return inputSwitch;
     }
 
     public void setInputSwitch(String inputSwitch) {
       this.inputSwitch = inputSwitch;
+    }
+
+    public String getInputCheckbox() {
+      return inputCheckbox;
+    }
+
+    public void setInputCheckbox(String inputCheckbox) {
+      this.inputCheckbox = inputCheckbox;
     }
 
     public String getInputCheckboxes() {
@@ -227,6 +263,22 @@ public class InputController
 
     public void setInputSelectFromEnum(String inputSelectFromEnum) {
       this.inputSelectFromEnum = inputSelectFromEnum;
+    }
+
+    public String getInputCaptcha() {
+      return inputCaptcha;
+    }
+
+    public void setInputCaptcha(String inputCaptcha) {
+      this.inputCaptcha = inputCaptcha;
+    }
+
+    public String getInputCaptchaImageData() {
+      return inputCaptchaImageData;
+    }
+
+    public void setInputCaptchaImageData(String inputCaptchaImageData) {
+      this.inputCaptchaImageData = inputCaptchaImageData;
     }
 
     public MultipartFile getInputFile() {

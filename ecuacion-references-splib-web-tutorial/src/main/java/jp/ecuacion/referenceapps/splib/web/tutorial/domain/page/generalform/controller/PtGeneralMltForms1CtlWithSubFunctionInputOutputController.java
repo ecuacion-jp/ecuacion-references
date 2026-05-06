@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 1 controllerに複数formがある場合は難しいのだが、 generic
@@ -39,8 +40,8 @@ public class PtGeneralMltForms1CtlWithSubFunctionInputOutputController
 
   @PostMapping(value = "action", params = "greetingBtn")
   public String greeting(Model model,
-      @Validated PtGeneralMltForms1CtlWithSubFunctionInputForm inputForm, BindingResult result)
-      throws Exception {
+      @Validated PtGeneralMltForms1CtlWithSubFunctionInputForm inputForm, BindingResult result,
+      RedirectAttributes redirectAttributes) throws Exception {
 
     PtGeneralMltForms1CtlWithSubFunctionOutputForm outputForm =
         new PtGeneralMltForms1CtlWithSubFunctionOutputForm();
@@ -49,7 +50,7 @@ public class PtGeneralMltForms1CtlWithSubFunctionInputOutputController
     getService().getGreeting(inputForm, outputForm);
 
     // modelは次画面でも使用するため引き継ぎ処理
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 
 }

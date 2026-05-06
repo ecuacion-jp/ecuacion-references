@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
@@ -30,11 +31,11 @@ public class ItemNameKeyController extends SplibGeneral1FormController<ItemNameK
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated ItemNameKeyForm form, BindingResult result)
-      throws Exception {
+  public String greeting(Model model, @Validated ItemNameKeyForm form, BindingResult result,
+      RedirectAttributes redirectAttributes) throws Exception {
     prepare(model, form.validate(result));
 
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 
   /**

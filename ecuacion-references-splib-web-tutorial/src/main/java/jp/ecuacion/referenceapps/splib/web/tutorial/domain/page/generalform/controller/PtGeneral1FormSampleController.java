@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //@formatter:off
 @Controller
@@ -25,12 +26,12 @@ public class PtGeneral1FormSampleController
 
   @PostMapping(value = "action", params = "greetingBtn")
   public String greeting(Model model, @Validated PtGeneral1FormSampleForm form,
-      BindingResult result) throws Exception {
+      BindingResult result, RedirectAttributes redirectAttributes) throws Exception {
 
     prepare(model, form.validate(result));
     getService().getGreeting(form);
 
     // modelは画面でも使用するため引き継ぎ処理
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 }

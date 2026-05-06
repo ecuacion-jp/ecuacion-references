@@ -28,17 +28,6 @@
 			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
 				${ {
 			 			{'page の背景色', 'jp.ecuacion.splib.web.body.background-color', '#abcdef など', 'style の background-color の値として設定される。'},
-			 			{'page の背景画像', 'jp.ecuacion.splib.web.body.background-color', 'linear-gradient(#abcdef, white) など', 'style の background-image の値として設定される。'},
-			 			{{'button などの<br>背景色のグラデーション', 'utext'}, 'jp.ecuacion.splib.web.bootstrap.is-background-gradient', 'true / false', {'navbar や button・table header などの<br>グラデーションの有無を指定。', 'utext'}}
-				} }, '')}"></tr>
-		</table>
-		
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.details.appProperties.title', 'page.base.details.appProperties.paragraph', '')}"></div>
-		<table class="table table-striped text-nowrap table-bordered">
-			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'設定項目', 'key', '設定値', '説明'} }, '')}"></tr>
-			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
-				${ {
-			 			{'page の背景色', 'jp.ecuacion.splib.web.body.background-color', '#abcdef など', 'style の background-color の値として設定される。'},
 			 			{'page の背景画像', 'jp.ecuacion.splib.web.body.background-image', 'linear-gradient(#abcdef, white) など', 'style の background-image の値として設定される。'},
 			 			{{'button などの<br>背景色のグラデーション', 'utext'}, 'jp.ecuacion.splib.web.bootstrap.is-background-gradient', 'true / false', {'navbar や button・table header などの<br>グラデーションの有無を指定。', 'utext'}}
 				} }, '')}"></tr>

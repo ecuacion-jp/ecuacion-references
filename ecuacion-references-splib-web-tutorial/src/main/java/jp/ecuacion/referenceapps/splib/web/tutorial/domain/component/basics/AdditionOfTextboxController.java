@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
@@ -29,8 +30,8 @@ public class AdditionOfTextboxController extends SplibGeneral1FormController<Add
   }
 
   @PostMapping(value = "action", params = "greetingButton")
-  public String greeting(Model model, @Validated AdditionOfTextboxForm form, BindingResult result)
-      throws Exception {
+  public String greeting(Model model, @Validated AdditionOfTextboxForm form, BindingResult result,
+      RedirectAttributes redirectAttributes) throws Exception {
     prepare(model, form.validate(result));
 
     String fn = form.getGreeting().getFirstName();
@@ -42,7 +43,7 @@ public class AdditionOfTextboxController extends SplibGeneral1FormController<Add
     String msg = String.format(fnIsEmpty && lnIsEmpty ? "Hi!" : "Hi, %s!", fullName);
     form.getGreeting().setMessage(msg);
 
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 
   /**

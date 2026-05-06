@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import your.company.app.controller.GreetingController.GreetingForm;
 import your.company.app.record.GreetingRecord;
 
@@ -30,15 +31,15 @@ public class GreetingController extends
   }
 
   @PostMapping(value = "action", params = "greeting")
-  public String greeting(Model model, @Validated GreetingForm form, BindingResult result)
-      throws Exception {
+  public String greeting(Model model, @Validated GreetingForm form, BindingResult result,
+      RedirectAttributes redirectAttributes) throws Exception {
     prepare(model, form);
 
     String firstName = form.getGreeting().getFirstName();
     String msg = String.format(StringUtils.isEmpty(firstName) ? "Hi!" : "Hi, %s!", firstName);
     form.getGreeting().setMessage(msg);
 
-    return redirectToSamePageTakingOverModel(model, true);
+    return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
   }
 
   /**

@@ -7,7 +7,7 @@
 
 <body>
 
-	<div layout:fragment="base-content" th:remove="tag" th:with="htmlFileName='basePageButton.html'">
+	<div layout:fragment="base-content" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: paragraph('component.base-page.script.paragraph', '')}"></div>
 		<div th:replace="~{bootstrap/components :: box(~{::box-sendZoneOffset}, 'sendZoneOffset', 'component.base-page.script.sendZoneOffset.paragraph', '')}"></div>
 	</div>
