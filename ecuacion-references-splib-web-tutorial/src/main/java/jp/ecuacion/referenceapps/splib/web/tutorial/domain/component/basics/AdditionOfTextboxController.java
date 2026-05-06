@@ -40,7 +40,7 @@ public class AdditionOfTextboxController extends SplibGeneral1FormController<Add
     boolean lnIsEmpty = StringUtils.isEmpty(ln);
     String fullName =
         (fnIsEmpty ? "" : fn + (!fnIsEmpty && !lnIsEmpty ? " " : "")) + (lnIsEmpty ? "" : ln);
-    String msg = String.format(fnIsEmpty && lnIsEmpty ? "Hi!" : "Hi, %s!", fullName);
+    String msg = fnIsEmpty && lnIsEmpty ? "Hi!" : String.format("Hi, %s!", fullName);
     form.getGreeting().setMessage(msg);
 
     return redirectToSamePageTakingOverModel(model, true, redirectAttributes);

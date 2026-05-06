@@ -36,7 +36,7 @@ public class GreetingController extends
     prepare(model, form);
 
     String firstName = form.getGreeting().getFirstName();
-    String msg = String.format(StringUtils.isEmpty(firstName) ? "Hi!" : "Hi, %s!", firstName);
+    String msg = StringUtils.isEmpty(firstName) ? "Hi!" : String.format("Hi, %s!", firstName);
     form.getGreeting().setMessage(msg);
 
     return redirectToSamePageTakingOverModel(model, true, redirectAttributes);
