@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navbar */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(
+				@{/public/article?id=home}, #{navBar.home}, '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.excelTables}, ~{::navbarExcelTables}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarExcelTables" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/overview},
+					#{navBar.et.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/quickstart},
+					#{navBar.et.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/data-types},
+					#{navBar.et.dataTypes}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/table-formats},
+					#{navBar.et.tableFormats}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/reader},
+					#{navBar.et.reader}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/writer},
+					#{navBar.et.writer}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/bean-mapping},
+					#{navBar.et.beanMapping}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-tables/exceptions},
+					#{navBar.et.exceptions}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.excelReportToPdf}, ~{::navbarExcelReportToPdf}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarExcelReportToPdf" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-report-to-pdf/overview},
+					#{navBar.ertp.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-report-to-pdf/setup},
+					#{navBar.ertp.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-report-to-pdf/basic},
+					#{navBar.ertp.basic}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-report-to-pdf/options},
+					#{navBar.ertp.options}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=excel-report-to-pdf/exceptions},
+					#{navBar.ertp.exceptions}, '')}"></div>
+
+		</div></th:block>
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
+	</div>
+
+</body>
+</html>

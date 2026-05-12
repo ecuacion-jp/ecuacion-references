@@ -3,14 +3,10 @@
 		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		layout:decorate="~{bootstrap/page-base-wide}"
 		data-show-page-login-state="public"
-		th:with="title='Introduction', 
-				titleDesc='recordAndItem.introduction.titleDesc'">
-		
+		th:with="title=''">
 <body>
 	<div layout:fragment="base-content" th:remove="tag">
-	<!--/* 
-		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('recordAndItem-memo', 'recordAndItem.paragraph', '')}"></div>
-		 */-->
+		<div class="markdown-body" th:utext="${content}"></div>
 	</div>
 </body>
 </html>

@@ -1,0 +1,150 @@
+# Reader
+
+このページでは各 Reader クラスの使い方を説明します。
+クラスの選び方は[概要](/public/article?id=excel-tables/overview)を参照してください。
+
+## 共通：`read()` メソッド
+
+すべての Reader クラスは以下の 2 つの `read()` メソッドを持ちます。
+
+```java
+// ファイルパスから直接読み込む（ファイルを自動で開閉する）
+List<List<T>> read(String filePath) throws IOException;
+
+// 既に開いている Workbook から読み込む
+List<List<T>> read(Workbook workbook) throws IOException;
+```
+
+`T` はデータ型（`String` または `Cell`）です。
+戻り値の外側の `List` が行、内側の `List` が各行のセル値を表します。
+ヘッダー行は戻り値に含まれません。
+
+## 共通：fluent setter 一覧
+
+全 Reader クラスで利用できる fluent setter です。
+
+| setter | 型 | デフォルト | 説明 |
+| --- | --- | --- | --- |
+| `tableStartRowNumber(Integer)` | Integer または null | null（自動検出） | テーブル開始行（1始まり） |
+| `tableStartColumnNumber(int)` | int | 1 | テーブル開始列（1始まり） |
+| `tableRowSize(Integer)` | Integer または null | null（自動検出） | 読み込む最大行数 |
+| `tableColumnSize(Integer)` | Integer または null | null（自動検出） | 読み込む最大列数 |
+| `withIgnoresAdditionalColumnsOfHeaderData(boolean)` | boolean | false | ヘッダーの追加列を無視 |
+| `withVerticalAndHorizontalOpposite(boolean)` | boolean | false | 縦横反転テーブル対応 |
+
+## `StringHeaderExcelTableReader`
+
+ヘッダー付きテーブルをデータ型 String で読み込む最も基本的なクラスです。
+
+### シングルヘッダー
+
+```java
+StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+    "Sheet1",
+    new String[] {"商品コード", "商品名", "価格"});
+
+List<List<String>> data = reader.read("/path/to/file.xlsx");
+// data.get(0) → ["A001", "テスト商品", "1000"]
+// data.get(1) → ["A002", "サンプル", null]  ← 空セルは null
+```
+
+### マルチヘッダー（2 行以上のヘッダー）
+
+```java
+StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"商品情報", "商品情報", "価格情報"},
+        {"商品コード", "商品名", "定価"}
+    });
+
+List<List<String>> data = reader.read("/path/to/file.xlsx");
+```
+
+### テーブル位置の明示指定
+
+同じシートに複数のテーブルがある場合など、位置を明示します。
+
+```java
+StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+    "Sheet1",
+    new String[] {"名前", "金額"})
+    .tableStartRowNumber(5)     // 5 行目からテーブル開始
+    .tableStartColumnNumber(3); // C 列からテーブル開始
+```
+
+### String 型固有の setter
+
+| setter | デフォルト | 説明 |
+| --- | --- | --- |
+| `noDataString(NoDataString)` | `NoDataString.NULL` | 空セルの値 |
+| `defaultDateTimeFormat(DateTimeFormatter)` | `yyyy-MM-dd` | 全列の日付フォーマット |
+| `columnDateTimeFormat(int, DateTimeFormatter)` | — | 特定列の日付フォーマット（列番号は 1 始まりの絶対値） |
+
+## `StringFreeExcelTableReader`
+
+ヘッダーなし・任意位置のテーブルを String で読み込みます。
+
+```java
+StringFreeExcelTableReader reader = new StringFreeExcelTableReader("Sheet1")
+    .tableStartRowNumber(2)    // 2 行目から開始
+    .tableColumnSize(3);       // 3 列だけ読む
+
+List<List<String>> data = reader.read("/path/to/file.xlsx");
+```
+
+`tableStartRowNumber` を省略した場合は 1 行目から読み始めます。
+データが存在する限り読み続け、全列が空の行で終了します。
+
+## `CellOneLineHeaderExcelTableReader`
+
+ヘッダー付きテーブルをデータ型 `Cell` で読み込みます。
+スタイルや数値型などセルの詳細情報が必要な場合に使います。
+
+```java
+import org.apache.poi.ss.usermodel.Cell;
+
+CellOneLineHeaderExcelTableReader reader = new CellOneLineHeaderExcelTableReader(
+    "Sheet1",
+    new String[] {"商品名", "価格"});
+
+List<List<Cell>> data = reader.read("/path/to/file.xlsx");
+
+for (List<Cell> row : data) {
+    Cell nameCell   = row.get(0);
+    Cell priceCell  = row.get(1);
+    String name  = nameCell.getStringCellValue();
+    double price = priceCell.getNumericCellValue();
+}
+```
+
+## `CellFreeExcelTableReader`
+
+ヘッダーなし・任意位置のテーブルを `Cell` で読み込みます。
+
+```java
+CellFreeExcelTableReader reader = new CellFreeExcelTableReader("Sheet1")
+    .tableStartRowNumber(3)
+    .tableStartColumnNumber(2)
+    .tableRowSize(20)
+    .tableColumnSize(5);
+
+List<List<Cell>> data = reader.read("/path/to/file.xlsx");
+```
+
+## 大量データの反復読み込み：`IterableReader`
+
+大量行を全件 `List` に収めるとメモリを圧迫する場合、
+`getIterable()` で行ごとに反復処理できます。
+
+```java
+try (ExcelTableReader.IterableReader<String> iter =
+        reader.getIterable("/path/to/file.xlsx")) {
+    for (List<String> row : iter) {
+        // 1 行ずつ処理
+    }
+}
+```
+
+ファイルパス版は try-with-resources で Workbook を自動クローズします。
+既存の `Workbook` を渡す版（`getIterable(Workbook)`）では呼び出し元が Workbook を管理します。

@@ -74,8 +74,15 @@
 		<!-- ecuacion-splib -->
 		<dependency>
 			<groupId>jp.ecuacion.splib</groupId>
-			<artifactId>ecuacion-splib-web</artifactId>
+			<artifactId>ecuacion-splib-web-jpa</artifactId>
 		</dependency>
-		
+
+		<!-- dependent modules in the same project -->
+		<dependency>
+			<groupId>jp.ecuacion.references</groupId>
+			<artifactId>ecuacion-references-splib-web-tutorial-base</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 	</dependencies>
 </project>

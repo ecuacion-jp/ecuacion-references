@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>ecuacion-references-splib-web-tutorial-base</artifactId>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>jp.ecuacion.references</groupId>
+		<artifactId>ecuacion-references-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<build>
+		<plugins>
+
+			<!-- maven-source-plugin (outputs a jar of source) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<!-- checkstyle is skipped in base projects -->
+
+			<!-- spotbugs -->
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- ecuacion-splib -->
+		<dependency>
+			<groupId>jp.ecuacion.splib</groupId>
+			<artifactId>ecuacion-splib-jpa</artifactId>
+		</dependency>
+
+		<!-- DB driver -->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
+	</dependencies>
+</project>

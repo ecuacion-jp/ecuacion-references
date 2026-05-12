@@ -21,12 +21,12 @@ public class AppSecurityConfig extends SplibWebSecurityConfig {
 
   @Override
   protected List<AuthorizationBean> getRoleInfo() {
-    return null;
+    return List.of();
   }
 
   @Override
   protected List<AuthorizationBean> getAuthorityInfo() {
-    return null;
+    return List.of();
   }
 
   @Override

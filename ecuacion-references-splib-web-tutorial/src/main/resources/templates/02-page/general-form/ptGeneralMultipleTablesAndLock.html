@@ -14,10 +14,10 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		(book 郢晢ｿｽ郢晢ｽｼ郢晄じﾎ�)<br><br>
+		(book テーブルの入力項目)<br><br>
 		<div th:replace="~{bootstrap/components-input :: text('book.name', '')}"></div>
 		<div th:replace="~{bootstrap/components-input :: text('book.lstUpdTime', 'readonly')}"></div>
-		<br>(book_rental_status 郢晢ｿｽ郢晢ｽｼ郢晄じﾎ�)<br><br>
+		<br>(book_rental_status テーブルの入力項目)<br><br>
 		<div th:replace="~{bootstrap/components-input :: text('status', '')}"></div>
 		<div th:replace="~{bootstrap/components-input :: text('lstUpdTime', 'readonly')}"></div>
 		<div th:replace="~{bootstrap/components-input :: submitButton('update', #{jp.ecuacion.splib.web.common.button.update}, '')}"></div>
