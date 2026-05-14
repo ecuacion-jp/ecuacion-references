@@ -23,6 +23,55 @@ ecuacion library は以下の 5 つのモジュールで構成されています
 `ecuacion-lib-core` と `ecuacion-lib-validation` の詳細はナビゲーションの各ページを参照してください。
 以降では、このページで説明を完結させる残り 3 モジュールについて説明します。
 
+---
+
+## セットアップ
+
+### 1. BOM をインポートする
+
+`ecuacion-lib-parent` を BOM としてインポートすることで、各モジュールのバージョンを個別に指定せずに済みます。
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.lib</groupId>
+            <artifactId>ecuacion-lib-parent</artifactId>
+            <version>（バージョン）</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+### 2. 必要なモジュールを追加する
+
+```xml
+<!-- コア機能（Item・PropertiesFileUtil・Violation など） -->
+<dependency>
+    <groupId>jp.ecuacion.lib</groupId>
+    <artifactId>ecuacion-lib-core</artifactId>
+</dependency>
+
+<!-- Jakarta Validation 独自アノテーション群 -->
+<dependency>
+    <groupId>jp.ecuacion.lib</groupId>
+    <artifactId>ecuacion-lib-validation</artifactId>
+</dependency>
+
+<!-- ビジネス向けバリデーションメッセージ（任意） -->
+<dependency>
+    <groupId>jp.ecuacion.lib</groupId>
+    <artifactId>ecuacion-lib-validation-business-messages</artifactId>
+</dependency>
+```
+
+`ecuacion-lib-validation` は `ecuacion-lib-core` に依存しているため、
+`ecuacion-lib-validation` を追加すれば `ecuacion-lib-core` も自動的に含まれます。
+
+---
+
 ## ecuacion-lib-parent
 
 ecuacion-lib 全モジュールの親 POM です。dependencyManagement に ecuacion-lib 各モジュール
