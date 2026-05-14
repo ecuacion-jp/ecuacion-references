@@ -61,7 +61,7 @@ public class StPagesProvidedByLibraryController
       implements HtmlItemContainer {
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {};
     }
 

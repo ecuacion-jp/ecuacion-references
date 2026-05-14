@@ -7,7 +7,7 @@ import jp.ecuacion.splib.web.item.HtmlItemContainer;
 public class BookRecord extends BookBaseRecord implements HtmlItemContainer {
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return new HtmlItem[] {
     };
   }

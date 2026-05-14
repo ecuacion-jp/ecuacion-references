@@ -3,7 +3,7 @@
 ## 概要
 
 `Violations.MessageParameters` は、エラーメッセージの生成方法を制御するパラメータクラスです。
-`withMessageParameters()` でフルエント設定できます。
+`withMessageParameters()` でメソッドチェーン形式で設定できます。
 
 ```java
 violations.withMessageParameters(p -> p
@@ -23,9 +23,15 @@ violations.withMessageParameters(p -> p
 
 | 設定値 | 動作 |
 | ------ | ---- |
-| `null`（デフォルト） | フレームワーク層の既定値に従う |
+| `null`（デフォルト） | `ExceptionUtil.getMessageList()` の `isMessagesWithItemNamesAsDefault` の値に従う |
 | `true` | 項目名あり版のメッセージを使用 |
 | `false` | 項目名なし版のメッセージを使用 |
+
+`null` の場合のフォールバック先は `ExceptionUtil.getMessageList()` の `isMessagesWithItemNamesAsDefault` パラメータです。
+splib などのフレームワークがこの値をシステムデフォルトとして設定します。
+`isMessageWithItemName` に `true` / `false` を明示した場合は、`isMessagesWithItemNamesAsDefault` の値より優先されます。
+
+詳細は **util &gt; ExceptionUtil** を参照してください。
 
 ```java
 violations.withMessageParameters(p -> p.isMessageWithItemName(true));
@@ -62,23 +68,31 @@ violations.withMessageParameters(p -> p.showsItemNamePath(true));
 ## messagePrefix / messagePostfix — メッセージの前後に追加テキスト
 
 各エラーメッセージの前後に固定テキストを付加します。
-Excelアップロードのバリデーションで「2行目: 〇〇は必須です」のような表示に使います。
+Excelアップロードのバリデーションで「アップロードされたファイルにおいて、〇〇は必須です」のような表示に使います。
 
-```java
-// String 版: messages.properties のキーとして解決、見つからなければそのまま使用
-violations.withMessageParameters(p -> p
-    .messagePrefix("2行目: ")
-    .messagePostfix(" を確認してください"));
+### String 版 — リテラルまたはキーで指定
 
-// Arg 版: Arg.message() などで動的に組み立てる
-violations.withMessageParameters(p -> p
-    .messagePrefix(Arg.message("upload.error.row.prefix", rowNumber)));
+`messagePrefix(String)` に渡した文字列は、まず `messages.properties` のキーとして解決されます。
+キーが見つかればその値を、見つからなければ渡した文字列をそのまま使います。
+
+```properties
+# messages.properties
+excel.upload.prefix = アップロードされたエクセルファイルにおいて、
 ```
 
-### String 版の挙動
+```java
+// キー指定（messages.properties から値を取得）
+violations.withMessageParameters(p -> p.messagePrefix("excel.upload.prefix"));
+// → "アップロードされたエクセルファイルにおいて、「氏名」は入力必須です"
 
-`messagePrefix("some.key")` の `"some.key"` は `messages.properties` のキーとして解決されます。
-キーが存在しなければ `"some.key"` という文字列そのものが使われます。
+// リテラル文字列（キーが見つからないのでそのまま使用）
+violations.withMessageParameters(p -> p.messagePrefix("2行目: "));
+// → "2行目: 「氏名」は入力必須です"
+```
+
+### Arg 版 — プレースホルダーを含む動的な値
+
+プレースホルダー（`{0}` など）を含む文言や、実行時の値を埋め込む場合は `Arg.message()` を使います。
 
 ```properties
 # messages.properties
@@ -88,8 +102,10 @@ upload.error.row.prefix = {0}行目:
 ```java
 violations.withMessageParameters(p -> p
     .messagePrefix(Arg.message("upload.error.row.prefix", rowNumber)));
-// → "3行目: 名前は入力必須です"
+// → "3行目: 「氏名」は入力必須です"
 ```
+
+`messagePostfix` も同じ仕組みです。
 
 ---
 

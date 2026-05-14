@@ -36,7 +36,7 @@ public class PtGeneralFeaturesRecord extends SplibRecord implements HtmlItemCont
   }
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return new HtmlItem[] {new HtmlItemString("validationTest").notEmpty()};
   }
 }

@@ -5,10 +5,10 @@
 バリデーションエラーが発生したフィールドがコレクション（List・Set・Map）の要素の場合、
 項目名には「どの要素か」の情報が付加されます。
 
-例：`items` リストの 2 番目の要素の `productCode` で `@NotNull` 違反が発生した場合:
+例：`tags` リストの 1 番目の要素が `@NotNull` 違反の場合:
 
-```
-「items」の「productCode」の「2番目の要素」にnullは許可されていません
+```text
+「tags」の1番目の要素にnullは許可されていません
 ```
 
 ---
@@ -28,7 +28,21 @@
 
 ## 具体例
 
-### List の場合
+### List&lt;String&gt; の場合（要素そのもの）
+
+```java
+@Valid
+private List<@NotNull String> tags;
+// itemPropertyPath: "tags[0].<list element>"
+```
+
+エラーメッセージ例:
+
+```text
+「tags」の1番目の要素にnullは許可されていません
+```
+
+### List&lt;T&gt; の場合（要素内フィールド）
 
 ```java
 public class OrderForm implements ItemContainer {
@@ -50,25 +64,14 @@ public class OrderItemRecord implements ItemContainer {
 }
 ```
 
-`items[1].productCode` で `@NotNull` 違反が発生した場合のエラーメッセージ例:
+`items[1].productCode` で `@NotNull` 違反が発生した場合、`MessageParameters.showsItemNamePath=true` を設定するとコレクション位置情報が付加されます:
 
-```
-「items」の「productCode」の「2番目の要素」にnullは許可されていません
-```
-
-### List&lt;String&gt; の場合（要素そのもの）
-
-```java
-@Valid
-private List<@NotNull String> tags;
-// itemPropertyPath: "tags[0].<list element>"
+```text
+「items」の2番目の要素の「productCode」にnullは許可されていません
 ```
 
-エラーメッセージ例:
-
-```
-「tags」の「1番目の要素」にnullは許可されていません
-```
+`showsItemNamePath=false`（デフォルト）では `「productCode」` のみ表示されます。
+詳細は [itemNamePath](?id=messaging/item-name-path) を参照してください。
 
 ### Map の場合
 
@@ -80,8 +83,8 @@ private Map<String, @NotNull String> labels;
 
 エラーメッセージ例:
 
-```
-「labels」の「キーが[en]の要素」にnullは許可されていません
+```text
+「labels」のキーが[en]の要素にnullは許可されていません
 ```
 
 ---
@@ -96,7 +99,7 @@ private Map<String, @NotNull String> labels;
 | `any` | `複数の要素のいずれか` | Set の要素 |
 | `mapKey` | `キー項目のいずれか` | Map のキー |
 | `mapValue` | `キーが[{0}]の要素` | Map の値（`{0}` = キー値） |
-| `collectionItemName` | `{0}の{1}` | 親項目名と要素説明の結合パターン |
+| `collectionItemName` | `{0}の{1}` | フィールド名（`{0}`）と要素説明（`{1}`）の結合パターン |
 
 カスタマイズ例:
 
@@ -109,6 +112,6 @@ jp.ecuacion.lib.core.common.itemName.order=第{0}項目
 
 ## 詳細リファレンス
 
-- itemPropertyPath のコレクション記法 → **[itemPropertyPath とは](item/item-property-path)**
+- itemPropertyPath のコレクション記法 → **[itemPropertyPath とは](?id=item/item-property-path)**
 - prefix・postfix・separator のカスタマイズ → **prefix・postfix・separator**
-- ネストしたオブジェクトの場合 → **[itemNamePath](messaging/item-name-path)**
+- ネストしたオブジェクトの場合 → **[itemNamePath](?id=messaging/item-name-path)**

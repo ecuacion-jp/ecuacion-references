@@ -1,4 +1,4 @@
-# フィールドバリデーター
+# その他のフィールドバリデーター
 
 ## 概要
 
@@ -54,25 +54,3 @@ private String status;
 ```
 
 `"ACTIVE"`, `"INACTIVE"` などの文字列が `StatusEnum` に定義されているかを確認します。
-
----
-
-## PatternWithDescription — 説明付き正規表現
-
-標準の `@Pattern` と同じく正規表現でバリデーションしますが、`description` 属性でパターンの説明をメッセージに含められます。
-
-```java
-@PatternWithDescription(
-    regexp = "^[0-9]{7}$",
-    description = "7桁の数字"
-)
-private String postalCode;
-```
-
-エラーメッセージには `description` の値が埋め込まれます：
-
-```
-"7桁の数字" のパターンに一致しなければなりません
-```
-
-`description` を空にすると `regexp` そのものがメッセージに表示されます。

@@ -5,8 +5,10 @@
 `ItemUtil`（`jp.ecuacion.lib.core.util.ItemUtil`）は、
 `Item` や `ItemContainer` を扱うユーティリティクラスです。
 
-[ItemContainer#getItem()](item/item-container) が ItemContainer 内部での検索を担うのに対し、
-`ItemUtil` は RootBean と fullPropertyPath を受け取り、
+内部で `PropertyPathUtil` などの汎用ユーティリティを使用する上位レイヤーに位置し、
+ecuacion の Item モデルに特化したパイプラインを提供します。
+[ItemContainer#getItem()](?id=item/item-container) が ItemContainer 内部での検索を担うのに対し、
+`ItemUtil` は rootBean と fullPropertyPath を受け取り、
 ItemContainer の発見・委譲・`itemNameKey` の確定まで行うパイプライン全体を提供します。
 
 ---
@@ -14,7 +16,7 @@ ItemContainer の発見・委譲・`itemNameKey` の確定まで行うパイプ�
 ## resolveItem()
 
 ```java
-Item item = ItemUtil.resolveItem(fullPropertyPath, rootBean, leafBean);
+Item item = ItemUtil.resolveItem(fullPropertyPath, rootBean);
 ```
 
 以下のパイプラインを実行し、`itemNameKey` と `showsValue` が確定した完成品の `Item` を返します。
@@ -30,7 +32,7 @@ Item item = ItemUtil.resolveItem(fullPropertyPath, rootBean, leafBean);
 | --- | --- |
 | rootBean 自身が `ItemContainer` | `rootBean.getItem(fullPropertyPath)` を呼ぶ |
 | `fullPropertyPath` の第 1 ノードの子が `ItemContainer` | その子の `getItem(残りのパス)` を呼ぶ |
-| どちらでもない | `ItemUtil.getItemNameKey()` で直接解決 |
+| どちらでもない | `PropertyPathUtil.getClass()` で型情報から直接解決 |
 
 検索は **1 階層まで** です。
 
@@ -40,43 +42,9 @@ Item item = ItemUtil.resolveItem(fullPropertyPath, rootBean, leafBean);
 // Jakarta Validation の ConstraintViolation から利用する例
 Item item = ItemUtil.resolveItem(
     cv.getPropertyPath().toString(),
-    cv.getRootBean(),
-    cv.getLeafBean()
+    cv.getRootBean()
 );
 ```
-
----
-
-## getItemPropertyPath()
-
-```java
-String itemPropertyPath = ItemUtil.getItemPropertyPath(rootBean, fullPropertyPath);
-```
-
-`resolveItem()` の内部処理のうち、ItemContainer を探して itemPropertyPath を返す部分だけを取り出したメソッドです。
-
-`resolveItem()` を呼ぶと完成品の `Item` が返りますが、
-itemPropertyPath の文字列だけが必要な場合はこちらを使います。
-
----
-
-## getItemNameKey()
-
-```java
-// rootBean と propertyPath から leafBeanClass を導出して解決する版
-String key = ItemUtil.getItemNameKey(
-    explicitlySetItemNameKeyClass, rootBean, leafBean,
-    defaultItemNameKeyClass, itemNameKeyField, propertyPath);
-
-// クラス情報を直接渡す版
-String key = ItemUtil.getItemNameKey(
-    explicitlySetItemNameKeyClass, itemNameKeyClassFromAnnotation,
-    itemNameKeyClassFromClassName, itemNameKeyField, propertyPath);
-```
-
-[itemNameKey の解決ルール](item/item-name-key) に従って `itemNameKey` を返します。
-
-通常は `resolveItem()` の内部で自動的に呼ばれるため、直接使う場面は限られます。
 
 ---
 

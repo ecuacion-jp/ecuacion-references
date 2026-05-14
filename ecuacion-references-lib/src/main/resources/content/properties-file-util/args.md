@@ -83,7 +83,7 @@ Arg.formattedString("{0} #{required}", Arg.message("field.name"))
 // => "名前 （必須）"
 ```
 
-### Arg.itemName(String) / Arg.constant(String) / Arg.enumName(String) / Arg.application(String) — 他ファイル種別から参照
+### Arg.itemName(String) / Arg.constant(String) / Arg.enumName(String) — 他ファイル種別から参照
 
 `messages.properties` 以外のファイル種別のキーを参照したい場合に使います。
 
@@ -97,9 +97,6 @@ getMessage(locale, "message", Arg.constant("max.file.size"));
 
 // enum_names.properties のキーを引数として使う
 getMessage(locale, "message", Arg.enumName("status.active"));
-
-// application.properties のキーを引数として使う
-getMessage(locale, "message", Arg.application("app.name"));
 ```
 
 ---

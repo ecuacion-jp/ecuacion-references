@@ -17,9 +17,9 @@
 
 | レベル | 説明 | 代表的なアノテーション |
 | ------ | ---- | ---------------------- |
-| クラスレベル | クラス全体に付与し、複数フィールドの関係を検証 | `@TrueWhen`, `@GreaterThan`, `@AnyNotNull` |
+| クラスレベル | クラス全体に付与し、複数フィールドの関係を検証 | `@TrueWhen`, `@GreaterThan`, `@AnyNotNull`, `@ReturnTrue` |
 | フィールドレベル | 個別のフィールドに付与 | `@IntegerString`, `@EnumElement`, `@PatternWithDescription` |
-| メソッドレベル | メソッドの戻り値を検証 | `@ReturnTrue` |
+| メソッドレベル | メソッドに付与し、その戻り値を検証 | `@AssertTrueWithPropertyPath` |
 
 クラスレベルのアノテーションは `propertyPath` 属性でどのフィールドに違反を関連付けるかを指定します。
 

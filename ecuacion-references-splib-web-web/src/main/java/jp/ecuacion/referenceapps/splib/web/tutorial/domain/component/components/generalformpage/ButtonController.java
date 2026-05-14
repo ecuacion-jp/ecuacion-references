@@ -51,7 +51,7 @@ public class ButtonController
   public static class ButtonRecord extends SplibRecord implements HtmlItemContainer {
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {};
     }
   }

@@ -34,7 +34,6 @@ user.name=氏名
 | `item_names` | item_names[_xxx].properties |
 | `enum_names` | enum_names[_xxx].properties |
 | `constants` | constants[_xxx].properties |
-| `application` | application[_xxx].properties |
 | `validation_messages` | ValidationMessages[_xxx].properties |
 | `validation_messages_with_item_names` | ValidationMessagesWithItemNames[_xxx].properties |
 | `validation_messages_pattern_descriptions` | ValidationMessagesPatternDescriptions[_xxx].properties |

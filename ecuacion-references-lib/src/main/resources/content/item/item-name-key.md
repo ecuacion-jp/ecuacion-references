@@ -63,17 +63,8 @@ public class UserRecord implements ItemContainer {
 
 ## `@ItemNameKeyClass` アノテーション
 
-クラス名と異なるクラス部を一括で指定したい場合に使います。
-
-```java
-@ItemNameKeyClass("user")
-public class UserRecord implements ItemContainer {
-    private String name;    // → itemNameKey: "user.name"
-    private String email;   // → itemNameKey: "user.email"
-}
-```
-
-フィールドごとに `itemNameKey()` を指定する手間を省けます。
+クラス名と異なるクラス部を一括指定したい場合に使います。
+詳細は [@ItemNameKeyClass](?id=messaging/item-name-key-class) を参照してください。
 
 ---
 

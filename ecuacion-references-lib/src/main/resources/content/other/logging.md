@@ -5,7 +5,7 @@
 ecuacion-lib は SLF4J をラップした専用ロガーを提供します。
 SLF4J ロガーをそのまま使う代わりにこれらを使うことで、**ログの用途を型で明示**できます。
 
-すべてのロガーは `EclibLogger` を継承しており、内部で `LoggerFactory.getLogger(cls)` を使います。
+すべてのロガーは内部で `LoggerFactory.getLogger(cls)` を使います。
 
 ---
 
@@ -36,7 +36,7 @@ logger.error(throwable, "additional message");
 監視サービス（Datadog など）がこのロガー名でフィルタリングしてアラートを飛ばす運用を想定しています。
 
 ```java
-private final ErrorLogger errorLogger = new ErrorLogger(getClass());
+private final ErrorLogger errorLogger = new ErrorLogger();
 
 errorLogger.error("critical system error");
 errorLogger.error(violationException);   // ViolationException の詳細も記録
@@ -48,7 +48,7 @@ SQL 文とパラメータを記録するロガーです。`trace` / `debug` レ�
 Spring はデフォルトで SQL ログ機能を持っているため、このロガーが必要になる場面は限定的です。
 
 ```java
-private final SqlLogger sqlLogger = new SqlLogger(getClass());
+private final SqlLogger sqlLogger = new SqlLogger();
 
 sqlLogger.debug("SELECT * FROM users WHERE id = ?");
 ```
@@ -59,7 +59,7 @@ sqlLogger.debug("SELECT * FROM users WHERE id = ?");
 `info` / `warn` / `error` レベルをサポートします。
 
 ```java
-private final SummaryLogger summaryLogger = new SummaryLogger(getClass());
+private final SummaryLogger summaryLogger = new SummaryLogger();
 
 summaryLogger.info("batch started");
 summaryLogger.info("batch completed: processed 1000 records");

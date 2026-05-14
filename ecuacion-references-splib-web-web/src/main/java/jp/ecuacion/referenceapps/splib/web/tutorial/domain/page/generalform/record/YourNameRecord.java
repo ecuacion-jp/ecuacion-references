@@ -18,7 +18,7 @@ public class YourNameRecord extends YourNameBaseRecord implements HtmlItemContai
   }
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return new HtmlItem[] {new HtmlItemString("validationTest").notEmpty()};
   }
 }

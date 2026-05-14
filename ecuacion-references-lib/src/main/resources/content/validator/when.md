@@ -1,4 +1,4 @@
-# When系（条件付きバリデーション）
+# 条件付きバリデーター
 
 ## 概要
 
@@ -30,14 +30,16 @@ public class RegistrationForm { ... }
 
 ### パターン・文字列・値参照条件
 
-| アノテーション | `propertyPath` が満たすべき条件 |
-| ------------- | ------------------------------- |
-| `@PatternWhen` | 正規表現にマッチすること |
-| `@NotPatternWhen` | 正規表現にマッチしないこと |
-| `@StringWhen` | 文字列型であること |
-| `@NotStringWhen` | 文字列型でないこと |
-| `@ValueOfPropertyPathWhen` | 別フィールドと同値であること |
-| `@NotValueOfPropertyPathWhen` | 別フィールドと異なること |
+これらのアノテーションは `conditionValue` に加え、固有のパラメータを持ちます。
+
+| アノテーション | `propertyPath` が満たすべき条件 | 固有パラメータ |
+| ------------- | ------------------------------- | ------------- |
+| `@PatternWhen` | 正規表現にマッチすること | `regexp` |
+| `@NotPatternWhen` | 正規表現にマッチしないこと | `regexp` |
+| `@StringWhen` | 指定した文字列のいずれかであること | `string[]` |
+| `@NotStringWhen` | 指定した文字列のいずれでもないこと | `string[]` |
+| `@ValueOfPropertyPathWhen` | 別フィールドと同値であること | `valuePropertyPath` |
+| `@NotValueOfPropertyPathWhen` | 別フィールドと異なること | `valuePropertyPath` |
 
 ---
 
@@ -63,17 +65,17 @@ conditionPropertyPath = "address.country"
 
 `conditionPropertyPath` のフィールドがどういう状態のときにバリデーションを実行するかを指定します。
 
-| `ConditionValue` | 意味 | 追加属性 |
-| ---------------- | ---- | -------- |
-| `NULL` | `null` であること | なし |
-| `NOT_NULL` | `null` でないこと | なし |
-| `EMPTY` | 空（null または空文字）であること | なし |
-| `NOT_EMPTY` | 空でないこと | なし |
-| `TRUE` | `true` であること | なし |
-| `FALSE` | `false` であること | なし |
-| `STRING` | 指定文字列のいずれかであること | `conditionValueString` |
-| `PATTERN` | 正規表現にマッチすること | `conditionValuePatternRegexp` |
-| `VALUE_OF_PROPERTY_PATH` | 別フィールドと同値であること | `conditionValuePropertyPath` |
+| `ConditionValue` | 意味 | 追加属性（必須） | 追加属性（任意） |
+| ---------------- | ---- | --------------- | --------------- |
+| `NULL` | `null` であること | — | — |
+| `NOT_NULL` | `null` でないこと | — | — |
+| `EMPTY` | 空（null または空文字）であること | — | — |
+| `NOT_EMPTY` | 空でないこと | — | — |
+| `TRUE` | `true` であること | — | — |
+| `FALSE` | `false` であること | — | — |
+| `STRING` | 指定文字列のいずれかであること | `conditionValueString` | `conditionValueDisplayStringPropertyPath` |
+| `PATTERN` | 正規表現にマッチすること | `conditionValuePatternRegexp` | `conditionValuePatternDescription`, `conditionValueDisplayStringPropertyPath` |
+| `VALUE_OF_PROPERTY_PATH` | 別フィールドと同値であること | `conditionValuePropertyPath` | `conditionValueDisplayStringPropertyPath` |
 
 ### conditionOperator — 条件演算子
 
@@ -81,6 +83,29 @@ conditionPropertyPath = "address.country"
 | ------------------- | ---- |
 | `EQUAL_TO`（デフォルト） | 条件が成立するとき validte する |
 | `NOT_EQUAL_TO` | 条件が成立しないとき validate する |
+
+### conditionValuePatternDescription
+
+`conditionValue = PATTERN` のとき、`conditionValuePatternRegexp` に設定した正規表現の代わりにエラーメッセージへ表示する人間向けの説明文を指定します。省略すると正規表現がそのまま表示されます。
+
+```java
+// conditionValuePatternDescription なし
+// → 「電話番号」が「^(070|080|090).*」に合致する場合は〜
+
+// conditionValuePatternDescription あり
+@TrueWhen(
+    propertyPath = "smsConsentAgreed",
+    conditionPropertyPath = "phone",
+    conditionValue = ConditionValue.PATTERN,
+    conditionValuePatternRegexp = "^(070|080|090).*",
+    conditionValuePatternDescription = "携帯電話番号"  // メッセージに使う説明
+)
+// → 「電話番号」が「携帯電話番号」に合致する場合は〜
+```
+
+### conditionValueDisplayStringPropertyPath
+
+`STRING` / `PATTERN` / `VALUE_OF_PROPERTY_PATH` のとき、エラーメッセージに表示する「条件値の表示名」を別フィールドの itemNameKey から解決する際に指定します。省略すると条件値の実値（文字列・正規表現・フィールド値）がそのまま表示されます。
 
 ### falseWhenConditionNotSatisfied
 
@@ -126,4 +151,44 @@ public class UserForm { ... }
     conditionOperator = ConditionOperator.NOT_EQUAL_TO
 )
 public class CancelForm { ... }
+```
+
+### @PatternWhen — 正規表現で検証（regexp）
+
+```java
+// type が "POSTAL" のとき、code は7桁の数字であること
+@PatternWhen(
+    propertyPath = "code",
+    regexp = "\\d{7}",
+    conditionPropertyPath = "type",
+    conditionValue = ConditionValue.STRING,
+    conditionValueString = {"POSTAL"}
+)
+public class AddressForm { ... }
+```
+
+### @StringWhen — 特定の文字列であることを検証（string[]）
+
+```java
+// role が NOT_EMPTY のとき、accountType は "ADMIN" または "OPERATOR" であること
+@StringWhen(
+    propertyPath = "accountType",
+    string = {"ADMIN", "OPERATOR"},
+    conditionPropertyPath = "role",
+    conditionValue = ConditionValue.NOT_EMPTY
+)
+public class UserForm { ... }
+```
+
+### @ValueOfPropertyPathWhen — 別フィールドと同値であることを検証（valuePropertyPath）
+
+```java
+// confirmed が true のとき、confirmPassword は password と同じ値であること
+@ValueOfPropertyPathWhen(
+    propertyPath = "confirmPassword",
+    valuePropertyPath = "password",
+    conditionPropertyPath = "confirmed",
+    conditionValue = ConditionValue.TRUE
+)
+public class PasswordForm { ... }
 ```

@@ -24,7 +24,7 @@ public class GreetingInputRecord extends SplibRecord implements HtmlItemContaine
   }
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return new HtmlItem[] {new HtmlItem("name").notEmpty()};
   }
 }

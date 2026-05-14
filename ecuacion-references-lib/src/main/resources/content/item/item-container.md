@@ -1,4 +1,4 @@
-# ItemContainer インターフェース
+# ItemContainer
 
 ## 概要
 
@@ -54,13 +54,72 @@ Item item = userRecord.getItem("password");
 
 内部動作：
 
-1. `itemPropertyPath` をインデックスなしの正規パスに変換して正規化（`toIndexlessPath`）
-2. `customizedItems()` の中から `propertyPath` が一致するものを検索
-3. 見つかればそれを返す。見つからなければ `new Item(propertyPath)` を生成して返す
+1. `itemPropertyPath` のコレクションインデックスを除去した形式に変換する（`toIndexlessPath`）
+2. クラス階層を上に辿りながら、各レベルの `customizedItems()` から `propertyPath` が一致する `Item` を収集・マージする（詳細は後述）
+3. 見つからなければ `new Item(propertyPath)` を生成して返す
 4. `@ItemNameKeyClass` アノテーションの情報をフィールドが属するクラスから読み取り、`Item` に設定する
 
-[itemPropertyPath とは](item/item-property-path) で説明したとおり、
+[itemPropertyPath とは](?id=item/item-property-path) で説明したとおり、
 `getItem()` に渡す `itemPropertyPath` は **ItemContainer 自身からの相対パス** です。
+
+---
+
+## 親クラスからの設定継承
+
+`ItemContainer` を実装したクラスが `customizedItems()` をオーバーライドした場合、
+`getItem()` はクラス階層を上に辿りながら同じ `propertyPath` を持つ `Item` をマージします。
+子クラスで明示的に設定されたプロパティが優先され、未設定のプロパティは親クラスの設定を引き継ぎます。
+
+```java
+// 親クラス：itemNameKey と hideValue を設定
+public class UserRecord implements ItemContainer {
+    private String name;
+    private String password;
+
+    @Override
+    public Item[] customizedItems() {
+        return new Item[] {
+            new Item("name").itemNameKey("user.name"),
+            new Item("password").itemNameKey("user.password").hideValue(),
+        };
+    }
+}
+
+// 子クラス：画面によって name の itemNameKey を上書き
+public class EditUserRecord extends UserRecord {
+    @Override
+    public Item[] customizedItems() {
+        return new Item[] {
+            new Item("name").itemNameKey("editUser.name"),
+        };
+    }
+}
+```
+
+`EditUserRecord` のインスタンスで `getItem("name")` を呼ぶと：
+
+- `itemNameKey` → `"editUser.name"`（子クラスの設定を優先）
+- `showsValue` → `true`（親クラスでも設定されていないためデフォルト値）
+
+`getItem("password")` を呼ぶと：
+
+- `itemNameKey` → `"user.password"`（親クラスから継承）
+- `showsValue` → `false`（親クラスの `hideValue()` を継承）
+
+子クラスで一切 `customizedItems()` をオーバーライドしない場合は、
+単純に親クラスの設定がそのまま使われます。
+
+> **モジュール制約**：この機能は Java の `MethodHandles` を用いて各クラス階層の
+> `customizedItems()` を個別に呼び出します。
+> Spring Boot の fat JAR などの unnamed module 環境では自動的に動作しますが、
+> named module 環境では `module-info.java` に以下のように `opens` を追加する必要があります。
+>
+> ```java
+> module com.example.myapp {
+>     requires jp.ecuacion.lib.core;
+>     opens com.example.myapp.record to jp.ecuacion.lib.core;
+> }
+> ```
 
 ---
 
@@ -91,5 +150,8 @@ public class UserRecord implements ItemContainer {
 
 ## ItemContainer の検索範囲
 
-`ItemUtil.resolveItem()` が ItemContainer を探す際の検索範囲は **RootBean から 1 階層まで** です。
-詳細は [ItemUtil](item/item-util) を参照してください。
+`ItemUtil.resolveItem()` は、rootBean と propertyPath をもとに ItemContainer を探して
+`Item` を解決するメソッドです。バリデーションエラーメッセージを生成する際などに
+フレームワーク内部から呼ばれます（詳細は [ItemUtil](?id=item/item-util) を参照）。
+
+この検索範囲は **rootBean から 1 階層まで** です。

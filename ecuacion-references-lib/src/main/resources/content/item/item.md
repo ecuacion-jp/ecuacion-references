@@ -1,29 +1,32 @@
-# Item クラス
+# Item
 
 ## 概要
 
 `Item`（`jp.ecuacion.lib.core.item.Item`）は、フィールド 1 つ分の属性を保持するクラスです。
 主にバリデーションエラーメッセージ中での項目名や値の表示方法を制御するために使われます。
 
-コンストラクタに `itemPropertyPath` を渡すだけで生成でき、
-追加のカスタマイズはメソッドチェーンで指定します。
+通常、`Item` インスタンスはアプリ開発者が直接生成することはなく、
+`ItemUtil.resolveItem()` または `ItemContainer.getItem()` 経由で取得します。
 
----
-
-## コンストラクタ
+直接インスタンスを生成するのは、[ItemContainer](?id=item/item-container) の
+`customizedItems()` を実装してフィールドの表示動作をカスタマイズする場合のみです。
 
 ```java
-Item item = new Item("name");
+@Override
+public Item[] customizedItems() {
+    return new Item[] {
+        new Item("password").hideValue(),
+        new Item("name").itemNameKey("fullName")
+    };
+}
 ```
-
-引数は [itemPropertyPath](item/item-property-path)（空文字は不可）です。
 
 ---
 
 ## itemNameKey の明示指定
 
 `itemNameKey` はエラーメッセージ中の項目名を `item_names.properties` などから引くためのキーです
-（詳細は [itemNameKey の解決ルール](item/item-name-key) を参照）。
+（詳細は [itemNameKey の解決ルール](?id=item/item-name-key) を参照）。
 
 通常は自動で解決されますが、明示的に指定することもできます。
 
@@ -67,6 +70,5 @@ Item item = new Item("password")
 
 | メソッド | 説明 |
 | --- | --- |
-| `new Item(propertyPath)` | itemPropertyPath を指定してインスタンスを生成 |
 | `.itemNameKey(key)` | itemNameKey を明示的に指定（省略時は自動解決） |
 | `.hideValue()` | エラーメッセージで値を非表示にする |

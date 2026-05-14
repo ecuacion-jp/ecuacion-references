@@ -1,6 +1,8 @@
-# SPI（Service Provider Interface）
+# SPI
 
 ## 概要
+
+SPI（Service Provider Interface）とは、Java のモジュールシステムでリソースの提供者を宣言する仕組みです。
 
 `jp.ecuacion.lib.core.spi` パッケージは、**Java 9 モジュールシステム（JPMS）使用時**に
 `PropertiesFileUtil` が各種 `.properties` ファイルを読み込めるようにするための
@@ -12,8 +14,12 @@ Service Provider Interface（SPI）を提供します。
 
 ## 必要になる場面
 
-`module-info.java` を使った Java モジュールシステム環境では、`ResourceBundle` の読み込みに
-SPI の登録が必要になります。アプリの各モジュールが独自の `.properties` ファイルを持つ場合、
+`module-info.java` を使った Java モジュールシステム環境で `PropertiesFileUtil` を使用する場合、
+SPI の登録が必要になります。`PropertiesFileUtil` は内部で `ResourceBundle` を使って
+`.properties` ファイルを読み込んでおり、モジュールシステム環境ではこの読み込みに
+SPI の登録が必要になるためです。
+
+アプリの各モジュールが独自の `.properties` ファイルを持つ場合、
 そのモジュールに対応する SPI 実装を登録する必要があります。
 
 ---
@@ -24,14 +30,13 @@ SPI の登録が必要になります。アプリの各モジュールが独自�
 
 | SPI インターフェース | 対応ファイル |
 | ------------------ | ------------ |
-| `MessagesProvider` | messages.properties |
-| `MessagesBaseProvider` | messages_base.properties |
-| `MessagesCoreProvider` | messages_core.properties |
-| `ItemNamesProvider` | item_names.properties |
-| `EnumNamesProvider` | enum_names.properties |
-| `ApplicationProvider` | application.properties |
-| `ApplicationBaseProvider` | application_base.properties |
-| （他多数） | 各ファイル種別のサフィックスに対応 |
+| `MessagesProvider` / `MessagesBaseProvider` / `MessagesCoreProvider` | messages.properties |
+| `MessagesWithItemNamesProvider` / `MessagesWithItemNamesBaseProvider` / `MessagesWithItemNamesCoreProvider` | messages_with_item_names.properties |
+| `ConstantsProvider` / `ConstantsBaseProvider` / `ConstantsCoreProvider` | constants.properties |
+| `ItemNamesProvider` / `ItemNamesBaseProvider` / `ItemNamesCoreProvider` | item_names.properties |
+| `EnumNamesProvider` / `EnumNamesBaseProvider` / `EnumNamesCoreProvider` | enum_names.properties |
+| `ApplicationProvider` / `ApplicationBaseProvider` / `ApplicationCoreProvider` / `ApplicationProfileProvider` / `ApplicationCoreProfileProvider` | application.properties |
+| `ValidationMessagesPatternDescriptionsProvider` | ValidationMessagesPatternDescriptions.properties |
 
 ---
 
@@ -52,6 +57,10 @@ public class AppMessagesProvider extends AbstractPropertiesFileProviderImpl
 
 ### 2. module-info.java への登録
 
+`.properties` ファイルの配置場所によって書き方が異なります。
+
+**パターンA：パッケージ配下に置く場合（`opens` で個別公開）**
+
 ```java
 module your.app.module {
     requires jp.ecuacion.lib.core;
@@ -65,7 +74,22 @@ module your.app.module {
 }
 ```
 
-`opens` 宣言がないと、ライブラリがリソースファイルを読み込めないため注意してください。
+**パターンB：クラスパス直下に置く場合（`open module` で全公開）**
+
+`.properties` ファイルをパッケージに属さないクラスパスのルートに置く場合、
+`opens` でパッケージを指定できないため、モジュール全体を `open` にします。
+
+```java
+open module your.app.module {
+    requires jp.ecuacion.lib.core;
+
+    // SPI プロバイダーを登録
+    provides jp.ecuacion.lib.core.spi.MessagesProvider
+        with your.app.AppMessagesProvider;
+}
+```
+
+`opens` または `open module` の宣言がないと、ライブラリがリソースファイルを読み込めないため注意してください。
 
 ---
 

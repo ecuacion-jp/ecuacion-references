@@ -6,6 +6,52 @@
 
 ---
 
+## validate とメッセージ生成の分離
+
+Jakarta Validation 標準では、`validator.validate(...)` を呼んだ瞬間にメッセージが生成されます。
+`ConstraintViolation.getMessage()` は生成済みの文字列を返すだけです。
+
+```java
+// 標準の場合：validate と同時にメッセージが生成される
+Set<ConstraintViolation<Account>> set = validator.validate(account);
+set.forEach(v -> System.out.println(v.getMessage())); // すでに文字列化されている
+```
+
+このため、ユーザーごとに locale を切り替える多言語対応システムでは、
+service 層のメソッドに `Locale` を引数として持ち込む必要が生じます。
+
+```java
+// locale をサービス層に持ち込まざるを得ない
+public void createAccount(Account account, Locale locale) {
+    ValidatorFactory factory = Validation.byDefaultProvider().configure()
+        .messageInterpolator(new LocaleSpecificMessageInterpolator(locale))
+        .buildValidatorFactory();
+    ...
+}
+```
+
+### 解決策：validate とメッセージ生成を分離する
+
+1. service 層で validate → 違反があれば例外をスロー（locale 不要）
+2. ExceptionHandler で catch → そこで locale を使ってメッセージを生成
+
+```java
+// service 層：locale に関与しない
+public void createAccount(Account account) {
+    Set<ConstraintViolation<Account>> set = validator.validate(account);
+    if (!set.isEmpty()) {
+        throw new ConstraintViolationException(set);
+    }
+}
+
+// ExceptionHandler：ここで locale を使ってメッセージを生成
+List<String> messages = ExceptionUtil.getMessageList(ex, Locale.JAPANESE);
+```
+
+`ExceptionUtil.getMessageList()` を呼んだタイミングでメッセージが生成されます。
+
+---
+
 ## getMessageList — 例外からメッセージリストを取得
 
 例外の種類に関わらず、統一した方法でメッセージ文字列のリストを返します。
@@ -39,10 +85,6 @@ List<String> messages = ExceptionUtil.getMessageList(throwable, Locale.JAPANESE)
 List<String> messages = ExceptionUtil.getMessageList(violations);
 List<String> messages = ExceptionUtil.getMessageList(violations, Locale.JAPANESE);
 
-// ViolationException から
-List<String> messages = ExceptionUtil.getMessageList(violationException);
-List<String> messages = ExceptionUtil.getMessageList(violationException, Locale.JAPANESE);
-
 // ConstraintViolation の Set から
 List<String> messages = ExceptionUtil.getMessageList(constraintViolationSet);
 List<String> messages = ExceptionUtil.getMessageList(constraintViolationSet, Locale.JAPANESE);
@@ -61,5 +103,8 @@ List<String> messages = ExceptionUtil.getMessageList(throwable, Locale.JAPANESE,
 
 `true` にすると、バリデーションメッセージの解決に
 `ValidationMessagesWithItemNames.properties` を優先して使用します。
-splib などのフレームワーク側でシステムデフォルトとして設定される値で、
-各バリデーション側で個別に指定した値が優先されます。
+splib などのフレームワーク側でシステムデフォルトとして設定される値です。
+
+各 Violation に `MessageParameters.isMessageWithItemName` が `true` / `false` で設定されている場合は、
+その値がこのデフォルトより優先されます。
+`isMessageWithItemName` との関係の詳細は **violation &gt; MessageParameters** を参照してください。

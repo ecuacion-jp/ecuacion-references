@@ -1,43 +1,42 @@
-# Jakarta Validation
+# ConstraintViolation
 
 ## 概要
 
-Jakarta Validation（旧 Bean Validation）は、アノテーションでバリデーションルールを定義する標準仕様です。
-ecuacion-lib では `Violations.validate()` を通じて Jakarta Validation の結果を `Violations` に変換します。
+`ConstraintViolation` は、Jakarta Validation（旧 Bean Validation）によるバリデーション結果を表すクラスです。
+Jakarta Validation アノテーション（`@NotNull`、`@Size` など）を付与したオブジェクトを検証すると、
+違反ごとに `ConstraintViolation` が生成されます。
+
+ecuacion-lib では `violations.addAll()` でこの結果を `Violations` に追加します。
 
 ---
 
-## Violations.validate()
+## violations.addAll() — ConstraintViolation の追加
+
+Jakarta Validation で検証すると `Set<ConstraintViolation<T>>` が返されます。
+これを `violations.addAll()` で追加します。
 
 ```java
-new Violations().validate(someObject).throwIfAny();
+Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+violations.addAll(validator.validate(someForm));
 ```
 
-`Violations.validate()` はオブジェクトを検証し、`ConstraintViolation` を `Violations` に追加して返します。
-`BusinessViolation` と組み合わせることもできます。
+バリデーショングループを指定する場合:
 
 ```java
-Violations violations = new Violations();
-violations.add(new BusinessViolation("error.additional-check"));
-violations.validate(someForm);
-violations.throwIfAny();
-```
-
-### バリデーショングループを指定する
-
-```java
-new Violations().validate(someObject, GroupA.class, GroupB.class).throwIfAny();
+violations.addAll(validator.validate(someForm, GroupA.class, GroupB.class));
 ```
 
 ---
 
-## ecuacion-lib-validation の独自制約アノテーション
+## Violations.validate() — ショートハンド
 
-標準アノテーション（`@NotNull`, `@Size` など）を補完する独自アノテーションの全一覧と使い方は
-**独自バリデーター** メニューを参照してください。
+上記の検証と追加をまとめたショートハンドです。
 
----
+```java
+// 標準の書き方
+violations.addAll(validator.validate(someObject));
 
-## 詳細リファレンス
-
-- バリデーションエラーメッセージの仕組み → **util &gt; PropertiesFileUtil &gt; ValidationMessages**
+// 同等のショートハンド
+violations.validate(someObject);
+violations.validate(someObject, GroupA.class);  // グループ指定
+```

@@ -36,24 +36,6 @@
 					@{/public/article?id=concepts/violations-overview},
 					#{navBar.concepts.violationsOverview}, '')}"></div>
 
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
-					#{navBar.mf.messaging}, '')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
-					#{navBar.mf.messagingAndException}, ~{::navbarMfMessaging}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarMfMessaging" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/intro},
-						#{navBar.mf.pfuIntro}, '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=validation/violation-intro},
-						#{navBar.mf.violationIntro}, '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=validation/jakarta-validation-intro},
-						#{navBar.mf.jakartaValidationIntro}, '')}"></div>
-			</div></th:block>
 
 		</div></th:block>
 
@@ -110,20 +92,20 @@
 					#{navBar.util.pfu}, ~{::navbarUtilPfu}, '')}"></div>
 			<th:block th:if="false"><div th:fragment="navbarUtilPfu" th:remove="tag">
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/intro},
-						#{navBar.mf.pfuIntro}, '')}"></div>
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 						@{/public/article?id=properties-file-util/basic-usage},
 						#{navBar.util.pfu.basicUsage}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/args},
-						#{navBar.util.pfu.args}, '')}"></div>
+						@{/public/article?id=properties-file-util/loading-rules},
+						#{navBar.util.pfu.loadingRules}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 						@{/public/article?id=properties-file-util/validation-messages},
 						#{navBar.util.pfu.validationMessages}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 						@{/public/article?id=properties-file-util/cross-file-reference},
 						#{navBar.util.pfu.messagesItemNames}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/article?id=properties-file-util/args},
+						#{navBar.util.pfu.args}, '')}"></div>
 			</div></th:block>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
@@ -148,23 +130,17 @@
 		<th:block th:if="false"><div th:fragment="navbarViolation" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/violation-intro},
-					#{navBar.mf.violationIntro}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/jakarta-validation-intro},
-					#{navBar.mf.jakartaValidationIntro}, '')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=validation/violation},
 					#{navBar.violation.violation}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/message-parameters},
-					#{navBar.violation.messageParameters}, '')}"></div>
+					@{/public/article?id=validation/business-violation},
+					#{navBar.violation.businessViolation}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=validation/jakarta-validation},
 					#{navBar.violation.jakartaValidation}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validation/message-parameters},
+					#{navBar.violation.messageParameters}, '')}"></div>
 
 		</div></th:block>
 
@@ -181,21 +157,21 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=messaging/item-name-key-class},
 					#{navBar.itemClasses.itemNameKeyClass}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=item/item-name-key},
+					#{navBar.mf.itemNameKeyResolution}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=messaging/item-name-intro},
-					#{navBar.mf.itemNameIntro}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=messaging/item-name-in-message},
 					#{navBar.mf.itemNameInMessageArticle}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=item/item-name-key},
-					#{navBar.mf.itemNameKeyResolution}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=messaging/collection-item-name},
 					#{navBar.mf.collectionItemNameArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=messaging/item-name-path},
+					#{navBar.mf.itemNamePath}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=messaging/item-name-display},
 					#{navBar.mf.itemNameDisplayArticle}, '')}"></div>
@@ -206,44 +182,36 @@
 				#{navBar.validator}, ~{::navbarValidator}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarValidator" th:remove="tag">
 
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/blank-handling},
+					#{navBar.validator.blankHandling}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/standard-annotation-messages},
+					#{navBar.validator.standardAnnotationMessages}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
 					#{navBar.validator.customValidator}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/article?id=validator/overview},
 					#{navBar.cv.overview}, '')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
-					#{navBar.cv.when}, ~{::navbarCvWhen}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarCvWhen" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=validator/when},
-						#{navBar.cv.whenArticle}, '')}"></div>
-			</div></th:block>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
-					#{navBar.cv.comparison}, ~{::navbarCvComparison}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarCvComparison" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=validator/comparison},
-						#{navBar.cv.comparisonArticle}, '')}"></div>
-			</div></th:block>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
-					#{navBar.cv.field}, ~{::navbarCvField}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarCvField" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=validator/field},
-						#{navBar.cv.fieldArticle}, '')}"></div>
-			</div></th:block>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
-					#{navBar.cv.collection}, ~{::navbarCvCollection}, '')}"></div>
-			<th:block th:if="false"><div th:fragment="navbarCvCollection" th:remove="tag">
-				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=validator/collection},
-						#{navBar.cv.collectionArticle}, '')}"></div>
-			</div></th:block>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/when},
+					#{navBar.cv.whenArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/comparison},
+					#{navBar.cv.comparisonArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/pattern-with-description},
+					#{navBar.cv.patternWithDescription}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/field},
+					#{navBar.cv.fieldArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/article?id=validator/collection},
+					#{navBar.cv.collectionArticle}, '')}"></div>
 
 		</div></th:block>
 

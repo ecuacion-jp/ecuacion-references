@@ -19,7 +19,7 @@ public class BookRentalStatusRecord extends BookRentalStatusBaseRecord implement
   }
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return new HtmlItem[] {new HtmlItem("status").notEmpty(),
         new HtmlItem("book.name").notEmpty()};
   }

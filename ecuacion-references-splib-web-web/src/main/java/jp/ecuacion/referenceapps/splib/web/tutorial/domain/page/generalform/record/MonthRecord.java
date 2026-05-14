@@ -65,7 +65,7 @@ public class MonthRecord extends RecordWithId
   }
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return htmlItems;
   }
   

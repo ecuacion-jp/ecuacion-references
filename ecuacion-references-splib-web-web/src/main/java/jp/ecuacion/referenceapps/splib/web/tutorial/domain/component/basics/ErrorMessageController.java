@@ -91,7 +91,7 @@ public class ErrorMessageController extends SplibGeneral1FormController<ErrorMes
     }
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {};
     }
   }

@@ -58,18 +58,20 @@ jp.ecuacion.lib.core.common.itemName.separator=・
 ## 値の prefix・postfix・separator
 
 エラーメッセージに値（`{invalidValue}` など）を含む場合、値にも同様の記号が付きます。
-値用の設定は `jp.ecuacion.lib.core.common.value.*` キーで管理されており、
-デフォルトは項目名と同じ `「」` です。
+値用の設定は `jp.ecuacion.lib.core.common.value.*` キーで管理されます。
+日本語専用のデフォルト定義はないため、日本語環境でも英語デフォルトの `'...'`（シングルクォート）が使われます。
 
-| キー | デフォルト値（ja） |
+| キー | デフォルト値 |
 | --- | --- |
-| `...value.prependSymbol` | `「` |
-| `...value.appendSymbol` | `」` |
-| `...value.separator` | `、` |
+| `...value.prependSymbol` | `'` |
+| `...value.appendSymbol` | `'` |
+| `...value.separator` | `,` |
+
+`「」` に変更したい場合は `messages_ja.properties` に定義します。
 
 ---
 
 ## 詳細リファレンス
 
-- コレクション要素の表示カスタマイズ → **[List・Set・Map の項目名](messaging/collection-item-name)**
-- itemNamePath の区切り文字 → **[itemNamePath](messaging/item-name-path)**
+- コレクション要素の表示カスタマイズ → **[List・Set・Map の項目名](?id=messaging/collection-item-name)**
+- itemNamePath の区切り文字 → **[itemNamePath](?id=messaging/item-name-path)**

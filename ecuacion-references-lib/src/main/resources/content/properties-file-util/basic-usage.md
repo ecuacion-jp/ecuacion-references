@@ -5,40 +5,34 @@
 `PropertiesFileUtil`（`jp.ecuacion.lib.core.util.PropertiesFileUtil`）は、アプリケーション内の各種
 `.properties` ファイルを一元的に読み込むためのユーティリティクラスです。
 
-Java 標準の `ResourceBundle` をベースに、以下の機能を追加しています。
-
-- 複数種類の `.properties` ファイルをメソッドで使い分けて読み込める
-- ecuacion の各モジュールとアプリの複数モジュールにまたがるファイルを一括読み込み
-- ファイルをまたいだキー検索とフォールバック（後述）
-- キーが存在しない場合の挙動をファイル種別によって切り替え
-- `.default` サフィックスによるデフォルト値の上書き機能
-- プロパティ値内での `${...}` EL 式評価（詳細は **ValidationMessages** を参照）
+Java 標準の `ResourceBundle` をベースに、各種機能を追加しています。（詳細は後述）
 
 ---
 
 ## サポートするファイルの種類
 
-| ファイル名 | 取得メソッド | Locale | フォールバック先 | 説明 |
-| --- | --- | :---: | --- | --- |
-| `application[_xxx].properties` | `getApplication(...)` | | なし | アプリ設定値。キー未存在時は例外 |
-| `constants[_xxx].properties` | `getConstant(...)` | | なし | 非ローカライズ文字列（定数） |
-| `messages[_xxx].properties` | `getMessage(...)` | ✓ | なし | ローカライズ済みメッセージ |
-| `messages_with_item_names[_xxx].properties` | `getMessageWithItemName(...)` | ✓ | `messages` | 項目名を含むメッセージ |
-| `item_names[_xxx].properties` | `getItemName(...)` | ✓ | `messages` | 項目名 |
-| `enum_names[_xxx].properties` | `getEnumName(...)` | ✓ | `messages` | Enum 値の表示名 |
-| `ValidationMessages[_xxx].properties` | `getValidationMessage(...)` | ✓ | なし | バリデーションメッセージ |
-| `ValidationMessagesWithItemNames[_xxx].properties` | `getValidationMessageWithItemName(...)` | ✓ | `ValidationMessages` | 項目名付きバリデーションメッセージ |
-| `ValidationMessagesPatternDescriptions[_xxx].properties` | `getValidationMessagePatternDescription(...)` | ✓ | なし | パターン説明文 |
+| ファイル名 | 取得メソッド | Locale | 説明 |
+| --- | --- | :---: | --- |
+| `application[_xxx].properties` | `getApplication(...)` | | アプリ設定値 |
+| `constants[_xxx].properties` | `getConstant(...)` | | 非ローカライズ文字列（定数） |
+| `messages[_xxx].properties` | `getMessage(...)` | ✓ | ローカライズ済みメッセージ |
+| `messages_with_item_names[_xxx].properties` | `getMessageWithItemName(...)` | ✓ | 項目名を含むメッセージ |
+| `item_names[_xxx].properties` | `getItemName(...)` | ✓ | 項目名 |
+| `enum_names[_xxx].properties` | `getEnumName(...)` | ✓ | Enum 値の表示名 |
+| `ValidationMessages[_xxx].properties` | `getValidationMessage(...)` | ✓ | バリデーションメッセージ |
+| `ValidationMessagesWithItemNames[_xxx].properties` | `getValidationMessageWithItemName(...)` | ✓ | 項目名付きバリデーションメッセージ |
+| `ValidationMessagesPatternDescriptions[_xxx].properties` | `getValidationMessagePatternDescription(...)` | ✓ | パターン説明文 |
 
 `ValidationMessages` 系の3種類は引数の形式が他と異なります。
 詳細は [ValidationMessages](/public/article?id=properties-file-util/validation-messages) を参照してください。
+
+Locale 列に ✓ があるメソッドは、Locale 引数を省略するか `null` を渡した場合、`Locale.ROOT` として扱われます。
 
 ---
 
 ## application.properties を読む
 
 ```java
-// 値を取得（キーが存在しない場合は例外）
 String value = PropertiesFileUtil.getApplication("app.title");
 
 // キーの存在確認
@@ -47,8 +41,6 @@ boolean exists = PropertiesFileUtil.hasApplication("app.title");
 // デフォルト値付きで取得（キーがなければ第二引数を返す）
 String value = PropertiesFileUtil.getApplicationOrElse("app.optional-key", "default-value");
 ```
-
-`application.properties` はキーが存在しない場合に **例外をスロー** します。
 
 ---
 
@@ -78,8 +70,6 @@ String msg = PropertiesFileUtil.getMessage("error.required");
 boolean exists = PropertiesFileUtil.hasMessage("error.required");
 ```
 
-キーが存在しない場合は例外をスローせず **キー文字列をそのまま返します**。
-
 ---
 
 ## messages_with_item_names.properties を読む
@@ -106,10 +96,12 @@ boolean exists = PropertiesFileUtil.hasMessageWithItemName("error.required");
 `getMessage(...)` と `getMessageWithItemName(...)` を同じキーで呼んでも、
 `messages.properties` しか存在しない場合は同じ値が返ります。
 
-`messages_with_item_names.properties` を別途作成するのが有効なケース：
+別途作成する典型的なケースは、Web 画面でエラーを2箇所に同時表示する場合です。
 
-- 項目名なし版（`messages.properties`）と項目名あり版でメッセージの文言を変えたい場合
-- 項目名付きメッセージを整理のためにファイルを分けたい場合
+- **エラーメッセージ一覧**（画面上部など）→ 項目名あり：「氏名は必須です」
+- **各項目の横・下** → 項目名なし：「必須です」
+
+このとき `messages.properties` に項目名なし文言、`messages_with_item_names.properties` に項目名あり文言を定義することで、同じキーで両方の表示を使い分けられます。
 
 ---
 
@@ -150,58 +142,3 @@ String enumName = PropertiesFileUtil.getEnumName("Status.ACTIVE");
 
 boolean exists = PropertiesFileUtil.hasEnumName("Status.ACTIVE");
 ```
-
----
-
-## 複数モジュールのファイルを一括読み込み
-
-ecuacion では、アプリを複数のモジュール（`base`, `core`, `web`, `batch` など）に分割することを想定しています。
-例えばアプリ名が `sample-app` の場合：
-
-```text
-sample-app-base  → messages_base.properties
-sample-app-core  → messages_core.properties
-sample-app-web   → messages.properties
-```
-
-`PropertiesFileUtil.getMessage(...)` は上記すべてを一括検索します。
-同じキーが複数ファイルに定義されていると **例外がスロー** されます（重複検知）。
-
-上記の `base`・`core`・`web` のようなアプリ固有のサフィックスは、
-ecuacion-splib を使用している場合 `spring.messages.basename` の設定から自動的に検出・登録されます。
-ecuacion-splib を使用しない場合や、独自のモジュール・フレームワークを構築する場合は
-手動で呼び出します。
-
-```java
-PropertiesFileUtil.addResourceBundlePostfix("mymodule");
-// → messages_mymodule.properties, application_mymodule.properties なども検索対象に追加される
-```
-
----
-
-## キーが存在しない場合の挙動
-
-| ファイル種別 | キー未存在時の挙動 |
-| --- | --- |
-| `application.properties` | 例外をスロー |
-| それ以外 | キー文字列をそのまま返す（例外なし） |
-
-`application.properties` だけ例外をスローするのは、設定値の欠落をアプリ起動時に確実に検知するためです。
-一方 `messages.properties` などは開発中に未定義キーが画面に表示される方が都合が良いため、例外をスローしません。
-
----
-
-## `.default` サフィックスによるデフォルト値の上書き
-
-ecuacion の各モジュールが提供するキーには `.default` サフィックスが付いています。
-アプリ側で上書きしたい場合は `.default` なしの同名キーをアプリのファイルに定義します。
-
-```properties
-# ecuacion モジュール内のファイル
-some.key.default=ecuacion のデフォルト値
-
-# アプリ側のファイル（上書き）
-some.key=アプリ独自の値
-```
-
-`getApplication("some.key")` はアプリ側の値を優先して返します。

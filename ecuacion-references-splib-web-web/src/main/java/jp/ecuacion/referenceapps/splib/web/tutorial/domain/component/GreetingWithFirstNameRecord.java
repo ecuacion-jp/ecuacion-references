@@ -34,7 +34,7 @@ public class GreetingWithFirstNameRecord extends SplibRecord implements HtmlItem
   }
 
   @Override
-  public HtmlItem[] getHtmlItems() {
+  public HtmlItem[] customizedItems() {
     return new HtmlItem[] {};
   }
 

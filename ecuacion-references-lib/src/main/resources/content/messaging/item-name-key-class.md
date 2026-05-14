@@ -75,5 +75,5 @@ user.zipCode=郵便番号
 
 ## 詳細リファレンス
 
-- itemNameKey の自動解決ルール全体 → **[itemNameKey の解決ルール](item/item-name-key)**
-- ItemContainer との連携 → **[ItemContainer](item/item-container)**
+- itemNameKey の自動解決ルール全体 → **[itemNameKey の解決ルール](?id=item/item-name-key)**
+- ItemContainer との連携 → **[ItemContainer](?id=item/item-container)**

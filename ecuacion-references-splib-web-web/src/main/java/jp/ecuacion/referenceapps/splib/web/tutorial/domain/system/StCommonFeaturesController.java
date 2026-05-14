@@ -59,7 +59,7 @@ public class StCommonFeaturesController
   public static class StCommonFeaturesRecord extends SplibRecord implements HtmlItemContainer {
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {};
     }
 

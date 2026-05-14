@@ -12,13 +12,22 @@
 
 ## アノテーション一覧
 
-| アノテーション | 意味 |
-| ------------- | ---- |
-| `@RequireNonEmpty` | 引数が empty（null または空文字）でないこと |
-| `@RequireSizeNonZero` | コレクション・配列の要素数が1以上であること |
-| `@RequireElementNonNull` | コレクション・配列の各要素が null でないこと |
-| `@RequireElementNonEmpty` | コレクション・配列の各要素が empty でないこと |
-| `@RequireElementNonDuplicated` | コレクション・配列の各要素に重複がないこと |
+| アノテーション | 意味 | ObjectsUtil メソッド | スローする例外 |
+| ------------- | ---- | ------------------- | -------------- |
+| `@RequireNonEmpty` | 引数が empty（null または空文字）でないこと | `requireNonEmpty(String value)` | `RequireNonEmptyException` |
+| `@RequireSizeNonZero` | コレクション・配列の要素数が1以上であること | `requireSizeNonZero(Collection/array)` | `RequireSizeNonZeroException` |
+| `@RequireElementNonNull` | コレクション・配列の各要素が null でないこと | `requireElementNonNull(Collection/array)` | `RequireElementNonNullException` |
+| `@RequireElementNonEmpty` | コレクション・配列の各要素が empty でないこと | `requireElementNonEmpty(Collection/array)` | `RequireElementNonEmptyException` |
+| `@RequireElementNonDuplicated` | コレクション・配列の各要素に重複がないこと | `requireElementsNonDuplicated(Collection/array)` | `RequireElementsNonDuplicatedException` |
+
+各メソッドは検証後に引数をそのまま返すため、メソッドチェーンで使用できます。
+
+```java
+String validated = ObjectsUtil.requireNonEmpty(name);
+```
+
+なお、`ObjectsUtil.requireNonNull()` に対応するアノテーションはありません。
+このメソッドは `@Nullable` な値を実行時に null チェックして `@NonNull` として返す用途で使用します。
 
 ---
 
@@ -36,25 +45,6 @@ public void process(@RequireNonEmpty String name, @RequireSizeNonZero List<Strin
 
     // 以降、name は empty でなく、items は要素数1以上であることが保証される
 }
-```
-
----
-
-## ObjectsUtil のメソッド
-
-| メソッド | スローする例外 |
-| -------- | -------------- |
-| `requireNonNull(T value)` | `RequireNonNullException` |
-| `requireNonEmpty(String value)` | `RequireNonEmptyException` |
-| `requireSizeNonZero(Collection/array)` | `RequireSizeNonZeroException` |
-| `requireElementNonNull(Collection/array)` | `RequireElementNonNullException` |
-| `requireElementNonEmpty(Collection/array)` | `RequireElementNonEmptyException` |
-| `requireElementsNonDuplicated(Collection/array)` | `RequireElementsNonDuplicatedException` |
-
-各メソッドは検証後に引数をそのまま返すため、メソッドチェーンで使用できます。
-
-```java
-String validated = ObjectsUtil.requireNonEmpty(name);
 ```
 
 ---

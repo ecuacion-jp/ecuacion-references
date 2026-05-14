@@ -63,7 +63,7 @@ public class NotEmptyController extends
   public static class GreetingRecordWithHtmlItem extends GreetingWithFirstNameRecord {
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {new HtmlItem("firstName").notEmpty()};
     }
   }

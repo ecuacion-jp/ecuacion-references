@@ -133,7 +133,7 @@ public class InputController
     }
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {new HtmlItemNumber("inputNumber").needsCommas(true)};
     }
 

@@ -80,7 +80,7 @@ public class ItemNameKeyController extends SplibGeneral1FormController<ItemNameK
     }
 
     @Override
-    public HtmlItem[] getHtmlItems() {
+    public HtmlItem[] customizedItems() {
       return new HtmlItem[] {new HtmlItem("anotherFirstName1").itemNameKey("greeting.firstName"),
           new HtmlItem("anotherFirstName2").itemNameKey("explanatoryFirstName")};
     }
