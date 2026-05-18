@@ -47,27 +47,30 @@ public class ArticleService {
   }
 
   /**
-   * Returns HTML rendered from {@code classpath:content/{id}.md}.
+   * Returns HTML rendered from {@code classpath:content/{lang}/{id}.md}.
    *
+   * @param lang the language code ({@code ja} or {@code en})
    * @param id the article identifier; only alphanumerics, hyphens and slashes are allowed
    * @return rendered HTML string
-   * @throws IllegalArgumentException if {@code id} contains invalid characters or the file is
-   *     not found
+   * @throws IllegalArgumentException if arguments are invalid or the file is not found
    */
-  public String renderArticle(String id) {
+  public String renderArticle(String lang, String id) {
+    if (!"ja".equals(lang) && !"en".equals(lang)) {
+      throw new IllegalArgumentException("Invalid lang: " + lang);
+    }
     if (!id.matches("[a-zA-Z0-9][a-zA-Z0-9\\-]*(/[a-zA-Z0-9][a-zA-Z0-9\\-]*)*")) {
       throw new IllegalArgumentException("Invalid article id: " + id);
     }
-    String resourcePath = "content/" + id + ".md";
+    String resourcePath = "content/" + lang + "/" + id + ".md";
     try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourcePath)) {
       if (is == null) {
-        throw new IllegalArgumentException("Article not found: " + id);
+        throw new IllegalArgumentException("Article not found: " + lang + "/" + id);
       }
       String markdown = new String(is.readAllBytes(), StandardCharsets.UTF_8);
       Node document = parser.parse(markdown);
       return renderer.render(document);
     } catch (IOException ex) {
-      throw new IllegalStateException("Failed to read article: " + id, ex);
+      throw new IllegalStateException("Failed to read article: " + lang + "/" + id, ex);
     }
   }
 }

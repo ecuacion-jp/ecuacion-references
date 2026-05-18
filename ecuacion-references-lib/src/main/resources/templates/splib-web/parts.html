@@ -8,7 +8,7 @@
 	<!--/* navbar */-->
 	<div th:fragment="nav-bar-public" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: navbarMenuItem(
-				@{/public/article?id=home}, #{navBar.home}, '')}"></div>
+				@{/public/{lang}/article(lang=${currentLang}, id='home')}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.concepts}, ~{::navbarConcepts}, '')}"></div>
@@ -18,13 +18,13 @@
 					#{navBar.concepts.validationTerms}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=concepts/jakarta-validation-terms},
+					@{/public/{lang}/article(lang=${currentLang}, id='concepts/jakarta-validation-terms')},
 					#{navBar.concepts.jakartaValidationTerms}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=item/item-property-path},
+					@{/public/{lang}/article(lang=${currentLang}, id='item/item-property-path')},
 					#{navBar.concepts.itemPropertyPath}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=concepts/item-and-name-key},
+					@{/public/{lang}/article(lang=${currentLang}, id='concepts/item-and-name-key')},
 					#{navBar.concepts.itemAndNameKey}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
@@ -33,7 +33,7 @@
 					#{navBar.concepts.violationTerms}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=concepts/violations-overview},
+					@{/public/{lang}/article(lang=${currentLang}, id='concepts/violations-overview')},
 					#{navBar.concepts.violationsOverview}, '')}"></div>
 
 
@@ -47,13 +47,13 @@
 					#{navBar.util.grp.dataType}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/string-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/string-util')},
 					#{navBar.util.stringUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/date-time-api-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/date-time-api-util')},
 					#{navBar.util.dateTimeApiUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/enum-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/enum-util')},
 					#{navBar.util.enumUtil}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
@@ -62,10 +62,10 @@
 					#{navBar.util.grp.objectClass}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/reflection-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/reflection-util')},
 					#{navBar.util.reflectionUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/property-path-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/property-path-util')},
 					#{navBar.util.propertyPathUtil}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
@@ -74,13 +74,13 @@
 					#{navBar.util.grp.systemResource}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/file-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/file-util')},
 					#{navBar.util.fileUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/log-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/log-util')},
 					#{navBar.util.logUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/mail-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/mail-util')},
 					#{navBar.util.mailUtil}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
@@ -92,19 +92,19 @@
 					#{navBar.util.pfu}, ~{::navbarUtilPfu}, '')}"></div>
 			<th:block th:if="false"><div th:fragment="navbarUtilPfu" th:remove="tag">
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/basic-usage},
+						@{/public/{lang}/article(lang=${currentLang}, id='properties-file-util/basic-usage')},
 						#{navBar.util.pfu.basicUsage}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/loading-rules},
+						@{/public/{lang}/article(lang=${currentLang}, id='properties-file-util/loading-rules')},
 						#{navBar.util.pfu.loadingRules}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/validation-messages},
+						@{/public/{lang}/article(lang=${currentLang}, id='properties-file-util/validation-messages')},
 						#{navBar.util.pfu.validationMessages}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/cross-file-reference},
+						@{/public/{lang}/article(lang=${currentLang}, id='properties-file-util/cross-file-reference')},
 						#{navBar.util.pfu.messagesItemNames}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/article?id=properties-file-util/args},
+						@{/public/{lang}/article(lang=${currentLang}, id='properties-file-util/args')},
 						#{navBar.util.pfu.args}, '')}"></div>
 			</div></th:block>
 
@@ -114,13 +114,13 @@
 					#{navBar.util.grp.coreIntegration}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=item/item-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='item/item-util')},
 					#{navBar.util.itemUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/message-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/message-util')},
 					#{navBar.util.messageUtil}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=util/exception-util},
+					@{/public/{lang}/article(lang=${currentLang}, id='util/exception-util')},
 					#{navBar.util.exceptionUtil}, '')}"></div>
 
 		</div></th:block>
@@ -130,16 +130,16 @@
 		<th:block th:if="false"><div th:fragment="navbarViolation" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/violation},
+					@{/public/{lang}/article(lang=${currentLang}, id='validation/violation')},
 					#{navBar.violation.violation}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/business-violation},
+					@{/public/{lang}/article(lang=${currentLang}, id='validation/business-violation')},
 					#{navBar.violation.businessViolation}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/jakarta-validation},
+					@{/public/{lang}/article(lang=${currentLang}, id='validation/jakarta-validation')},
 					#{navBar.violation.jakartaValidation}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validation/message-parameters},
+					@{/public/{lang}/article(lang=${currentLang}, id='validation/message-parameters')},
 					#{navBar.violation.messageParameters}, '')}"></div>
 
 		</div></th:block>
@@ -149,31 +149,31 @@
 		<th:block th:if="false"><div th:fragment="navbarItemClasses" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=item/item},
+					@{/public/{lang}/article(lang=${currentLang}, id='item/item')},
 					#{navBar.itemClasses.item}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=item/item-container},
+					@{/public/{lang}/article(lang=${currentLang}, id='item/item-container')},
 					#{navBar.itemClasses.itemContainer}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=messaging/item-name-key-class},
+					@{/public/{lang}/article(lang=${currentLang}, id='messaging/item-name-key-class')},
 					#{navBar.itemClasses.itemNameKeyClass}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=item/item-name-key},
+					@{/public/{lang}/article(lang=${currentLang}, id='item/item-name-key')},
 					#{navBar.mf.itemNameKeyResolution}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=messaging/item-name-in-message},
+					@{/public/{lang}/article(lang=${currentLang}, id='messaging/item-name-in-message')},
 					#{navBar.mf.itemNameInMessageArticle}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=messaging/collection-item-name},
+					@{/public/{lang}/article(lang=${currentLang}, id='messaging/collection-item-name')},
 					#{navBar.mf.collectionItemNameArticle}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=messaging/item-name-path},
+					@{/public/{lang}/article(lang=${currentLang}, id='messaging/item-name-path')},
 					#{navBar.mf.itemNamePath}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=messaging/item-name-display},
+					@{/public/{lang}/article(lang=${currentLang}, id='messaging/item-name-display')},
 					#{navBar.mf.itemNameDisplayArticle}, '')}"></div>
 
 		</div></th:block>
@@ -183,10 +183,10 @@
 		<th:block th:if="false"><div th:fragment="navbarValidator" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/blank-handling},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/blank-handling')},
 					#{navBar.validator.blankHandling}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/standard-annotation-messages},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/standard-annotation-messages')},
 					#{navBar.validator.standardAnnotationMessages}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
@@ -195,22 +195,22 @@
 					#{navBar.validator.customValidator}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/overview},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/overview')},
 					#{navBar.cv.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/when},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/when')},
 					#{navBar.cv.whenArticle}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/comparison},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/comparison')},
 					#{navBar.cv.comparisonArticle}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/pattern-with-description},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/pattern-with-description')},
 					#{navBar.cv.patternWithDescription}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/field},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/field')},
 					#{navBar.cv.fieldArticle}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=validator/collection},
+					@{/public/{lang}/article(lang=${currentLang}, id='validator/collection')},
 					#{navBar.cv.collectionArticle}, '')}"></div>
 
 		</div></th:block>
@@ -220,19 +220,29 @@
 		<th:block th:if="false"><div th:fragment="navbarOther" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=other/require-annotations},
+					@{/public/{lang}/article(lang=${currentLang}, id='other/require-annotations')},
 					#{navBar.other.requireAnnotations}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=other/logging},
+					@{/public/{lang}/article(lang=${currentLang}, id='other/logging')},
 					#{navBar.other.logging}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=other/spi},
+					@{/public/{lang}/article(lang=${currentLang}, id='other/spi')},
 					#{navBar.other.spi}, '')}"></div>
 
 		</div></th:block>
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<th:block th:if="${currentLang == 'ja'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/change(lang='en', returnId=${currentArticleId ?: 'home'})},
+					'🌐 English', '')}"></div>
+		</th:block>
+		<th:block th:if="${currentLang == 'en'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/change(lang='ja', returnId=${currentArticleId ?: 'home'})},
+					'🌐 日本語', '')}"></div>
+		</th:block>
 	</div>
 
 	<!--/* footer */-->

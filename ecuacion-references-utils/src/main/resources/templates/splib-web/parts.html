@@ -8,35 +8,35 @@
 	<!--/* navbar */-->
 	<div th:fragment="nav-bar-public" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: navbarMenuItem(
-				@{/public/article?id=home}, #{navBar.home}, '')}"></div>
+				@{/public/{l}/article?id=home(l=${lang})}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.excelTables}, ~{::navbarExcelTables}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarExcelTables" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/overview},
+					@{/public/{l}/article?id=excel-tables/overview(l=${lang})},
 					#{navBar.et.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/quickstart},
+					@{/public/{l}/article?id=excel-tables/quickstart(l=${lang})},
 					#{navBar.et.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/data-types},
+					@{/public/{l}/article?id=excel-tables/data-types(l=${lang})},
 					#{navBar.et.dataTypes}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/table-formats},
+					@{/public/{l}/article?id=excel-tables/table-formats(l=${lang})},
 					#{navBar.et.tableFormats}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/reader},
+					@{/public/{l}/article?id=excel-tables/reader(l=${lang})},
 					#{navBar.et.reader}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/writer},
+					@{/public/{l}/article?id=excel-tables/writer(l=${lang})},
 					#{navBar.et.writer}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/bean-mapping},
+					@{/public/{l}/article?id=excel-tables/bean-mapping(l=${lang})},
 					#{navBar.et.beanMapping}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-tables/exceptions},
+					@{/public/{l}/article?id=excel-tables/exceptions(l=${lang})},
 					#{navBar.et.exceptions}, '')}"></div>
 
 		</div></th:block>
@@ -46,25 +46,33 @@
 		<th:block th:if="false"><div th:fragment="navbarExcelReportToPdf" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-report-to-pdf/overview},
+					@{/public/{l}/article?id=excel-report-to-pdf/overview(l=${lang})},
 					#{navBar.ertp.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-report-to-pdf/setup},
+					@{/public/{l}/article?id=excel-report-to-pdf/setup(l=${lang})},
 					#{navBar.ertp.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-report-to-pdf/basic},
+					@{/public/{l}/article?id=excel-report-to-pdf/basic(l=${lang})},
 					#{navBar.ertp.basic}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-report-to-pdf/options},
+					@{/public/{l}/article?id=excel-report-to-pdf/options(l=${lang})},
 					#{navBar.ertp.options}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/article?id=excel-report-to-pdf/exceptions},
+					@{/public/{l}/article?id=excel-report-to-pdf/exceptions(l=${lang})},
 					#{navBar.ertp.exceptions}, '')}"></div>
 
 		</div></th:block>
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<div th:if="${lang == 'ja'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/en}, '🌐 English', '')}"></div>
+		</div>
+		<div th:if="${lang == 'en'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/ja}, '🌐 日本語', '')}"></div>
+		</div>
 	</div>
 
 	<!--/* footer */-->
