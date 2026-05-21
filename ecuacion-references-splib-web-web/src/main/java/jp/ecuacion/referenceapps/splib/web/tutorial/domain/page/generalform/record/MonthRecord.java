@@ -25,14 +25,14 @@ public class MonthRecord extends RecordWithId
 
   static final HtmlItem[] htmlItems =
       new HtmlItem[] {
-          new HtmlItem("id").notEmpty(), 
-          new HtmlItemString("nameJapanese").notEmpty(),
-          new HtmlItemString("nameJapaneseOld").notEmpty(), 
-          new HtmlItemString("nameEnglish").notEmpty(),
-          new HtmlItemString("nameGerman").notEmpty(), 
-          new HtmlItemString("nameFrench").notEmpty(),
-          new HtmlItem("season").notEmpty(), 
-          new HtmlItem("numberOfDays").notEmpty()
+          new HtmlItem("id"),
+          new HtmlItemString("nameJapanese"),
+          new HtmlItemString("nameJapaneseOld"),
+          new HtmlItemString("nameEnglish"),
+          new HtmlItemString("nameGerman"),
+          new HtmlItemString("nameFrench"),
+          new HtmlItem("season"),
+          new HtmlItem("numberOfDays")
           };
 
   static {

@@ -3,7 +3,7 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.sle.service;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jp.ecuacion.referenceapps.splib.web.tutorial.bl.ApplicationScopeDataStoreBl;
-import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.MonthUtil;
+import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.record.MonthEditRecord;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.record.MonthRecord;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.record.RecordWithId;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.sle.form.PtSle21PtnEditForm;
@@ -44,7 +44,7 @@ public class PtSle21PtnEditService extends SplibEditService<PtSle21PtnEditForm> 
     ApplicationScopeDataStoreBl storeBl = new ApplicationScopeDataStoreBl(context, function);
 
     MonthRecord rec = (MonthRecord) storeBl.getRecord(id);
-    form.setMonth(rec);
+    form.setMonth(new MonthEditRecord(rec));
 
     // 排他制御チェック
     if (!version.equals(rec.getVersion())) {
@@ -54,7 +54,7 @@ public class PtSle21PtnEditService extends SplibEditService<PtSle21PtnEditForm> 
 
   @Override
   public void edit(PtSle21PtnEditForm form, UserDetails loginUser) {
-    MonthRecord rec = form.getMonth();
+    MonthEditRecord rec = form.getMonth();
 
     // checks
     editCheck(rec, form.isInsert());
@@ -79,7 +79,7 @@ public class PtSle21PtnEditService extends SplibEditService<PtSle21PtnEditForm> 
     }
   }
 
-  private void editCheck(MonthRecord rec, Boolean isInsert) {
+  private void editCheck(MonthEditRecord rec, Boolean isInsert) {
     ApplicationScopeDataStoreBl storeBl = new ApplicationScopeDataStoreBl(context, function);
 
     if (isInsert) {
