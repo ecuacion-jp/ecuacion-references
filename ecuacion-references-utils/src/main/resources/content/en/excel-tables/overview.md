@@ -25,7 +25,7 @@ Classes are organised along two axes: **data type** and **table format**.
 
 | Interface | Characteristics |
 | --- | --- |
-| `IfFormatOneLineHeaderExcelTable` | Table whose first row(s) are headers (with validation) |
+| `IfFormatHeaderExcelTable` | Table whose first row(s) are headers (with validation) |
 | `IfFormatFreeExcelTable` | Headerless table at an arbitrary position |
 
 ## Choosing the Right Class
@@ -36,29 +36,28 @@ Pick the concrete class from the combination of the two axes.
 
 | Class | Data type | Format | Notes |
 | --- | --- | --- | --- |
-| `StringHeaderExcelTableReader` | String | OneLineHeader | Most common choice |
-| `StringHeaderExcelTableToBeanReader` | String | OneLineHeader | Maps each row to a Bean |
+| `StringOneLineHeaderExcelTableReader` | String | Header (1-row) | Most common choice |
+| `StringOneLineHeaderExcelTableToBeanReader` | String | Header (1-row) | Maps each row to a Bean |
+| `StringHeaderExcelTableReader` | String | Header (multi-row) | For 2 or more header rows |
+| `StringHeaderExcelTableToBeanReader` | String | Header (multi-row) | Maps each row to a Bean |
 | `StringFreeExcelTableReader` | String | Free | No header; arbitrary position |
-| `CellOneLineHeaderExcelTableReader` | Cell | OneLineHeader | Returns POI `Cell` objects |
+| `CellOneLineHeaderExcelTableReader` | Cell | Header (1-row) | Returns POI `Cell` objects |
+| `CellHeaderExcelTableReader` | Cell | Header (multi-row) | Cell type; 2 or more header rows |
 | `CellFreeExcelTableReader` | Cell | Free | Cell type; no header |
+
+> **Why there is no ToBeanReader for Cell type:** Bean conversion relies on `StringExcelTableBean`, which maps string values to typed fields. Combining this with Cell type is not supported. When Cell type is needed, it is more natural to work directly with `Cell` objects to access style and type information.
 
 ### Writer Classes
 
-| Class | Data type | Format |
-| --- | --- | --- |
-| `StringHeaderExcelTableWriter` | String | OneLineHeader |
-| `StringFreeExcelTableWriter` | String | Free |
-| `CellOneLineHeaderExcelTableWriter` | Cell | OneLineHeader |
-| `CellFreeExcelTableWriter` | Cell | Free |
+| Class | Data type | Format | Notes |
+| --- | --- | --- | --- |
+| `StringOneLineHeaderExcelTableWriter` | String | Header (1-row) | |
+| `StringOneLineHeaderExcelTableFromBeanWriter` | String | Header (1-row) | Write from Bean list |
+| `StringHeaderExcelTableWriter` | String | Header (multi-row) | For 2 or more header rows |
+| `StringHeaderExcelTableFromBeanWriter` | String | Header (multi-row) | Write from Bean list |
+| `StringFreeExcelTableWriter` | String | Free | |
+| `CellOneLineHeaderExcelTableWriter` | Cell | Header (1-row) | |
+| `CellHeaderExcelTableWriter` | Cell | Header (multi-row) | Cell type; 2 or more header rows |
+| `CellFreeExcelTableWriter` | Cell | Free | |
 
-## Adding the Dependency
-
-```xml
-<dependency>
-    <groupId>jp.ecuacion.util</groupId>
-    <artifactId>ecuacion-util-excel-table</artifactId>
-    <version>(version)</version>
-</dependency>
-```
-
-Apache POI (`poi` and `poi-ooxml`) is included transitively.
+For dependency setup, see the [Quick Start](/public/en/article?id=excel-tables/quickstart) page.

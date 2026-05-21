@@ -1,4 +1,4 @@
-# Home
+# ecuacion-utils reference
 
 This is the tutorial site for ecuacion-utils (module names: `ecuacion-util-xxx`).
 It covers utility features commonly needed in application development,
@@ -17,3 +17,32 @@ Currently it consists of two modules focused on Excel operations.
 | `ecuacion-util-excel-report-to-pdf` | Utility for converting Excel files to PDF |
 
 See the navigation links for details on each module.
+
+---
+
+## Setup
+
+### 1. Import the BOM
+
+By importing `ecuacion-util-parent` as a BOM, you do not need to specify the version of each module individually.
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.util</groupId>
+            <artifactId>ecuacion-util-parent</artifactId>
+            <version>(version)</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+### 2. Add the required modules
+
+See the following pages for each module's dependency:
+
+- `ecuacion-util-excel-table`: [Setup](/public/en/article?id=excel-tables/setup)
+- `ecuacion-util-excel-report-to-pdf`: [Setup](/public/en/article?id=excel-report-to-pdf/setup)

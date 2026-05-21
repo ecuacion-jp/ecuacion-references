@@ -12,24 +12,40 @@ Add the following to `pom.xml`:
 </dependency>
 ```
 
-## Placing Font Files
+## Font Configuration
 
-**Noto Sans JP** font files are required to render Japanese text correctly in PDFs.
+You must configure the font used to render text in the PDF.
+`PdfGenerateOptions` supports two approaches.
 
-Place the files at these paths:
+### Option 1: Use System Fonts (`useSystemFonts(true)`)
 
+With `useSystemFonts(true)`, the library searches the OS font directories
+(including fonts installed by Microsoft Office) for the workbook's default font.
+
+```java
+PdfGenerateOptions options = PdfGenerateOptions.builder()
+    .useSystemFonts(true)
+    .build();
 ```
-src/main/resources/fonts/NotoSansJP/NotoSansJP-Regular.ttf
-src/main/resources/fonts/NotoSansJP/NotoSansJP-Bold.ttf
+
+If no matching system font is found, a `PdfGenerateException` is thrown.
+You can also set `regularFontPath` as a fallback for when the system font is not found.
+
+> **Font licensing notice:** The located system font is embedded in the output PDF.
+> Confirm that the font's licence permits embedding and distribution before enabling this option.
+
+### Option 2: Specify a Font File Path (`regularFontPath`)
+
+When `useSystemFonts` is not set (default `false`), you must provide a TTF font
+file path explicitly via `regularFontPath`.
+
+```java
+PdfGenerateOptions options = PdfGenerateOptions.builder()
+    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+    .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // optional
+    .build();
 ```
 
-### Obtaining Noto Sans JP
-
-Download it for free from Google Fonts (https://fonts.google.com/noto/specimen/Noto+Sans+JP):
-
-1. Click **Download family** at the top of the page.
-2. Extract the downloaded ZIP.
-3. Copy `NotoSansJP-Regular.ttf` and `NotoSansJP-Bold.ttf` to the paths above.
-
-> Consider adding the font files to `.gitignore` so they are not committed to
-> your repository.
+For documents containing Japanese text, use a Japanese-compatible font.
+For example, **Noto Sans JP** is available for free download from
+[Google Fonts](https://fonts.google.com/noto/specimen/Noto+Sans+JP).

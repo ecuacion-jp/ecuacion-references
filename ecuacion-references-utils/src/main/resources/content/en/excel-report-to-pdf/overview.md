@@ -8,7 +8,7 @@ Apache POI and writes PDF with Apache PDFBox.
 
 - Outputs each sheet's print area as PDF pages
 - Reproduces cell values, text styles, background colours, borders, and merged cells
-- Japanese font support (Noto Sans JP)
+- Automatically searches OS system fonts, or specify any TTF font file path (configured via `PdfGenerateOptions`)
 - Supports password-protected Excel files
 - Supports password-protecting the output PDF
 
@@ -20,14 +20,22 @@ Apache POI and writes PDF with Apache PDFBox.
 | `PdfGenerateOptions` | Optional parameters such as passwords (Builder pattern) |
 | `PdfGenerateException` | Exception representing errors during PDF generation |
 
-## Adding the Dependency
+For dependency setup, see the [Setup](/public/en/article?id=excel-report-to-pdf/setup) page.
 
-```xml
-<dependency>
-    <groupId>jp.ecuacion.util</groupId>
-    <artifactId>ecuacion-util-excel-report-to-pdf</artifactId>
-    <version>(version)</version>
-</dependency>
+## Notes
+
+### Handling Large Files
+
+Apache POI loads the entire Excel file (xlsx) into memory when opening it.
+This library does not enforce any file size limit internally, so processing
+very large files may cause out-of-memory errors.
+
+When processing files uploaded by users, it is recommended to check the file
+size before calling this library:
+
+```java
+if (Files.size(excelPath) > 50 * 1024 * 1024) { // e.g. 50 MB
+    throw new IllegalArgumentException("File size exceeds the allowed limit");
+}
+ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
 ```
-
-Apache PDFBox and Apache POI are included transitively.

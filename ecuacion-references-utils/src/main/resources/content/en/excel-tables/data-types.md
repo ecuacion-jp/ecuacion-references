@@ -13,19 +13,22 @@ as strings. This is the most common choice.
 For String-type classes you can control what value an empty cell returns
 via the `NoDataString` enum.
 
-| Value | Meaning | Recommended |
-| --- | --- | --- |
-| `NoDataString.NULL` | Returns `null` | **Yes** |
-| `NoDataString.EMPTY_STRING` | Returns `""` | No |
+| Value | Meaning |
+| --- | --- |
+| `NoDataString.NULL` | Returns `null` (default) |
+| `NoDataString.EMPTY_STRING` | Returns `""` |
 
-`NULL` is recommended because Jakarta Validation treats `null` as "not provided",
-whereas `""` would fail `@NotEmpty`. Using `null` integrates naturally with
-Bean Validation.
+Use `NoDataString.NULL` in most cases.
+`@NotEmpty` treats both `null` and `""` as violations, so required-field validation
+works correctly with either value. However, format validators such as `@Pattern`
+skip `null` but are applied to `""`. Returning `""` for an empty cell could cause
+a misleading "invalid format" error when the cell is simply blank.
+Returning `null` avoids this problem.
 
-The default is `NoDataString.NULL`. Change it with the fluent setter:
+Change it with the fluent setter:
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"Name", "Age"})
     .noDataString(NoDataString.EMPTY_STRING);  // if you want "" for empty cells
@@ -78,4 +81,4 @@ For string conversion, `ExcelReadUtil.getStringFromCell(cell, dateTimeFormatter)
 | Read data and process it as-is | **String type** |
 | Convert to a Bean and use Jakarta Validation | **String type** |
 | Need cell style or type information | **Cell type** |
-| Perform arithmetic on numeric values | **Cell type** |
+| Perform arithmetic on numeric values | **Cell type** (reading as String and parsing with `parseInt` can fail depending on the cell's Excel format) |

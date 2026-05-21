@@ -1,6 +1,7 @@
 # Bean マッピング
 
-`StringHeaderExcelTableToBeanReader` を使うと、
+`StringOneLineHeaderExcelTableToBeanReader`（ヘッダー1行）または
+`StringHeaderExcelTableToBeanReader`（ヘッダー複数行）を使うと、
 Excel の各行を Java オブジェクト（Bean）に自動変換して取得できます。
 Jakarta Validation によるバリデーションも統合されています。
 
@@ -109,12 +110,29 @@ return new String[] {"productCode", null, "price"}; // 2 列目をスキップ
 
 ## `readToBean()` での読み込み
 
+ヘッダーが1行の場合は `StringOneLineHeaderExcelTableToBeanReader` を使います。
+
+```java
+StringOneLineHeaderExcelTableToBeanReader<ProductBean> reader =
+    new StringOneLineHeaderExcelTableToBeanReader<>(
+        ProductBean.class,
+        "Sheet1",
+        new String[] {"商品コード", "商品名", "価格"});
+
+List<ProductBean> products = reader.readToBean("/path/to/file.xlsx");
+```
+
+ヘッダーが2行以上の場合は `StringHeaderExcelTableToBeanReader` を使います。
+
 ```java
 StringHeaderExcelTableToBeanReader<ProductBean> reader =
     new StringHeaderExcelTableToBeanReader<>(
         ProductBean.class,
         "Sheet1",
-        new String[] {"商品コード", "商品名", "価格"});
+        new String[][] {
+            {"個人情報", "個人情報", "連絡先"},
+            {"商品コード", "商品名", "価格"}
+        });
 
 List<ProductBean> products = reader.readToBean("/path/to/file.xlsx");
 ```

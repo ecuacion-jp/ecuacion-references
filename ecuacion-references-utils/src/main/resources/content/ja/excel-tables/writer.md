@@ -2,13 +2,26 @@
 
 このページでは各 Writer クラスの使い方を説明します。
 
+## Writer クラス一覧
+
+| クラス名 | データ型 | テーブル形式 |
+| --- | --- | --- |
+| `StringOneLineHeaderExcelTableWriter` | String | Header（1行） |
+| `StringOneLineHeaderExcelTableFromBeanWriter` | String | Header（1行）・Bean から書き込み |
+| `StringHeaderExcelTableWriter` | String | Header（複数行） |
+| `StringHeaderExcelTableFromBeanWriter` | String | Header（複数行）・Bean から書き込み |
+| `StringFreeExcelTableWriter` | String | Free |
+| `CellOneLineHeaderExcelTableWriter` | Cell | Header（1行） |
+| `CellHeaderExcelTableWriter` | Cell | Header（複数行） |
+| `CellFreeExcelTableWriter` | Cell | Free |
+
 ## 書き込みの仕組み：テンプレートファイル
 
 Writer クラスはすべて、**テンプレート Excel ファイルを元に書き込み**を行います。
 
 1. テンプレートファイルを指定する
 2. ヘッダー行をテンプレートファイルと照合し検証する
-3. ヘッダー行の次の行からデータを書き込む
+3. すべてのヘッダー行の直後の行からデータを書き込む
 4. 書き込み結果を出力ファイルに保存する
 
 テンプレートファイルには、あらかじめヘッダー行・書式・列幅などを設定しておきます。
@@ -28,18 +41,16 @@ void write(String templateFilePath, String destFilePath, List<List<T>> data)
 | `destFilePath` | 出力先ファイルのパス |
 | `data` | 書き込むデータ（外側 List が行、内側 List が列） |
 
-## `StringHeaderExcelTableWriter`
+## `StringOneLineHeaderExcelTableWriter`
 
-ヘッダー付きテーブルに String データを書き込みます。
-
-### 基本的な使い方
+ヘッダー1行のテーブルに String データを書き込む最も一般的なクラスです。
 
 ```java
-import jp.ecuacion.util.excel.table.writer.concrete.StringHeaderExcelTableWriter;
+import jp.ecuacion.util.excel.table.writer.concrete.StringOneLineHeaderExcelTableWriter;
 import java.util.Arrays;
 import java.util.List;
 
-StringHeaderExcelTableWriter writer = new StringHeaderExcelTableWriter(
+StringOneLineHeaderExcelTableWriter writer = new StringOneLineHeaderExcelTableWriter(
     "Sheet1",
     new String[] {"商品コード", "商品名", "価格"});
 
@@ -54,10 +65,20 @@ writer.write(
     data);
 ```
 
-### マルチヘッダーの書き込み
+### テーブル位置の指定
 
-`String[][]` でヘッダーを指定すると、
-連続した同一値が水平マージ・垂直マージとして自動処理されます。
+```java
+StringOneLineHeaderExcelTableWriter writer = new StringOneLineHeaderExcelTableWriter(
+    "Sheet1",
+    new String[] {"名前", "金額"})
+    .tableStartRowNumber(3)
+    .tableStartColumnNumber(2);
+```
+
+## `StringHeaderExcelTableWriter`
+
+ヘッダーが 2 行以上のテーブルに String データを書き込みます。
+`String[][]` でヘッダーを指定すると、連続した同一値が水平マージ・垂直マージとして自動処理されます。
 
 ```java
 StringHeaderExcelTableWriter writer = new StringHeaderExcelTableWriter(
@@ -69,16 +90,6 @@ StringHeaderExcelTableWriter writer = new StringHeaderExcelTableWriter(
 ```
 
 テンプレートファイルのヘッダー行はマルチヘッダー構造と一致している必要があります。
-
-### テーブル位置の指定
-
-```java
-StringHeaderExcelTableWriter writer = new StringHeaderExcelTableWriter(
-    "Sheet1",
-    new String[] {"名前", "金額"})
-    .tableStartRowNumber(3)
-    .tableStartColumnNumber(2);
-```
 
 ## `StringFreeExcelTableWriter`
 
@@ -94,11 +105,59 @@ StringFreeExcelTableWriter writer = new StringFreeExcelTableWriter("Sheet1")
 writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
 ```
 
-## `CellOneLineHeaderExcelTableWriter` / `CellFreeExcelTableWriter`
+## `StringOneLineHeaderExcelTableFromBeanWriter`
 
-Cell 型でデータを書き込む場合に使います。
+ヘッダー1行のテーブルに `StringExcelTableBean` のリストから書き込みます。
+`@ExcelColumn` アノテーションでヘッダーラベルとフィールドを対応付けます（Bean マッピングの逆方向）。
+
+```java
+List<ProductBean> beans = ...; // StringExcelTableBean を継承した Bean のリスト
+
+new StringOneLineHeaderExcelTableFromBeanWriter<ProductBean>(
+    "Sheet1",
+    new String[] {"商品コード", "商品名", "価格"})
+    .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
+```
+
+日付フィールドのフォーマットを変更する場合は fluent setter で指定します。
+
+```java
+new StringOneLineHeaderExcelTableFromBeanWriter<ProductBean>(...)
+    .defaultDateTimeFormat(DateTimeFormatter.ofPattern("yyyy/MM/dd"))
+    .writeFromBean(...);
+```
+
+## `StringHeaderExcelTableFromBeanWriter`
+
+ヘッダーが 2 行以上のテーブルに `StringExcelTableBean` のリストから書き込みます。
+`String[][]` でヘッダーを指定します。
+
+```java
+new StringHeaderExcelTableFromBeanWriter<ProductBean>(
+    "Sheet1",
+    new String[][] {
+        {"商品情報", "商品情報", "価格情報"},
+        {"商品コード", "商品名", "定価"}
+    })
+    .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
+```
+
+## `CellOneLineHeaderExcelTableWriter`
+
+ヘッダー1行のテーブルに Cell データを書き込みます。
 `data` の型が `List<List<Cell>>` となります。
-使い方は String 型と同様ですが、書き込む Cell オブジェクトを準備する必要があります。
+使い方は `StringOneLineHeaderExcelTableWriter` と同様ですが、書き込む Cell オブジェクトを準備する必要があります。
+
+## `CellHeaderExcelTableWriter`
+
+ヘッダーが 2 行以上のテーブルに Cell データを書き込みます。
+`String[][]` でヘッダーを指定します。使い方は `StringHeaderExcelTableWriter` と同様です。
+
+## `CellFreeExcelTableWriter`
+
+ヘッダーなしテーブルに Cell データを書き込みます。
+`data` の型が `List<List<Cell>>` となります。
+使い方は `StringFreeExcelTableWriter` と同様です。
 
 ## fluent setter 一覧
 

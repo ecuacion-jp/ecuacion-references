@@ -1,7 +1,21 @@
 # Reader
 
 このページでは各 Reader クラスの使い方を説明します。
-クラスの選び方は[概要](/public/article?id=excel-tables/overview)を参照してください。
+
+## Reader クラス一覧
+
+| クラス名 | データ型 | テーブル形式 |
+| --- | --- | --- |
+| `StringOneLineHeaderExcelTableReader` | String | Header（1行） |
+| `StringOneLineHeaderExcelTableToBeanReader` | String | Header（1行）・Bean変換 |
+| `StringHeaderExcelTableReader` | String | Header（複数行） |
+| `StringHeaderExcelTableToBeanReader` | String | Header（複数行）・Bean変換 |
+| `StringFreeExcelTableReader` | String | Free |
+| `CellOneLineHeaderExcelTableReader` | Cell | Header（1行） |
+| `CellHeaderExcelTableReader` | Cell | Header（複数行） |
+| `CellFreeExcelTableReader` | Cell | Free |
+
+> **Cell 型に ToBeanReader がない理由：** Bean 変換は文字列値をもとに型変換する仕組み（`StringExcelTableBean`）のため、Cell 型との組み合わせは提供していません。Cell 型が必要な場面ではスタイルや型情報をそのまま扱う方が自然なためです。
 
 ## 共通：`read()` メソッド
 
@@ -17,7 +31,7 @@ List<List<T>> read(Workbook workbook) throws IOException;
 
 `T` はデータ型（`String` または `Cell`）です。
 戻り値の外側の `List` が行、内側の `List` が各行のセル値を表します。
-ヘッダー行は戻り値に含まれません。
+ヘッダー行は戻り値に含まれません（複数行の場合はすべてのヘッダー行が除去されます）。
 
 ## 共通：fluent setter 一覧
 
@@ -32,14 +46,12 @@ List<List<T>> read(Workbook workbook) throws IOException;
 | `withIgnoresAdditionalColumnsOfHeaderData(boolean)` | boolean | false | ヘッダーの追加列を無視 |
 | `withVerticalAndHorizontalOpposite(boolean)` | boolean | false | 縦横反転テーブル対応 |
 
-## `StringHeaderExcelTableReader`
+## `StringOneLineHeaderExcelTableReader`
 
-ヘッダー付きテーブルをデータ型 String で読み込む最も基本的なクラスです。
-
-### シングルヘッダー
+ヘッダー1行のテーブルを String 型で読み込む最も一般的なクラスです。
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"商品コード", "商品名", "価格"});
 
@@ -48,25 +60,12 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 // data.get(1) → ["A002", "サンプル", null]  ← 空セルは null
 ```
 
-### マルチヘッダー（2 行以上のヘッダー）
-
-```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
-    "Sheet1",
-    new String[][] {
-        {"商品情報", "商品情報", "価格情報"},
-        {"商品コード", "商品名", "定価"}
-    });
-
-List<List<String>> data = reader.read("/path/to/file.xlsx");
-```
-
 ### テーブル位置の明示指定
 
 同じシートに複数のテーブルがある場合など、位置を明示します。
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"名前", "金額"})
     .tableStartRowNumber(5)     // 5 行目からテーブル開始
@@ -79,7 +78,25 @@ StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
 | --- | --- | --- |
 | `noDataString(NoDataString)` | `NoDataString.NULL` | 空セルの値 |
 | `defaultDateTimeFormat(DateTimeFormatter)` | `yyyy-MM-dd` | 全列の日付フォーマット |
-| `columnDateTimeFormat(int, DateTimeFormatter)` | — | 特定列の日付フォーマット（列番号は 1 始まりの絶対値） |
+| `columnDateTimeFormat(int, DateTimeFormatter)` | `defaultDateTimeFormat` の値にフォールバック | 特定列の日付フォーマット（列番号は 1 始まりの絶対値）。未設定の列は `defaultDateTimeFormat` が適用される |
+
+## `StringHeaderExcelTableReader`
+
+ヘッダーが 2 行以上のテーブルを String 型で読み込むクラスです。
+`String[][]` でヘッダーを指定します。
+
+```java
+StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"商品情報", "商品情報", "価格情報"},
+        {"商品コード", "商品名", "定価"}
+    });
+
+List<List<String>> data = reader.read("/path/to/file.xlsx");
+```
+
+Excel 上でセルが結合（マージ）されていても、自動的に展開して検証します。
 
 ## `StringFreeExcelTableReader`
 
@@ -96,9 +113,14 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 `tableStartRowNumber` を省略した場合は 1 行目から読み始めます。
 データが存在する限り読み続け、全列が空の行で終了します。
 
+> **ToBean 変換について:** Free 形式には ToBeanReader が存在しません。
+> ToBeanReader は `@ExcelColumn` アノテーションのヘッダーラベルと Excel のヘッダー行を
+> 照合することで列と Bean フィールドを対応付けるため、ヘッダーを持たない Free 形式では
+> この仕組みを利用できないためです。
+
 ## `CellOneLineHeaderExcelTableReader`
 
-ヘッダー付きテーブルをデータ型 `Cell` で読み込みます。
+ヘッダー1行のテーブルをデータ型 `Cell` で読み込みます。
 スタイルや数値型などセルの詳細情報が必要な場合に使います。
 
 ```java
@@ -116,6 +138,22 @@ for (List<Cell> row : data) {
     String name  = nameCell.getStringCellValue();
     double price = priceCell.getNumericCellValue();
 }
+```
+
+## `CellHeaderExcelTableReader`
+
+ヘッダーが 2 行以上のテーブルをデータ型 `Cell` で読み込みます。
+`String[][]` でヘッダーを指定します。
+
+```java
+CellHeaderExcelTableReader reader = new CellHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"商品情報", "商品情報", "価格情報"},
+        {"商品コード", "商品名", "定価"}
+    });
+
+List<List<Cell>> data = reader.read("/path/to/file.xlsx");
 ```
 
 ## `CellFreeExcelTableReader`

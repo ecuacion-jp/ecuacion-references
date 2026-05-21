@@ -12,19 +12,21 @@ Reader/Writer クラスは、Excel セルから取得するデータ型によっ
 
 String 型では、空セルをどの値で表現するかを `NoDataString` enum で指定できます。
 
-| 値 | 意味 | 推奨 |
-| --- | --- | --- |
-| `NoDataString.NULL` | `null` を返す | **推奨** |
-| `NoDataString.EMPTY_STRING` | `""` を返す | 非推奨 |
+| 値 | 意味 |
+| --- | --- |
+| `NoDataString.NULL` | `null` を返す（デフォルト） |
+| `NoDataString.EMPTY_STRING` | `""` を返す |
 
-`NULL` が推奨される理由：Jakarta Validation は `null` を「未入力」として扱いますが、
-空文字列 `""` は `@NotEmpty` 違反となります。Null を返すことで、
-Bean Validation と自然に統合できます。
+通常は `NoDataString.NULL` を使用してください。
+`@NotEmpty` は `null` と `""` のどちらも違反として扱うため、必須チェックはどちらを返しても正しく機能します。
+一方、`@Pattern` などの形式バリデーターは `null` をスキップしますが、`""` には適用されます。
+空セルに `""` を返すと、未入力のセルに対して「形式が不正です」という誤ったエラーが
+表示される可能性があります。`null` を返すことでこの問題を回避できます。
 
-デフォルトは `NoDataString.NULL` です。変更する場合は fluent setter で指定します。
+変更する場合は fluent setter で指定します。
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"名前", "年齢"})
     .noDataString(NoDataString.EMPTY_STRING);  // 空セルを "" にしたい場合
@@ -81,4 +83,4 @@ for (List<Cell> row : data) {
 | データをそのまま読み込んで処理したい | **String 型** |
 | Bean に変換して Jakarta Validation を使いたい | **String 型** |
 | セルのスタイルや型情報も必要 | **Cell 型** |
-| 数値として加算・集計したい | **Cell 型** |
+| 数値として加算・集計したい | **Cell 型**（String 型で読んで `parseInt` する方法はセルのフォーマット次第で失敗するため） |

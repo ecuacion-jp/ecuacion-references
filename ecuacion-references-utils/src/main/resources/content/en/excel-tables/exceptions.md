@@ -1,6 +1,6 @@
 # Exception Handling
 
-## `ExcelAppException`
+## `ExcelTableException`
 
 An exception representing application-level errors that occur during
 Excel read/write operations. It extends `ViolationException` and holds
@@ -18,11 +18,11 @@ the error as a message ID with arguments.
 ### Catching the Exception
 
 ```java
-import jp.ecuacion.util.excel.exception.ExcelAppException;
+import jp.ecuacion.util.excel.exception.ExcelTableException;
 
 try {
     List<List<String>> data = reader.read("/path/to/file.xlsx");
-} catch (ExcelAppException ex) {
+} catch (ExcelTableException ex) {
     String messageId = ex.getMessageId();
     // ex.getWorkbook(), ex.getSheet(), ex.getCell() provide context
     System.err.println("Excel error: " + messageId);
@@ -31,7 +31,7 @@ try {
 
 ### Context Information
 
-`ExcelAppException` can carry location context for the error.
+`ExcelTableException` can carry location context for the error.
 
 ```java
 Workbook wb = ex.getWorkbook(); // may be null
@@ -39,10 +39,10 @@ Sheet    sh = ex.getSheet();    // may be null
 Cell     c  = ex.getCell();     // may be null
 ```
 
-When constructing and throwing your own `ExcelAppException`:
+When constructing and throwing your own `ExcelTableException`:
 
 ```java
-throw new ExcelAppException("my.error.message.id", argValue)
+throw new ExcelTableException("my.error.message.id", argValue)
     .cell(cell)
     .cause(originalException);
 ```

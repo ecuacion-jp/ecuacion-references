@@ -1,7 +1,21 @@
 # Reader
 
 This page explains how to use each Reader class.
-For class selection guidance, see [Overview](/public/en/article?id=excel-tables/overview).
+
+## Reader Class List
+
+| Class | Data type | Format |
+| --- | --- | --- |
+| `StringOneLineHeaderExcelTableReader` | String | Header (1-row) |
+| `StringOneLineHeaderExcelTableToBeanReader` | String | Header (1-row) + Bean |
+| `StringHeaderExcelTableReader` | String | Header (multi-row) |
+| `StringHeaderExcelTableToBeanReader` | String | Header (multi-row) + Bean |
+| `StringFreeExcelTableReader` | String | Free |
+| `CellOneLineHeaderExcelTableReader` | Cell | Header (1-row) |
+| `CellHeaderExcelTableReader` | Cell | Header (multi-row) |
+| `CellFreeExcelTableReader` | Cell | Free |
+
+> **Why there is no ToBeanReader for Cell type:** Bean conversion relies on `StringExcelTableBean`, which maps string values to typed fields. Combining this with Cell type is not supported. When Cell type is needed, it is more natural to work directly with `Cell` objects to access style and type information.
 
 ## Common: `read()` Method
 
@@ -16,8 +30,8 @@ List<List<T>> read(Workbook workbook) throws IOException;
 ```
 
 `T` is the data type (`String` or `Cell`). The outer `List` represents rows;
-the inner `List` represents cell values in one row. The header row is **not**
-included in the return value.
+the inner `List` represents cell values in one row. Header rows are **not**
+included in the return value (all header rows are removed when there are multiple).
 
 ## Common: Fluent Setters
 
@@ -30,14 +44,12 @@ included in the return value.
 | `withIgnoresAdditionalColumnsOfHeaderData(boolean)` | boolean | false | Ignore extra header columns |
 | `withVerticalAndHorizontalOpposite(boolean)` | boolean | false | Transposed table support |
 
-## `StringHeaderExcelTableReader`
+## `StringOneLineHeaderExcelTableReader`
 
-The most commonly used class for reading a header-bearing table as String data.
-
-### Single-Row Header
+The most commonly used class for reading a single-row-header table as String data.
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"Code", "Name", "Price"});
 
@@ -46,25 +58,12 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 // data.get(1) → ["A002", "Another Product", null]  ← empty cell = null
 ```
 
-### Multi-Row Header
-
-```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
-    "Sheet1",
-    new String[][] {
-        {"Product",       "Product", "Price"},
-        {"Product Code",  "Name",    "List Price"}
-    });
-
-List<List<String>> data = reader.read("/path/to/file.xlsx");
-```
-
 ### Explicit Table Position
 
 Use when the sheet contains multiple tables or the position must be fixed:
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"Name", "Amount"})
     .tableStartRowNumber(5)     // table starts at row 5
@@ -77,7 +76,24 @@ StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
 | --- | --- | --- |
 | `noDataString(NoDataString)` | `NoDataString.NULL` | Value for empty cells |
 | `defaultDateTimeFormat(DateTimeFormatter)` | `yyyy-MM-dd` | Date format for all columns |
-| `columnDateTimeFormat(int, DateTimeFormatter)` | — | Date format for a specific column (1-based absolute column number) |
+| `columnDateTimeFormat(int, DateTimeFormatter)` | Falls back to `defaultDateTimeFormat` | Date format for a specific column (1-based absolute column number). Columns without an explicit setting use `defaultDateTimeFormat` |
+
+## `StringHeaderExcelTableReader`
+
+Used when the table has two or more header rows. Pass headers as `String[][]`.
+
+```java
+StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"Product",       "Product", "Price"},
+        {"Product Code",  "Name",    "List Price"}
+    });
+
+List<List<String>> data = reader.read("/path/to/file.xlsx");
+```
+
+Merged cells in the header area are automatically expanded before validation.
 
 ## `StringFreeExcelTableReader`
 
@@ -94,9 +110,14 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 When `tableStartRowNumber` is omitted, reading starts from row 1.
 Reading continues until a fully-empty row is encountered.
 
+> **Note on ToBean conversion:** There is no ToBeanReader for the Free format.
+> ToBeanReader works by matching `@ExcelColumn` annotation values against the Excel header row
+> to map columns to Bean fields. Because Free-format tables have no header row,
+> this mechanism cannot be applied.
+
 ## `CellOneLineHeaderExcelTableReader`
 
-Reads a header-bearing table as POI `Cell` objects. Use when cell details such
+Reads a single-row-header table as POI `Cell` objects. Use when cell details such
 as style or numeric type are needed.
 
 ```java
@@ -112,6 +133,22 @@ for (List<Cell> row : data) {
     String name  = row.get(0).getStringCellValue();
     double price = row.get(1).getNumericCellValue();
 }
+```
+
+## `CellHeaderExcelTableReader`
+
+Reads a table with two or more header rows as POI `Cell` objects.
+Pass headers as `String[][]`.
+
+```java
+CellHeaderExcelTableReader reader = new CellHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"Product",       "Product", "Price"},
+        {"Product Code",  "Name",    "List Price"}
+    });
+
+List<List<Cell>> data = reader.read("/path/to/file.xlsx");
 ```
 
 ## `CellFreeExcelTableReader`

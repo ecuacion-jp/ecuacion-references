@@ -1,9 +1,9 @@
 # Table Formats
 
 Reader and Writer classes are divided into two groups based on the table format:
-**OneLineHeader format** and **Free format**.
+**Header format** and **Free format**.
 
-## OneLineHeader Format (`IfFormatOneLineHeaderExcelTable`)
+## Header Format (`IfFormatHeaderExcelTable`)
 
 The table has one or more header rows at the top. The expected header labels are
 provided to the constructor and validated automatically on read.
@@ -37,12 +37,12 @@ Merged cells in the header area are automatically expanded before validation.
 
 ### Allowing Extra Header Columns
 
-By default, an `ExcelAppException` is thrown if the Excel header has more
+By default, an `ExcelTableException` is thrown if the Excel header has more
 columns than specified. Use `withIgnoresAdditionalColumnsOfHeaderData(true)` to
 ignore extra columns:
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"Name", "Age"})
     .withIgnoresAdditionalColumnsOfHeaderData(true);
@@ -80,6 +80,6 @@ When `tableRowSize` and `tableColumnSize` are omitted, they are auto-detected
 
 | Situation | Recommended |
 | --- | --- |
-| Table has a header and column order must be guaranteed | **OneLineHeader** |
+| Table has a header and column order must be guaranteed | **Header** |
 | Read an arbitrary data range at a known position | **Free** |
-| Header exists but validation is not needed | **Free** (or OneLineHeader with `.withIgnoresAdditionalColumnsOfHeaderData(true)`) |
+| Header exists but validation is not needed | **Free** (or Header with `.withIgnoresAdditionalColumnsOfHeaderData(true)`) |

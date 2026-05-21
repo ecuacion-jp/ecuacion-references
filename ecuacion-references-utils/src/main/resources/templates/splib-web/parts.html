@@ -18,6 +18,9 @@
 					@{/public/{l}/article?id=excel-tables/overview(l=${lang})},
 					#{navBar.et.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-tables/setup(l=${lang})},
+					#{navBar.et.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/{l}/article?id=excel-tables/quickstart(l=${lang})},
 					#{navBar.et.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
@@ -36,6 +39,9 @@
 					@{/public/{l}/article?id=excel-tables/bean-mapping(l=${lang})},
 					#{navBar.et.beanMapping}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-tables/from-bean-writer(l=${lang})},
+					#{navBar.et.fromBeanWriter}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/{l}/article?id=excel-tables/exceptions(l=${lang})},
 					#{navBar.et.exceptions}, '')}"></div>
 
@@ -52,8 +58,8 @@
 					@{/public/{l}/article?id=excel-report-to-pdf/setup(l=${lang})},
 					#{navBar.ertp.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=excel-report-to-pdf/basic(l=${lang})},
-					#{navBar.ertp.basic}, '')}"></div>
+					@{/public/{l}/article?id=excel-report-to-pdf/quickstart(l=${lang})},
+					#{navBar.ertp.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/{l}/article?id=excel-report-to-pdf/options(l=${lang})},
 					#{navBar.ertp.options}, '')}"></div>

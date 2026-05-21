@@ -1,4 +1,4 @@
-# 基本的な使い方
+# クイックスタート
 
 ## `ExcelToPdfUtil.generate()`
 
@@ -9,7 +9,7 @@ public static void generate(
     Path excelPath,
     List<String> sheetNames,
     Path outputPath,
-    @Nullable PdfGenerateOptions options) throws PdfGenerateException
+    PdfGenerateOptions options) throws PdfGenerateException
 ```
 
 | 引数 | 説明 |
@@ -17,11 +17,12 @@ public static void generate(
 | `excelPath` | 変換元 Excel ファイルのパス |
 | `sheetNames` | PDF に出力するシート名のリスト（記載順に出力） |
 | `outputPath` | 出力 PDF ファイルのパス |
-| `options` | パスワードなどのオプション（不要な場合は `null`） |
+| `options` | フォントパスなどのオプション（必須） |
 
 ## コード例
 
 ```java
+import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 import jp.ecuacion.util.pdf.excel.report.util.ExcelToPdfUtil;
 import jp.ecuacion.util.pdf.excel.report.exception.PdfGenerateException;
 import java.nio.file.Path;
@@ -31,12 +32,16 @@ import java.util.List;
 Path excelPath  = Paths.get("/path/to/report.xlsx");
 Path outputPath = Paths.get("/path/to/output.pdf");
 
+PdfGenerateOptions options = PdfGenerateOptions.builder()
+    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+    .build();
+
 try {
     ExcelToPdfUtil.generate(
         excelPath,
         List.of("表紙", "明細"),   // 変換するシート名
         outputPath,
-        null);                     // オプションなし
+        options);
 } catch (PdfGenerateException ex) {
     System.err.println("PDF 生成に失敗しました: " + ex.getMessage());
 }
@@ -52,7 +57,7 @@ ExcelToPdfUtil.generate(
     excelPath,
     List.of("表紙", "集計", "明細1", "明細2"),
     outputPath,
-    null);
+    options);
 ```
 
 ## シート名が存在しない場合
@@ -61,5 +66,5 @@ ExcelToPdfUtil.generate(
 
 ```java
 // "存在しないシート" が Excel にない場合 → PdfGenerateException
-ExcelToPdfUtil.generate(excelPath, List.of("存在しないシート"), outputPath, null);
+ExcelToPdfUtil.generate(excelPath, List.of("存在しないシート"), outputPath, options);
 ```

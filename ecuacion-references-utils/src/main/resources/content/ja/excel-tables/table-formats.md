@@ -1,9 +1,9 @@
 # テーブル形式の選択
 
 Reader/Writer クラスは、テーブルの形式によって
-**OneLineHeader 形式** と **Free 形式** の 2 種類に分かれています。
+**Header 形式** と **Free 形式** の 2 種類に分かれています。
 
-## OneLineHeader 形式（`IfFormatOneLineHeaderExcelTable`）
+## Header 形式（`IfFormatHeaderExcelTable`）
 
 テーブルの先頭に 1 行以上のヘッダー行があります。
 コンストラクタで期待するヘッダーラベルを指定し、読み込み時に自動検証されます。
@@ -38,11 +38,11 @@ Excel 上でセルが結合（マージ）されていても、自動的に展�
 ### ヘッダーの追加列を許容する
 
 実際の Excel にヘッダー列が多い場合（指定列より多い列がある場合）、
-デフォルトでは `ExcelAppException` がスローされます。
+デフォルトでは `ExcelTableException` がスローされます。
 `withIgnoresAdditionalColumnsOfHeaderData(true)` で追加列を無視できます。
 
 ```java
-StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
+StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableReader(
     "Sheet1",
     new String[] {"名前", "年齢"})
     .withIgnoresAdditionalColumnsOfHeaderData(true);
@@ -80,6 +80,6 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 
 | 状況 | 推奨形式 |
 | --- | --- |
-| ヘッダー行があり、列の並びを保証したい | **OneLineHeader** |
+| ヘッダー行があり、列の並びを保証したい | **Header** |
 | 任意の位置にあるデータ範囲を読み込みたい | **Free** |
-| ヘッダーはあるが検証不要 | **Free**（または OneLineHeader で `.withIgnoresAdditionalColumnsOfHeaderData(true)`） |
+| ヘッダーはあるが検証不要 | **Free**（または Header で `.withIgnoresAdditionalColumnsOfHeaderData(true)`） |

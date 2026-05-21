@@ -1,6 +1,6 @@
 # 例外処理
 
-## `ExcelAppException`
+## `ExcelTableException`
 
 Excel 読み書き中に発生するアプリケーションエラーを表す例外クラスです。
 `ViolationException` を継承しており、メッセージ ID と引数でエラー内容を保持します。
@@ -17,11 +17,11 @@ Excel 読み書き中に発生するアプリケーションエラーを表す�
 ### キャッチ方法
 
 ```java
-import jp.ecuacion.util.excel.exception.ExcelAppException;
+import jp.ecuacion.util.excel.exception.ExcelTableException;
 
 try {
     List<List<String>> data = reader.read("/path/to/file.xlsx");
-} catch (ExcelAppException ex) {
+} catch (ExcelTableException ex) {
     String messageId = ex.getMessageId();
     // ex.getWorkbook(), ex.getSheet(), ex.getCell() でコンテキスト情報を取得できる
     System.err.println("Excel エラー: " + messageId);
@@ -30,7 +30,7 @@ try {
 
 ### コンテキスト情報
 
-`ExcelAppException` はエラーが発生した位置情報を保持できます。
+`ExcelTableException` はエラーが発生した位置情報を保持できます。
 ライブラリ内部では `workbook()`・`sheet()`・`cell()` で設定されます。
 
 ```java
@@ -39,10 +39,10 @@ Sheet    sh = ex.getSheet();    // null の場合あり
 Cell     c  = ex.getCell();     // null の場合あり
 ```
 
-`ExcelAppException` 自体を構築・スローする場合はメソッドチェーンで設定します。
+`ExcelTableException` 自体を構築・スローする場合はメソッドチェーンで設定します。
 
 ```java
-throw new ExcelAppException("my.error.message.id", argValue)
+throw new ExcelTableException("my.error.message.id", argValue)
     .cell(cell)
     .cause(originalException);
 ```

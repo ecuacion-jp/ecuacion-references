@@ -1,15 +1,16 @@
 # Bean Mapping
 
-`StringHeaderExcelTableToBeanReader` automatically converts each Excel row
-into a Java object (Bean). Jakarta Validation is integrated.
+`StringOneLineHeaderExcelTableToBeanReader` (single header row) or
+`StringHeaderExcelTableToBeanReader` (multiple header rows) automatically converts
+each Excel row into a Java object (Bean). Jakarta Validation is integrated.
 
 ## Overview
 
-While a normal Reader returns `List<List<String>>`, this class returns
+While a normal Reader returns `List<List<String>>`, these classes return
 a list of Beans that extend `StringExcelTableBean`.
 
 ```
-StringHeaderExcelTableToBeanReader.readToBean(filePath)
+StringOneLineHeaderExcelTableToBeanReader.readToBean(filePath)
   → List<T extends StringExcelTableBean>
 ```
 
@@ -98,12 +99,29 @@ return new String[] {"productCode", null, "price"}; // skip column 2
 
 ## Reading with `readToBean()`
 
+For a single header row, use `StringOneLineHeaderExcelTableToBeanReader`:
+
+```java
+StringOneLineHeaderExcelTableToBeanReader<ProductBean> reader =
+    new StringOneLineHeaderExcelTableToBeanReader<>(
+        ProductBean.class,
+        "Sheet1",
+        new String[] {"Product Code", "Product Name", "Price"});
+
+List<ProductBean> products = reader.readToBean("/path/to/file.xlsx");
+```
+
+For two or more header rows, use `StringHeaderExcelTableToBeanReader`:
+
 ```java
 StringHeaderExcelTableToBeanReader<ProductBean> reader =
     new StringHeaderExcelTableToBeanReader<>(
         ProductBean.class,
         "Sheet1",
-        new String[] {"Product Code", "Product Name", "Price"});
+        new String[][] {
+            {"Personal Info", "Personal Info", "Contact"},
+            {"Product Code", "Product Name", "Price"}
+        });
 
 List<ProductBean> products = reader.readToBean("/path/to/file.xlsx");
 ```
