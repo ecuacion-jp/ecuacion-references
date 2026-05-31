@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navbar */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(
+				@{/public/{l}/article?id=home(l=${lang})}, #{navBar.home}, '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.batch}, ~{::navbarBatch}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarBatch" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-batch/overview(l=${lang})},
+					#{navBar.batch.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-batch/setup(l=${lang})},
+					#{navBar.batch.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-batch/quickstart(l=${lang})},
+					#{navBar.batch.quickstart}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.web}, ~{::navbarWeb}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarWeb" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-web/overview(l=${lang})},
+					#{navBar.web.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-web/setup(l=${lang})},
+					#{navBar.web.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-web/quickstart(l=${lang})},
+					#{navBar.web.quickstart}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.excel}, ~{::navbarExcel}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarExcel" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-format/overview(l=${lang})},
+					#{navBar.excel.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-format/general-settings(l=${lang})},
+					#{navBar.excel.generalSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-format/data-type-sheet(l=${lang})},
+					#{navBar.excel.dataTypeSheet}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-format/db-definition-sheet(l=${lang})},
+					#{navBar.excel.dbDefinitionSheet}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=excel-format/enum-sheet(l=${lang})},
+					#{navBar.excel.enumSheet}, '')}"></div>
+
+		</div></th:block>
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<div th:if="${lang == 'ja'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/en}, '🌐 English', '')}"></div>
+		</div>
+		<div th:if="${lang == 'en'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/ja}, '🌐 日本語', '')}"></div>
+		</div>
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
+	</div>
+
+</body>
+</html>

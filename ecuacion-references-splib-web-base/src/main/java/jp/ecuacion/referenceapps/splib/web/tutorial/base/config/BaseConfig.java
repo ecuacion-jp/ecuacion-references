@@ -3,13 +3,13 @@ package jp.ecuacion.referenceapps.splib.web.tutorial.base.config;
 import java.time.OffsetDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.Optional;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.auditing.*;
-import org.springframework.data.jpa.repository.config.*;
+import org.springframework.data.auditing.DateTimeProvider;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EntityScan("jp.ecuacion.referenceapps.splib.web.tutorial.base.entity")

@@ -9,25 +9,10 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
-	<build>
-		<plugins>
-
-			<!-- maven-source-plugin (outputs a jar of source) -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-			</plugin>
-
-			<!-- checkstyle is skipped in base projects -->
-
-			<!-- spotbugs -->
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-			</plugin>
-
-		</plugins>
-	</build>
+	<properties>
+		<!-- checkstyle is skipped in base projects -->
+		<checkstyle.skip>true</checkstyle.skip>
+	</properties>
 
 	<dependencies>
 

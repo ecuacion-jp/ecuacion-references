@@ -20,6 +20,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Locale;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +44,7 @@ public class AppConfig {
   LocaleResolver localeResolver() {
     return new LocaleResolver() {
       @Override
-      public Locale resolveLocale(HttpServletRequest request) {
+      public @NonNull Locale resolveLocale(@NonNull HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
           for (Cookie cookie : cookies) {
@@ -64,8 +66,7 @@ public class AppConfig {
       }
 
       @Override
-      @SuppressWarnings("unused")
-      public void setLocale(HttpServletRequest rq, HttpServletResponse rs, Locale lc) {
+      public void setLocale(@NonNull HttpServletRequest rq, @Nullable HttpServletResponse rs, @Nullable Locale lc) {
         // Cookie is managed by LanguageController; nothing to do here.
       }
     };

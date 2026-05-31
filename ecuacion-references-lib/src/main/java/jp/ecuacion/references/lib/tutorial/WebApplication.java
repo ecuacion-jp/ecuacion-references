@@ -1,5 +1,6 @@
 package jp.ecuacion.references.lib.tutorial;
 
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,7 +16,8 @@ public class WebApplication extends SpringBootServletInitializer {
    * Needed for deploy to an existing web application server. 
    */
   @Override
-  protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+  protected @NonNull SpringApplicationBuilder configure(
+      @NonNull SpringApplicationBuilder application) {
     return application.sources(WebApplication.class);
   }
 }

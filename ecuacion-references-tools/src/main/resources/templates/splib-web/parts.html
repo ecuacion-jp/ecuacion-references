@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navbar */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(
+				@{/public/{l}/article?id=home(l=${lang})}, #{navBar.home}, '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.housekeepFiles}, ~{::navbarHousekeepFiles}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarHousekeepFiles" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-files/overview(l=${lang})},
+					#{navBar.hf.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-files/setup(l=${lang})},
+					#{navBar.hf.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-files/quickstart(l=${lang})},
+					#{navBar.hf.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-files/excel-settings(l=${lang})},
+					#{navBar.hf.excelSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-files/task-patterns(l=${lang})},
+					#{navBar.hf.taskPatterns}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.housekeepDb}, ~{::navbarHousekeepDb}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarHousekeepDb" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-db/overview(l=${lang})},
+					#{navBar.hd.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-db/setup(l=${lang})},
+					#{navBar.hd.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-db/quickstart(l=${lang})},
+					#{navBar.hd.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=housekeep-db/excel-settings(l=${lang})},
+					#{navBar.hd.excelSettings}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.commandApi}, ~{::navbarCommandApi}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarCommandApi" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=command-api/overview(l=${lang})},
+					#{navBar.ca.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=command-api/setup(l=${lang})},
+					#{navBar.ca.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=command-api/quickstart(l=${lang})},
+					#{navBar.ca.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=command-api/api-spec(l=${lang})},
+					#{navBar.ca.apiSpec}, '')}"></div>
+
+		</div></th:block>
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<div th:if="${lang == 'ja'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/en}, '🌐 English', '')}"></div>
+		</div>
+		<div th:if="${lang == 'en'}">
+			<div th:replace="~{bootstrap/components :: navbarMenuItem(
+					@{/public/lang/ja}, '🌐 日本語', '')}"></div>
+		</div>
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
+	</div>
+
+</body>
+</html>
