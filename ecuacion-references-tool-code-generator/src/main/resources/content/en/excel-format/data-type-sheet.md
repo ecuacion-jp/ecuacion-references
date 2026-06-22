@@ -10,21 +10,65 @@ Table name: `テーブル2`, range: `A8:S{last row}`
 | Column | Field | Description |
 | --- | --- | --- |
 | A | DataType Name | Identifier starting with `DT_`. Uppercase letters, digits, and underscores only |
-| B | Type | `BOOLEAN` / `LONG` / `INTEGER` / `DATE_TIME` / `STRING` / `ENUM` |
-| C | Min Length | STRING only. Minimum string length |
-| D | Max Length | STRING only. Maximum string length |
-| E | Data Pattern | STRING only. Allowed character set |
+| B | Type | Type name (see Types section below) |
+| C | Min Length | STRING: minimum string length (optional) |
+| D | Max Length | STRING: maximum string length (required) |
+| E | Data Pattern (Japanese) | STRING: Japanese label for the data pattern (required) |
+| F | Data Pattern | STRING: data pattern identifier (required) |
+| G | Excluded from Forbidden-Char Check | STRING: characters exempt from the forbidden-character check (optional) |
+| H | Regex | STRING: custom regex constraint (optional) |
+| I | Min Value | Numeric types: minimum value (optional) |
+| J | Max Value | Numeric types: maximum value (optional) |
+| K | Integer Digits | BIG_DECIMAL: number of integer-part digits (required) |
+| L | Decimal Digits | BIG_DECIMAL: number of decimal-part digits (required) |
+| M | Code Length | ENUM: fixed code length in characters (required) |
+| N | No Timezone | Date-time types: `○` = no timezone (`LocalDateTime`) (optional) |
+| O | Notes | Comments (not used in generation) |
+| P | Pattern Description (default lang) | Human-readable description of the data pattern (English) |
+| Q–S | Pattern Description (lang 1–3) | Language-specific pattern descriptions |
+
+---
+
+## Settings per Type
+
+Available settings differ by type. ○ = required / △ = optional / (blank) = not applicable
+
+| Type | Min Length (C) | Max Length (D) | Data Pattern (E・F) | Regex (H) | Min Value (I) | Max Value (J) | Integer Digits (K) | Decimal Digits (L) | Code Length (M) | No Timezone (N) | Auto-assign (※1) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `STRING` | △ | ○ | ○ | △ | | | | | | | |
+| `INTEGER` | | | | | △ | △ | | | | | △ |
+| `SHORT` | | | | | △ | △ | | | | | |
+| `LONG` | | | | | △ | △ | | | | | △ |
+| `FLOAT` | | | | | △ | △ | | | | | |
+| `DOUBLE` | | | | | △ | △ | | | | | |
+| `BIG_DECIMAL` | | | | | △ | △ | ○ | ○ | | | |
+| `TIMESTAMP` | | | | | | | | | | △ | |
+| `ENUM` | | | | | | | | | ○ | | |
+| `BOOLEAN` | | | | | | | | | | | |
+
+※1 Auto-assign is set in column H of the DB Definition sheet. It is listed here because it is type-dependent.
+
+---
 
 ## Types
 
-| Type | Java Type | Description |
-| --- | --- | --- |
-| `BOOLEAN` | `Boolean` | Boolean value |
-| `LONG` | `Long` | Long integer (surrogate keys, version numbers) |
-| `INTEGER` | `Integer` | Integer |
-| `DATE_TIME` | `LocalDateTime` | Date and time (no timezone) |
-| `STRING` | `String` | String with optional length and character constraints |
-| `ENUM` | (Enum class) | Enumeration. Values are defined in the Enum Definition sheet |
+| Type | Java Type | PostgreSQL Type | Description |
+| --- | --- | --- | --- |
+| `STRING` | `String` | `varchar` | String with optional length and character constraints |
+| `ENUM` | (Enum class) | `varchar` | Enumeration. Values are defined in the Enum Definition sheet |
+| `SHORT` | `Short` | `smallint` | 2-byte signed integer |
+| `INTEGER` | `Integer` | `int` | 4-byte signed integer |
+| `LONG` | `Long` | `bigint` | 8-byte signed integer (surrogate keys, version numbers) |
+| `BIG_INTEGER` | `BigInteger` | `numeric` | Arbitrary-precision integer (no decimal) |
+| `FLOAT` | `Float` | `real` | Single-precision floating-point (4 bytes) |
+| `DOUBLE` | `Double` | `double precision` | Double-precision floating-point (8 bytes) |
+| `BIG_DECIMAL` | `BigDecimal` | `numeric` | Arbitrary-precision numeric (precision and scale specified) |
+| `YEAR_MONTH` | `YearMonth` | `text` | Year and month |
+| `DATE` | `LocalDate` | `date` | Date |
+| `TIME` | `LocalTime` | `time` | Time |
+| `DATE_TIME` | `LocalDateTime` | `timestamp` | Date and time (no timezone) |
+| `TIMESTAMP` | `LocalDateTime` | `timestamp` | Timestamp (no timezone) |
+| `BOOLEAN` | `Boolean` | `bool` | Boolean value |
 
 ## Data Patterns (STRING Type)
 

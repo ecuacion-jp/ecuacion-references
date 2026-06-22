@@ -5,26 +5,34 @@
 
 ## 列構成
 
-テーブル名: `テーブル7`、範囲: `A5:AB{最終行}`
+テーブル名: `テーブル7`、範囲: `A5:AI{最終行}`
 
 | 列 | 項目 | 説明 |
 | --- | --- | --- |
 | A | テーブル名 | DB テーブル名（スネークケース大文字。同テーブルの行は同じ値を繰り返す） |
-| B | 表示名（デフォルト言語） | 英語表示名 |
-| C | カラム名 | DB カラム名（スネークケース大文字） |
-| D | dataType | `DT_XXXX` 形式の DataType 名 |
-| E | dataType 存在確認 | VLOOKUP 式による自動チェック（コピーで対応） |
-| G | PK・UK | `S`=サロゲートキー（PK）/ `U`=ユニークキー |
-| H | nullable | `○`=NULL 許可（空白=NOT NULL） |
-| I | 自動採番 | `○`=DB シーケンスによる採番 |
-| O | 関連：種類 | `@ManyToOne` / `@OneToOne` / `@OneToMany` |
-| P | 関連：direction | `unidirectional` / `bidirectional` |
-| Q | 関連：参照元変数名 | Java フィールド名（camelCase） |
-| R | 関連：参照先テーブル | 参照先テーブル名 |
-| S | 関連：参照先カラム | 参照先カラム名（通常 `ID`） |
-| T | 関連：参照先変数名 | bidirectional 時の逆参照フィールド名 |
-| Y | 備考 | コメント（生成に影響しない） |
-| Z | 表示名（追加言語 1） | 日本語表示名 |
+| B | カラム名 | DB カラム名（スネークケース大文字） |
+| C | dataType | `DT_XXXX` 形式の DataType 名 |
+| D | dataType 存在確認 | VLOOKUP 式による自動チェック（コピーで対応） |
+| E | javaのみ | `○`=DB カラムを作成せず Entity・Record のプロパティのみ生成 |
+| F | PK・UK | `S`=サロゲートキー（PK）/ `U`=ユニークキー |
+| G | nullable | `○`=NULL 許可（空白=NOT NULL） |
+| H | 自動採番 | `○`=値が null のとき型に応じた値を自動設定 |
+| I | 強制採番 | `○`=値の有無によらず強制上書き採番 |
+| J | 自動更新 | `○`=更新時に値が null のとき型に応じた値を自動設定 |
+| K | 強制更新 | `○`=更新時に値の有無によらず強制上書き更新 |
+| L | グループ識別項目 | `○`=グループを表す項目 |
+| M | SPRING監査 | `CB` / `CD` / `LB` / `LD`（Spring Data 監査アノテーション） |
+| N | 関連：種類 | `@ManyToOne` / `@OneToOne` / `@OneToMany` |
+| O | 関連：direction | `unidirectional` / `bidirectional` |
+| P | 関連：参照元変数名 | Java フィールド名（camelCase） |
+| Q | 関連：参照先テーブル | 参照先テーブル名 |
+| R | 関連：参照先カラム | 参照先カラム名（通常 `ID`） |
+| S | 関連：参照先変数名 | bidirectional 時の逆参照フィールド名 |
+| T | 関連：eager | 空白=lazy（デフォルト）/ `○`=eager |
+| U〜AD | index1〜10 | 1 から始まる連番を指定するとその順でカラムが並んだインデックスを作成 |
+| AE | 備考 | コメント（生成に影響しない） |
+| AF | カラム表示名（デフォルト言語） | 英語表示名 |
+| AG〜AI | カラム表示名（追加言語1〜3） | 言語別表示名 |
 
 ---
 
@@ -35,29 +43,29 @@
 1 テーブル 1 グループとして行を記述します。テーブルの先頭行は必ずサロゲートキー（`S`）から始めます。
 
 ```
-テーブル名   | 表示名 | カラム名 | DataType  | (E) |   | PK/UK | null | 採番 | ...
-------------|------|--------|---------|-----|---|-------|------|------|
-MY_TABLE    | name | ID     | DT_SERIAL | ○   |   | S     |      | ○    |
-MY_TABLE    |      | CODE   | DT_CODE   | ○   |   | U     |      |      |
-MY_TABLE    |      | NAME   | DT_ACC_NAME | ○ |   |       | ○    |      |
+テーブル名   | カラム名 | DataType    | (D) | ... | PK/UK | null | 採番 | ...
+------------|--------|------------|-----|-----|-------|------|------|
+MY_TABLE    | ID     | DT_SERIAL  | ○   |     | S     |      | ○    |
+MY_TABLE    | CODE   | DT_CODE    | ○   |     | U     |      |      |
+MY_TABLE    | NAME   | DT_ACC_NAME| ○   |     |       | ○    |      |
 ```
 
 ### サロゲートキー（全テーブル必須）
 
 すべてのテーブルの先頭行はサロゲートキーである必要があります。
 
-| テーブル名 | 表示名 | カラム名 | dataType | G列（PK/UK） | I列（採番） |
-| --- | --- | --- | --- | --- | --- |
-| MY_TABLE | name | ID | DT_SERIAL | S | ○ |
+| テーブル名 | カラム名 | dataType | F列（PK/UK） | H列（採番） |
+| --- | --- | --- | --- | --- |
+| MY_TABLE | ID | DT_SERIAL | S | ○ |
 
-- `G列=S`: サロゲートキー（PRIMARY KEY）として扱われる
-- `I列=○`: DB 側のシーケンスによる自動採番
+- `F列=S`: サロゲートキー（PRIMARY KEY）として扱われる
+- `H列=○`: DB 側のシーケンスによる自動採番
 
 ### ユニークキー（Natural Key）
 
 自然キーとなるカラムを定義します。
 
-| G列（PK/UK） |
+| F列（PK/UK） |
 | --- |
 | U |
 
@@ -66,20 +74,89 @@ MY_TABLE    |      | NAME   | DT_ACC_NAME | ○ |   |       | ○    |      |
 
 ### NULL 許可カラム
 
-`H列（nullable）= ○` のカラムは NULL 許可となり、生成コードで `@Nullable` アノテーションが付与されます。
+`G列（nullable）= ○` のカラムは NULL 許可となり、生成コードで `@Nullable` アノテーションが付与されます。
+
+---
+
+## javaのみ（E列）
+
+`E列=○` を指定すると DB カラムは作成されず、Entity・Record のプロパティのみ生成されます。
+
+- `E列=○` の場合、F列（PK・UK）以降の列への値の指定は不可です。
+- 他テーブルの値を派生させて保持するなど、DB に永続化しないプロパティを定義するときに使用します。
+
+---
+
+## 自動採番（H列）・強制採番（I列）
+
+### 自動採番
+
+`H列=○` のとき、挿入時に値が null であれば型に応じた値を自動設定します。
+
+| 型 | 採番値 |
+| --- | --- |
+| `int` / `long` | 1 から始まる連番 |
+| Timestamp 系 | 現在日時 |
+| `boolean` | `false` |
+| それ以外 | エラー |
+
+### 強制採番
+
+`I列=○` のとき、自動採番と同様に採番しますが、**値が設定されている場合でも強制的に上書き**します。
+
+---
+
+## 自動更新（J列）・強制更新（K列）
+
+### 自動更新
+
+`J列=○` のとき、更新時に値が null であれば型に応じた値を自動設定します。
+
+| 型 | 設定値 |
+| --- | --- |
+| `Timestamp` 系 | 更新時の現在日時 |
+| `boolean` / `DT_FLG` | `false`（`FlgEnum.FALSE`） |
+| それ以外 | エラー |
+
+### 強制更新
+
+`K列=○` のとき、自動更新と同様に設定しますが、**値が設定されている場合でも強制的に上書き**します。
+
+---
+
+## グループ識別項目（L列）
+
+`L列=○` を指定したカラムは、グループを表す識別項目として扱われます。
+
+各種設定でグループ識別項目のカラム名を参照できますが、グループテーブル自身のキー（例: `GROUP.ID`）は
+`GROUP_ID` という名前でなく `ID` と命名されます。この `ID` を「グループの識別項目」として同様に扱いたい場合に
+`L列=○` を指定します。通常は 1 システムにつき 1 カラムのみ指定します。
+
+---
+
+## SPRING監査（M列）
+
+Spring Data の監査アノテーションを付与します。
+
+| 値 | アノテーション | 内容 |
+| --- | --- | --- |
+| `CB` | `@CreatedBy` | 作成者 |
+| `CD` | `@CreatedDate` | 作成日時 |
+| `LB` | `@LastModifiedBy` | 最終更新者 |
+| `LD` | `@LastModifiedDate` | 最終更新日時 |
 
 ---
 
 ## リレーションシップの定義
 
-テーブル間のリレーションシップは O〜T 列で定義します。
+テーブル間のリレーションシップは N〜T 列で定義します。
 
 ### @ManyToOne（最も一般的な外部キー）
 
 ```
-テーブル名 | 表示名     | カラム名  | dataType  | ... | O列           | P列             | Q列      | R列          | S列 | T列 |
----------|---------|--------|---------|-----|--------------|----------------|---------|-------------|-----|-----|
-MY_TABLE  | group ID | GROUP_ID | DT_SERIAL | ... | @ManyToOne   | unidirectional | groupVar | GROUP_TABLE | ID  |     |
+テーブル名 | カラム名  | dataType  | ... | N列           | O列             | P列      | Q列          | R列 | S列 | T列   |
+---------|--------|---------|-----|--------------|----------------|---------|-------------|-----|-----|-------|
+MY_TABLE  | GROUP_ID | DT_SERIAL | ... | @ManyToOne   | unidirectional | groupVar | GROUP_TABLE | ID  |     |       |
 ```
 
 - `@ManyToOne`: 多対一（外部キーがあるテーブル側に記述）
@@ -95,10 +172,10 @@ private GroupEntity groupVar;
 
 ### @ManyToOne（bidirectional）
 
-逆方向からも参照する場合は `bidirectional` を使用し、`T列` に逆参照フィールド名を指定します。
+逆方向からも参照する場合は `bidirectional` を使用し、`S列` に逆参照フィールド名を指定します。
 
 ```
-... | @ManyToOne | bidirectional | parentVar | PARENT_TABLE | ID | childListVar | ...
+... | @ManyToOne | bidirectional | parentVar | PARENT_TABLE | ID | childListVar | |
 ```
 
 参照先（PARENT_TABLE）側の Entity に以下が生成されます:
@@ -112,11 +189,33 @@ private List<ChildEntity> childListVar;
 
 1 対 1 のリレーションシップ。指定方法は `@ManyToOne` と同様です。
 
+### 関連：eager（T列）
+
+`T列` が空白のとき lazy（デフォルト）、`○` のとき eager フェッチになります。
+
+DB 構造上の上位（親）Entity を参照しており、かつ `unidirectional` の場合は eager でも構いません。
+自 Entity への参照や他 Entity を介した循環参照が発生しうる場合は lazy を使用してください。
+
 ---
 
-## dataType 存在確認列（E列）の VLOOKUP 式
+## インデックス（U〜AD列）
 
-E 列は dataType 定義シートに DataType が存在するかを自動チェックする列です。
+U〜AD 列（index1〜10）に 1 から始まる整数を指定すると、その番号の順でカラムを並べたインデックスが作成されます。
+
+例: `MY_TABLE` に `(COL_A, COL_B)` の複合インデックスを作成する場合:
+
+| カラム名 | U列（index1） | V列（index2） |
+| --- | --- | --- |
+| COL_A | 1 | |
+| COL_B | 2 | |
+
+複数のインデックスを定義する場合は、index2（V列）以降に同様に記述します。
+
+---
+
+## dataType 存在確認列（D列）の VLOOKUP 式
+
+D 列は dataType 定義シートに DataType が存在するかを自動チェックする列です。
 値が `×` の場合は DataType が未定義なのでエラーになります。
 
 テーブル内での式（コピーで自動設定）:
@@ -128,7 +227,7 @@ E 列は dataType 定義シートに DataType が存在するかを自動チェ�
 テーブル範囲外の行に追加した場合は、セル参照式に変更します:
 
 ```
-=IF(NOT(ISNA(VLOOKUP(D{行番号}, dataType定義!A:A, 1,FALSE))), "○", "×")
+=IF(NOT(ISNA(VLOOKUP(C{行番号}, dataType定義!A:A, 1,FALSE))), "○", "×")
 ```
 
 ---

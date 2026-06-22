@@ -10,21 +10,65 @@ DataType は `DT_XXXX` という命名規則のキーで、Java の型・バリ�
 | 列 | 項目 | 説明 |
 | --- | --- | --- |
 | A | DataType名 | `DT_` で始まる識別子。大文字・数字・アンダースコアのみ |
-| B | 型 | `BOOLEAN` / `LONG` / `INTEGER` / `DATE_TIME` / `STRING` / `ENUM` |
-| C | 長さ最小 | STRING 型のみ有効。文字列の最小長 |
-| D | 長さ最大 | STRING 型のみ有効。文字列の最大長 |
-| E | データパターン | STRING 型のみ有効。使用可能文字の制約 |
+| B | 型 | 型名（下記「型の説明」参照） |
+| C | 長さ最小 | STRING: 文字列の最小長（任意） |
+| D | 長さ最大 | STRING: 文字列の最大長（必須） |
+| E | データパターン（日本語） | STRING: データパターン名の日本語表記（必須） |
+| F | データパターン | STRING: データパターン識別子（必須） |
+| G | 禁則文字チェック除外 | STRING: 禁則文字チェックから除外する文字（任意） |
+| H | 正規表現 | STRING: 独自正規表現による文字種制約（任意） |
+| I | 最小値 | 数値系: 最小値（任意） |
+| J | 最大値 | 数値系: 最大値（任意） |
+| K | 整数部桁数 | BIG_DECIMAL: 整数部の桁数（必須） |
+| L | 小数部桁数 | BIG_DECIMAL: 小数部の桁数（必須） |
+| M | コードの長さ | ENUM: コードの文字数（必須） |
+| N | timezoneなし | 日時系: `○`=タイムゾーンなし（`LocalDateTime`）（任意） |
+| O | 備考 | コメント（生成に影響しない） |
+| P | パターン説明（デフォルト言語） | データパターンの説明文（英語） |
+| Q〜S | パターン説明（追加言語1〜3） | 言語別のデータパターン説明文 |
+
+---
+
+## 型別の設定項目
+
+型ごとに設定可能な列が異なります。○=必須 / △=任意 / （空白）=設定不可
+
+| 型 | 長さ最小 (C) | 長さ最大 (D) | データパターン (E・F) | 正規表現 (H) | 最小値 (I) | 最大値 (J) | 整数部桁数 (K) | 小数部桁数 (L) | コードの長さ (M) | timezoneなし (N) | 自動採番 (※1) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `STRING` | △ | ○ | ○ | △ | | | | | | | |
+| `INTEGER` | | | | | △ | △ | | | | | △ |
+| `SHORT` | | | | | △ | △ | | | | | |
+| `LONG` | | | | | △ | △ | | | | | △ |
+| `FLOAT` | | | | | △ | △ | | | | | |
+| `DOUBLE` | | | | | △ | △ | | | | | |
+| `BIG_DECIMAL` | | | | | △ | △ | ○ | ○ | | | |
+| `TIMESTAMP` | | | | | | | | | | △ | |
+| `ENUM` | | | | | | | | | ○ | | |
+| `BOOLEAN` | | | | | | | | | | | |
+
+※1 自動採番は DB項目定義シートの H 列で指定します。型依存があるためここに記載しています。
+
+---
 
 ## 型の説明
 
-| 型 | Java 型 | 説明 |
-| --- | --- | --- |
-| `BOOLEAN` | `Boolean` | 真偽値 |
-| `LONG` | `Long` | 長整数（主にサロゲートキー・バージョン番号） |
-| `INTEGER` | `Integer` | 整数 |
-| `DATE_TIME` | `LocalDateTime` | 日時（タイムゾーンなし） |
-| `STRING` | `String` | 文字列（長さ・文字種の制約を別途指定） |
-| `ENUM` | （Enum クラス） | 列挙型。対応する値は「enum定義」シートで定義 |
+| 型 | Java 型 | PostgreSQL 型 | 説明 |
+| --- | --- | --- | --- |
+| `STRING` | `String` | `varchar` | 文字列（長さ・文字種の制約を別途指定） |
+| `ENUM` | （Enum クラス） | `varchar` | 列挙型。対応する値は「enum定義」シートで定義 |
+| `SHORT` | `Short` | `smallint` | 短整数（2バイト符号付き） |
+| `INTEGER` | `Integer` | `int` | 整数（4バイト符号付き） |
+| `LONG` | `Long` | `bigint` | 長整数（主にサロゲートキー・バージョン番号） |
+| `BIG_INTEGER` | `BigInteger` | `numeric` | 高精度整数（小数点なし） |
+| `FLOAT` | `Float` | `real` | 単精度浮動小数点数（4バイト） |
+| `DOUBLE` | `Double` | `double precision` | 倍精度浮動小数点数（8バイト） |
+| `BIG_DECIMAL` | `BigDecimal` | `numeric` | 高精度数値（精度・スケール指定） |
+| `YEAR_MONTH` | `YearMonth` | `text` | 年月 |
+| `DATE` | `LocalDate` | `date` | 日付 |
+| `TIME` | `LocalTime` | `time` | 時刻 |
+| `DATE_TIME` | `LocalDateTime` | `timestamp` | 日時（タイムゾーンなし） |
+| `TIMESTAMP` | `LocalDateTime` | `timestamp` | タイムスタンプ（タイムゾーンなし） |
+| `BOOLEAN` | `Boolean` | `bool` | 真偽値 |
 
 ## データパターン（STRING 型）
 
