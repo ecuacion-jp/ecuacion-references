@@ -11,11 +11,15 @@ This page explains how to use each Reader class.
 | `StringHeaderExcelTableReader` | String | Header (multi-row) |
 | `StringHeaderExcelTableToBeanReader` | String | Header (multi-row) + Bean |
 | `StringFreeExcelTableReader` | String | Free |
+| `TypedOneLineHeaderExcelTableReader` | Typed | Header (1-row) |
+| `TypedOneLineHeaderExcelTableToBeanReader` | Typed | Header (1-row) + Bean |
+| `TypedHeaderExcelTableReader` | Typed | Header (multi-row) |
+| `TypedHeaderExcelTableToBeanReader` | Typed | Header (multi-row) + Bean |
 | `CellOneLineHeaderExcelTableReader` | Cell | Header (1-row) |
 | `CellHeaderExcelTableReader` | Cell | Header (multi-row) |
 | `CellFreeExcelTableReader` | Cell | Free |
 
-> **Why there is no ToBeanReader for Cell type:** Bean conversion relies on `StringExcelTableBean`, which maps string values to typed fields. Combining this with Cell type is not supported. When Cell type is needed, it is more natural to work directly with `Cell` objects to access style and type information.
+> **Why there is no ToBeanReader for Cell type:** Bean conversion relies on `StringExcelTableBean` or `TypedExcelTableBean`, which map values to typed fields. Combining this with Cell type is not supported. When Cell type is needed, it is more natural to work directly with `Cell` objects to access style and type information.
 
 ## Common: `read()` Method
 
@@ -114,6 +118,56 @@ Reading continues until a fully-empty row is encountered.
 > ToBeanReader works by matching `@ExcelColumn` annotation values against the Excel header row
 > to map columns to Bean fields. Because Free-format tables have no header row,
 > this mechanism cannot be applied.
+
+## `TypedOneLineHeaderExcelTableReader`
+
+Reads a single-row-header table, returning each cell's value as its native
+Java type (`String`, `Double`, `LocalDate`, `LocalDateTime`, `Boolean`, or
+`null`) instead of as a string. See [Data Types](/public/en/article?id=excel-tables/data-types)
+for the cell-to-type conversion table.
+
+```java
+import java.time.LocalDate;
+import java.util.List;
+
+TypedOneLineHeaderExcelTableReader reader = new TypedOneLineHeaderExcelTableReader(
+    "Sheet1",
+    new String[] {"Name", "Score", "Birthday"});
+
+List<List<Object>> data = reader.read("/path/to/file.xlsx");
+
+String name      = (String) data.get(0).get(0);
+Double score     = (Double) data.get(0).get(1);
+LocalDate birth  = (LocalDate) data.get(0).get(2);
+```
+
+The fluent setters are the same as the [common setters](#common-fluent-setters)
+above; there is no String-type-specific setter such as `noDataString` or
+`defaultDateTimeFormat`, since the cell's own type and format determine the
+returned Java type.
+
+## `TypedHeaderExcelTableReader`
+
+Used when the table has two or more header rows. Pass headers as `String[][]`;
+otherwise behaves the same as `TypedOneLineHeaderExcelTableReader`.
+
+```java
+TypedHeaderExcelTableReader reader = new TypedHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"Product",       "Product", "Price"},
+        {"Product Code",  "Name",    "List Price"}
+    });
+
+List<List<Object>> data = reader.read("/path/to/file.xlsx");
+```
+
+Merged cells in the header area are automatically expanded before validation.
+
+> **`TypedOneLineHeaderExcelTableToBeanReader` / `TypedHeaderExcelTableToBeanReader`:**
+> These map each row to a `TypedExcelTableBean` subclass while preserving native
+> types (and converting numeric values to the field's declared numeric type,
+> rounding when necessary). See [Bean Mapping](/public/en/article?id=excel-tables/bean-mapping).
 
 ## `CellOneLineHeaderExcelTableReader`
 

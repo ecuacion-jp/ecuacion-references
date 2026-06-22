@@ -12,13 +12,37 @@ Excel で定義したテーブル・カラム情報をもとに、JPA Entity や
 手書きで書くとミスやバラつきが出やすいコードを統一されたルールで生成することで、
 新テーブル追加時の手間を大幅に削減できます。
 
+## 生成されるコード
+
+DB項目定義書に記述したテーブル・カラム定義から、以下のファイルが自動生成されます。
+
+| カテゴリ | パッケージ | 内容 |
+| --- | --- | --- |
+| Entity | `*.base.entity` | JPA Entity クラス（`@Entity`, `@Table`） |
+| Record | `*.base.record` | 入出力 DTO（Entity ⇔ Record 変換） |
+| Repository | `*.base.repository` | Spring Data JPA インターフェース |
+| RepositoryImpl | `*.base.repositoryimpl` | カスタムクエリ実装 |
+| BL | `*.base.bl` | CRUD・検証・重複チェック等のビジネスロジック |
+| Enum | `*.base.enums` | 列挙型 |
+| Converter | `*.base.converter` | Enum ⇔ DB 変換（JPA `@Converter`） |
+| DataTypeValidator | `*.base.datatype` | フィールド固有バリデーション |
+
+## 主な生成機能
+
+生成されるコードにはフレームワーク共通の以下の機能が組み込まれます。
+
+- **ソフトデリート**: `DEL_FLG` カラムによる論理削除。Hibernate フィルタで透過的に適用
+- **グループフィルタ**: `ACC_GROUP_ID` によるマルチテナント対応
+- **楽観的ロック**: `VERSION` カラム
+- **監査情報**: `CREATE_ACC_ID`, `CREATE_TIME`, `LST_UPD_ACC_ID`, `LST_UPD_TIME`
+
 ## 実行方法の選択
 
 ツールには 2 種類の実行方法があります。
 
 | 実行方法 | 説明 |
 | --- | --- |
-| `code-generator-batch` | コマンドライン（`mvn spring-boot:run`）で実行。Excel をローカルに配置して使う |
+| `code-generator-batch` | コマンドライン（`java -jar`）で実行。Excel をローカルに配置して使う |
 | `code-generator-web` | ブラウザから Excel をアップロード → ZIP でダウンロード |
 
 どちらの方法でも同じ DB項目定義書（Excel）を使います。

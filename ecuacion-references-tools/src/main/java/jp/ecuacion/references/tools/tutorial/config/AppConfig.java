@@ -34,7 +34,7 @@ public class AppConfig {
    * Falls back to English for unrecognised locales.
    */
   @Bean
-  public LocaleResolver localeResolver() {
+  LocaleResolver localeResolver() {
     CookieLocaleResolver resolver = new CookieLocaleResolver("lang");
     resolver.setDefaultLocale(Locale.ENGLISH);
     resolver.setCookieMaxAge(Duration.ofDays(365));

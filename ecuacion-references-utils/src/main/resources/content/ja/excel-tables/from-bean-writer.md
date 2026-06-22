@@ -107,6 +107,100 @@ new StringOneLineHeaderExcelTableFromBeanWriter<ProductBean>(
     .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
 ```
 
+## Typed FromBeanWriter：`TypedOneLineHeaderExcelTableFromBeanWriter` / `TypedHeaderExcelTableFromBeanWriter`
+
+`TypedOneLineHeaderExcelTableFromBeanWriter`（ヘッダー1行）または
+`TypedHeaderExcelTableFromBeanWriter`（ヘッダー複数行）を使うと、
+`TypedExcelTableBean` を継承した Bean のリストを Excel に書き込めます。
+これまで説明した Writer の Typed 型版にあたります。
+
+### 概要
+
+String 型の FromBeanWriter との最大の違いは、**各フィールドの値を文字列に
+変換せず、ネイティブな Java 型のままセルへ書き込む**点です。
+
+```
+List<T extends TypedExcelTableBean>
+  → TypedOneLineHeaderExcelTableFromBeanWriter.writeFromBean()
+    → Excel ファイル（各セルがネイティブ型の値を保持）
+```
+
+例えば `Integer` フィールドは、数値に見えるだけの文字列セルではなく
+数値セルとして書き込まれます。そして最も重要な点として、`LocalDate` /
+`LocalDateTime` フィールドは**必ず日付書式のセルとして書き込まれる**ため、
+出力された Excel ファイルを開くと日付として認識されます。
+
+### `writeFromBean()` での書き込み
+
+使い方は String 型の FromBeanWriter と同じで、Bean の継承元が
+`StringExcelTableBean` から `TypedExcelTableBean` に変わるだけです。
+
+```java
+List<PersonBean> beans = ...; // TypedExcelTableBean を継承した Bean のリスト
+
+new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
+    "Sheet1",
+    new String[] {"名前", "年齢", "誕生日"})
+    .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
+```
+
+ヘッダーが2行以上の場合は `TypedHeaderExcelTableFromBeanWriter` を使い、
+`StringHeaderExcelTableFromBeanWriter` と同様に `String[][]` でヘッダーを
+指定します。
+
+### フィールド → 列のマッピング
+
+`@ExcelColumn` アノテーションや `getFieldNameArray()` の使い方は、
+上で説明した String 型の FromBeanWriter と全く同じです。
+
+### ネイティブ型でのセル書き込み
+
+各フィールドの値は、その Java 型に応じて以下のようにセルへ書き込まれます。
+
+| フィールド型 | 書き込まれるセル |
+| --- | --- |
+| `String` | 文字列セル |
+| `Double` / `Integer` / `Long` / `BigDecimal` / `BigInteger` など | 数値セル（`setCellValue(double)`） |
+| `Boolean` | 真偽値セル |
+| `LocalDate` | 日付書式の数値セル（詳細は後述） |
+| `LocalDateTime` | 日付・時刻書式の数値セル（詳細は後述） |
+| `null` | 空白セル |
+
+### 日付セルの書式保証
+
+これが Typed FromBeanWriter の目玉機能です。**テンプレート側のセルの書式が
+どうであれ、`LocalDate` / `LocalDateTime` の値は必ず Excel が日付として
+認識できるセルに書き込まれます**。
+
+- **テンプレートのセルに既に日付書式が設定されている場合**
+  （`DateUtil.isCellDateFormatted` が `true` を返す場合）は、その書式が
+  そのまま維持されます。`yyyy/mm/dd` や `yyyy年MM月dd日` など、
+  あらかじめ作り込んだテンプレートの書式が尊重されます。
+- **テンプレートのセルに日付書式が設定されていない場合**は、デフォルトの
+  書式が自動的に適用されます（`LocalDate` には `yyyy-mm-dd`、
+  `LocalDateTime` には `yyyy-mm-dd hh:mm:ss`）。テンプレートの日付列に
+  書式を設定し忘れる心配がなくなり、必ず日付として認識される値が
+  書き込まれることが保証されます。
+
+後者のケースで適用されるデフォルト書式は、fluent setter で変更できます。
+
+```java
+new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
+    "Sheet1",
+    new String[] {"名前", "誕生日"})
+    .defaultDateFormat("yyyy/mm/dd")
+    .defaultDateTimeFormat("yyyy/mm/dd hh:mm:ss")
+    .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
+```
+
+| setter | デフォルト | 説明 |
+| --- | --- | --- |
+| `defaultDateFormat(String)` | `"yyyy-mm-dd"` | 日付書式が設定されていない `LocalDate` セルに適用される書式パターン |
+| `defaultDateTimeFormat(String)` | `"yyyy-mm-dd hh:mm:ss"` | 日付書式が設定されていない `LocalDateTime` セルに適用される書式パターン |
+
+これらの setter には、`DateTimeFormatter` ではなく POI のセル書式パターン
+文字列（例：`"yyyy/mm/dd"`）を渡します。
+
 ## テンプレートファイルについて
 
 FromBeanWriter も通常の Writer と同様に、テンプレート Excel ファイルを元に書き込みます。

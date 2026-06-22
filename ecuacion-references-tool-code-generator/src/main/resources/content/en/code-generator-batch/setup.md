@@ -1,48 +1,29 @@
 # code-generator-batch Setup
 
-`code-generator-batch` is managed as a Maven project.
-Since it is not published to a public Maven repository, clone the repository directly.
+## 1. Download the JAR
 
-## 1. Clone the Repository
+Download the latest `ecuacion-tool-code-generator-batch-x.x.x.jar` from
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases).
 
-```bash
-git clone https://github.com/ecuacion-jp/ecuacion-tool-code-generator.git
-```
-
-Place the cloned directory in the same parent directory as other ecuacion repositories.
-The batch module references parent modules (such as `ecuacion-splib`) via relative paths,
-so **other ecuacion repositories must also exist in the same parent directory**.
-
-```
-/path/to/dev/
-  ecuacion-tool-code-generator/   ← cloned here
-  ecuacion-splib/                 ← also required
-  ecuacion-lib/                   ← also required
-```
+Place the JAR in any directory you prefer.
 
 ## 2. Prepare the DB Definition Book (Excel)
 
-Sample files are already included in the `ecuacion-tool-code-generator-excel-format/` directory.
+Download the template from [the `excel-format/` directory in the GitHub repository](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/tree/main/excel-format)
+and rename it to match your project name.
 
-To create a file for a new project, copy an existing Excel file and rename it:
+Create an `excel-format/` directory in the same directory as the JAR,
+and place the renamed file inside it.
 
 ```
-DB項目定義書(fmt-v4.10.0)_cloud-server-manager.xlsx  ← copy source
-DB項目定義書(fmt-v4.10.0)_myproject.xlsx             ← renamed
+/path/to/workdir/
+  ecuacion-tool-code-generator-batch-x.x.x.jar
+  excel-format/
+    db-definition-book-fmt-v4.11.0_myproject_en.xlsx
 ```
 
 For editing instructions, see [DB Definition Book (Excel) Specification](/public/en/article?id=excel-format/overview).
 
-## 3. Build
-
-Build the entire project from the repository root:
-
-```bash
-cd ecuacion-tool-code-generator
-mvn clean install -DskipTests
-```
-
 ## System Requirements
 
 - JDK 21 or above
-- Maven 3.x

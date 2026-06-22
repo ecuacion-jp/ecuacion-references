@@ -1,51 +1,25 @@
 # code-generator-web セットアップ
 
-## 1. リポジトリのクローン
+## 1. WAR のダウンロード
 
-[code-generator-batch セットアップ](/public/ja/article?id=code-generator-batch/setup) の手順と同様に、
-リポジトリをクローンしてビルドします。
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から
+最新の `ecuacion-tool-code-generator-web-x.x.x.war` をダウンロードします。
 
-```bash
-git clone https://github.com/ecuacion-jp/ecuacion-tool-code-generator.git
-cd ecuacion-tool-code-generator
-mvn clean install -DskipTests
-```
+WAR は任意のディレクトリに配置してください。WAR には Tomcat が組み込まれているため、
+外部のアプリケーションサーバは不要です。
 
-## 2. 一時ファイル保存ディレクトリの設定
+## 2. 作業ディレクトリの設定（任意）
 
 Web モジュールはアップロードされた Excel とコード生成物を一時的にサーバ上に保存します。
-その保存先を `app.work-root-dir` プロパティで指定します。
+デフォルトの保存先は `./app-work` です。
 
-アプリケーションサーバの CLASSPATH ディレクトリに `application-profile.properties` を作成して
+変更したい場合は、WAR と同じディレクトリに `application-profile.properties` を作成して
 以下を記載します。
 
 ```properties
 app.work-root-dir=/path/to/work/directory
 ```
 
-### ローカル開発時の設定
-
-`ecuacion-tool-code-generator-web/src/envs/local/resources/` ディレクトリにある
-`application-profile.properties` を編集します。
-
-```properties
-app.work-root-dir=/tmp/code-generator-work
-```
-
-## 3. アプリケーションサーバへのデプロイ（本番環境）
-
-`ecuacion-tool-code-generator-web` モジュールのビルド成果物（WAR ファイル）を
-Tomcat 等にデプロイします。
-
-```bash
-cd ecuacion-tool-code-generator/ecuacion-tool-code-generator-web
-mvn package
-```
-
-WAR ファイルは `target/ecuacion-tool-code-generator-web-x.x.x.war` に生成されます。
-
 ## システム要件
 
 - JDK 21 以上
-- Maven 3.x
-- Tomcat 等の Java アプリケーションサーバ（サーバデプロイ時）

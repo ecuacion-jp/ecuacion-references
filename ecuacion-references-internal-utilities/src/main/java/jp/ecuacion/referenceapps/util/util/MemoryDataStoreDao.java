@@ -15,7 +15,7 @@
  */
 package jp.ecuacion.referenceapps.util.util;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.HashMap;

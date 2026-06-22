@@ -1,6 +1,6 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.base.entity;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import java.io.Serializable;
@@ -70,7 +70,7 @@ public final class Book extends SystemCommon implements Serializable {
     return null;
   }
 
-  @Nonnull
+  @NonNull
   public Set<List<String>> getSetOfUniqueConstraintFieldList() {
     Set<List<String>> rtnSet = new HashSet<>();
     List<String> list = getNaturalKeyFieldList();

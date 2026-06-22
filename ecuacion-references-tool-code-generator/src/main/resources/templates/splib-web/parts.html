@@ -23,6 +23,9 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/{l}/article?id=code-generator-batch/quickstart(l=${lang})},
 					#{navBar.batch.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-batch/config(l=${lang})},
+					#{navBar.batch.config}, '')}"></div>
 
 		</div></th:block>
 
@@ -39,6 +42,9 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/{l}/article?id=code-generator-web/quickstart(l=${lang})},
 					#{navBar.web.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/{l}/article?id=code-generator-web/config(l=${lang})},
+					#{navBar.web.config}, '')}"></div>
 
 		</div></th:block>
 

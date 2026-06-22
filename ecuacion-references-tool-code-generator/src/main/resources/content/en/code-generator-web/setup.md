@@ -1,50 +1,25 @@
 # code-generator-web Setup
 
-## 1. Clone the Repository and Build
+## 1. Download the WAR
 
-Follow the same steps as [code-generator-batch Setup](/public/en/article?id=code-generator-batch/setup)
-to clone and build the repository.
+Download the latest `ecuacion-tool-code-generator-web-x.x.x.war` from
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases).
 
-```bash
-git clone https://github.com/ecuacion-jp/ecuacion-tool-code-generator.git
-cd ecuacion-tool-code-generator
-mvn clean install -DskipTests
-```
+Place the WAR in any directory you prefer. The WAR includes an embedded Tomcat server,
+so no external application server is required.
 
-## 2. Configure the Work Directory
+## 2. Configure the Work Directory (optional)
 
 The web module temporarily stores uploaded Excel files and generated output on the server.
-Specify the storage location with the `app.work-root-dir` property.
+The default location is `./app-work`.
 
-Create `application-profile.properties` in the CLASSPATH directory of the application server
+To use a different directory, create `application-profile.properties` in the same directory as the WAR
 and add the following:
 
 ```properties
 app.work-root-dir=/path/to/work/directory
 ```
 
-### Local Development Configuration
-
-Edit `application-profile.properties` in
-`ecuacion-tool-code-generator-web/src/envs/local/resources/`:
-
-```properties
-app.work-root-dir=/tmp/code-generator-work
-```
-
-## 3. Deploy to Application Server (Production)
-
-Build and deploy the WAR file from the `ecuacion-tool-code-generator-web` module to Tomcat or another server.
-
-```bash
-cd ecuacion-tool-code-generator/ecuacion-tool-code-generator-web
-mvn package
-```
-
-The WAR file is generated at `target/ecuacion-tool-code-generator-web-x.x.x.war`.
-
 ## System Requirements
 
 - JDK 21 or above
-- Maven 3.x
-- A Java application server such as Tomcat (for server deployment)

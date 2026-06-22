@@ -6,16 +6,13 @@
 
 ### 1. アプリを起動する
 
+WAR を配置したディレクトリで以下を実行します。
+
 ```bash
-cd ecuacion-tool-code-generator/ecuacion-tool-code-generator-web
-mvn spring-boot:run
+java -jar ecuacion-tool-code-generator-web-x.x.x.war
 ```
 
-起動後、以下の URL にアクセスします。
-
-```
-http://localhost:8080/public/sourceDownload
-```
+起動後、ブラウザで `http://localhost:8080` にアクセスします。
 
 ### 2. Excel をアップロードする
 

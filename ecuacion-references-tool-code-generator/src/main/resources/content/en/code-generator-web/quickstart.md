@@ -6,16 +6,13 @@ This assumes [Setup](/public/en/article?id=code-generator-web/setup) has been co
 
 ### 1. Start the Application
 
+Run the following from the directory where the WAR is placed:
+
 ```bash
-cd ecuacion-tool-code-generator/ecuacion-tool-code-generator-web
-mvn spring-boot:run
+java -jar ecuacion-tool-code-generator-web-x.x.x.war
 ```
 
-Once started, open the following URL in your browser:
-
-```
-http://localhost:8080/public/sourceDownload
-```
+Once started, open `http://localhost:8080` in your browser.
 
 ### 2. Upload the Excel File
 

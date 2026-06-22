@@ -11,11 +11,15 @@
 | `StringHeaderExcelTableReader` | String | Header（複数行） |
 | `StringHeaderExcelTableToBeanReader` | String | Header（複数行）・Bean変換 |
 | `StringFreeExcelTableReader` | String | Free |
+| `TypedOneLineHeaderExcelTableReader` | Typed | Header（1行） |
+| `TypedOneLineHeaderExcelTableToBeanReader` | Typed | Header（1行）・Bean変換 |
+| `TypedHeaderExcelTableReader` | Typed | Header（複数行） |
+| `TypedHeaderExcelTableToBeanReader` | Typed | Header（複数行）・Bean変換 |
 | `CellOneLineHeaderExcelTableReader` | Cell | Header（1行） |
 | `CellHeaderExcelTableReader` | Cell | Header（複数行） |
 | `CellFreeExcelTableReader` | Cell | Free |
 
-> **Cell 型に ToBeanReader がない理由：** Bean 変換は文字列値をもとに型変換する仕組み（`StringExcelTableBean`）のため、Cell 型との組み合わせは提供していません。Cell 型が必要な場面ではスタイルや型情報をそのまま扱う方が自然なためです。
+> **Cell 型に ToBeanReader がない理由：** Bean 変換は値をもとに型変換する仕組み（`StringExcelTableBean` または `TypedExcelTableBean`）のため、Cell 型との組み合わせは提供していません。Cell 型が必要な場面ではスタイルや型情報をそのまま扱う方が自然なためです。
 
 ## 共通：`read()` メソッド
 
@@ -117,6 +121,55 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 > ToBeanReader は `@ExcelColumn` アノテーションのヘッダーラベルと Excel のヘッダー行を
 > 照合することで列と Bean フィールドを対応付けるため、ヘッダーを持たない Free 形式では
 > この仕組みを利用できないためです。
+
+## `TypedOneLineHeaderExcelTableReader`
+
+ヘッダー1行のテーブルを読み込み、各セルの値を文字列に変換せず、
+ネイティブな Java 型（`String`、`Double`、`LocalDate`、`LocalDateTime`、
+`Boolean`、`null`）として返します。セルの型からどの Java 型に変換されるかは
+[データ型の選択](/public/ja/article?id=excel-tables/data-types)の変換表を参照してください。
+
+```java
+import java.time.LocalDate;
+import java.util.List;
+
+TypedOneLineHeaderExcelTableReader reader = new TypedOneLineHeaderExcelTableReader(
+    "Sheet1",
+    new String[] {"名前", "得点", "誕生日"});
+
+List<List<Object>> data = reader.read("/path/to/file.xlsx");
+
+String name      = (String) data.get(0).get(0);
+Double score     = (Double) data.get(0).get(1);
+LocalDate birth  = (LocalDate) data.get(0).get(2);
+```
+
+fluent setter は[共通の setter](#共通fluent-setter-一覧)のみで、
+`noDataString` や `defaultDateTimeFormat` のような String 型固有の setter は
+ありません。返される Java 型はセル自身の型・書式によって決まるためです。
+
+## `TypedHeaderExcelTableReader`
+
+ヘッダーが 2 行以上のテーブルを読み込むクラスです。`String[][]` で
+ヘッダーを指定する点以外は `TypedOneLineHeaderExcelTableReader` と同様です。
+
+```java
+TypedHeaderExcelTableReader reader = new TypedHeaderExcelTableReader(
+    "Sheet1",
+    new String[][] {
+        {"商品情報", "商品情報", "価格情報"},
+        {"商品コード", "商品名", "定価"}
+    });
+
+List<List<Object>> data = reader.read("/path/to/file.xlsx");
+```
+
+Excel 上でセルが結合（マージ）されていても、自動的に展開して検証します。
+
+> **`TypedOneLineHeaderExcelTableToBeanReader` / `TypedHeaderExcelTableToBeanReader`：**
+> ネイティブ型を保ったまま各行を `TypedExcelTableBean` のサブクラスにマッピングします
+> （数値はフィールドの宣言型に応じて変換され、必要に応じて四捨五入されます）。
+> 詳細は[Bean マッピング](/public/ja/article?id=excel-tables/bean-mapping)を参照してください。
 
 ## `CellOneLineHeaderExcelTableReader`
 

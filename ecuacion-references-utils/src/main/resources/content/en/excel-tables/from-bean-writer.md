@@ -107,6 +107,98 @@ new StringOneLineHeaderExcelTableFromBeanWriter<ProductBean>(
     .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
 ```
 
+## Typed FromBeanWriter: `TypedOneLineHeaderExcelTableFromBeanWriter` / `TypedHeaderExcelTableFromBeanWriter`
+
+`TypedOneLineHeaderExcelTableFromBeanWriter` (single header row) or
+`TypedHeaderExcelTableFromBeanWriter` (multiple header rows) writes a list of
+`TypedExcelTableBean` instances to an Excel file — the Typed-type counterpart
+to the writers described above.
+
+### Overview
+
+The key difference from the String-type FromBeanWriter is that **each field's
+value is written to the cell as its native Java type**, not converted to a
+string first:
+
+```
+List<T extends TypedExcelTableBean>
+  → TypedOneLineHeaderExcelTableFromBeanWriter.writeFromBean()
+    → Excel file (each cell holds a native-typed value)
+```
+
+For example, an `Integer` field is written as a numeric cell (not a string
+that merely *looks* like a number), and — most importantly — a `LocalDate` /
+`LocalDateTime` field is **guaranteed to be written into a date-formatted
+cell**, so the output is recognisable as a date when opened in Excel.
+
+### Writing with `writeFromBean()`
+
+Usage is the same as the String-type FromBeanWriter — only the Bean's
+superclass changes from `StringExcelTableBean` to `TypedExcelTableBean`:
+
+```java
+List<PersonBean> beans = ...; // list of TypedExcelTableBean subclass instances
+
+new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
+    "Sheet1",
+    new String[] {"Name", "Age", "Birthday"})
+    .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
+```
+
+For two or more header rows, use `TypedHeaderExcelTableFromBeanWriter` and
+pass headers as `String[][]`, exactly like `StringHeaderExcelTableFromBeanWriter`.
+
+### Field-to-Column Mapping
+
+`@ExcelColumn` annotations and `getFieldNameArray()` work exactly the same way
+as described above for the String-type FromBeanWriter.
+
+### Native-Type Cell Writing
+
+Each field's value is written to the cell according to its Java type:
+
+| Field type | Cell written as |
+| --- | --- |
+| `String` | String cell |
+| `Double` / `Integer` / `Long` / `BigDecimal` / `BigInteger` etc. | Numeric cell (`setCellValue(double)`) |
+| `Boolean` | Boolean cell |
+| `LocalDate` | Date-formatted numeric cell (see below) |
+| `LocalDateTime` | Date/time-formatted numeric cell (see below) |
+| `null` | Blank cell |
+
+### Date Cell Format Guarantee
+
+This is the headline feature of the Typed FromBeanWriter: **whatever cell
+style the template provides, a `LocalDate` / `LocalDateTime` value always ends
+up in a cell that Excel recognises as a date** —
+
+- **If the template cell already has a date format** (`DateUtil.isCellDateFormatted`
+  returns `true`), that format is preserved as-is. Your carefully designed
+  template formatting (e.g. `yyyy/mm/dd`, `yyyy年MM月dd日`) is respected.
+- **If the template cell has no date format**, a default format is applied
+  automatically — `yyyy-mm-dd` for `LocalDate`, `yyyy-mm-dd hh:mm:ss` for
+  `LocalDateTime`. You no longer need to remember to format date columns in
+  the template; the writer guarantees the value is recognisable as a date.
+
+You can override the defaults applied in the second case with fluent setters:
+
+```java
+new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
+    "Sheet1",
+    new String[] {"Name", "Birthday"})
+    .defaultDateFormat("yyyy/mm/dd")
+    .defaultDateTimeFormat("yyyy/mm/dd hh:mm:ss")
+    .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
+```
+
+| Setter | Default | Description |
+| --- | --- | --- |
+| `defaultDateFormat(String)` | `"yyyy-mm-dd"` | Format pattern applied to `LocalDate` cells that have no existing date format |
+| `defaultDateTimeFormat(String)` | `"yyyy-mm-dd hh:mm:ss"` | Format pattern applied to `LocalDateTime` cells that have no existing date format |
+
+These setters take a POI cell-format pattern string (e.g. `"yyyy/mm/dd"`),
+not a `DateTimeFormatter`.
+
 ## Template File
 
 Like other Writer classes, `FromBeanWriter` writes into a copy of a template Excel file.

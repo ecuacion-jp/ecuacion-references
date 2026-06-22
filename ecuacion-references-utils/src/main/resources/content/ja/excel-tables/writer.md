@@ -11,6 +11,9 @@
 | `StringHeaderExcelTableWriter` | String | Header（複数行） |
 | `StringHeaderExcelTableFromBeanWriter` | String | Header（複数行）・Bean から書き込み |
 | `StringFreeExcelTableWriter` | String | Free |
+| `TypedHeaderExcelTableWriter` | Typed | Header（複数行） |
+| `TypedOneLineHeaderExcelTableFromBeanWriter` | Typed | Header（1行）・Bean から書き込み |
+| `TypedHeaderExcelTableFromBeanWriter` | Typed | Header（複数行）・Bean から書き込み |
 | `CellOneLineHeaderExcelTableWriter` | Cell | Header（1行） |
 | `CellHeaderExcelTableWriter` | Cell | Header（複数行） |
 | `CellFreeExcelTableWriter` | Cell | Free |
@@ -105,6 +108,43 @@ StringFreeExcelTableWriter writer = new StringFreeExcelTableWriter("Sheet1")
 writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
 ```
 
+## `TypedHeaderExcelTableWriter`
+
+ヘッダーが 2 行以上のテーブルに、ネイティブな Java 値（`String`、`Double`、
+`LocalDate`、`LocalDateTime`、`Boolean` など）からなる `List<List<Object>>` を
+書き込みます。各値はネイティブ型のままセルに書き込まれます。例えば
+`LocalDate` の値は、単なる数値や文字列ではなく日付書式のセルとして
+書き込まれます。`String[][]` でヘッダーを指定する点は
+`StringHeaderExcelTableWriter` と同様です。
+
+```java
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+TypedHeaderExcelTableWriter writer = new TypedHeaderExcelTableWriter(
+    "Sheet1",
+    new String[][] {
+        {"商品情報",   "商品情報",  "発売情報"},
+        {"商品コード", "商品名",    "発売日"}
+    });
+
+List<List<Object>> data = Arrays.asList(
+    Arrays.asList("A001", "テスト商品", LocalDate.of(2026, 1, 15))
+);
+
+writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
+```
+
+`TypedOneLineHeaderExcelTableWriter` は存在しません。ヘッダーが1行の場合は、
+`TypedHeaderExcelTableWriter` に要素数 1 の `String[][]` を渡してください。
+
+日付・日時セルの書式がどのように決まるか（また `defaultDateFormat` /
+`defaultDateTimeFormat` によるカスタマイズ方法）については
+[From-Bean Writer](/public/ja/article?id=excel-tables/from-bean-writer)
+を参照してください。Typed の通常 Writer と FromBeanWriter は、いずれも同じ
+`IfDataTypeTypedExcelTableWriter` のロジックを共有しています。
+
 ## `StringOneLineHeaderExcelTableFromBeanWriter`
 
 ヘッダー1行のテーブルに `StringExcelTableBean` のリストから書き込みます。
@@ -141,6 +181,17 @@ new StringHeaderExcelTableFromBeanWriter<ProductBean>(
     })
     .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
 ```
+
+## `TypedOneLineHeaderExcelTableFromBeanWriter` / `TypedHeaderExcelTableFromBeanWriter`
+
+それぞれヘッダー1行・複数行のテーブルに `TypedExcelTableBean` のリストから
+書き込みます。`StringOneLineHeaderExcelTableFromBeanWriter` /
+`StringHeaderExcelTableFromBeanWriter` の Typed 版にあたります。
+重要な違いは、各フィールドの値がネイティブ型のままセルに書き込まれること、
+そして日付・日時系のフィールドが必ず日付書式のセルとして書き込まれることです。
+詳細（日付セルの書式の決まり方やカスタマイズ方法を含む）は
+[From-Bean Writer](/public/ja/article?id=excel-tables/from-bean-writer)
+を参照してください。
 
 ## `CellOneLineHeaderExcelTableWriter`
 

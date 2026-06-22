@@ -6,7 +6,7 @@ A single Excel file (`.xlsx`) defines the data model for a project.
 ## File Naming
 
 ```
-DB項目定義書(fmt-v4.10.0)_<project-name>.xlsx
+db-definition-book-fmt-v4.11.0_<project-name>_en.xlsx
 ```
 
 ## Sheet Structure
@@ -20,21 +20,19 @@ DB項目定義書(fmt-v4.10.0)_<project-name>.xlsx
 
 ## Creating a File for a New Project
 
-1. **Copy and rename an existing Excel file**
-   - Use the samples in `ecuacion-tool-code-generator-batch/ecuacion-tool-code-generator-excel-format/`
-   - Rename to `DB項目定義書(fmt-v4.10.0)_<new-project-name>.xlsx`
+1. **Download the template and rename it**
+   - Download the template from [the `excel-format/` directory in the GitHub repository](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/tree/main/excel-format)
+   - Rename to `db-definition-book-fmt-v4.11.0_<new-project-name>_en.xlsx`
+   - For a filled-in example, see [qiita-data-viewer's `excel-format/`](https://github.com/ecuacion-jp/qiita-data-viewer/tree/main/excel-format)
 
 2. **Update the General Settings sheet** (highest priority)
    - `SYSTEM_NAME` (row 8): new project name
    - `BASE_PACKAGE` (row 9): new Java package
    - `TABLE_NAMES_WITHOUT_GROUPING` (row 31): list of tables without group filtering
 
-3. **Add project-specific DataTypes to the DataType Definition sheet**
-   - Standard built-in DataTypes are already included; just add the new ones
+3. **Define all required DataTypes in the DataType Definition sheet**
 
-4. **Add table definitions to the DB Definition sheet**
-   - Keep existing authentication tables (ACC, ACC_ADMIN, etc.) as-is
-   - Append new tables immediately after existing rows
+4. **Define all table definitions in the DB Definition sheet**
 
 5. **Add enum values to the Enum Definition sheet** (if needed)
 

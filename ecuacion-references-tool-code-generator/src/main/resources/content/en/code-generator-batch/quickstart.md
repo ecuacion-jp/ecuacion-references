@@ -6,7 +6,7 @@ This assumes [Setup](/public/en/article?id=code-generator-batch/setup) has been 
 
 ### 1. Minimum Configuration of the DB Definition Book
 
-Open the Excel file in the `ecuacion-tool-code-generator-excel-format/` directory
+Open the Excel file in the `excel-format/` directory
 and configure at least the following two entries in the **General Settings sheet**:
 
 | Row | Key | Description | Example |
@@ -18,9 +18,10 @@ For details on other settings and sheets, see [DB Definition Book (Excel) Specif
 
 ### 2. Run the Batch
 
+Run the following from the directory where the JAR is placed:
+
 ```bash
-cd ecuacion-tool-code-generator/ecuacion-tool-code-generator-batch
-mvn spring-boot:run
+java -jar ecuacion-tool-code-generator-batch-x.x.x.jar
 ```
 
 ### 3. Check the Output
@@ -28,7 +29,7 @@ mvn spring-boot:run
 After execution, Java source files are written to:
 
 ```
-ecuacion-tool-code-generator-batch/products/<SYSTEM_NAME>/
+products/<SYSTEM_NAME>/
 ```
 
 Example output structure:
@@ -57,7 +58,7 @@ Copy the contents of `src/base/java/` into the corresponding directory of your t
 
 ## Processing Multiple Files
 
-You can place multiple Excel files in the `ecuacion-tool-code-generator-excel-format/` directory.
+You can place multiple Excel files in the `excel-format/` directory.
 When the batch runs, all xlsx files in the directory are processed and separate output is generated for each `SYSTEM_NAME`.
 
 ## Checking Logs

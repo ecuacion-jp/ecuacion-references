@@ -6,7 +6,7 @@ Excel ファイル（`.xlsx`）1 枚でプロジェクトのデータモデル�
 ## ファイル名
 
 ```
-DB項目定義書(fmt-v4.10.0)_<プロジェクト名>.xlsx
+db-definition-book-fmt-v4.11.0_<プロジェクト名>_ja.xlsx
 ```
 
 ## シート構成
@@ -20,21 +20,19 @@ DB項目定義書(fmt-v4.10.0)_<プロジェクト名>.xlsx
 
 ## 新規プロジェクトでの作成手順
 
-1. **既存の Excel ファイルをコピーしてリネーム**
-   - `ecuacion-tool-code-generator-batch/ecuacion-tool-code-generator-excel-format/` にあるサンプルを使用
-   - `DB項目定義書(fmt-v4.10.0)_<新プロジェクト名>.xlsx` にリネーム
+1. **テンプレートをダウンロードしてリネーム**
+   - [GitHub リポジトリの `excel-format/`](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/tree/main/excel-format) からテンプレートをダウンロード
+   - `db-definition-book-fmt-v4.11.0_<新プロジェクト名>_ja.xlsx` にリネーム
+   - 記入例は [qiita-data-viewer の `excel-format/`](https://github.com/ecuacion-jp/qiita-data-viewer/tree/main/excel-format) を参照
 
 2. **「各種設定」シートを修正**（最優先）
    - `SYSTEM_NAME`（行 8）: 新プロジェクト名
    - `BASE_PACKAGE`（行 9）: 新しい Java パッケージ
    - `TABLE_NAMES_WITHOUT_GROUPING`（行 31）: グループフィルタなしのテーブル一覧
 
-3. **「dataType定義」シートにプロジェクト固有の型を追加**
-   - 標準組み込み DataType はすでに含まれているので追加分のみ記載
+3. **「dataType定義」シートに必要な DataType をすべて記述する**
 
-4. **「DB項目定義」シートにテーブル定義を追加**
-   - `splib` 認証用テーブル（ACC, ACC_ADMIN 等）は既存のまま残す
-   - 新テーブルを既存行の直後から追記
+4. **「DB項目定義」シートにテーブル定義を記述する**
 
 5. **（必要に応じて）「enum定義」シートに enum 値を追加**
 

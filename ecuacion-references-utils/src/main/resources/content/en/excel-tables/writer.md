@@ -11,6 +11,9 @@ This page explains how to use each Writer class.
 | `StringHeaderExcelTableWriter` | String | Header (multi-row) |
 | `StringHeaderExcelTableFromBeanWriter` | String | Header (multi-row) + write from Bean |
 | `StringFreeExcelTableWriter` | String | Free |
+| `TypedHeaderExcelTableWriter` | Typed | Header (multi-row) |
+| `TypedOneLineHeaderExcelTableFromBeanWriter` | Typed | Header (1-row) + write from Bean |
+| `TypedHeaderExcelTableFromBeanWriter` | Typed | Header (multi-row) + write from Bean |
 | `CellOneLineHeaderExcelTableWriter` | Cell | Header (1-row) |
 | `CellHeaderExcelTableWriter` | Cell | Header (multi-row) |
 | `CellFreeExcelTableWriter` | Cell | Free |
@@ -105,6 +108,43 @@ StringFreeExcelTableWriter writer = new StringFreeExcelTableWriter("Sheet1")
 writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
 ```
 
+## `TypedHeaderExcelTableWriter`
+
+Writes a `List<List<Object>>` of native Java values (`String`, `Double`,
+`LocalDate`, `LocalDateTime`, `Boolean`, etc.) into a table with two or more
+header rows. Each value is written to the cell as its native type — for
+example, a `LocalDate` value produces a date-formatted cell rather than a
+plain number or string. Pass headers as `String[][]`, the same as
+`StringHeaderExcelTableWriter`.
+
+```java
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
+
+TypedHeaderExcelTableWriter writer = new TypedHeaderExcelTableWriter(
+    "Sheet1",
+    new String[][] {
+        {"Product",       "Product",  "Released"},
+        {"Product Code",  "Name",     "Release Date"}
+    });
+
+List<List<Object>> data = Arrays.asList(
+    Arrays.asList("A001", "Sample Product", LocalDate.of(2026, 1, 15))
+);
+
+writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
+```
+
+There is no `TypedOneLineHeaderExcelTableWriter`; for a single-row header you
+can pass a `String[][]` with a single inner array to `TypedHeaderExcelTableWriter`.
+
+For how date/datetime cell formatting is determined (and how to customise it
+with `defaultDateFormat` / `defaultDateTimeFormat`), see
+[From-Bean Writer](/public/en/article?id=excel-tables/from-bean-writer)
+— the same `IfDataTypeTypedExcelTableWriter` logic is shared by both the
+plain Typed writer and the Typed FromBeanWriter classes.
+
 ## `StringOneLineHeaderExcelTableFromBeanWriter`
 
 Writes a list of `StringExcelTableBean` instances into a single-row-header table.
@@ -141,6 +181,17 @@ new StringHeaderExcelTableFromBeanWriter<ProductBean>(
     })
     .writeFromBean("/path/to/template.xlsx", "/path/to/output.xlsx", beans);
 ```
+
+## `TypedOneLineHeaderExcelTableFromBeanWriter` / `TypedHeaderExcelTableFromBeanWriter`
+
+Write a list of `TypedExcelTableBean` instances into a single-row-header or
+multi-row-header table, respectively — the Typed-type counterparts of
+`StringOneLineHeaderExcelTableFromBeanWriter` / `StringHeaderExcelTableFromBeanWriter`.
+The key difference: each field's value is written to the cell as its native
+type, and date/datetime fields are guaranteed to land in a date-formatted cell.
+See [From-Bean Writer](/public/en/article?id=excel-tables/from-bean-writer)
+for full details, including how the date cell format is determined and how
+to customise it.
 
 ## `CellOneLineHeaderExcelTableWriter`
 

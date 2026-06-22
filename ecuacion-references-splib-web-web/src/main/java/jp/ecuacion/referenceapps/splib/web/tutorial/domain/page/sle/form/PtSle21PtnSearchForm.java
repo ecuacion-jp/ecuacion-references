@@ -1,6 +1,6 @@
 package jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.sle.form;
 
-import jakarta.annotation.Nonnull;
+import org.jspecify.annotations.NonNull;
 import jp.ecuacion.referenceapps.splib.web.tutorial.domain.page.generalform.record.MonthRecord;
 import jp.ecuacion.splib.web.form.SplibSearchForm;
 import org.springframework.context.annotation.Scope;
@@ -12,7 +12,7 @@ public class PtSle21PtnSearchForm extends SplibSearchForm {
 
   private MonthRecord month = new MonthRecord();
 
-  @Nonnull
+  @NonNull
   protected String getDefaultSortItem() {
     return "id";
   }

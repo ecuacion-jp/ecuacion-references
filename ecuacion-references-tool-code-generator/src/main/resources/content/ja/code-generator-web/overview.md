@@ -7,7 +7,7 @@
 
 | | code-generator-batch | code-generator-web |
 | --- | --- | --- |
-| 実行方法 | コマンドライン（`mvn spring-boot:run`） | ブラウザからファイルアップロード |
+| 実行方法 | コマンドライン（`java -jar`） | ブラウザからファイルアップロード |
 | 使い方 | Excel をローカルのディレクトリに配置して実行 | Excel をアップロードして ZIP をダウンロード |
 | 向いている場面 | 開発者が手元で実行する場面 | チームで共有して非開発者も使う場面 |
 
@@ -17,9 +17,3 @@
 2. サーバ上の一時ディレクトリにファイルを保存
 3. コード生成エンジンを実行
 4. 生成物を `source.zip` として ZIP 化してクライアントに返す
-
-## ドキュメント
-
-- [セットアップ](/public/ja/article?id=code-generator-web/setup)
-- [クイックスタート](/public/ja/article?id=code-generator-web/quickstart)
-- [DB項目定義書（Excel）の仕様](/public/ja/article?id=excel-format/overview)

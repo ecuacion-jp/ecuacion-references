@@ -1,7 +1,7 @@
 # Data Types
 
-Reader and Writer classes are divided into two groups based on the data type
-obtained from Excel cells: **String type** and **Cell type**.
+Reader and Writer classes are divided into three groups based on the data type
+obtained from Excel cells: **String type**, **Typed type**, and **Cell type**.
 
 ## String Type (`IfDataTypeStringExcelTable`)
 
@@ -50,6 +50,49 @@ StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
 The first argument of `columnDateTimeFormat` is the 1-based absolute column
 number on the sheet (not relative to the table start).
 
+## Typed Type (`IfDataTypeTypedExcelTable`)
+
+Cell values are obtained as their natural Java type — no manual parsing
+required. Each cell is converted according to its Excel cell type:
+
+| Excel cell | Java type returned |
+| --- | --- |
+| Blank | `null` |
+| String | `String` (`null` if empty) |
+| Numeric, formatted as date, time at midnight | `LocalDate` |
+| Numeric, formatted as date, with a time component | `LocalDateTime` |
+| Numeric, not date-formatted | `Double` |
+| Boolean | `Boolean` |
+| Error | throws `ExcelTableException` |
+
+```java
+import jp.ecuacion.util.excel.table.reader.concrete.TypedOneLineHeaderExcelTableReader;
+import java.time.LocalDate;
+import java.util.List;
+
+TypedOneLineHeaderExcelTableReader reader = new TypedOneLineHeaderExcelTableReader(
+    "Sheet1",
+    new String[] {"Name", "Birthday"});
+
+List<List<Object>> data = reader.read("/path/to/file.xlsx");
+
+String name = (String) data.get(0).get(0);
+LocalDate birthday = (LocalDate) data.get(0).get(1);
+```
+
+When mapping rows to a Bean with `TypedOneLineHeaderExcelTableToBeanReader` /
+`TypedHeaderExcelTableToBeanReader`, the raw value obtained above is further
+converted to match the Bean field's declared type — for example, a numeric
+cell read as `Double` is rounded (`Math.round`) when the field is declared as
+`Integer` or `Long`. See [Bean Mapping](/public/en/article?id=excel-tables/bean-mapping)
+for details.
+
+On the writer side, `TypedHeaderExcelTableFromBeanWriter` /
+`TypedOneLineHeaderExcelTableFromBeanWriter` write each Bean field's value to
+the cell as its native type — for example, a `LocalDate` field is written as a
+date-formatted cell, not as a plain number or string. See
+[From-Bean Writer](/public/en/article?id=excel-tables/from-bean-writer) for details.
+
 ## Cell Type (`IfDataTypeCellExcelTable`)
 
 Returns Apache POI `Cell` objects. Use this when you need type information
@@ -80,5 +123,7 @@ For string conversion, `ExcelReadUtil.getStringFromCell(cell, dateTimeFormatter)
 | --- | --- |
 | Read data and process it as-is | **String type** |
 | Convert to a Bean and use Jakarta Validation | **String type** |
+| Need each value as its native Java type (`Double`, `LocalDate`, etc.) without manual parsing | **Typed type** |
+| Write a Bean list to Excel with dates written as date-formatted cells | **Typed type** (`TypedHeaderExcelTableFromBeanWriter` / `TypedOneLineHeaderExcelTableFromBeanWriter`) |
 | Need cell style or type information | **Cell type** |
-| Perform arithmetic on numeric values | **Cell type** (reading as String and parsing with `parseInt` can fail depending on the cell's Excel format) |
+| Perform arithmetic on numeric values | **Typed type** or **Cell type** (reading as String and parsing with `parseInt` can fail depending on the cell's Excel format) |

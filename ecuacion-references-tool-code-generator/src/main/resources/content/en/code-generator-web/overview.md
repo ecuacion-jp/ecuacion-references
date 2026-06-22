@@ -6,7 +6,7 @@
 
 | | code-generator-batch | code-generator-web |
 | --- | --- | --- |
-| How to run | Command line (`mvn spring-boot:run`) | File upload via browser |
+| How to run | Command line (`java -jar`) | File upload via browser |
 | Workflow | Place Excel in local directory and run | Upload Excel, download ZIP |
 | Best for | Developers running it locally | Sharing with teams, including non-developers |
 
@@ -16,9 +16,3 @@
 2. The file is saved to a temporary directory on the server
 3. The code generation engine runs
 4. The output is zipped into `source.zip` and returned to the client
-
-## Documentation
-
-- [Setup](/public/en/article?id=code-generator-web/setup)
-- [Quick Start](/public/en/article?id=code-generator-web/quickstart)
-- [DB Definition Book (Excel) Specification](/public/en/article?id=excel-format/overview)

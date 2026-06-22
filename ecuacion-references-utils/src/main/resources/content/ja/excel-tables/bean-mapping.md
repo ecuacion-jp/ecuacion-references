@@ -174,6 +174,64 @@ try {
 `@ExcelColumn` アノテーションを使っている場合は違反フィールドに対応するセルだけが、
 使っていない場合はエラー行の全データセルがハイライトされます。
 
+## Typed 型の Bean マッピング：`TypedExcelTableBean`
+
+`TypedOneLineHeaderExcelTableToBeanReader`（ヘッダー1行）または
+`TypedHeaderExcelTableToBeanReader`（ヘッダー複数行）は、`StringExcelTableBean`
+ではなく `TypedExcelTableBean` を継承した Bean に各行をマッピングします。
+Bean クラスの定義方法（`@ExcelColumn` / `getFieldNameArray()` / Jakarta
+Validation / `afterReading()` / `highlightErrors()`）はこれまでの説明と全く同じで、
+変わるのは「読み込んだ値の型」と「フィールド型への変換ルール」だけです。
+
+```java
+import jp.ecuacion.util.excel.table.bean.TypedExcelTableBean;
+import jp.ecuacion.util.excel.table.bean.ExcelColumn;
+import java.time.LocalDate;
+import java.util.List;
+
+public class PersonBean extends TypedExcelTableBean {
+
+    @ExcelColumn("名前")
+    private String name;
+
+    @ExcelColumn("年齢")
+    private Integer age;            // セルの Double 値から四捨五入で変換される
+
+    @ExcelColumn("誕生日")
+    private LocalDate birthday;
+
+    public PersonBean(List<Object> colList) {
+        super(colList);
+    }
+
+    // getter / setter ...
+}
+```
+
+### ネイティブ型からの変換
+
+`StringExcelTableBean` は常に `String` の値を受け取りパースしますが、
+`TypedExcelTableBean` は各セルの値が既にネイティブな Java 型（`String`、
+`Double`、`LocalDate`、`LocalDateTime`、`Boolean`、または `null`。
+詳細は[データ型の選択](/public/ja/article?id=excel-tables/data-types)を参照）
+に変換された状態で渡され、それをさらにフィールドの宣言型へ変換します。
+
+| 渡される値の型 | 変換可能なフィールド型 |
+| --- | --- |
+| `String` | `String`、`Boolean` |
+| `Double` | `String`、`Double`、`Float`、`Integer`、`Long`、`Short`、`BigDecimal`、`BigInteger` |
+| `LocalDate` | `LocalDate`、`LocalDateTime`（その日の 0 時として）、`String` |
+| `LocalDateTime` | `LocalDateTime`、`LocalDate`、`LocalTime`、`String` |
+| `Boolean` | `Boolean`、`String` |
+
+`Double` を整数系の型（`Integer`、`Long`、`Short`、`BigInteger`）に変換する際は、
+切り捨てではなく `Math.round` による四捨五入が行われます。例えばセルの値が
+`25.6` の場合は `25` ではなく `26` になります。これにより、数値セルにたまたま
+小数が入っていた場合の意図しない挙動を防げます。
+
+`null`（空白セルや空文字列に由来）は、フィールドの宣言型に関わらず `null` に
+変換されます。
+
 ## マルチヘッダーへの対応
 
 マルチヘッダーを持つテーブルの Bean マッピングでは、

@@ -11,17 +11,6 @@
 	</parent>
 
 	<build>
-		<plugins>
-
-			<!-- for web / rest -->
-			<!-- Sets "failOnMissingWebXml = false" by the definition in ecuacion-splib-parent -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
-
-		</plugins>
-
 		<resources>
 			<resource><directory>src/main/resources</directory><filtering>true</filtering></resource>
 			<resource>
@@ -48,12 +37,6 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-
 		<!-- ecuacion-splib -->
 		<dependency>
 			<groupId>jp.ecuacion.splib</groupId>
