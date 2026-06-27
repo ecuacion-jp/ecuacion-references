@@ -15,7 +15,6 @@
  */
 package jp.ecuacion.referenceapps.util.util;
 
-import org.jspecify.annotations.Nullable;
 import jakarta.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ import jp.ecuacion.lib.core.violation.BusinessViolation;
 import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.referenceapps.util.record.RecordWithId;
 import jp.ecuacion.splib.core.record.SplibRecord;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Provides a data store access. The store keeps lists of objects 

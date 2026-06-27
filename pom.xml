@@ -27,8 +27,8 @@
 	</organization>
 	<parent>
 		<groupId>jp.ecuacion.splib</groupId>
-		<artifactId>ecuacion-splib-internal-parent</artifactId>
-		<version>0.0.3-SNAPSHOT</version>
+		<artifactId>ecuacion-splib-parent</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../ecuacion-splib</relativePath>
 	</parent>
 	<properties>
