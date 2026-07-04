@@ -39,7 +39,7 @@ This application runs with Spring profile `profile`. Profile-specific settings s
 
 | Property | Description | Default |
 | --- | --- | --- |
-| `jp.ecuacion.tool.codegenerator.input-dir` | Directory containing the Excel specification files | `./excel-format` |
+| `jp.ecuacion.tool.codegenerator.input-dir` | Directory containing the Excel specification files. Multiple directories can be specified as a comma-separated list (e.g. `./dir1,./dir2`) | `./excel-format` |
 | `jp.ecuacion.tool.codegenerator.output-dir` | Root directory for generated Java source files | `./products/` |
 
 #### Mail notification (on batch failure)

@@ -39,7 +39,7 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 
 | プロパティ | 説明 | デフォルト |
 | --- | --- | --- |
-| `jp.ecuacion.tool.codegenerator.input-dir` | Excel ファイルを置くディレクトリ | `./excel-format` |
+| `jp.ecuacion.tool.codegenerator.input-dir` | Excel ファイルを置くディレクトリ。カンマ区切りで複数指定可能（例: `./dir1,./dir2`） | `./excel-format` |
 | `jp.ecuacion.tool.codegenerator.output-dir` | 生成ソースの出力先 | `./products/` |
 
 #### メール通知（バッチ失敗時）
