@@ -16,59 +16,13 @@
 
 package jp.ecuacion.references.lib.tutorial.config;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.Locale;
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.LocaleResolver;
 
 /** Application configuration. */
 @Configuration
-@ComponentScan(basePackages = "jp.ecuacion.splib.web.config")
+@ComponentScan(
+    basePackages = {"jp.ecuacion.splib.web.config", "jp.ecuacion.splib.web.markdown"})
 public class AppConfig {
 
-  /**
-   * Resolves locale from the {@code lang} cookie, then {@code Accept-Language} header.
-   *
-   * <p>Japanese locale is returned only when the resolved language is {@code "ja"};
-   * all other cases resolve to English.</p>
-   *
-   * @return the locale resolver
-   */
-  @Bean
-  LocaleResolver localeResolver() {
-    return new LocaleResolver() {
-      @Override
-      public @NonNull Locale resolveLocale(@NonNull HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-          for (Cookie cookie : cookies) {
-            if ("lang".equals(cookie.getName())) {
-              if ("ja".equals(cookie.getValue())) {
-                return Locale.JAPANESE;
-              }
-              if ("en".equals(cookie.getValue())) {
-                return Locale.ENGLISH;
-              }
-            }
-          }
-        }
-        String acceptLang = request.getHeader("Accept-Language");
-        if (acceptLang != null && acceptLang.toLowerCase().startsWith("ja")) {
-          return Locale.JAPANESE;
-        }
-        return Locale.ENGLISH;
-      }
-
-      @Override
-      public void setLocale(@NonNull HttpServletRequest rq, @Nullable HttpServletResponse rs, @Nullable Locale lc) {
-        // Cookie is managed by LanguageController; nothing to do here.
-      }
-    };
-  }
 }

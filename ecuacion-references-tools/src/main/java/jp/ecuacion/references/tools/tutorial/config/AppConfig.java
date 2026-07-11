@@ -16,28 +16,13 @@
 
 package jp.ecuacion.references.tools.tutorial.config;
 
-import java.time.Duration;
-import java.util.Locale;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 /** Spring application configuration. */
 @Configuration
-@ComponentScan(basePackages = "jp.ecuacion.splib.web.config")
+@ComponentScan(
+    basePackages = {"jp.ecuacion.splib.web.config", "jp.ecuacion.splib.web.markdown"})
 public class AppConfig {
 
-  /**
-   * Cookie-based locale resolver using the {@code lang} cookie.
-   * Falls back to English for unrecognised locales.
-   */
-  @Bean
-  LocaleResolver localeResolver() {
-    CookieLocaleResolver resolver = new CookieLocaleResolver("lang");
-    resolver.setDefaultLocale(Locale.ENGLISH);
-    resolver.setCookieMaxAge(Duration.ofDays(365));
-    return resolver;
-  }
 }

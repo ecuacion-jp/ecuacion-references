@@ -35,7 +35,7 @@
 		<!-- deploy to public repository without "profile-xxx" directory -->
 		<altDeploymentRepository>ecuacion-repo-sftp::${repository.ecuacion-repo-sftp-root}</altDeploymentRepository>
 
-		<app.name>ecuacion-reference-apps</app.name>
+		<app.name>ecuacion-references</app.name>
 		<app.version>0.0.1-SNAPSHOT</app.version>
 	</properties>
 
@@ -56,6 +56,19 @@
 		</pluginManagement>
 	</build>
 
+	<dependencyManagement>
+		<dependencies>
+		
+			<!-- dependent modules in the same project -->
+			<dependency>
+				<groupId>jp.ecuacion.references</groupId>
+				<artifactId>${app.name}-internal-utilities</artifactId>
+				<version>${app.version}</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+	
 	<!-- mvn versions plugin can't understand parameterized module name like ${app.name}-core... -->
 	<modules>
 		<module>ecuacion-references-internal-utilities</module>
@@ -66,9 +79,6 @@
 		<module>ecuacion-references-splib-web-base</module>
 		<module>ecuacion-references-splib-web-web</module>
 		<module>ecuacion-references-splib-web-project-template</module>
-		<!--
-		<module>ecuacion-splib-web-introduction</module>
-		-->
 	</modules>
 	
 </project>

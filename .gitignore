@@ -144,3 +144,6 @@ products/
 # sass
 .sass-cache/
 
+# allure test reports
+.allure/
+

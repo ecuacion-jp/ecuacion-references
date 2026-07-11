@@ -8,26 +8,26 @@
 	<!--/* navbar */-->
 	<div th:fragment="nav-bar-public" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: navbarMenuItem(
-				@{/public/{l}/article?id=home(l=${lang})}, #{navBar.home}, '')}"></div>
+				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.housekeepFiles}, ~{::navbarHousekeepFiles}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarHousekeepFiles" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-files/overview(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-files/overview',lang=${lang})},
 					#{navBar.hf.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-files/setup(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-files/setup',lang=${lang})},
 					#{navBar.hf.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-files/quickstart(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-files/quickstart',lang=${lang})},
 					#{navBar.hf.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-files/excel-settings(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-files/excel-settings',lang=${lang})},
 					#{navBar.hf.excelSettings}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-files/task-patterns(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-files/task-patterns',lang=${lang})},
 					#{navBar.hf.taskPatterns}, '')}"></div>
 
 		</div></th:block>
@@ -37,16 +37,16 @@
 		<th:block th:if="false"><div th:fragment="navbarHousekeepDb" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-db/overview(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-db/overview',lang=${lang})},
 					#{navBar.hd.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-db/setup(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-db/setup',lang=${lang})},
 					#{navBar.hd.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-db/quickstart(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-db/quickstart',lang=${lang})},
 					#{navBar.hd.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=housekeep-db/excel-settings(l=${lang})},
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings',lang=${lang})},
 					#{navBar.hd.excelSettings}, '')}"></div>
 
 		</div></th:block>
@@ -56,30 +56,26 @@
 		<th:block th:if="false"><div th:fragment="navbarCommandApi" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=command-api/overview(l=${lang})},
+					@{/public/showMarkdown/page(id='command-api/overview',lang=${lang})},
 					#{navBar.ca.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=command-api/setup(l=${lang})},
+					@{/public/showMarkdown/page(id='command-api/setup',lang=${lang})},
 					#{navBar.ca.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=command-api/quickstart(l=${lang})},
+					@{/public/showMarkdown/page(id='command-api/quickstart',lang=${lang})},
 					#{navBar.ca.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=command-api/api-spec(l=${lang})},
+					@{/public/showMarkdown/page(id='command-api/config',lang=${lang})},
+					#{navBar.ca.config}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='command-api/api-spec',lang=${lang})},
 					#{navBar.ca.apiSpec}, '')}"></div>
 
 		</div></th:block>
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
-		<div th:if="${lang == 'ja'}">
-			<div th:replace="~{bootstrap/components :: navbarMenuItem(
-					@{/public/lang/en}, '🌐 English', '')}"></div>
-		</div>
-		<div th:if="${lang == 'en'}">
-			<div th:replace="~{bootstrap/components :: navbarMenuItem(
-					@{/public/lang/ja}, '🌐 日本語', '')}"></div>
-		</div>
+		<div th:replace="~{markdown/parts :: langSwitchNavItem}"></div>
 	</div>
 
 	<!--/* footer */-->

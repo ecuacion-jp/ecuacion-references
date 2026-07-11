@@ -1,0 +1,45 @@
+# command-api Setup
+
+## 1. Download the WAR File
+
+Download the WAR file from the Maven repository:
+
+```
+https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/
+```
+
+Example URL (replace `x.x.x` with the actual version):
+
+```
+https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/x.x.x/ecuacion-tool-command-api-x.x.x.war
+```
+
+## 2. Start It
+
+### Standalone (recommended)
+
+Place the WAR in any directory. It bundles Tomcat, so no external application server is needed.
+
+```bash
+java -jar ecuacion-tool-command-api-x.x.x.war
+```
+
+Once started, the API is available at `http://localhost:8080`.
+
+### Deploying to an existing Tomcat
+
+You can also deploy the WAR file to an application server such as Tomcat.
+
+You may want to rename the file so the version number is not part of the context path:
+
+```
+ecuacion-tool-command-api.war           # → /ecuacion-tool-command-api
+ecuacion-tool-command-api##x.x.x.war   # For Tomcat's parallel deployment feature
+```
+
+Either way you start it, script registration and configuration file placement follow the same rules (see [Configuration Files](/public/showMarkdown/page?id=command-api/config&lang=en)).
+
+## System Requirements
+
+- JDK 21 or above
+- Linux or macOS (Windows is not supported, since script execution uses `Runtime.exec`)

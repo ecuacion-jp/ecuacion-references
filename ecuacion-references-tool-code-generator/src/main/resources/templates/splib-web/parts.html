@@ -8,23 +8,23 @@
 	<!--/* navbar */-->
 	<div th:fragment="nav-bar-public" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: navbarMenuItem(
-				@{/public/{l}/article?id=home(l=${lang})}, #{navBar.home}, '')}"></div>
+				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.batch}, ~{::navbarBatch}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarBatch" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-batch/overview(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-batch/overview',lang=${lang})},
 					#{navBar.batch.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-batch/setup(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-batch/setup',lang=${lang})},
 					#{navBar.batch.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-batch/quickstart(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-batch/quickstart',lang=${lang})},
 					#{navBar.batch.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-batch/config(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-batch/config',lang=${lang})},
 					#{navBar.batch.config}, '')}"></div>
 
 		</div></th:block>
@@ -34,16 +34,16 @@
 		<th:block th:if="false"><div th:fragment="navbarWeb" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-web/overview(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-web/overview',lang=${lang})},
 					#{navBar.web.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-web/setup(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-web/setup',lang=${lang})},
 					#{navBar.web.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-web/quickstart(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-web/quickstart',lang=${lang})},
 					#{navBar.web.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=code-generator-web/config(l=${lang})},
+					@{/public/showMarkdown/page(id='code-generator-web/config',lang=${lang})},
 					#{navBar.web.config}, '')}"></div>
 
 		</div></th:block>
@@ -53,33 +53,26 @@
 		<th:block th:if="false"><div th:fragment="navbarExcel" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=excel-format/overview(l=${lang})},
+					@{/public/showMarkdown/page(id='excel-format/overview',lang=${lang})},
 					#{navBar.excel.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=excel-format/general-settings(l=${lang})},
+					@{/public/showMarkdown/page(id='excel-format/general-settings',lang=${lang})},
 					#{navBar.excel.generalSettings}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=excel-format/data-type-sheet(l=${lang})},
+					@{/public/showMarkdown/page(id='excel-format/data-type-sheet',lang=${lang})},
 					#{navBar.excel.dataTypeSheet}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=excel-format/db-definition-sheet(l=${lang})},
+					@{/public/showMarkdown/page(id='excel-format/db-definition-sheet',lang=${lang})},
 					#{navBar.excel.dbDefinitionSheet}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/{l}/article?id=excel-format/enum-sheet(l=${lang})},
+					@{/public/showMarkdown/page(id='excel-format/enum-sheet',lang=${lang})},
 					#{navBar.excel.enumSheet}, '')}"></div>
 
 		</div></th:block>
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
-		<div th:if="${lang == 'ja'}">
-			<div th:replace="~{bootstrap/components :: navbarMenuItem(
-					@{/public/lang/en}, '🌐 English', '')}"></div>
-		</div>
-		<div th:if="${lang == 'en'}">
-			<div th:replace="~{bootstrap/components :: navbarMenuItem(
-					@{/public/lang/ja}, '🌐 日本語', '')}"></div>
-		</div>
+		<div th:replace="~{markdown/parts :: langSwitchNavItem}"></div>
 	</div>
 
 	<!--/* footer */-->
