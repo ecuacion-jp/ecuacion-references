@@ -28,10 +28,3 @@ JAR ファイルは以下から取得できます。
 ```
 https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-files/
 ```
-
-## ドキュメント
-
-- [セットアップ](/public/showMarkdown/page?id=housekeep-files/setup&lang=ja)
-- [クイックスタート](/public/showMarkdown/page?id=housekeep-files/quickstart&lang=ja)
-- [Excel設定ファイル](/public/showMarkdown/page?id=housekeep-files/excel-settings&lang=ja)
-- [処理パターン](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=ja)

@@ -23,10 +23,3 @@ WAR ファイルは以下から取得できます。
 ```
 https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/
 ```
-
-## ドキュメント
-
-- [セットアップ](/public/showMarkdown/page?id=command-api/setup&lang=ja)
-- [クイックスタート](/public/showMarkdown/page?id=command-api/quickstart&lang=ja)
-- [設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)
-- [API仕様](/public/showMarkdown/page?id=command-api/api-spec&lang=ja)

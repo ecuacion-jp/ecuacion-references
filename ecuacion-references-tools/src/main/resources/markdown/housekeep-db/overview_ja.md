@@ -33,9 +33,3 @@ JAR ファイルは以下から取得できます。
 ```
 https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-db/
 ```
-
-## ドキュメント
-
-- [セットアップ](/public/showMarkdown/page?id=housekeep-db/setup&lang=ja)
-- [クイックスタート](/public/showMarkdown/page?id=housekeep-db/quickstart&lang=ja)
-- [Excel設定ファイル](/public/showMarkdown/page?id=housekeep-db/excel-settings&lang=ja)

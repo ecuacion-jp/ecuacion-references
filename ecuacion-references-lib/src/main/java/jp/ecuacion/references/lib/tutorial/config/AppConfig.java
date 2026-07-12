@@ -21,8 +21,7 @@ import org.springframework.context.annotation.Configuration;
 
 /** Application configuration. */
 @Configuration
-@ComponentScan(
-    basePackages = {"jp.ecuacion.splib.web.config", "jp.ecuacion.splib.web.markdown"})
+@ComponentScan(basePackages = "jp.ecuacion.splib.web.markdown.config")
 public class AppConfig {
 
 }

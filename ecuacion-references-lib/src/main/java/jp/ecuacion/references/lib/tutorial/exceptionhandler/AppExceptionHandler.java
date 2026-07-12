@@ -23,14 +23,13 @@ import org.jspecify.annotations.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice
-public class AppExceptionHandlerJpa extends SplibExceptionHandler {
+public class AppExceptionHandler extends SplibExceptionHandler {
 
   /**
    * Constructs a new instance.
    */
-  public AppExceptionHandlerJpa(HttpServletRequest request,
-      @Nullable SplibExceptionHandlerAction actionOnThrowable,
-      SplibLoginStateUtil loginStateUtil) {
+  public AppExceptionHandler(HttpServletRequest request,
+      @Nullable SplibExceptionHandlerAction actionOnThrowable, SplibLoginStateUtil loginStateUtil) {
     super(request, actionOnThrowable, loginStateUtil);
   }
 }

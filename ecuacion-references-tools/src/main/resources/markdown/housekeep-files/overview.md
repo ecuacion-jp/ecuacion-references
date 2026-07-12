@@ -26,10 +26,3 @@ The JAR file is available at:
 ```
 https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-files/
 ```
-
-## Documentation
-
-- [Setup](/public/showMarkdown/page?id=housekeep-files/setup&lang=en)
-- [Quick Start](/public/showMarkdown/page?id=housekeep-files/quickstart&lang=en)
-- [Excel Settings](/public/showMarkdown/page?id=housekeep-files/excel-settings&lang=en)
-- [Task Patterns](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=en)
