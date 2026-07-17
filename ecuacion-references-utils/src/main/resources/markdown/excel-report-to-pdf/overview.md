@@ -1,5 +1,3 @@
-# excel-report-to-pdf Overview
-
 `ecuacion-util-excel-report-to-pdf` generates PDF files from Excel files based
 on each sheet's print settings (print area, page breaks). It reads Excel with
 Apache POI and writes PDF with Apache PDFBox.

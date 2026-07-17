@@ -1,5 +1,3 @@
-# DateTimeApiUtil
-
 `DateTimeApiUtil`（`jp.ecuacion.lib.core.util.DateTimeApiUtil`）は Java 標準の `java.time` API
 （Date and Time API）に関するユーティリティクラスです。
 日時の表示文字列への変換と、文字列から日時オブジェクトへのパースを提供します。

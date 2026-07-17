@@ -1,5 +1,3 @@
-# SPI
-
 ## 概要
 
 SPI（Service Provider Interface）とは、Java のモジュールシステムでリソースの提供者を宣言する仕組みです。

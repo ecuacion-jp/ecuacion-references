@@ -1,5 +1,3 @@
-# Using Item Names in Messages
-
 ## Overview
 
 ecuacion-lib's validation error messages can be displayed including an **item name**

@@ -1,5 +1,3 @@
-# command-api Quick Start
-
 [Setup](/public/showMarkdown/page?id=command-api/setup&lang=en) is assumed to be complete.
 
 ## Run It Standalone

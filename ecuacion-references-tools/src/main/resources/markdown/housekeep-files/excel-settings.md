@@ -1,5 +1,3 @@
-# housekeep-files Excel Settings
-
 housekeep-files is entirely controlled by a single Excel file.
 The Excel file contains the following four sheets:
 

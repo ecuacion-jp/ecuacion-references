@@ -1,5 +1,3 @@
-# Bean マッピング
-
 `StringOneLineHeaderExcelTableToBeanReader`（ヘッダー1行）または
 `StringHeaderExcelTableToBeanReader`（ヘッダー複数行）を使うと、
 Excel の各行を Java オブジェクト（Bean）に自動変換して取得できます。

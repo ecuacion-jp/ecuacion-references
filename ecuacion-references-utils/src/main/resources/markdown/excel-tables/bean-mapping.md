@@ -1,5 +1,3 @@
-# Bean Mapping
-
 `StringOneLineHeaderExcelTableToBeanReader` (single header row) or
 `StringHeaderExcelTableToBeanReader` (multiple header rows) automatically converts
 each Excel row into a Java object (Bean). Jakarta Validation is integrated.

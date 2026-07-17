@@ -1,18 +1,9 @@
-# housekeep-db セットアップ
-
 ## 1. JAR ファイルのダウンロード
 
-以下の Maven リポジトリから JAR ファイルをダウンロードします。
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tools/releases) から
+最新の `ecuacion-tool-housekeep-db-x.x.x.jar` をダウンロードします。
 
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-db/
-```
-
-URL の例（バージョン `x.x.x` は実際のバージョンに置き換えてください）:
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-db/x.x.x/ecuacion-tool-housekeep-db-x.x.x.jar
-```
+JAR は任意のディレクトリに配置してください。
 
 ## 2. Excel 設定ファイルのダウンロード
 

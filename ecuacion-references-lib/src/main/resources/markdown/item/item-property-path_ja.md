@@ -1,5 +1,3 @@
-# itemPropertyPath
-
 ## 概要
 
 `itemPropertyPath` は、あるオブジェクト内のフィールドの位置を表す文字列パスです。

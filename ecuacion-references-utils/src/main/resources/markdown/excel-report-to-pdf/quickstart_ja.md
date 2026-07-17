@@ -1,5 +1,3 @@
-# クイックスタート
-
 ## `ExcelToPdfUtil.generate()`
 
 PDF を生成するメインメソッドです。

@@ -1,5 +1,3 @@
-# Item and ItemNameKey
-
 This describes the mechanism for item name keys used in validation error messages.
 
 ---

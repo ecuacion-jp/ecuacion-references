@@ -1,5 +1,3 @@
-# SPI
-
 ## Overview
 
 SPI (Service Provider Interface) is a mechanism in Java's module system for declaring resource providers.

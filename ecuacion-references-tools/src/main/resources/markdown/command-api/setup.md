@@ -1,18 +1,7 @@
-# command-api Setup
-
 ## 1. Download the WAR File
 
-Download the WAR file from the Maven repository:
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/
-```
-
-Example URL (replace `x.x.x` with the actual version):
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/x.x.x/ecuacion-tool-command-api-x.x.x.war
-```
+Download the latest `ecuacion-tool-command-api-x.x.x.war` from
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tools/releases).
 
 ## 2. Start It
 

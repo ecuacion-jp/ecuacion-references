@@ -1,5 +1,3 @@
-# dataType定義シート
-
 「dataType定義」シートでは、各カラムに割り当てるデータ型（DataType）を定義します。
 DataType は `DT_XXXX` という命名規則のキーで、Java の型・バリデーションルール・文字種制約を表します。
 

@@ -1,5 +1,3 @@
-# StringUtil
-
 `StringUtil` (`jp.ecuacion.lib.core.util.StringUtil`) is a utility class for string operations.
 It implements methods that are not provided by Apache Commons Lang's `StringUtils`.
 Use this when you need operations not available in `StringUtils`.

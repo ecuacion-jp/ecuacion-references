@@ -1,5 +1,3 @@
-# Cross-File References
-
 ## Overview
 
 You can reference keys from other properties files using the `#{...}` syntax within property values

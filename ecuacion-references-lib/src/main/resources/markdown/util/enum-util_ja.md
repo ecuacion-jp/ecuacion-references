@@ -1,5 +1,3 @@
-# EnumUtil
-
 `EnumUtil`（`jp.ecuacion.lib.core.util.EnumUtil`）は ecuacion ライブラリの enum フォーマット向けの
 ユーティリティクラスです。
 

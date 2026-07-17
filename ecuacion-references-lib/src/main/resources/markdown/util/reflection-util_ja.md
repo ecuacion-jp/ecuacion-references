@@ -1,5 +1,3 @@
-# ReflectionUtil
-
 `ReflectionUtil`（`jp.ecuacion.lib.core.util.ReflectionUtil`）は `java.lang.reflect` を
 使用した低レイヤーなリフレクション操作のユーティリティクラスです。
 

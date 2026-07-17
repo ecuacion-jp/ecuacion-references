@@ -1,5 +1,3 @@
-# 基本的な使い方
-
 ## PropertiesFileUtil とは
 
 `PropertiesFileUtil`（`jp.ecuacion.lib.core.util.PropertiesFileUtil`）は、アプリケーション内の各種

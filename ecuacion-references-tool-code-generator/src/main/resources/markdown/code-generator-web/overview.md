@@ -1,5 +1,3 @@
-# code-generator-web Overview
-
 `ecuacion-tool-code-generator-web` is a Web UI module that lets you upload a DB Definition Book (Excel) from a browser and download the generated Java source code as a ZIP file.
 
 ## Difference from code-generator-batch

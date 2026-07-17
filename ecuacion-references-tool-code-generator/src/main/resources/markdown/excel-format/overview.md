@@ -1,5 +1,3 @@
-# DB Definition Book (Excel) Overview
-
 The DB Definition Book is the input file for `ecuacion-tool-code-generator`.
 A single Excel file (`.xlsx`) defines the data model for a project.
 

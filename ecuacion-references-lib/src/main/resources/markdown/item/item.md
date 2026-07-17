@@ -1,5 +1,3 @@
-# Item
-
 ## Overview
 
 `Item` (`jp.ecuacion.lib.core.item.Item`) is a class that holds the attributes of a single field.

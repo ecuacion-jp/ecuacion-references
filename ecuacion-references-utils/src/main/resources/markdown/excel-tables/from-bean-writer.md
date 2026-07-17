@@ -1,5 +1,3 @@
-# Bean Mapping (Writer)
-
 `StringOneLineHeaderExcelTableFromBeanWriter` (single header row) or
 `StringHeaderExcelTableFromBeanWriter` (multiple header rows) writes a list of
 `StringExcelTableBean` instances to an Excel file.

@@ -1,5 +1,3 @@
-# Violation
-
 ## 概要
 
 ecuacion-lib では、バリデーション違反を `Violations` クラスに集約してから

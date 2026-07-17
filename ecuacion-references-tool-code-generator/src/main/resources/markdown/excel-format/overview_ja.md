@@ -1,5 +1,3 @@
-# DB項目定義書（Excel）概要
-
 DB項目定義書は `ecuacion-tool-code-generator` の入力ファイルです。
 Excel ファイル（`.xlsx`）1 枚でプロジェクトのデータモデルを定義します。
 

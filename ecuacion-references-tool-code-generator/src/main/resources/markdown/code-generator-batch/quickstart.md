@@ -1,5 +1,3 @@
-# code-generator-batch Quick Start
-
 This assumes [Setup](/public/showMarkdown/page?id=code-generator-batch/setup&lang=en) has been completed.
 
 ## Steps

@@ -1,5 +1,3 @@
-# code-generator-batch 概要
-
 `ecuacion-tool-code-generator-batch` は、DB項目定義書（Excel）を入力として
 Spring Boot + JPA アプリケーションの **base モジュール** の Java ソースコードを自動生成する
 バッチ実行モジュールです。

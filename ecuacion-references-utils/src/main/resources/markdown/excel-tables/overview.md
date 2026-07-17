@@ -1,5 +1,3 @@
-# excel-tables Overview
-
 `ecuacion-util-excel-table` is a library for reading and writing Excel table data
 using Apache POI. It abstracts away table-position detection, header validation,
 empty-cell handling, and Bean conversion, significantly reducing boilerplate code.

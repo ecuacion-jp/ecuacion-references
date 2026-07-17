@@ -1,5 +1,3 @@
-# Writer
-
 This page explains how to use each Writer class.
 
 ## Writer Class List

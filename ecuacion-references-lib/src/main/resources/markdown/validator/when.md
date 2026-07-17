@@ -1,5 +1,3 @@
-# Conditional Validators
-
 ## Overview
 
 When annotations express conditional rules such as "when `conditionPropertyPath` is in a certain state,

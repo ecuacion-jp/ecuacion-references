@@ -1,5 +1,3 @@
-# DataType Definition Sheet
-
 The DataType Definition sheet defines the data types (`DT_XXXX`) assigned to each column.
 A DataType captures the Java type, validation rules, and character constraints for a field.
 

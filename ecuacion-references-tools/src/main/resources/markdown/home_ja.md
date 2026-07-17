@@ -1,5 +1,3 @@
-# ecuacion-tools reference
-
 こちらは ecuacion-tools（モジュール名：`ecuacion-tool-xxx`）のリファレンスページです。
 サーバ運用で役立つバッチ・API ツール群の使い方をまとめています。
 

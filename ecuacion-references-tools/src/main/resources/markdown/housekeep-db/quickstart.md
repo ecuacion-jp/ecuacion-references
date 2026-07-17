@@ -1,5 +1,3 @@
-# housekeep-db Quick Start
-
 This guide walks you through the simplest example: hard-deleting all records in a table.
 
 ## Prerequisites

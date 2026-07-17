@@ -1,5 +1,3 @@
-# MessageUtil
-
 `MessageUtil` (`jp.ecuacion.lib.core.util.MessageUtil`) is a utility class for building messages
 by combining `Item` with `PropertiesFileUtil`.
 

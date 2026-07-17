@@ -1,5 +1,3 @@
-# Blank Handling
-
 ## Overview
 
 The validators in `ecuacion-lib-validation` treat blank (empty string `""`) as **valid**.

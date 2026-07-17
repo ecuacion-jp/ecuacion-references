@@ -1,5 +1,3 @@
-# ExceptionUtil
-
 `ExceptionUtil` (`jp.ecuacion.lib.core.util.ExceptionUtil`) is a utility class for
 extracting message strings from exceptions.
 It is used when implementing custom exception handlers.

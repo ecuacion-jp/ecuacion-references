@@ -1,5 +1,3 @@
-# Quick Start
-
 ## `ExcelToPdfUtil.generate()`
 
 The main method for generating a PDF.

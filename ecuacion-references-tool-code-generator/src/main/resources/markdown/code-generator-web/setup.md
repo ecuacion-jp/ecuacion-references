@@ -1,5 +1,3 @@
-# code-generator-web Setup
-
 ## 1. Download the WAR
 
 Download the latest `ecuacion-tool-code-generator-web-x.x.x.war` from

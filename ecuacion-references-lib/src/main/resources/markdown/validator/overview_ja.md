@@ -1,5 +1,3 @@
-# 独自バリデーター 概要
-
 ## 概要
 
 `ecuacion-lib-validation` モジュールは、Jakarta Validation の標準アノテーション（`@NotNull`, `@Size` など）を補完する独自のバリデーターを提供します。

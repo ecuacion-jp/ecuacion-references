@@ -1,5 +1,3 @@
-# Violation
-
 ## Overview
 
 In ecuacion-lib, the pattern of consolidating validation violations into the `Violations` class

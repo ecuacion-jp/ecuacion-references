@@ -1,5 +1,3 @@
-# BusinessViolation
-
 ## プレースホルダー引数を渡す
 
 ```java

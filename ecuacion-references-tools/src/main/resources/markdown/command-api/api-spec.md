@@ -1,5 +1,3 @@
-# command-api API Spec
-
 The paths below assume a standalone deployment (root context). If deployed to an existing Tomcat, the context path (e.g. `/ecuacion-tool-command-api`) is prepended.
 
 ## Endpoint

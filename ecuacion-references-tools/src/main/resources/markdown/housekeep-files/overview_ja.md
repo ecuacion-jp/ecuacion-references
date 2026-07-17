@@ -1,5 +1,3 @@
-# housekeep-files 概要
-
 `ecuacion-tool-housekeep-files` は、ファイルおよびディレクトリに対する定型的な管理処理（ハウスキーピング）を
 Excel 設定ファイルに基づいて自動実行するバッチツールです。
 
@@ -19,12 +17,4 @@ Excel 設定ファイルに基づいて自動実行するバッチツールで�
 
 ```
 java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
-```
-
-## モジュール取得先
-
-JAR ファイルは以下から取得できます。
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-files/
 ```

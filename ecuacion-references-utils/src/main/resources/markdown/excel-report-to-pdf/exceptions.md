@@ -1,5 +1,3 @@
-# Exception Handling
-
 ## `PdfGenerateException`
 
 A checked exception (`extends Exception`) thrown when an error occurs

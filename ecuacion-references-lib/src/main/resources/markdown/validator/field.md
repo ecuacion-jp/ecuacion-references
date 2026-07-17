@@ -1,5 +1,3 @@
-# Other Field Validators
-
 ## Overview
 
 These are validators applied at the field level to individual fields.

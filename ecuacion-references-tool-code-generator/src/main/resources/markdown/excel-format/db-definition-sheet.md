@@ -1,5 +1,3 @@
-# DB Definition Sheet
-
 The DB Definition sheet defines the database tables and columns.
 This sheet drives the generation of Entity, Repository, BL, and related classes.
 

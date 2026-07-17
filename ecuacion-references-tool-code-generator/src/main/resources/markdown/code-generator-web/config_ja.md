@@ -1,5 +1,3 @@
-# code-generator-web 設定ファイル
-
 ## application.properties
 
 Spring Boot の外部設定ファイルは以下の優先順位で読み込まれます（上位が下位を上書き）。

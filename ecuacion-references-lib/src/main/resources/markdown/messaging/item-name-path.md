@@ -1,5 +1,3 @@
-# itemNamePath
-
 A feature that appends information about which nesting level a validation error occurred at
 to the item name when an error occurs in a nested object.
 

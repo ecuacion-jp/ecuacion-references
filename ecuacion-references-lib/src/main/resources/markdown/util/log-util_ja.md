@@ -1,5 +1,3 @@
-# LogUtil
-
 `LogUtil`（`jp.ecuacion.lib.core.util.LogUtil`）は、`ErrorLogger` と `DetailLogger` の
 両方に同時にログ出力する手順をまとめたユーティリティクラスです。
 

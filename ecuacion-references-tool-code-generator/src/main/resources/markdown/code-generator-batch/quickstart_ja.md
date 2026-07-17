@@ -1,5 +1,3 @@
-# code-generator-batch クイックスタート
-
 [セットアップ](/public/showMarkdown/page?id=code-generator-batch/setup&lang=ja) が完了していることを前提とします。
 
 ## 手順

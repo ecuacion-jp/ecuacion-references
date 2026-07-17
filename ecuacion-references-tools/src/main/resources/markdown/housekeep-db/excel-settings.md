@@ -1,5 +1,3 @@
-# housekeep-db Excel Settings
-
 housekeep-db is entirely controlled by a single Excel file.
 The Excel file contains the following four sheets:
 

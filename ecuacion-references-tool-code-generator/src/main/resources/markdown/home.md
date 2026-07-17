@@ -1,5 +1,3 @@
-# ecuacion-tool-code-generator reference
-
 This is the reference page for `ecuacion-tool-code-generator`.
 It covers how to use the tool that auto-generates base module Java code for Spring Boot + JPA applications from a DB Definition Book (Excel).
 

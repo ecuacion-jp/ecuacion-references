@@ -1,5 +1,3 @@
-# housekeep-files Overview
-
 `ecuacion-tool-housekeep-files` is a batch tool that performs routine file and directory management (housekeeping) tasks based on an Excel configuration file.
 
 ## Key Features
@@ -17,12 +15,4 @@ All configuration is managed in a single Excel file. When the tool starts, you p
 
 ```
 java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
-```
-
-## Downloading the Module
-
-The JAR file is available at:
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-files/
 ```

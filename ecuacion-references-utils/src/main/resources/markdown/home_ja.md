@@ -1,5 +1,3 @@
-# ecuacion-utils reference
-
 こちらは ecuacion-utils（モジュール名：`ecuacion-util-xxx`）のチュートリアルページです。
 Excel ファイルの読み書きや PDF 生成など、実務でよく使うユーティリティ機能の使い方をまとめています。
 

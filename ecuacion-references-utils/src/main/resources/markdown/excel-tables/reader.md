@@ -1,5 +1,3 @@
-# Reader
-
 This page explains how to use each Reader class.
 
 ## Reader Class List

@@ -1,5 +1,3 @@
-# ecuacion-utils reference
-
 This is the tutorial site for ecuacion-utils (module names: `ecuacion-util-xxx`).
 It covers utility features commonly needed in application development,
 such as reading/writing Excel files and generating PDFs.

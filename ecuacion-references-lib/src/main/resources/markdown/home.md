@@ -1,5 +1,3 @@
-# ecuacion-lib reference
-
 This is the reference page for ecuacion library (module name: `ecuacion-lib-xxx`).
 It provides comprehensive documentation for the utility classes and features of each library.
 

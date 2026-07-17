@@ -1,5 +1,3 @@
-# Require Annotations
-
 ## Overview
 
 The `jp.ecuacion.lib.core.annotation` package provides **annotations for declaring requirements** that can be placed on method parameters.

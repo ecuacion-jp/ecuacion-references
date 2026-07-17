@@ -1,5 +1,3 @@
-# housekeep-db 概要
-
 `ecuacion-tool-housekeep-db` は、データベース上のレコードを自動的にハウスキーピング（整理・削除）するバッチツールです。
 Excel 設定ファイルに基づいて、ソフトデリートまたはハードデリートを実行します。
 
@@ -24,12 +22,4 @@ Housekeep DB Settings シートに記載されたタスクが上から順番に�
 
 ```
 java -jar ecuacion-tool-housekeep-db-x.x.x.jar [--classpath=/path/to/classpath] excelPath=/path/to/settings.xlsx
-```
-
-## モジュール取得先
-
-JAR ファイルは以下から取得できます。
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-db/
 ```

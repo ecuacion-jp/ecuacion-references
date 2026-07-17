@@ -1,5 +1,3 @@
-# 例外処理
-
 ## `PdfGenerateException`
 
 PDF 生成中に発生するエラーを表す検査例外（`Exception` のサブクラス）です。

@@ -1,5 +1,3 @@
-# housekeep-files Quick Start
-
 This guide walks you through the simplest example: moving a local file to another directory.
 
 ## Prerequisites

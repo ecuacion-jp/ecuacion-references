@@ -1,5 +1,3 @@
-# ecuacion-lib reference
-
 こちらは ecuacion library（モジュール名：`ecuacion-lib-xxx`）のリファレンスページです。
 各ライブラリのユーティリティクラスや機能を網羅的にまとめています。
 

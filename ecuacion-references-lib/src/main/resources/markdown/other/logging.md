@@ -1,5 +1,3 @@
-# Logging
-
 ## Overview
 
 ecuacion-lib provides dedicated loggers that wrap SLF4J.

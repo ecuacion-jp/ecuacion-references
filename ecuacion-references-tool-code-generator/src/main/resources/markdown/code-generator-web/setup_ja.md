@@ -1,5 +1,3 @@
-# code-generator-web セットアップ
-
 ## 1. WAR のダウンロード
 
 [GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から

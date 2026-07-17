@@ -1,5 +1,3 @@
-# EnumUtil
-
 `EnumUtil` (`jp.ecuacion.lib.core.util.EnumUtil`) is a utility class for the enum format used in ecuacion library modules.
 
 ---

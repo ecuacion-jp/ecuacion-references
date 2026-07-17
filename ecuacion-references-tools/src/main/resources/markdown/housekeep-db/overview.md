@@ -1,5 +1,3 @@
-# housekeep-db Overview
-
 `ecuacion-tool-housekeep-db` is a batch tool that automatically housekeeps (cleans up) records in a database.
 It performs soft delete or hard delete based on an Excel configuration file.
 
@@ -23,12 +21,4 @@ All configuration is managed in a single Excel file. When the tool starts, you p
 
 ```
 java -jar ecuacion-tool-housekeep-db-x.x.x.jar [--classpath=/path/to/classpath] excelPath=/path/to/settings.xlsx
-```
-
-## Downloading the Module
-
-The JAR file is available at:
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-db/
 ```

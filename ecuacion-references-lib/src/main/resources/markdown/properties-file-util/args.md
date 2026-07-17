@@ -1,5 +1,3 @@
-# Args
-
 ## Overview
 
 By using placeholders such as `{0}`, `{1}` in values in `messages.properties` and similar files,

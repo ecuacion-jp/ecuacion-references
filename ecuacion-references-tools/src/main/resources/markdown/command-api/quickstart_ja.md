@@ -1,5 +1,3 @@
-# command-api クイックスタート
-
 [セットアップ](/public/showMarkdown/page?id=command-api/setup&lang=ja) が完了していることを前提とします。
 
 ## 単独で起動して使う

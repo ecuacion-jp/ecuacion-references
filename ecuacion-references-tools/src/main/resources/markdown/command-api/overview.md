@@ -1,5 +1,3 @@
-# command-api Overview
-
 `ecuacion-tool-command-api` is a WAR module that executes shell scripts on the server via a Web API.
 It can run as a standalone executable WAR, or be deployed to an existing application server such as Tomcat.
 
@@ -15,11 +13,3 @@ It can run as a standalone executable WAR, or be deployed to an existing applica
 
 - Triggering batch processing on the server via HTTP calls from other systems
 - Launching server operations that cannot be performed through a web app directly (e.g., file generation and placement)
-
-## Downloading the Module
-
-The WAR file is available at:
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/
-```

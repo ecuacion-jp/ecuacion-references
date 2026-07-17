@@ -1,5 +1,3 @@
-# command-api 概要
-
 `ecuacion-tool-command-api` は、Web API 経由でサーバ上のシェルスクリプトを実行する WAR モジュールです。
 単独の実行可能 WAR として起動するほか、既存の Tomcat 等のアプリケーションサーバにデプロイして使うこともできます。
 
@@ -15,11 +13,3 @@
 
 - 他システムからの HTTP 呼び出しによるサーバ上のバッチ処理のトリガー
 - ファイルの生成・配置など、Web アプリ経由では実行できないサーバ操作の起動
-
-## モジュール取得先
-
-WAR ファイルは以下から取得できます。
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-command-api/
-```

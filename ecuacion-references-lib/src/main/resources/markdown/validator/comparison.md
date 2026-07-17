@@ -1,5 +1,3 @@
-# Comparison Validators
-
 ## Overview
 
 Comparison annotations validate the relative order of two fields. These are class-level annotations.

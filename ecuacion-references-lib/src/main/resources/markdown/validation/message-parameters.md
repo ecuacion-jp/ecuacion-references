@@ -1,5 +1,3 @@
-# MessageParameters
-
 ## Overview
 
 `Violations.MessageParameters` is a parameter class that controls how error messages are generated.

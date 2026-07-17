@@ -1,5 +1,3 @@
-# Loading Behavior and Advanced Settings
-
 ## Fallback
 
 Some file types fall back to another file type when a key is not found.

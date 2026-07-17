@@ -1,5 +1,3 @@
-# ItemContainer
-
 ## 概要
 
 `ItemContainer`（`jp.ecuacion.lib.core.item.ItemContainer`）は、

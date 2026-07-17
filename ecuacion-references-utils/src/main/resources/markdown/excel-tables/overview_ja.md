@@ -1,5 +1,3 @@
-# excel-tables 概要
-
 `ecuacion-util-excel-table` は、Apache POI を使って Excel ファイルのテーブルデータを
 読み書きするためのライブラリです。
 テーブルの位置自動検出・ヘッダー検証・空セル処理・Bean 変換などを抽象化し、

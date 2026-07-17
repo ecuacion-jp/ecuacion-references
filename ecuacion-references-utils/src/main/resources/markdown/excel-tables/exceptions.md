@@ -1,5 +1,3 @@
-# Exception Handling
-
 ## `ExcelTableException`
 
 An exception representing application-level errors that occur during

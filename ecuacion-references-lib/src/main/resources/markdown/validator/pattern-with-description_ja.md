@@ -1,5 +1,3 @@
-# PatternWithDescription
-
 ## 概要
 
 標準の `@Pattern` はバリデーション失敗時に正規表現をそのままメッセージに表示するため、

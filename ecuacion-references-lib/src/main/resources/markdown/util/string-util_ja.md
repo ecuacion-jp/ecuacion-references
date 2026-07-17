@@ -1,5 +1,3 @@
-# StringUtil
-
 `StringUtil`（`jp.ecuacion.lib.core.util.StringUtil`）は文字列操作のユーティリティクラスです。
 Apache Commons Lang の `StringUtils` が提供するメソッドとは重複しないものを実装しています。
 `StringUtils` にない操作が必要な場合はこちらを使用してください。

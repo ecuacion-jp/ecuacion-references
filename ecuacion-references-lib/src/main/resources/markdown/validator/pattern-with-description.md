@@ -1,5 +1,3 @@
-# PatternWithDescription
-
 ## Overview
 
 The standard `@Pattern` displays the regex directly in the message when validation fails,

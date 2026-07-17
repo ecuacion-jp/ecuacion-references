@@ -1,5 +1,3 @@
-# code-generator-batch Configuration Files
-
 ## application.properties
 
 Spring Boot external configuration files are loaded in the following priority order (higher entries override lower ones):

@@ -1,5 +1,3 @@
-# Standard Annotation Message Output
-
 ## Overview
 
 Validation errors from Jakarta Validation standard annotations such as `@NotNull` can be output in

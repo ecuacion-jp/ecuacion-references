@@ -1,5 +1,3 @@
-# code-generator-batch Setup
-
 ## 1. Download the JAR
 
 Download the latest `ecuacion-tool-code-generator-batch-x.x.x.jar` from

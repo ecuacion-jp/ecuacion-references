@@ -1,5 +1,3 @@
-# @ItemNameKeyClass
-
 ## Overview
 
 `@ItemNameKeyClass` (`jp.ecuacion.lib.core.annotation.ItemNameKeyClass`) is an annotation that

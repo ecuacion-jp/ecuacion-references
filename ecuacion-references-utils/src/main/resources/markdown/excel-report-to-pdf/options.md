@@ -1,5 +1,3 @@
-# Options
-
 `PdfGenerateOptions` holds optional parameters for PDF generation.
 Build an instance using the Builder pattern.
 

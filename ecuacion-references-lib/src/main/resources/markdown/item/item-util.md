@@ -1,5 +1,3 @@
-# ItemUtil
-
 ## Overview
 
 `ItemUtil` (`jp.ecuacion.lib.core.util.ItemUtil`) is a utility class for working with `Item` and `ItemContainer`.

@@ -1,5 +1,3 @@
-# Overview of Violations and Exceptions
-
 In ecuacion-lib, validation violations are consolidated and managed in the `Violations` class regardless of their type.
 
 ## Two Types of Violations

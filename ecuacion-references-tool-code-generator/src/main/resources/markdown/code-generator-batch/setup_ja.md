@@ -1,5 +1,3 @@
-# code-generator-batch セットアップ
-
 ## 1. JAR のダウンロード
 
 [GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から

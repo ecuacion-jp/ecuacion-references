@@ -1,5 +1,3 @@
-# ValidationMessages
-
 ## Overview
 
 The 3 `ValidationMessages` files are used for handling validation messages in Jakarta Validation.

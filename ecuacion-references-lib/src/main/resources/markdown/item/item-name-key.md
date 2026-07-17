@@ -1,5 +1,3 @@
-# itemNameKey Resolution Rules
-
 ## Overview
 
 `itemNameKey` is a key used to look up the display name of an item from `item_names.properties` and similar files.

@@ -1,5 +1,3 @@
-# Bean マッピング（書き込み）
-
 `StringOneLineHeaderExcelTableFromBeanWriter`（ヘッダー1行）または
 `StringHeaderExcelTableFromBeanWriter`（ヘッダー複数行）を使うと、
 `StringExcelTableBean` を継承した Bean のリストを Excel に書き込めます。

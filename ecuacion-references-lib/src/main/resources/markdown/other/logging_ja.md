@@ -1,5 +1,3 @@
-# Logging
-
 ## 概要
 
 ecuacion-lib は SLF4J をラップした専用ロガーを提供します。

@@ -1,5 +1,3 @@
-# Item Names for List, Set, and Map
-
 ## Overview
 
 When a validation error occurs on a field that is an element of a collection (List, Set, or Map),

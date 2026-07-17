@@ -1,5 +1,3 @@
-# code-generator-web クイックスタート
-
 [セットアップ](/public/showMarkdown/page?id=code-generator-web/setup&lang=ja) が完了していることを前提とします。
 
 ## ローカルで起動して使う

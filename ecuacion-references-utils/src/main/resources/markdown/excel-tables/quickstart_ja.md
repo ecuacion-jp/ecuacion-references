@@ -1,5 +1,3 @@
-# クイックスタート
-
 このページでは `StringOneLineHeaderExcelTableReader` を使った最もシンプルな読み込み例を紹介します。
 
 依存の追加については[セットアップ](/public/showMarkdown/page?id=excel-tables/setup&lang=ja)を参照してください。

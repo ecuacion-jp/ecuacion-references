@@ -1,5 +1,3 @@
-# ConstraintViolation
-
 ## Overview
 
 `ConstraintViolation` is a class that represents the result of Jakarta Validation (formerly Bean Validation).

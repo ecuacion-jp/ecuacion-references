@@ -1,18 +1,9 @@
-# housekeep-files Setup
-
 ## 1. Download the JAR File
 
-Download the JAR file from the Maven repository:
+Download the latest `ecuacion-tool-housekeep-files-x.x.x.jar` from
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tools/releases).
 
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-files/
-```
-
-Example URL (replace `x.x.x` with the actual version):
-
-```
-https://maven-repo.ecuacion.jp/public/jp/ecuacion/tool/ecuacion-tool-housekeep-files/x.x.x/ecuacion-tool-housekeep-files-x.x.x.jar
-```
+Place the JAR in any directory you prefer.
 
 ## 2. Download the Sample Excel Configuration File
 

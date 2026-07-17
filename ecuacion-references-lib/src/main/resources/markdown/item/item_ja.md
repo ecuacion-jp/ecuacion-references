@@ -1,5 +1,3 @@
-# Item
-
 ## 概要
 
 `Item`（`jp.ecuacion.lib.core.item.Item`）は、フィールド 1 つ分の属性を保持するクラスです。

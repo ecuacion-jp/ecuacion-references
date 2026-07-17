@@ -1,5 +1,3 @@
-# housekeep-files Task Patterns
-
 This page describes the values for the "Task Pattern" column in the Task Settings sheet, and the details of each pattern.
 
 Task patterns are divided into two categories: **Local operations** and **SFTP operations**.

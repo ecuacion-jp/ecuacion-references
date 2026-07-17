@@ -1,5 +1,3 @@
-# ConstraintViolation
-
 ## 概要
 
 `ConstraintViolation` は、Jakarta Validation（旧 Bean Validation）によるバリデーション結果を表すクラスです。

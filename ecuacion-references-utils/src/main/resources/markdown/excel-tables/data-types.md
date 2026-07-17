@@ -1,5 +1,3 @@
-# Data Types
-
 Reader and Writer classes are divided into three groups based on the data type
 obtained from Excel cells: **String type**, **Typed type**, and **Cell type**.
 

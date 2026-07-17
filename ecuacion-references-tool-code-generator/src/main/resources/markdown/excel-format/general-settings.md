@@ -1,5 +1,3 @@
-# General Settings Sheet
-
 The General Settings sheet contains project-wide configuration.
 Some entries must be updated for each new project; others are fixed framework defaults.
 

@@ -1,5 +1,3 @@
-# ItemContainer
-
 ## Overview
 
 `ItemContainer` (`jp.ecuacion.lib.core.item.ItemContainer`) is an interface that holds `Item` instances

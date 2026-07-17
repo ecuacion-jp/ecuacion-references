@@ -1,5 +1,3 @@
-# MessageParameters
-
 ## 概要
 
 `Violations.MessageParameters` は、エラーメッセージの生成方法を制御するパラメータクラスです。

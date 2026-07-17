@@ -1,5 +1,3 @@
-# Enum Definition Sheet
-
 The Enum Definition sheet defines the enumeration values for DataTypes of type `ENUM`.
 
 ## When to Use

@@ -1,5 +1,3 @@
-# Jakarta Validation Basic Terminology
-
 These are the objects and terms defined in the Jakarta Validation specification.
 These terms appear in the documentation and APIs for validation-related classes in ecuacion-lib.
 

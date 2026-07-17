@@ -1,5 +1,3 @@
-# オプション設定
-
 `PdfGenerateOptions` は PDF 生成時のオプションを保持するクラスです。
 Builder パターンで構築します。
 

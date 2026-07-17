@@ -1,5 +1,3 @@
-# FileUtil
-
 `FileUtil` (`jp.ecuacion.lib.core.util.FileUtil`) is a utility class that provides
 file path manipulation, file locking, and file size conversion.
 

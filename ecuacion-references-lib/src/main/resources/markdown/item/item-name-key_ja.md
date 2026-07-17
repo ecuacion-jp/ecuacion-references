@@ -1,5 +1,3 @@
-# itemNameKey の解決ルール
-
 ## 概要
 
 `itemNameKey` は、項目の表示名を `item_names.properties` などから引くためのキーです。

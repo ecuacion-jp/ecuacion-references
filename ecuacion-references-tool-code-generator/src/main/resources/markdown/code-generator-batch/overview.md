@@ -1,5 +1,3 @@
-# code-generator-batch Overview
-
 `ecuacion-tool-code-generator-batch` is a batch execution module that reads a DB Definition Book (Excel) and auto-generates Java source code for the **base module** of a Spring Boot + JPA application.
 
 ## How It Works

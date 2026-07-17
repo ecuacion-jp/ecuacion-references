@@ -1,5 +1,3 @@
-# Setup
-
 ## Adding the Dependency
 
 Add the following to `pom.xml`:

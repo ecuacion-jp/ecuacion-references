@@ -1,5 +1,3 @@
-# Basic Usage
-
 ## What is PropertiesFileUtil?
 
 `PropertiesFileUtil` (`jp.ecuacion.lib.core.util.PropertiesFileUtil`) is a utility class for

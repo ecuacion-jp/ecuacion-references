@@ -1,5 +1,3 @@
-# Table Formats
-
 Reader and Writer classes are divided into two groups based on the table format:
 **Header format** and **Free format**.
 

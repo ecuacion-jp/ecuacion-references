@@ -1,5 +1,3 @@
-# PropertyPathUtil
-
 `PropertyPathUtil` (`jp.ecuacion.lib.core.util.PropertyPathUtil`) provides
 manipulation of propertyPath strings and navigation of object graphs using propertyPath.
 

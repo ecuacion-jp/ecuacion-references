@@ -1,5 +1,3 @@
-# command-api Configuration Files
-
 ## application.properties
 
 Spring Boot's external configuration files are loaded in the following priority order (higher overrides lower):

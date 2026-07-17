@@ -1,5 +1,3 @@
-# Quick Start
-
 This page shows the simplest possible example using `StringOneLineHeaderExcelTableReader`.
 
 For dependency setup, see the [Setup](/public/showMarkdown/page?id=excel-tables/setup&lang=en) page.

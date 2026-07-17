@@ -1,5 +1,3 @@
-# code-generator-web Quick Start
-
 This assumes [Setup](/public/showMarkdown/page?id=code-generator-web/setup&lang=en) has been completed.
 
 ## Running Locally

@@ -1,5 +1,3 @@
-# prefix, postfix, separator
-
 ## Overview
 
 When displaying item names in error messages, you can customize the symbols placed before and after the name (prefix/postfix),

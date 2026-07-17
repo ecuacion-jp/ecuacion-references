@@ -1,5 +1,3 @@
-# housekeep-db Excel設定ファイル
-
 housekeep-db の動作は Excel ファイル 1 枚で制御します。
 Excel ファイルには以下の 4 つのシートがあります。
 

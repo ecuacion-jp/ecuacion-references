@@ -1,5 +1,3 @@
-# ecuacion-tools reference
-
 This is the reference page for ecuacion-tools (`ecuacion-tool-xxx` modules).
 It covers how to use the batch and API tools for server operations.
 

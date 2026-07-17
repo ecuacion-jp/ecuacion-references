@@ -1,5 +1,3 @@
-# MailUtil
-
 `MailUtil`（`jp.ecuacion.lib.core.util.MailUtil`）はメール送信のユーティリティクラスです。
 
 ---

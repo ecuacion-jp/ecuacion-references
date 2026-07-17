@@ -1,5 +1,3 @@
-# ValidationMessages
-
 ## 概要
 
 `ValidationMessages` 系の3ファイルは、Jakarta Validation のバリデーションメッセージを扱うためのファイルです。

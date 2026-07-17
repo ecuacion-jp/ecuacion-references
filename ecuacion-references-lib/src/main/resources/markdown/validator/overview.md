@@ -1,5 +1,3 @@
-# Custom Validators Overview
-
 ## Overview
 
 The `ecuacion-lib-validation` module provides custom validators that complement the standard Jakarta Validation

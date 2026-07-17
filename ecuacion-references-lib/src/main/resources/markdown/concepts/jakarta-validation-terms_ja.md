@@ -1,5 +1,3 @@
-# Jakarta Validation の基本用語
-
 Jakarta Validation の仕様で定義されているオブジェクト・用語です。
 ecuacion-lib のバリデーション関連クラスのドキュメントや API でこれらの用語が登場します。
 

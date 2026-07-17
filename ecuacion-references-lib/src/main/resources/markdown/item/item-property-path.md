@@ -1,5 +1,3 @@
-# itemPropertyPath
-
 ## Overview
 
 `itemPropertyPath` is a string path that represents the location of a field within an object.

@@ -1,5 +1,3 @@
-# prefix・postfix・separator
-
 ## 概要
 
 項目名をエラーメッセージに表示する際、前後に記号を付けたり（prefix/postfix）、

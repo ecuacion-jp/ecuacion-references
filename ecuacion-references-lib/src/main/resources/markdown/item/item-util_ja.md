@@ -1,5 +1,3 @@
-# ItemUtil
-
 ## 概要
 
 `ItemUtil`（`jp.ecuacion.lib.core.util.ItemUtil`）は、
