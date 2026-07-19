@@ -17,12 +17,34 @@ File: `housekeep-db(fmt-v1.3.0-en)_sample.xlsx` (English version)
 
 ## 3. Log Configuration (Optional)
 
-To customize log output, create `logback-spring.xml` and place it in a CLASSPATH directory.
+The Logback configuration file is loaded in the following priority order.
 
-Specifying the CLASSPATH directory:
+| Priority | Location |
+| --- | --- |
+| 1 (highest) | The path given by `-Dlogging.config=...` |
+| 2 (lowest) | `config/logback-spring.xml`, relative to the current directory |
+
+> **Note:** "Current directory" for priority 2 means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the JAR before starting it (as shown below), this is effectively the same as "the `config/` directory next to the JAR."
+
+**Option 1 — Place in `config/` subdirectory (recommended):**
 
 ```
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar --classpath=/path/to/classpath/directory excelPath=/path/to/settings.xlsx
+/your-work-dir/
+├── ecuacion-tool-housekeep-db-x.x.x.jar
+└── config/
+    └── logback-spring.xml
+```
+
+```bash
+cd /your-work-dir
+java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
+```
+
+**Option 2 — Specify path explicitly:**
+
+```bash
+java -Dlogging.config=file:/path/to/logback-spring.xml \
+     -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
 ```
 
 Example `logback-spring.xml`:

@@ -73,3 +73,38 @@ some.key=アプリ独自の値
 ```
 
 `getApplication("some.key")` はアプリ側の値を優先して返します。
+
+---
+
+## application.properties 内の `${...}` プレースホルダーの解決
+
+パスワードなどの設定値は通常、`application.properties` からプレーンテキストとして読み込まれます。
+このファイルは通常ソース管理にコミットされるため、実際の秘密情報を直接書き込むのは避けるべきです。
+代わりに `${...}` プレースホルダー（例: `some.key=${SOME_ENV_VAR}`）を記述し、外部リゾルバーを
+登録することで、実行時に環境変数などの外部ソースから値を供給できます。
+
+```java
+PropertiesFileUtil.setExternalPlaceholderResolver(value -> System.getenv().getOrDefault(value, value));
+```
+
+ecuacion-lib 自体は環境変数やフレームワーク固有のプロパティソースについて何も組み込みで
+知りません。`setExternalPlaceholderResolver(...)` は単なる拡張ポイントです。`ecuacion-splib`
+などのフレームワーク固有モジュールは、Spring の `Environment` を通じて `${...}` を解決するよう
+自動的に配線します。登録済みのリゾルバーを解除するには `null` を渡します。
+
+この解決処理は `application[_xxx].properties` の値にのみ適用され、`messages.properties` や
+`ValidationMessages.properties` などには影響しません（`ValidationMessages` 系ファイルにおける
+`${...}` EL 式評価については [ValidationMessages](/public/article?id=properties-file-util/validation-messages) を参照してください）。
+
+---
+
+## キャッシュのクリア
+
+`PropertiesFileUtil` は、`.properties` ファイルの内容を初回読み込み後にメモリ上へキャッシュします。
+アプリケーション実行中にファイルがディスク上で更新された場合（管理画面からの更新など）は、
+`clearCache()` を呼び出すことで、次回の `get...` / `has...` 呼び出し時にディスクから再読み込み
+させることができます。
+
+```java
+PropertiesFileUtil.clearCache();
+```

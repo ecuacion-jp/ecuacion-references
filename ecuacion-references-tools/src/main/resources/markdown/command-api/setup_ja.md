@@ -31,4 +31,4 @@ ecuacion-tool-command-api##x.x.x.war   # Tomcat のバージョン並行デプ�
 ## システム要件
 
 - JDK 21 以上
-- Linux または macOS（Windows は未サポート。スクリプトの実行に `Runtime.exec` を使用するため）
+- Linux、macOS、または Windows

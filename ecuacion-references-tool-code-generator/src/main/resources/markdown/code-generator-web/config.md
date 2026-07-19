@@ -110,9 +110,9 @@ Logback configuration is resolved as follows:
 | Priority | Location |
 | --- | --- |
 | 1 (highest) | Path specified by `-Dlogging.config=...` |
-| 2 (lowest) | `./config/logback-spring.xml` (next to the WAR) |
+| 2 (lowest) | `config/logback-spring.xml`, relative to the current directory |
 
-> **Note:** Unlike `application.properties`, `logback-spring.xml` placed next to the WAR (without `config/`) is **not** automatically picked up by Spring Boot. Use the `config/` subdirectory or specify the path explicitly.
+> **Note:** "Current directory" for priority 2 means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the WAR before starting it (as shown below), this is effectively the same as "the `config/` directory next to the WAR." If you launch from elsewhere, the search is relative to that directory instead. Also, unlike `application.properties`, a `logback-spring.xml` placed directly next to the WAR (without a `config/` subdirectory) is **not** automatically picked up.
 
 ### Using a custom logback-spring.xml
 
@@ -126,6 +126,7 @@ Logback configuration is resolved as follows:
 ```
 
 ```bash
+cd /your-work-dir
 java -jar ecuacion-tool-code-generator-web-x.x.x.war
 ```
 

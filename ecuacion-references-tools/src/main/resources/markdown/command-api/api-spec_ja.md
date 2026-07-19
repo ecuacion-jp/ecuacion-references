@@ -5,15 +5,19 @@
 ### スクリプト実行
 
 ```
-GET /api/public/executeScript
+GET  /api/public/executeScript
+POST /api/public/executeScript
 ```
 
-### クエリパラメータ
+デフォルトでは `GET` は拒否され、`POST` は一致する `apiKey` が必要です。詳細は下記の[アクセス制御](#アクセス制御)を参照してください。
+
+### パラメータ
 
 | パラメータ | 必須 | 説明 |
 | --- | --- | --- |
 | `scriptId` | ○ | `ecuacion-tool-command-api.properties` で定義したスクリプト ID |
 | `parameter` | — | スクリプトに渡すパラメータ（カンマ区切りで複数指定） |
+| `apiKey` | POST時のみ、条件付き必須 | サーバ側に配置した api-key ファイルの内容と照合する共有シークレット。`jp.ecuacion.tool.command-api.allow-insecure-access=true` の場合を除き必須。`GET` では無視されます。 |
 
 ### レスポンス
 
@@ -36,7 +40,11 @@ GET /api/public/executeScript
 
 ### HTTP 403 / 404
 
-URL が正しくない場合に返ります。
+URL が正しくない場合、または `jp.ecuacion.tool.command-api.allow-insecure-access` が `true` でない状態で `GET` リクエストが来た場合に返ります（[アクセス制御](#アクセス制御)を参照）。
+
+### HTTP 401
+
+`POST` リクエストで `apiKey` が未指定、サーバ側の api-key ファイルの内容と一致しない、または api-key ファイル自体が未設定・読み込み不可の場合に返ります。原因の切り分けを応答内容から行えないよう、いずれの場合も同一のレスポンスになります（設定不備とキー不一致の区別を攻撃者にさせないため）。原因の切り分けはサーバ側のログで行ってください。
 
 ### HTTP 400
 
@@ -85,6 +93,12 @@ URL が正しくない場合に返ります。
 `scriptId` パラメータの値は正規表現 `^[a-zA-Z0-9.\-_]*$` でバリデーションされます。
 
 スクリプトファイルパスは正規表現 `^[a-zA-Z0-9.\-_/${}]*$` でバリデーションされます。
+
+### アクセス制御
+
+デフォルトでは `GET` は無効化されており、`POST` は一致する `apiKey` が必要です。`apiKey` は**単純な共有シークレット**であり、サーバ側に配置したファイルの内容と照合されます。非対称鍵（公開鍵・秘密鍵のペア）ではなく、クライアントが送信する値が秘密鍵として扱われることもありません。
+
+`jp.ecuacion.tool.command-api.allow-insecure-access=true` を設定すると `GET` が許可され、`POST` の `apiKey` 検証も省略されます。信頼できる内部ネットワークでのみ使用してください。プロパティの詳細は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照してください。
 
 ---
 

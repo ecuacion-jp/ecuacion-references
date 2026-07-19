@@ -5,15 +5,19 @@ The paths below assume a standalone deployment (root context). If deployed to an
 ### Execute Script
 
 ```
-GET /api/public/executeScript
+GET  /api/public/executeScript
+POST /api/public/executeScript
 ```
 
-### Query Parameters
+By default, `GET` is rejected and `POST` requires a matching `apiKey`. See [Access Control](#access-control) below.
+
+### Parameters
 
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `scriptId` | ○ | The script ID defined in `ecuacion-tool-command-api.properties` |
 | `parameter` | — | Parameters to pass to the script (comma-separated for multiple values) |
+| `apiKey` | POST only, conditionally required | The shared secret compared against the server-side api-key file. Required unless `jp.ecuacion.tool.command-api.allow-insecure-access=true`. Ignored on `GET`. |
 
 ### Response
 
@@ -36,7 +40,11 @@ Check `returnCode` to determine whether the script succeeded.
 
 ### HTTP 403 / 404
 
-Returned when the URL is incorrect.
+Returned when the URL is incorrect, or when a `GET` request arrives while `jp.ecuacion.tool.command-api.allow-insecure-access` is not `true` (see [Access Control](#access-control)).
+
+### HTTP 401
+
+Returned for a `POST` request when `apiKey` is missing, doesn't match the server-side api-key file, or the api-key file itself is missing/unreadable/unconfigured. All of these causes return the identical response so a caller cannot distinguish a server misconfiguration from a wrong key — check the server-side log to tell them apart.
 
 ### HTTP 400
 
@@ -85,6 +93,12 @@ Even though arbitrary paths cannot be specified, a registered script can still c
 The `scriptId` parameter value is validated against the regular expression `^[a-zA-Z0-9.\-_]*$`.
 
 Script file paths are validated against the regular expression `^[a-zA-Z0-9.\-_/${}]*$`.
+
+### Access Control
+
+By default, `GET` is disabled and `POST` requires a matching `apiKey`. `apiKey` is a **simple shared secret** compared against a file placed on the server — it is **not** an asymmetric (public/private) key pair, and the value the client sends is never treated as a private key.
+
+`jp.ecuacion.tool.command-api.allow-insecure-access=true` allows `GET` and skips `apiKey` verification on `POST`; use this only on trusted internal networks. See [Configuration Files](/public/showMarkdown/page?id=command-api/config&lang=en) for the full property reference.
 
 ---
 

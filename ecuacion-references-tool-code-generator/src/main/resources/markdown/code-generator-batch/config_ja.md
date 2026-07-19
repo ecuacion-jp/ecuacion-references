@@ -107,9 +107,9 @@ Logback の設定ファイルは以下の優先順位で読み込まれます。
 | 優先度 | 場所 |
 | --- | --- |
 | 1（高） | `-Dlogging.config=...` で指定したパス |
-| 2（低） | JAR と同じディレクトリの `config/logback-spring.xml` |
+| 2（低） | カレントディレクトリの `config/logback-spring.xml` |
 
-> **Note:** `application.properties` と異なり、JAR と同じディレクトリ（`config/` なし）に置いた `logback-spring.xml` は Spring Boot に自動認識されません。`config/` サブディレクトリを使うか、パスを明示してください。
+> **Note:** 優先度2の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。JAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「JAR と同じディレクトリの `config/`」と同じ意味になります。別のディレクトリから起動する場合は、そちらのディレクトリ基準で探索される点に注意してください。また、`application.properties` と異なり、`config/` を使わずに JAR と同じディレクトリへ直接置いた `logback-spring.xml` は自動認識されません。
 
 ### カスタム logback-spring.xml を使う場合
 
@@ -123,6 +123,7 @@ Logback の設定ファイルは以下の優先順位で読み込まれます。
 ```
 
 ```bash
+cd /your-work-dir
 java -jar ecuacion-tool-code-generator-batch-x.x.x.jar
 ```
 

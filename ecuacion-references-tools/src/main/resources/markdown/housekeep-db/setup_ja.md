@@ -17,12 +17,34 @@ https://github.com/ecuacion-jp/ecuacion-tools/tree/main/ecuacion-tool-housekeep-
 
 ## 3. ログ設定（任意）
 
-ログ出力をカスタマイズする場合は、`logback-spring.xml` を作成して CLASSPATH ディレクトリに配置します。
+Logback の設定ファイルは以下の優先順位で読み込まれます。
 
-CLASSPATH ディレクトリの指定方法:
+| 優先度 | 場所 |
+| --- | --- |
+| 1（高） | `-Dlogging.config=...` で指定したパス |
+| 2（低） | カレントディレクトリの `config/logback-spring.xml` |
+
+> **Note:** 優先度2の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。JAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「JAR と同じディレクトリの `config/`」と同じ意味になります。
+
+**方法 1 — `config/` サブディレクトリに配置（推奨）:**
 
 ```
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar --classpath=/path/to/classpath/directory excelPath=/path/to/settings.xlsx
+/your-work-dir/
+├── ecuacion-tool-housekeep-db-x.x.x.jar
+└── config/
+    └── logback-spring.xml
+```
+
+```bash
+cd /your-work-dir
+java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
+```
+
+**方法 2 — パスを明示:**
+
+```bash
+java -Dlogging.config=file:/path/to/logback-spring.xml \
+     -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
 ```
 
 `logback-spring.xml` の記述例:

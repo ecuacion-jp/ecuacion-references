@@ -78,3 +78,38 @@ some.key=Application-specific value
 ```
 
 `getApplication("some.key")` returns the application's value with priority.
+
+---
+
+## Resolving `${...}` Placeholders in application.properties
+
+Settings such as passwords are normally read as plain text from `application.properties`.
+Since that file is typically committed to source control, avoid writing real secrets into it
+directly. Instead, write a `${...}` placeholder (e.g. `some.key=${SOME_ENV_VAR}`) and register
+an external resolver so the value is supplied from an environment variable or another external
+source at runtime.
+
+```java
+PropertiesFileUtil.setExternalPlaceholderResolver(value -> System.getenv().getOrDefault(value, value));
+```
+
+ecuacion-lib itself has no built-in notion of environment variables or any framework's property
+sources; `setExternalPlaceholderResolver(...)` is only an extension point. Framework-specific
+modules such as `ecuacion-splib` wire this up automatically, resolving `${...}` through Spring's
+`Environment`. Pass `null` to clear a previously registered resolver.
+
+This resolution applies only to `application[_xxx].properties` values; `messages.properties`,
+`ValidationMessages.properties`, etc. are not affected. (For `${...}` EL expression evaluation
+in `ValidationMessages` files, see [ValidationMessages](/public/article?id=properties-file-util/validation-messages).)
+
+---
+
+## Clearing the Cache
+
+`PropertiesFileUtil` caches the contents of `.properties` files in memory after the first read.
+If a file is updated on disk while the application is running (e.g. from an admin screen), call
+`clearCache()` to force the next `get...` / `has...` call to re-read files from disk.
+
+```java
+PropertiesFileUtil.clearCache();
+```

@@ -78,5 +78,7 @@ jp.ecuacion.example.constraint.SomeAnnotation.message=\
 `{min}`, `{max}` は名前付きプレースホルダー（Map 経由で解決）、
 `${...}` は EL 式（アノテーション属性値を変数として評価）です。
 
-EL 式はすべてのプロパティファイル種別で利用可能ですが、
-EL 変数（アノテーション属性）が渡されるのは ValidationMessages 系のみです。
+`${...}` の EL 式評価自体が行われるのは `ValidationMessages`、`ValidationMessagesWithItemNames`、
+`ValidationMessagesPatternDescriptions` のみです。それ以外のファイル種別（`application`、`messages`、
+`item_names` など）では `${...}` は評価されずそのまま残ります。EL 変数（アノテーション属性）は
+Jakarta Bean Validation のメッセージ補間においてのみ意味を持つためです。

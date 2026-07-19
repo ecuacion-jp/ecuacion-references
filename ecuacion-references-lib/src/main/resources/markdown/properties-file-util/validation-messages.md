@@ -78,5 +78,8 @@ jp.ecuacion.example.constraint.SomeAnnotation.message=\
 `{min}`, `{max}` are named placeholders (resolved via Map),
 while `${...}` are EL expressions (evaluated with annotation attribute values as variables).
 
-EL expressions are available in all property file types,
-but EL variables (annotation attributes) are only passed to ValidationMessages files.
+`${...}` EL expression evaluation itself is only performed for `ValidationMessages`,
+`ValidationMessagesWithItemNames`, and `ValidationMessagesPatternDescriptions`. For other file
+types (`application`, `messages`, `item_names`, etc.), `${...}` is left untouched, since EL
+variables (annotation attributes) are only meaningful for Jakarta Bean Validation message
+interpolation.

@@ -12,7 +12,7 @@ java -jar ecuacion-tool-command-api-x.x.x.war
 
 ### 2. スクリプトの準備
 
-任意のディレクトリに `sayHello.sh` を作成します。
+Linux/macOS の場合、任意のディレクトリに `sayHello.sh` を作成します。
 
 ```bash
 #!/bin/bash
@@ -27,6 +27,14 @@ echo "Touch done."
 chmod +x /path/to/script/directory/sayHello.sh
 ```
 
+Windows の場合は代わりに `sayHello.bat` を作成します（実行権限の付与は不要です）。
+
+```bat
+@echo off
+type nul > C:\path\to\script\directory\touch.file
+echo Touch done.
+```
+
 ### 3. スクリプトを properties に登録する
 
 WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照）。
@@ -35,11 +43,23 @@ WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作
 script.say-hello=/path/to/script/directory/sayHello.sh
 ```
 
+（Windows の場合は `.bat` ファイルのパスを指定します。例: `script.say-hello=C:\\path\\to\\script\\directory\\sayHello.bat`）
+
 **書式**: `script.<スクリプトID>=<スクリプトのフルパス>`
 
 スクリプト ID はリクエスト時の `scriptId` パラメータに対応します。プロパティファイルを変更したら、アプリケーションを再起動して反映します。
 
-### 4. API を呼び出す
+### 4. このクイックスタート用にアクセスを許可する
+
+デフォルトでは `GET` は無効化されており、`POST` には `apiKey` が必要です（[アクセス制御](/public/showMarkdown/page?id=command-api/config&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、`application.properties`（配置場所は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照）に以下を追記し、アプリを再起動してください。
+
+```properties
+jp.ecuacion.tool.command-api.allow-insecure-access=true
+```
+
+（本番環境ではこの設定を追加せず（未設定＝`false`のまま）、代わりに `POST` + `apiKey` でAPIを呼び出してください。詳細は[API仕様](/public/showMarkdown/page?id=command-api/api-spec&lang=ja)を参照）
+
+### 5. API を呼び出す
 
 以下の URL にアクセスします。
 
@@ -67,7 +87,7 @@ http://localhost:8080/api/public/executeScript?scriptId=script.say-hello
 http://localhost:8080/api/public/executeScript?scriptId=script.say-hello&parameter=param1,param2
 ```
 
-上記のリクエストでは `sayHello.sh param1 param2` として実行されます。
+上記のリクエストでは `sayHello.sh param1 param2`（Windows の場合は `sayHello.bat param1 param2`）として実行されます。
 
 カンマ区切りで複数のパラメータを渡せます。カンマ自体をパラメータ値として渡す方法は現在未対応です。
 

@@ -31,4 +31,4 @@ Either way you start it, script registration and configuration file placement fo
 ## System Requirements
 
 - JDK 21 or above
-- Linux or macOS (Windows is not supported, since script execution uses `Runtime.exec`)
+- Linux, macOS, or Windows
