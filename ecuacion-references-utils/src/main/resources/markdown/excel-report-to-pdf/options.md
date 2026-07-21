@@ -1,12 +1,13 @@
 `PdfGenerateOptions` holds optional parameters for PDF generation.
-Build an instance using the Builder pattern.
+Build an instance using the Builder pattern, starting from one of two static factory methods
+depending on how the rendering font should be resolved.
 
 ## Available Options
 
 | Option | Type | Required | Description |
 | --- | --- | --- | --- |
-| `useSystemFonts` | boolean | Optional | When `true`, automatically searches OS and Office fonts. Default `false` |
-| `regularFontPath` | Path or null | Required when `useSystemFonts` is `false` | Path to the TTF file used for regular text. Acts as a fallback when `useSystemFonts` is `true` |
+| entry point | `builderForSystemFonts()` or `builderForExplicitFont(Path)` | Required | Selects the font resolution mode. See [System Fonts](#system-fonts-builderforsystemfonts) below |
+| `regularFontPath` | Path or null | Required for `builderForExplicitFont` (passed as its argument); optional for `builderForSystemFonts` | Path to the TTF file used for regular text. Acts as the first fallback font when using `builderForSystemFonts` |
 | `boldFontPath` | Path or null | Optional | Path to the TTF file used for bold text. Falls back to `regularFontPath` if omitted |
 | `excelPassword` | String or null | Optional | Password to open the source Excel file |
 | `pdfPassword` | String or null | Optional | Password to open the output PDF (user password) |
@@ -18,8 +19,8 @@ Build an instance using the Builder pattern.
 ```java
 import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))   // optional
     .excelPassword("excel-pass")
     .pdfPassword("pdf-pass")
@@ -28,17 +29,16 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
 ```
 
-`regularFontPath` is required when `useSystemFonts` is `false` (default).
+`regularFontPath` is required as the argument to `builderForExplicitFont`.
 All other options are optional.
 
-## System Fonts (`useSystemFonts`)
+## System Fonts (`builderForSystemFonts`)
 
-With `useSystemFonts(true)`, the library searches the OS font directories
+With `builderForSystemFonts()`, the library searches the OS font directories
 (including fonts installed by Microsoft Office) for the workbook's default font.
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .useSystemFonts(true)
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .build();
 ```
 
@@ -46,8 +46,7 @@ If no matching system font is found, a `PdfGenerateException` is thrown.
 You can also set `regularFontPath` as a fallback:
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .useSystemFonts(true)
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .regularFontPath(Path.of("/path/to/fallback.ttf"))  // fallback
     .build();
 ```
@@ -57,12 +56,12 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 
 ## Font File
 
-Specify a TTF font file in `regularFontPath`.
+Specify a TTF font file as the `builderForExplicitFont` argument.
 For documents containing Japanese text, use a Japanese-compatible font (e.g. Noto Sans JP).
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))   // optional
     .build();
 ```
@@ -72,8 +71,7 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 To open a password-protected Excel file, set `excelPassword`:
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/regular.ttf"))
     .excelPassword("secret123")
     .build();
 ```
@@ -85,8 +83,7 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 To require a password to open the generated PDF, set `pdfPassword`:
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/regular.ttf"))
     .pdfPassword("view-only")
     .build();
 ```
@@ -105,8 +102,7 @@ When `pdfOwnerPassword` is omitted, `pdfPassword` is used as the owner password 
 Set `pdfOwnerPassword` separately when the person generating the PDF and the person managing security restrictions are different — for example, a system that generates the PDF with `pdfPassword` for end-user access, while an administrator later applies print/copy restrictions using a separately managed `pdfOwnerPassword`.
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/regular.ttf"))
     .pdfPassword("view-only")          // password to open the PDF
     .pdfOwnerPassword("admin-secret")  // password to modify security settings
     .build();
@@ -124,8 +120,7 @@ When not set, `Locale.getDefault()` is used.
 ```java
 import java.util.Locale;
 
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/font.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/font.ttf"))
     .dateLocale(Locale.JAPAN)
     .build();
 ```

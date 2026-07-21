@@ -15,14 +15,13 @@
 PDF 生成時には、テキストレンダリングに使用するフォントを設定する必要があります。
 `PdfGenerateOptions` で以下の 2 通りの方法を選択できます。
 
-### 方法 1：システムフォントを使用する（`useSystemFonts(true)`）
+### 方法 1：システムフォントを使用する（`builderForSystemFonts()`）
 
-`useSystemFonts(true)` を設定すると、OS にインストールされているフォントおよび
+`builderForSystemFonts()` を使用すると、OS にインストールされているフォントおよび
 Microsoft Office 付属のフォントをワークブックのデフォルトフォント名で自動検索します。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .useSystemFonts(true)
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .build();
 ```
 
@@ -32,14 +31,14 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 > **フォントライセンスに注意:** システムフォントは出力 PDF に埋め込まれます。
 > 使用するフォントのライセンスが埋め込みおよび再配布を許可していることを確認してください。
 
-### 方法 2：フォントファイルのパスを直接指定する（`regularFontPath`）
+### 方法 2：フォントファイルのパスを直接指定する（`builderForExplicitFont(Path)`）
 
-`useSystemFonts` を設定しない（デフォルト `false`）場合は、
-`regularFontPath` で TTF フォントファイルのパスを明示する必要があります。
+`builderForExplicitFont` に TTF フォントファイルのパスを明示的に渡すと、
+システムフォント検索を行わず常にそのフォントで描画します。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
     .build();
 ```

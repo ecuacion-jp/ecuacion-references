@@ -30,8 +30,8 @@ import java.util.List;
 Path excelPath  = Paths.get("/path/to/report.xlsx");
 Path outputPath = Paths.get("/path/to/output.pdf");
 
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .build();
 
 try {

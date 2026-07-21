@@ -1,12 +1,12 @@
 `PdfGenerateOptions` は PDF 生成時のオプションを保持するクラスです。
-Builder パターンで構築します。
+Builder パターンで構築します。フォントの解決方法に応じて、2つの静的ファクトリメソッドのどちらかから始めます。
 
 ## オプション一覧
 
 | オプション | 型 | 必須 | 説明 |
 | --- | --- | --- | --- |
-| `useSystemFonts` | boolean | 任意 | `true` にすると OS および Office のフォントを自動検索。デフォルト `false` |
-| `regularFontPath` | Path または null | `useSystemFonts` が `false` の場合に必須 | 通常テキストに使用する TTF フォントファイルのパス。`useSystemFonts` が `true` の場合はフォールバックとして機能 |
+| エントリポイント | `builderForSystemFonts()` または `builderForExplicitFont(Path)` | 必須 | フォント解決モードを選択する。詳細は下記[システムフォントの使用](#システムフォントの使用builderforsystemfonts)を参照 |
+| `regularFontPath` | Path または null | `builderForExplicitFont` では引数として必須／`builderForSystemFonts` では任意 | 通常テキストに使用する TTF フォントファイルのパス。`builderForSystemFonts` 使用時は最初のフォールバックとして機能 |
 | `boldFontPath` | Path または null | 任意 | 太字テキストに使用する TTF フォントファイルのパス。省略時は `regularFontPath` で代替 |
 | `excelPassword` | String または null | 任意 | 入力 Excel ファイルのパスワード |
 | `pdfPassword` | String または null | 任意 | 出力 PDF を開くためのパスワード（ユーザーパスワード） |
@@ -18,8 +18,8 @@ Builder パターンで構築します。
 ```java
 import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
     .excelPassword("excel-pass")
     .pdfPassword("pdf-pass")
@@ -28,17 +28,16 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
 ```
 
-`useSystemFonts` が `false`（デフォルト）の場合は `regularFontPath` が必須です。
+`builderForExplicitFont` の引数として `regularFontPath` が必須です。
 それ以外のオプションは設定しなくても構いません。
 
-## システムフォントの使用（`useSystemFonts`）
+## システムフォントの使用（`builderForSystemFonts`）
 
-`useSystemFonts(true)` を設定すると、OS にインストールされているフォントおよび
+`builderForSystemFonts()` を使用すると、OS にインストールされているフォントおよび
 Microsoft Office 付属のフォントをワークブックのデフォルトフォント名で自動検索します。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .useSystemFonts(true)
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .build();
 ```
 
@@ -46,8 +45,7 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 見つからなかった場合のフォールバックとして、`regularFontPath` も合わせて指定できます。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .useSystemFonts(true)
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .regularFontPath(Path.of("/path/to/fallback.ttf"))  // フォールバック
     .build();
 ```
@@ -57,12 +55,12 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 
 ## フォントファイルの指定
 
-通常テキストに使用する TTF フォントファイルを `regularFontPath` に指定します。
+通常テキストに使用する TTF フォントファイルを `builderForExplicitFont` の引数に指定します。
 日本語テキストを含む場合は日本語対応フォント（例：Noto Sans JP）を使用してください。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
     .build();
 ```
@@ -73,8 +71,7 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 `excelPassword` にパスワード文字列を設定します。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/regular.ttf"))
     .excelPassword("secret123")
     .build();
 ```
@@ -86,8 +83,7 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 出力する PDF を開く際にパスワードを要求したい場合、`pdfPassword` を設定します。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/regular.ttf"))
     .pdfPassword("view-only")
     .build();
 ```
@@ -107,8 +103,7 @@ PDF には「ユーザーパスワード」と「オーナーパスワード」�
 PDF の生成者とセキュリティ設定の管理者が異なる場合（例：システムが `pdfPassword` 付き PDF を生成し、後で管理者が印刷禁止などの設定を `qpdf` 等で追加する）は、`pdfOwnerPassword` を別途設定してください。
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/regular.ttf"))
     .pdfPassword("view-only")         // PDF を開くパスワード
     .pdfOwnerPassword("admin-secret") // セキュリティ設定を変更するパスワード
     .build();
@@ -125,8 +120,7 @@ PdfGenerateOptions options = PdfGenerateOptions.builder()
 ```java
 import java.util.Locale;
 
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/font.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/font.ttf"))
     .dateLocale(Locale.JAPAN)
     .build();
 ```

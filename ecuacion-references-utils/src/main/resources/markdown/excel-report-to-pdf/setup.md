@@ -15,14 +15,13 @@ Add the following to `pom.xml`:
 You must configure the font used to render text in the PDF.
 `PdfGenerateOptions` supports two approaches.
 
-### Option 1: Use System Fonts (`useSystemFonts(true)`)
+### Option 1: Use System Fonts (`builderForSystemFonts()`)
 
-With `useSystemFonts(true)`, the library searches the OS font directories
+With `builderForSystemFonts()`, the library searches the OS font directories
 (including fonts installed by Microsoft Office) for the workbook's default font.
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .useSystemFonts(true)
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .build();
 ```
 
@@ -32,14 +31,14 @@ You can also set `regularFontPath` as a fallback for when the system font is not
 > **Font licensing notice:** The located system font is embedded in the output PDF.
 > Confirm that the font's licence permits embedding and distribution before enabling this option.
 
-### Option 2: Specify a Font File Path (`regularFontPath`)
+### Option 2: Specify a Font File Path (`builderForExplicitFont(Path)`)
 
-When `useSystemFonts` is not set (default `false`), you must provide a TTF font
-file path explicitly via `regularFontPath`.
+Use `builderForExplicitFont`, passing a TTF font file path explicitly, to always render with
+that font without any system font lookup.
 
 ```java
-PdfGenerateOptions options = PdfGenerateOptions.builder()
-    .regularFontPath(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
     .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // optional
     .build();
 ```
