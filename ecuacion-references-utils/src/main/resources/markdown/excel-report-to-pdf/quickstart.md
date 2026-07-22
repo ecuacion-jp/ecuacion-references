@@ -24,14 +24,12 @@ import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 import jp.ecuacion.util.pdf.excel.report.util.ExcelToPdfUtil;
 import jp.ecuacion.util.pdf.excel.report.exception.PdfGenerateException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-Path excelPath  = Paths.get("/path/to/report.xlsx");
-Path outputPath = Paths.get("/path/to/output.pdf");
+Path excelPath  = Path.of("/path/to/report.xlsx");
+Path outputPath = Path.of("/path/to/output.pdf");
 
-PdfGenerateOptions options =
-    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .build();
 
 try {
@@ -45,6 +43,13 @@ try {
 }
 ```
 
+> **Note:** `builderForSystemFonts()` searches for fonts installed locally (OS and
+> Microsoft Office fonts). If no matching font is found, a `PdfGenerateException`
+> is thrown.
+>
+> **Caution:** System fonts are embedded in the output PDF. Make sure the
+> font's license permits embedding and redistribution before using it this way.
+
 ## Multiple Sheets
 
 Pass multiple sheet names to produce a multi-page PDF in the specified order.
@@ -56,14 +61,4 @@ ExcelToPdfUtil.generate(
     List.of("Cover", "Summary", "Detail 1", "Detail 2"),
     outputPath,
     options);
-```
-
-## When a Sheet Name Does Not Exist
-
-If a specified sheet name does not exist in the Excel file, a
-`PdfGenerateException` is thrown.
-
-```java
-// "NonExistentSheet" not found → PdfGenerateException
-ExcelToPdfUtil.generate(excelPath, List.of("NonExistentSheet"), outputPath, options);
 ```

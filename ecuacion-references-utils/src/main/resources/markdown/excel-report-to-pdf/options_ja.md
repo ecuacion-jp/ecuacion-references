@@ -6,8 +6,8 @@ Builder パターンで構築します。フォントの解決方法に応じて
 | オプション | 型 | 必須 | 説明 |
 | --- | --- | --- | --- |
 | エントリポイント | `builderForSystemFonts()` または `builderForExplicitFont(Path)` | 必須 | フォント解決モードを選択する。詳細は下記[システムフォントの使用](#システムフォントの使用builderforsystemfonts)を参照 |
-| `regularFontPath` | Path または null | `builderForExplicitFont` では引数として必須／`builderForSystemFonts` では任意 | 通常テキストに使用する TTF フォントファイルのパス。`builderForSystemFonts` 使用時は最初のフォールバックとして機能 |
-| `boldFontPath` | Path または null | 任意 | 太字テキストに使用する TTF フォントファイルのパス。省略時は `regularFontPath` で代替 |
+| `addRegularFontPath` | Path | `builderForExplicitFont` では1件目の登録は不要（引数が自動的に1件目として登録される。2件目以降を追加する場合は呼び出し可能）／`builderForSystemFonts` では任意・複数回指定可 | 通常テキストに使用する TTF フォントファイルを登録する（登録順に優先）。詳細は下記[フォールバックフォントの指定](#フォールバックフォントの指定addregularfontpath--addboldfontpath)を参照 |
+| `addBoldFontPath` | Path | 任意・複数回指定可 | 太字テキストに使用する TTF フォントファイルを登録する（登録順に優先、尽きたら上記の通常フォントへフォールスルー）。一度も呼ばない場合、太字テキストは全て通常フォントで描画される |
 | `excelPassword` | String または null | 任意 | 入力 Excel ファイルのパスワード |
 | `pdfPassword` | String または null | 任意 | 出力 PDF を開くためのパスワード（ユーザーパスワード） |
 | `pdfOwnerPassword` | String または null | 任意 | 出力 PDF のオーナーパスワード。省略時は `pdfPassword` と同じ値になる |
@@ -20,7 +20,7 @@ import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 
 PdfGenerateOptions options =
     PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
-    .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
+    .addBoldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
     .excelPassword("excel-pass")
     .pdfPassword("pdf-pass")
     .build();
@@ -28,7 +28,8 @@ PdfGenerateOptions options =
 ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
 ```
 
-`builderForExplicitFont` の引数として `regularFontPath` が必須です。
+`builderForExplicitFont` の引数は必須です。渡したフォントが自動的に `regularFontPaths` の
+1件目として登録されるため、`addRegularFontPath` を別途呼び出す必要はありません。
 それ以外のオプションは設定しなくても構いません。
 
 ## システムフォントの使用（`builderForSystemFonts`）
@@ -42,11 +43,11 @@ PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
 ```
 
 システムフォントが見つからない場合は `PdfGenerateException` がスローされます。
-見つからなかった場合のフォールバックとして、`regularFontPath` も合わせて指定できます。
+見つからなかった場合のフォールバックとして、`addRegularFontPath` も合わせて指定できます。
 
 ```java
 PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
-    .regularFontPath(Path.of("/path/to/fallback.ttf"))  // フォールバック
+    .addRegularFontPath(Path.of("/path/to/fallback.ttf"))  // フォールバック
     .build();
 ```
 
@@ -61,7 +62,32 @@ PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
 ```java
 PdfGenerateOptions options =
     PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
-    .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
+    .addBoldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // 省略可
+    .build();
+```
+
+## フォールバックフォントの指定（`addRegularFontPath` / `addBoldFontPath`）
+
+`addRegularFontPath`・`addBoldFontPath` はそれぞれ何度でも呼び出せます。呼んだ順が
+優先順位になり、ある1件でエンコードできない文字は、同じリストの次の1件が試されます。
+
+文字ごとの解決順序:
+
+1. 通常テキスト: `regularFontPaths`（登録順。explicit-fontモードでは
+   `builderForExplicitFont` に渡したフォントが常に1件目）
+2. 太字テキスト: `boldFontPaths`（登録順）→ 尽きたら上記の `regularFontPaths` へ
+   フォールスルー。`addBoldFontPath` を一度も呼ばない場合、太字テキストは
+   全て通常フォントで描画される
+
+```java
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+    .addBoldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))
+    .addRegularFontPath(Path.of("/path/to/NotoSansKR-Regular.ttf"))
+    .addBoldFontPath(Path.of("/path/to/NotoSansKR-Bold.ttf"))
+    .addRegularFontPath(Path.of("/path/to/NotoSansSC-Regular.ttf"))
+    // NotoSansSC 用の addBoldFontPath は呼ばない
+    // → この文字が太字で使われる場合、上の regularFontPaths のこのエントリへフォールスルー
     .build();
 ```
 

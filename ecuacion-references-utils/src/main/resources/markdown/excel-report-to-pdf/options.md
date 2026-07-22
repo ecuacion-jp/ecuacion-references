@@ -7,8 +7,8 @@ depending on how the rendering font should be resolved.
 | Option | Type | Required | Description |
 | --- | --- | --- | --- |
 | entry point | `builderForSystemFonts()` or `builderForExplicitFont(Path)` | Required | Selects the font resolution mode. See [System Fonts](#system-fonts-builderforsystemfonts) below |
-| `regularFontPath` | Path or null | Required for `builderForExplicitFont` (passed as its argument); optional for `builderForSystemFonts` | Path to the TTF file used for regular text. Acts as the first fallback font when using `builderForSystemFonts` |
-| `boldFontPath` | Path or null | Optional | Path to the TTF file used for bold text. Falls back to `regularFontPath` if omitted |
+| `addRegularFontPath` | Path | For `builderForExplicitFont`, registering the first entry is not needed (the given argument is automatically registered as the first entry); calling this adds further entries beyond it. Optional, repeatable for `builderForSystemFonts` | Registers a TTF file used for regular text, tried in registration order. See [Fallback Fonts](#fallback-fonts-addregularfontpath--addboldfontpath) below |
+| `addBoldFontPath` | Path | Optional, repeatable | Registers a TTF file used for bold text, tried in registration order before falling through to the regular fonts above. When never called, bold text is rendered entirely with the regular fonts |
 | `excelPassword` | String or null | Optional | Password to open the source Excel file |
 | `pdfPassword` | String or null | Optional | Password to open the output PDF (user password) |
 | `pdfOwnerPassword` | String or null | Optional | Owner password for the output PDF. Defaults to `pdfPassword` when omitted |
@@ -21,7 +21,7 @@ import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 
 PdfGenerateOptions options =
     PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
-    .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))   // optional
+    .addBoldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))   // optional
     .excelPassword("excel-pass")
     .pdfPassword("pdf-pass")
     .build();
@@ -29,8 +29,8 @@ PdfGenerateOptions options =
 ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
 ```
 
-`regularFontPath` is required as the argument to `builderForExplicitFont`.
-All other options are optional.
+The path passed to `builderForExplicitFont` is required and counts as the first call to
+`addRegularFontPath`. All other options are optional.
 
 ## System Fonts (`builderForSystemFonts`)
 
@@ -43,11 +43,11 @@ PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
 ```
 
 If no matching system font is found, a `PdfGenerateException` is thrown.
-You can also set `regularFontPath` as a fallback:
+You can also register a fallback via `addRegularFontPath`:
 
 ```java
 PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
-    .regularFontPath(Path.of("/path/to/fallback.ttf"))  // fallback
+    .addRegularFontPath(Path.of("/path/to/fallback.ttf"))  // fallback
     .build();
 ```
 
@@ -62,7 +62,33 @@ For documents containing Japanese text, use a Japanese-compatible font (e.g. Not
 ```java
 PdfGenerateOptions options =
     PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
-    .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))   // optional
+    .addBoldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))   // optional
+    .build();
+```
+
+## Fallback Fonts (`addRegularFontPath` / `addBoldFontPath`)
+
+`addRegularFontPath` and `addBoldFontPath` can each be called multiple times. The order
+of calls is the priority order: when a character cannot be encoded by one entry, the next
+one (in the same list) is tried.
+
+Resolution order for a given character:
+
+1. Regular text: `regularFontPaths`, in registration order (in explicit-font mode, the
+   font passed to `builderForExplicitFont` is always the first entry).
+2. Bold text: `boldFontPaths`, in registration order, then falls through to
+   `regularFontPaths` above for any character not covered. When `addBoldFontPath` is
+   never called, bold text is rendered entirely with the regular fonts.
+
+```java
+PdfGenerateOptions options =
+    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+    .addBoldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))
+    .addRegularFontPath(Path.of("/path/to/NotoSansKR-Regular.ttf"))
+    .addBoldFontPath(Path.of("/path/to/NotoSansKR-Bold.ttf"))
+    .addRegularFontPath(Path.of("/path/to/NotoSansSC-Regular.ttf"))
+    // no addBoldFontPath for NotoSansSC — bold text in that script falls through to
+    // its own entry in regularFontPaths above
     .build();
 ```
 

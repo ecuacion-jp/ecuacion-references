@@ -24,14 +24,12 @@ import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 import jp.ecuacion.util.pdf.excel.report.util.ExcelToPdfUtil;
 import jp.ecuacion.util.pdf.excel.report.exception.PdfGenerateException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-Path excelPath  = Paths.get("/path/to/report.xlsx");
-Path outputPath = Paths.get("/path/to/output.pdf");
+Path excelPath  = Path.of("/path/to/report.xlsx");
+Path outputPath = Path.of("/path/to/output.pdf");
 
-PdfGenerateOptions options =
-    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
+PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
     .build();
 
 try {
@@ -45,6 +43,13 @@ try {
 }
 ```
 
+> **注:** `builderForSystemFonts()` は、ローカルにインストールされているフォント（OS および
+> Microsoft Office 付属のフォント）を検索します。該当するフォントが見つからない場合は
+> `PdfGenerateException` がスローされます。
+>
+> **注意:** システムフォントは出力 PDF に埋め込まれます。使用するフォントのライセンスが
+> 埋め込みおよび再配布を許可していることを確認してください。
+
 ## 複数シートの出力
 
 `sheetNames` に複数のシート名を渡すと、指定した順番で PDF の各ページに出力されます。
@@ -56,13 +61,4 @@ ExcelToPdfUtil.generate(
     List.of("表紙", "集計", "明細1", "明細2"),
     outputPath,
     options);
-```
-
-## シート名が存在しない場合
-
-指定したシート名が Excel ファイルに存在しない場合、`PdfGenerateException` がスローされます。
-
-```java
-// "存在しないシート" が Excel にない場合 → PdfGenerateException
-ExcelToPdfUtil.generate(excelPath, List.of("存在しないシート"), outputPath, options);
 ```
