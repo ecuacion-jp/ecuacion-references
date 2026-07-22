@@ -15,6 +15,13 @@ Maven マルチモジュールプロジェクト。
 - **主要モジュール**: `ecuacion-references-lib-tutorial`, `ecuacion-references-splib-web-tutorial`,
   `ecuacion-references-splib-web-project-template`, `ecuacion-references-util`
 
+## 記事間リンクの書き方
+
+他記事へのリンクを貼る場合の URL 形式（`/public/showMarkdown/page?id=...&lang=...`）や
+`id`/`lang` パラメータの仕様は、都度ソースコードを調べ直さず
+`ecuacion-internal-docs` の `claude-knowledge/projects/ecuacion-references/SPEC.md`
+「4. マルチ言語対応設計」を参照すること。
+
 ## 記事メンテナンス時の確認ルール
 
 メニュー名・用語・表記を変更したときは、変更した記事だけでなく **全記事** を対象に

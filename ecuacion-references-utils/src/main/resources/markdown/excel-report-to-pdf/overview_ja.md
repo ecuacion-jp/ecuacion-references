@@ -17,23 +17,3 @@ Apache PDFBox で PDF を出力します。
 | `ExcelToPdfUtil` | PDF 生成のメインユーティリティ（`static` メソッド） |
 | `PdfGenerateOptions` | パスワードなどのオプション設定（Builder パターン） |
 | `PdfGenerateException` | PDF 生成中のエラーを表す例外 |
-
-依存の追加については[セットアップ](/public/showMarkdown/page?id=excel-report-to-pdf/setup&lang=ja)を参照してください。
-
-## 注意事項
-
-### 大きなファイルの扱い
-
-Apache POI は Excel ファイル（xlsx）を開く際にファイル全体をメモリに展開します。
-このライブラリ内部ではファイルサイズの上限チェックを行っていないため、
-巨大なファイルを処理するとメモリ不足になる可能性があります。
-
-ユーザーがアップロードしたファイルをそのまま処理するような用途では、
-呼び出し元でファイルサイズを事前にチェックすることを推奨します。
-
-```java
-if (Files.size(excelPath) > 50 * 1024 * 1024) { // 例: 50MB
-    throw new IllegalArgumentException("ファイルサイズが上限を超えています");
-}
-ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
-```

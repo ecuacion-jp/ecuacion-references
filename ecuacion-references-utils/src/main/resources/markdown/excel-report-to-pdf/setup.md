@@ -13,36 +13,8 @@ Add the following to `pom.xml`:
 ## Font Configuration
 
 You must configure the font used to render text in the PDF.
-`PdfGenerateOptions` supports two approaches.
+By default, the fonts installed on the OS are used as-is.
+If you want to use a font other than the system fonts, prepare a font file (TTF).
 
-### Option 1: Use System Fonts (`builderForSystemFonts()`)
-
-With `builderForSystemFonts()`, the library searches the OS font directories
-(including fonts installed by Microsoft Office) for the workbook's default font.
-
-```java
-PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
-    .build();
-```
-
-If no matching system font is found, a `PdfGenerateException` is thrown.
-You can also set `regularFontPath` as a fallback for when the system font is not found.
-
-> **Font licensing notice:** The located system font is embedded in the output PDF.
-> Confirm that the font's licence permits embedding and distribution before enabling this option.
-
-### Option 2: Specify a Font File Path (`builderForExplicitFont(Path)`)
-
-Use `builderForExplicitFont`, passing a TTF font file path explicitly, to always render with
-that font without any system font lookup.
-
-```java
-PdfGenerateOptions options =
-    PdfGenerateOptions.builderForExplicitFont(Path.of("/path/to/NotoSansJP-Regular.ttf"))
-    .boldFontPath(Path.of("/path/to/NotoSansJP-Bold.ttf"))  // optional
-    .build();
-```
-
-For documents containing Japanese text, use a Japanese-compatible font.
-For example, **Noto Sans JP** is available for free download from
-[Google Fonts](https://fonts.google.com/noto/specimen/Noto+Sans+JP).
+For details on font configuration, see
+[Options](/public/showMarkdown/page?id=excel-report-to-pdf/options&lang=en).
