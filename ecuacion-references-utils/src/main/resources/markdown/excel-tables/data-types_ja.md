@@ -116,7 +116,7 @@ for (List<Cell> row : data) {
 }
 ```
 
-文字列変換が必要な場合は `ExcelReadUtil.getStringFromCell(cell, dateTimeFormatter)` を利用できます。
+日付フォーマットを指定して文字列変換したい場合は `ExcelReadUtil.getStringFromCell(cell, filename, dateTimeFormatter)` を利用できます（`filename` は `null`可。エラーメッセージ内でファイルを識別するためだけに使われます）。
 
 ## どちらを使うべきか
 

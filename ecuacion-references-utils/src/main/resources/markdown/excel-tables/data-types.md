@@ -113,7 +113,7 @@ for (List<Cell> row : data) {
 }
 ```
 
-For string conversion, `ExcelReadUtil.getStringFromCell(cell, dateTimeFormatter)` is available.
+For string conversion with a custom date format, `ExcelReadUtil.getStringFromCell(cell, filename, dateTimeFormatter)` is available (`filename` may be `null`; it is only used to identify the file in error messages).
 
 ## Which Should I Use?
 

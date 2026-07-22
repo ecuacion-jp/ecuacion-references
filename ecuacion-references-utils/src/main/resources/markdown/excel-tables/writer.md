@@ -26,13 +26,31 @@ All Writer classes **write into a copy of a template Excel file**.
 4. Save the result to the output file
 
 Prepare the template file with header rows, formatting, column widths, etc.
-set in advance. When writing, the first data row's cell style is reused for
-subsequent rows (to stay within Excel's 64,000-style limit).
+set in advance.
+
+> **Note:** `String`-type writers write via `Cell.setCellValue()` only and never create a new
+> `CellStyle` — cells simply keep whatever style the template row already had. `Cell`-type and
+> `Typed`-type (for date/time values) writers do create `CellStyle`s while writing, and cache/reuse
+> them across rows/columns, since the number of `CellStyle`s in an Excel file has a limit (64,000).
 
 ## Common: `write()` Method
 
+Every Writer class provides three overloads of `write()`, differing in how the
+workbook is opened, saved, and closed:
+
 ```java
+// Opens templateFilePath, writes data, saves to destFilePath, then closes the workbook.
 void write(String templateFilePath, String destFilePath, List<List<T>> data)
+    throws IOException;
+
+// Opens templateFilePath, writes data, and returns the open Workbook.
+// The caller is responsible for saving (Workbook#write) and closing it.
+Workbook write(String templateFilePath, List<List<T>> data)
+    throws IOException;
+
+// Writes data into an already-open Workbook (e.g. one you opened yourself,
+// or are reusing across multiple writes). The caller keeps ownership.
+void write(Workbook workbook, List<List<T>> data)
     throws IOException;
 ```
 
@@ -40,6 +58,7 @@ void write(String templateFilePath, String destFilePath, List<List<T>> data)
 | --- | --- |
 | `templateFilePath` | Path to the template Excel file |
 | `destFilePath` | Path to the output file |
+| `workbook` | An already-open template `Workbook` |
 | `data` | Data to write (outer List = rows, inner List = columns) |
 
 ## `StringOneLineHeaderExcelTableWriter`
@@ -216,3 +235,22 @@ Usage mirrors `StringFreeExcelTableWriter`.
 | `tableStartColumnNumber(int)` | Table start column (1-based) |
 | `withIgnoresAdditionalColumnsOfHeaderData(boolean)` | Ignore extra header columns |
 | `withVerticalAndHorizontalOpposite(boolean)` | Transposed table support |
+
+## Large Files: `IterableWriter`
+
+When building the whole `List<List<T>>` in memory before writing would consume too much
+memory, use `getIterable()` to write rows one at a time instead:
+
+```java
+try (ExcelTableWriter.IterableWriter<String> iter =
+        writer.getIterable("/path/to/template.xlsx", "/path/to/output.xlsx")) {
+    for (List<String> row : rowSource) {
+        iter.write(row);
+    }
+}
+```
+
+The template/dest-path overload (`getIterable(String, String)`) owns the `Workbook` it opens;
+`close()` saves it to the destination path and closes it — use try-with-resources.
+When passing an existing `Workbook` (`getIterable(Workbook)`), the caller keeps ownership:
+`close()` becomes a no-op, and the caller is responsible for saving and closing the workbook.

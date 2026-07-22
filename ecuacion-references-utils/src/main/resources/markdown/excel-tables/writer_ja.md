@@ -26,13 +26,31 @@ Writer クラスはすべて、**テンプレート Excel ファイルを元に�
 4. 書き込み結果を出力ファイルに保存する
 
 テンプレートファイルには、あらかじめヘッダー行・書式・列幅などを設定しておきます。
-書き込み時には最初のデータ行のセルスタイルが以降の行にも適用されます
-（Excel のセルスタイル上限 64,000 件対策のため）。
+
+> **注意:** `String`系Writerは`Cell.setCellValue()`のみで値を書き込み、新しい`CellStyle`は
+> 一切作成しません。セルはテンプレート行が持っていたスタイルをそのまま維持します。
+> 一方`Cell`系Writerと`Typed`系Writer（日付・時刻値を書く場合）は書き込み時に`CellStyle`を
+> 作成するため、Excel のセルスタイル上限（64,000件）を超えないよう、行・列をまたいで
+> キャッシュ・再利用します。
 
 ## 共通：`write()` メソッド
 
+各 Writer クラスには、workbook の開き方・保存方法・クローズのタイミングが異なる
+3つの`write()`オーバーロードがあります。
+
 ```java
+// templateFilePath を開き、data を書き込み、destFilePath に保存してからワークブックを閉じる
 void write(String templateFilePath, String destFilePath, List<List<T>> data)
+    throws IOException;
+
+// templateFilePath を開き、data を書き込んだ状態の Workbook を返す
+// 保存（Workbook#write）とクローズは呼び出し側の責任
+Workbook write(String templateFilePath, List<List<T>> data)
+    throws IOException;
+
+// 既に開いている Workbook（自分で開いたもの、複数回書き込みで使い回すもの等）に
+// data を書き込む。所有権は呼び出し側のまま
+void write(Workbook workbook, List<List<T>> data)
     throws IOException;
 ```
 
@@ -40,6 +58,7 @@ void write(String templateFilePath, String destFilePath, List<List<T>> data)
 | --- | --- |
 | `templateFilePath` | テンプレート Excel ファイルのパス |
 | `destFilePath` | 出力先ファイルのパス |
+| `workbook` | 既に開いているテンプレートの `Workbook` |
 | `data` | 書き込むデータ（外側 List が行、内側 List が列） |
 
 ## `StringOneLineHeaderExcelTableWriter`
@@ -216,3 +235,22 @@ new StringHeaderExcelTableFromBeanWriter<ProductBean>(
 | `tableStartColumnNumber(int)` | テーブル開始列（1 始まり） |
 | `withIgnoresAdditionalColumnsOfHeaderData(boolean)` | ヘッダーの追加列を無視 |
 | `withVerticalAndHorizontalOpposite(boolean)` | 縦横反転テーブル対応 |
+
+## 大きなファイル：`IterableWriter`
+
+書き込む前に`List<List<T>>`をすべてメモリ上に構築するとメモリを消費しすぎる場合は、
+`getIterable()`を使って1行ずつ書き込むことができます。
+
+```java
+try (ExcelTableWriter.IterableWriter<String> iter =
+        writer.getIterable("/path/to/template.xlsx", "/path/to/output.xlsx")) {
+    for (List<String> row : rowSource) {
+        iter.write(row);
+    }
+}
+```
+
+テンプレートパス／出力先パスを渡すオーバーロード（`getIterable(String, String)`）は、
+自身が開いた`Workbook`を所有します。`close()`で出力先パスに保存してからクローズするので、
+try-with-resourcesで使ってください。既存の`Workbook`を渡す場合（`getIterable(Workbook)`）は
+所有権が呼び出し側のままなので、`close()`は何もしません。保存・クローズは呼び出し側の責任です。

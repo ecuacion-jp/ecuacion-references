@@ -166,8 +166,12 @@ Otherwise, all data cells in the error row are highlighted.
 `TypedHeaderExcelTableToBeanReader` (multiple header rows) map each row to
 a Bean that extends `TypedExcelTableBean`, instead of `StringExcelTableBean`.
 The Bean class definition (`@ExcelColumn` / `getFieldNameArray()` / Jakarta
-Validation / `afterReading()` / `highlightErrors()`) works exactly the same
-way as described above — only the source value type and conversion rules differ.
+Validation / `afterReading()`) works exactly the same way as described above —
+only the source value type and conversion rules differ.
+
+> **Note:** `highlightErrors()` is only available on the String-bean readers
+> (`StringHeaderExcelTableToBeanReader` / `StringOneLineHeaderExcelTableToBeanReader`).
+> The Typed-bean readers do not have this method.
 
 ```java
 import jp.ecuacion.util.excel.table.bean.TypedExcelTableBean;

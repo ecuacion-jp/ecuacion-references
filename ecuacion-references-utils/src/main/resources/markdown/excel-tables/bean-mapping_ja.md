@@ -178,8 +178,12 @@ try {
 `TypedHeaderExcelTableToBeanReader`（ヘッダー複数行）は、`StringExcelTableBean`
 ではなく `TypedExcelTableBean` を継承した Bean に各行をマッピングします。
 Bean クラスの定義方法（`@ExcelColumn` / `getFieldNameArray()` / Jakarta
-Validation / `afterReading()` / `highlightErrors()`）はこれまでの説明と全く同じで、
+Validation / `afterReading()`）はこれまでの説明と全く同じで、
 変わるのは「読み込んだ値の型」と「フィールド型への変換ルール」だけです。
+
+> **注意:** `highlightErrors()` はString系Reader（`StringHeaderExcelTableToBeanReader` /
+> `StringOneLineHeaderExcelTableToBeanReader`）にのみ存在します。
+> Typed系Readerにはこのメソッドはありません。
 
 ```java
 import jp.ecuacion.util.excel.table.bean.TypedExcelTableBean;
