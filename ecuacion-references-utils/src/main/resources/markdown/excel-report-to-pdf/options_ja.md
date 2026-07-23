@@ -6,12 +6,12 @@ Builder パターンで構築します。フォントの解決方法に応じて
 | オプション | 型 | 必須 | 説明 |
 | --- | --- | --- | --- |
 | エントリポイント | `builderForSystemFonts()` または `builderForExplicitFont(Path)` | 必須 | フォント解決モードを選択する。詳細は下記[システムフォントの使用](#システムフォントの使用builderforsystemfonts)を参照 |
-| `addRegularFontPath` | Path | `builderForExplicitFont` では1件目の登録は不要（引数が自動的に1件目として登録される。2件目以降を追加する場合は呼び出し可能）／`builderForSystemFonts` では任意・複数回指定可 | 通常テキストに使用する TTF フォントファイルを登録する（登録順に優先）。詳細は下記[フォールバックフォントの指定](#フォールバックフォントの指定addregularfontpath--addboldfontpath)を参照 |
-| `addBoldFontPath` | Path | 任意・複数回指定可 | 太字テキストに使用する TTF フォントファイルを登録する（登録順に優先、尽きたら上記の通常フォントへフォールスルー）。一度も呼ばない場合、太字テキストは全て通常フォントで描画される |
+| `addRegularFontPath` | Path | 任意・複数回指定可 | 通常テキストに使用する TTF フォントファイルを登録する（登録順に優先）。<br>`builderForExplicitFont` では引数で渡したフォントが自動的に1件目として登録されるため、本メソッドは2件目以降のフォールバックフォントを追加する場合にのみ呼び出す。<br>`builderForSystemFonts` ではシステムフォントが見つからなかった場合のフォールバックとして指定する。<br>詳細は下記[フォールバックフォントの指定](#フォールバックフォントの指定addregularfontpath--addboldfontpath)を参照 |
+| `addBoldFontPath` | Path | 任意・複数回指定可 | 太字テキストに使用する TTF フォントファイルを登録する（登録順に優先、尽きたら上記の通常フォントへフォールスルー）。<br>一度も呼ばない場合、太字テキストは全て通常フォントで描画される |
 | `excelPassword` | String または null | 任意 | 入力 Excel ファイルのパスワード |
 | `pdfPassword` | String または null | 任意 | 出力 PDF を開くためのパスワード（ユーザーパスワード） |
 | `pdfOwnerPassword` | String または null | 任意 | 出力 PDF のオーナーパスワード。省略時は `pdfPassword` と同じ値になる |
-| `dateLocale` | Locale または null | 任意 | 日付フォーマット解決に使用するロケール。省略時は JVM デフォルトロケール |
+| `dateLocale` | Locale または null | 任意 | Excel の組み込み日付書式（書式コード14。「日付」の標準形式を選んだ際に使われる `yyyy/m/d` 相当の短い日付形式）をPDFに描画する際に使用するロケール。<br>省略時は JVM デフォルトロケール。<br>詳細は下記[日付ロケールの指定](#日付ロケールの指定datelocale)を参照 |
 
 ## Builder の使い方
 
@@ -140,8 +140,23 @@ PdfGenerateOptions options = PdfGenerateOptions.builderForExplicitFont(Path.of("
 
 ## 日付ロケールの指定（`dateLocale`）
 
-日付セルのフォーマット解決に使用するロケールを指定します。
-省略した場合は `Locale.getDefault()` が使用されます。
+`dateLocale` は、Excel の組み込み日付書式（書式コード14。セルの書式設定で「日付」の
+標準形式を選んだときに使われる、`yyyy/m/d` 相当の短い日付形式）を PDF に描画する際の
+ロケールを指定します。
+
+Excel の日付セルは内部的にはシリアル値（数値）として保持されており、書式コード14が
+設定されているだけでは「どのロケールで表示するか」の情報は含まれません。Excel は
+表示時に OS/アプリのロケールを参照し、日本語環境なら `2026/3/14`、英語環境なら
+`3/14/26` のように動的に描画を切り替えます。一方 POI は、書式コード14に対して常に
+英語(米国)形式の書式文字列（`m/d/yy`）しか返さないため、本ライブラリはその情報だけでは
+Excel 上の実際の表示を再現できません。`dateLocale` はこのギャップを埋めるために、
+どのロケールで描画するかを明示的に指定するオプションです。
+
+省略した場合は `Locale.getDefault()`（JVM デフォルトロケール）が使用されます。
+
+なお、`[$-411]` のような地域コードを含むカスタム日付書式（例: `yyyy"年"m"月"d"日"`）は
+書式文字列自体からロケールを解決するため、`dateLocale` の指定に関係なく書式文字列どおりに
+描画されます。
 
 ```java
 import java.util.Locale;
