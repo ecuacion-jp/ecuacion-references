@@ -1,25 +1,42 @@
 ## `ExcelTableException`
 
-Excel 読み書き中に発生するアプリケーションエラーを表す例外クラスです。
-`ViolationException` を継承しており、メッセージ ID と引数でエラー内容を保持します。
+`ecuacion-util-excel-table` でテーブル関連のエラーが発生した場合にスローされる例外群の
+共通スーパークラスです（`abstract`、`ViolationException` を継承）。`abstract` なので
+直接スローされることはなく、必ず下記のいずれかの具象サブクラスがスローされます。
 
-### 主なスロー場面
+### 具象サブクラス
 
-| 状況 | メッセージ ID |
+| 例外クラス | スローされる場面 |
 | --- | --- |
-| ヘッダー列数が期待値と異なる | `jp.ecuacion.util.excel.NumberOfTableHeadersDiffer.message` |
-| ヘッダーのラベルが期待値と異なる | `jp.ecuacion.util.excel.TableHeaderTitleWrong.message` |
-| テーブル開始位置が見つからない | `jp.ecuacion.util.excel.reader.FarLeftHeaderLabelNotFound.message` |
-| ヘッダーセルが空（マルチヘッダーで） | `jp.ecuacion.util.excel.reader.HeaderCellIsBlank.message` |
+| `NumberOfTableHeadersDifferException` | ヘッダー列数が期待値と異なる |
+| `TableHeaderTitleWrongException` | ヘッダーのラベルが期待値と異なる |
+| `SheetNotExistException` | 指定したシート名がExcelファイルに存在しない |
+| `CellContainsErrorException` | セルがエラー値（`#NUM!`、`#DIV/0!`等）を含む |
+| `ExternalWorkbookNotFoundException` | 数式が参照する外部Excelファイルが評価時に見つからない |
+| `ExcelFeatureNotImplementedException` | excel操作ライブラリ（Apache POI）が数式で使われている機能に対応していない |
+| `FormulaEvaluationUnknownErrorException` | 数式評価中に未分類のエラーが発生した |
+| `HeaderCellIsBlankException` | ヘッダーセルが空（結合セルの範囲外） |
+| `ColumnSizeIsZeroException` | 自動検出されたテーブルの列数がゼロ |
+| `FarLeftHeaderLabelNotFoundException` | テーブル開始行の自動検出時、想定される左端ヘッダー文字列が見つからない |
+
+10クラスとも `jp.ecuacion.util.excel.exception` パッケージに属し、`ExcelTableException` を
+継承しています。
 
 ### キャッチ方法
 
+失敗ケースごとに専用の例外クラスがあるため、messageId文字列で分岐するのではなく、
+型でcatchします。
+
 ```java
 import jp.ecuacion.util.excel.exception.ExcelTableException;
+import jp.ecuacion.util.excel.exception.SheetNotExistException;
 
 try {
     List<List<String>> data = reader.read("/path/to/file.xlsx");
+} catch (SheetNotExistException ex) {
+    // このケースだけ個別に処理したい場合
 } catch (ExcelTableException ex) {
+    // 残りのケースを包括的にキャッチ
     String messageId = ex.getMessageId();
     // ex.getWorkbook(), ex.getSheet(), ex.getCell() でコンテキスト情報を取得できる
     System.err.println("Excel エラー: " + messageId);
@@ -29,7 +46,6 @@ try {
 ### コンテキスト情報
 
 `ExcelTableException` はエラーが発生した位置情報を保持できます。
-ライブラリ内部では `workbook()`・`sheet()`・`cell()` で設定されます。
 
 ```java
 Workbook wb = ex.getWorkbook(); // null の場合あり
@@ -37,13 +53,16 @@ Sheet    sh = ex.getSheet();    // null の場合あり
 Cell     c  = ex.getCell();     // null の場合あり
 ```
 
-`ExcelTableException` 自体を構築・スローする場合はメソッドチェーンで設定します。
+このコンテキスト情報（および任意でcause）は、abstractな`ExcelTableException`基底クラスから
+継承した `workbook()`・`sheet()`・`cell()`・`cause()` のfluentメソッドで設定します。
 
 ```java
-throw new ExcelTableException("my.error.message.id", argValue)
-    .cell(cell)
-    .cause(originalException);
+throw new SheetNotExistException(sheetName).cause(originalException);
 ```
+
+注意: `ExcelTableException` のコンストラクタは `protected` になったため、以前のバージョンとは
+異なり、アプリケーション側で任意の `messageId` を指定して `ExcelTableException` を直接構築する
+ことはできません。スローできるのは上記10個の具象サブクラスのみです。
 
 ## `LoopBreakException`
 
