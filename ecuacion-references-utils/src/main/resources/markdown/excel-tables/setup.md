@@ -11,3 +11,9 @@ Add the following to `pom.xml`:
 ```
 
 Apache POI (`poi` and `poi-ooxml`) is included transitively.
+
+## Compatibility
+
+| ecuacion-utils | ecuacion-lib |
+| --- | --- |
+| 5.x | 16.x |

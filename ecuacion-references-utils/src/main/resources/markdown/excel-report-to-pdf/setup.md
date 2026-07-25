@@ -10,6 +10,12 @@ Add the following to `pom.xml`:
 </dependency>
 ```
 
+## Compatibility
+
+| ecuacion-utils | ecuacion-lib |
+| --- | --- |
+| 5.x | 16.x |
+
 ## Font Configuration
 
 You must configure the font used to render text in the PDF.

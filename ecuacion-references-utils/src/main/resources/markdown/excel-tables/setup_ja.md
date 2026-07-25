@@ -11,3 +11,9 @@
 ```
 
 Apache POI（`poi` および `poi-ooxml`）は推移的依存として自動的に含まれます。
+
+## 互換性
+
+| ecuacion-utils | ecuacion-lib |
+| --- | --- |
+| 5.x | 16.x |
