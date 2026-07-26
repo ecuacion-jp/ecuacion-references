@@ -17,6 +17,9 @@ behind your own security configuration (see
 ## `/api/ecuacion/public/**` is reserved for `ecuacion-splib`'s own endpoints
 
 The same filter chain also permits `/api/ecuacion/public/**`, with the identical `permitAll`
-policy. This prefix is reserved for endpoints `ecuacion-splib` itself provides — see the built-in
-[Config Endpoint](page?id=rest/config-endpoint&lang=en) (`GET /api/ecuacion/public/config`) — so
-that `/api/public/**` stays exclusively the application's own namespace.
+policy. This prefix is reserved for endpoints `ecuacion-splib` itself provides — the built-in
+[Alive Check Endpoint](page?id=rest/alive-check-endpoint&lang=en) (`GET /api/ecuacion/public/aliveCheck`)
+and the [Config Endpoints](page?id=rest/config-endpoints&lang=en)
+(`POST /api/ecuacion/public/clearPropertiesCache`, `POST /api/ecuacion/public/systemError`,
+disabled by default) — so that `/api/public/**` stays exclusively the application's own
+namespace.

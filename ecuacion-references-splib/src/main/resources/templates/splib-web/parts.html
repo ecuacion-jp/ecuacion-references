@@ -71,8 +71,11 @@
 					#{navBar.rest.grp.other}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='rest/config-endpoint',lang=${lang})},
-					#{navBar.rest.configEndpoint}, '')}"></div>
+					@{/public/showMarkdown/page(id='rest/alive-check-endpoint',lang=${lang})},
+					#{navBar.rest.aliveCheckEndpoint}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/config-endpoints',lang=${lang})},
+					#{navBar.rest.configEndpoints}, '')}"></div>
 
 		</div></th:block>
 

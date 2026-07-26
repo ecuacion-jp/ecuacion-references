@@ -19,5 +19,8 @@
 
 同じフィルターチェーンは `/api/ecuacion/public/**` も許可しており、ポリシーは `permitAll` で同一です。
 このプレフィックスは `ecuacion-splib` 自身が提供するエンドポイント用に予約されています。組み込みの
-[Config エンドポイント](page?id=rest/config-endpoint&lang=ja)（`GET /api/ecuacion/public/config`）が
-その例で、これにより `/api/public/**` はアプリケーション独自の名前空間として保たれます。
+[Alive Check エンドポイント](page?id=rest/alive-check-endpoint&lang=ja)（`GET /api/ecuacion/public/aliveCheck`）と、
+[Config エンドポイント](page?id=rest/config-endpoints&lang=ja)
+（`POST /api/ecuacion/public/clearPropertiesCache`、`POST /api/ecuacion/public/systemError`、
+デフォルトでは無効）がその例で、これにより `/api/public/**` はアプリケーション独自の名前空間として
+保たれます。
