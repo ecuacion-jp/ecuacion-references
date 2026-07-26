@@ -22,4 +22,4 @@ PDF 生成時には、テキストレンダリングに使用するフォント�
 通常は OS にインストールされているシステムフォントがそのまま使用されます。
 システムフォント以外のフォントを使いたい場合は、フォントファイル（TTF）を用意して配置してください。
 
-フォントの設定方法の詳細は [オプション設定](/public/showMarkdown/page?id=excel-report-to-pdf/options&lang=ja) を参照してください。
+フォントの設定方法の詳細は [オプション設定](page?id=excel-report-to-pdf/options&lang=ja) を参照してください。

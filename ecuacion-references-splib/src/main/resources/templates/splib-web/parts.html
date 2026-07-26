@@ -11,6 +11,20 @@
 				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.core}, ~{::navbarCore}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarCore" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.core.util}, ~{::navbarCoreUtil}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarCoreUtil" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/util/mail-util',lang=${lang})},
+						#{navBar.core.util.mailUtil}, '')}"></div>
+			</div></th:block>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.rest}, ~{::navbarRest}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarRest" th:remove="tag">
 
@@ -20,6 +34,12 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='rest/setup',lang=${lang})},
 					#{navBar.rest.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/quickstart',lang=${lang})},
+					#{navBar.rest.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/exception-handling',lang=${lang})},
+					#{navBar.rest.exceptionHandling}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 
@@ -50,9 +70,6 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
 					#{navBar.rest.grp.other}, '')}"></div>
 
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='rest/exception-handling',lang=${lang})},
-					#{navBar.rest.exceptionHandling}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='rest/config-endpoint',lang=${lang})},
 					#{navBar.rest.configEndpoint}, '')}"></div>

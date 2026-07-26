@@ -2,7 +2,7 @@ This guide walks you through the simplest example: moving a local file to anothe
 
 ## Prerequisites
 
-- The JAR file and the sample Excel configuration file have been prepared following the [Setup](/public/showMarkdown/page?id=housekeep-files/setup&lang=en) instructions.
+- The JAR file and the sample Excel configuration file have been prepared following the [Setup](page?id=housekeep-files/setup&lang=en) instructions.
 
 ## Steps
 

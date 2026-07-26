@@ -41,5 +41,5 @@ ecuacion-utils は、アプリケーション開発で必要となる汎用ユ�
 
 各モジュールの依存については以下のページを参照してください。
 
-- `ecuacion-util-excel-table`: [セットアップ](/public/showMarkdown/page?id=excel-tables/setup&lang=ja)
-- `ecuacion-util-excel-report-to-pdf`: [セットアップ](/public/showMarkdown/page?id=excel-report-to-pdf/setup&lang=ja)
+- `ecuacion-util-excel-table`: [セットアップ](page?id=excel-tables/setup&lang=ja)
+- `ecuacion-util-excel-report-to-pdf`: [セットアップ](page?id=excel-report-to-pdf/setup&lang=ja)

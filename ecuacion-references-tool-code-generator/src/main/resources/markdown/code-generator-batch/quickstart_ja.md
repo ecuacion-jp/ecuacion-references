@@ -1,4 +1,4 @@
-[セットアップ](/public/showMarkdown/page?id=code-generator-batch/setup&lang=ja) が完了していることを前提とします。
+[セットアップ](page?id=code-generator-batch/setup&lang=ja) が完了していることを前提とします。
 
 ## 手順
 
@@ -12,7 +12,7 @@
 | 8 | `SYSTEM_NAME` | プロジェクト識別名。生成ソースの親フォルダ名になる | `my-project` |
 | 9 | `BASE_PACKAGE` | 生成コードの Java パッケージ共通部分 | `jp.example.myapp` |
 
-その他の設定やシートの詳細は [DB項目定義書（Excel）の仕様](/public/showMarkdown/page?id=excel-format/overview&lang=ja) を参照してください。
+その他の設定やシートの詳細は [DB項目定義書（Excel）の仕様](page?id=excel-format/overview&lang=ja) を参照してください。
 
 ### 2. バッチを実行する
 

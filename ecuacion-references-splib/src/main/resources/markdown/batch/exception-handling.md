@@ -1,6 +1,6 @@
 `SplibExceptionHandler` implements Spring Batch's `ExceptionHandler` and is attached to every step
 built through
-[`preparedStepBuilder`](/public/showMarkdown/page?id=batch/job-and-step-builders&lang=en) — no extra
+[`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=en) — no extra
 wiring is needed once your job configuration extends `SplibAppParentBatchConfig`.
 
 Unlike `ecuacion-splib-web` and `ecuacion-splib-rest`, where using their respective exception handler
@@ -10,7 +10,7 @@ variation the way a web response format might.
 ## What happens when a tasklet throws
 
 1. The current job / step / tasklet-or-chunk name is logged at `INFO`, sourced from
-   [`SplibBatchAdvice`](/public/showMarkdown/page?id=batch/current-execution-context&lang=en) — e.g.
+   [`SplibBatchAdvice`](page?id=batch/current-execution-context&lang=en) — e.g.
    `job: importJob, step: importStep, tasklet or chunk: ImportTasklet`. Any piece not available yet
    (the failure happened before the corresponding advice ran) is reported as such instead of left
    blank.
@@ -26,21 +26,38 @@ variation the way a web response format might.
 
 ## Running your own logic on failure
 
-Register a bean implementing `jp.ecuacion.splib.core.exceptionhandler.SplibExceptionHandlerAction` to
-run custom logic — sending an alert email, notifying a monitoring system, and so on — whenever step 3
-above runs. It is optional: if no such bean is registered, step 3 is simply skipped.
+Register a bean implementing
+`jp.ecuacion.splib.core.exceptionhandler.SplibExceptionHandlerAction` to run custom logic
+whenever step 3 above runs — write whatever you need inside `execute(Throwable th)`. It is optional:
+if no such bean is registered, step 3 is simply skipped.
+
+For example, here's what it looks like to send the stack trace as an alert email:
 
 ```java
 @Component
 public class AppExceptionHandlerAction implements SplibExceptionHandlerAction {
 
+  private final SplibMailUtil mailUtil;
+
+  public AppExceptionHandlerAction(SplibMailUtil mailUtil) {
+    this.mailUtil = mailUtil;
+  }
+
   @Override
   public void execute(@Nullable Throwable th) {
-    // e.g. MailUtil.sendErrorMail(Objects.requireNonNull(th));
+    mailUtil.sendErrorMail(Objects.requireNonNull(th));
   }
 }
 ```
 
-This is the same extension point `ecuacion-splib-web` and `ecuacion-splib-rest` use for their own
-exception handlers, so an application with multiple front ends (a batch job plus a REST API, for
-example) can share one implementation.
+Sending mail is just one example of what you can do here. See
+[SplibMailUtil](page?id=core/util/mail-util&lang=en) for what it takes to actually send mail (the
+`spring.mail.*` and `jp.ecuacion.splib.mail.*` settings) — without them, the call above is silently
+skipped.
+
+This is the same interface `ecuacion-splib-web` uses for its own exception handler — but since a
+batch app is always its own standalone process (never combined with a web/REST app in the same
+running application), there's no need to differentiate; both simply share
+`SplibExceptionHandlerAction`. `ecuacion-splib-rest` is the exception: it has its own
+`SplibRestExceptionHandlerAction`, since a REST API frontend commonly runs in the same process as
+a web frontend.

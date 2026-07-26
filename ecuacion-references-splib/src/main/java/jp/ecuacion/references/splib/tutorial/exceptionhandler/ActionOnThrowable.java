@@ -18,12 +18,14 @@ package jp.ecuacion.references.splib.tutorial.exceptionhandler;
 
 import jp.ecuacion.lib.core.util.MailUtil;
 import jp.ecuacion.splib.core.exceptionhandler.SplibExceptionHandlerAction;
+import jp.ecuacion.splib.core.exceptionhandler.SplibRestExceptionHandlerAction;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Component;
 
-/** Sends an error mail when an unhandled exception occurs. */
+/** Sends an error mail when an unhandled exception occurs, on both the web and REST frontends. */
 @Component
-public class ActionOnThrowable implements SplibExceptionHandlerAction {
+public class ActionOnThrowable
+    implements SplibExceptionHandlerAction, SplibRestExceptionHandlerAction {
 
   @Override
   public void execute(@NonNull Throwable th) {

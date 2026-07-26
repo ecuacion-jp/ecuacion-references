@@ -215,7 +215,7 @@ public class PersonBean extends TypedExcelTableBean {
 `StringExcelTableBean` は常に `String` の値を受け取りパースしますが、
 `TypedExcelTableBean` は各セルの値が既にネイティブな Java 型（`String`、
 `Double`、`LocalDate`、`LocalDateTime`、`Boolean`、または `null`。
-詳細は[データ型の選択](/public/showMarkdown/page?id=excel-tables/data-types&lang=ja)を参照）
+詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照）
 に変換された状態で渡され、それをさらにフィールドの宣言型へ変換します。
 
 | 渡される値の型 | 変換可能なフィールド型 |

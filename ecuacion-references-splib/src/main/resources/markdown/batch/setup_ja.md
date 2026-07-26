@@ -43,7 +43,7 @@ public class BatchApplication {
 
 `SplibAppParentBatchConfig` は抽象クラスで、ジョブ設定クラスに対して
 あらかじめ組み込み済みの `JobBuilder`/`TaskletStepBuilder` ファクトリメソッドを提供します。
-[Job / Step ビルダー](/public/showMarkdown/page?id=batch/job-and-step-builders&lang=ja) を参照してください。
+[Job / Step ビルダー](page?id=batch/job-and-step-builders&lang=ja) を参照してください。
 コンストラクターは `SplibBatchConfig` が登録するリスナー・例外ハンドラーの Bean を受け取るので、
 それらをコンストラクター引数として宣言し、そのまま `super(...)` に渡してください。
 
@@ -64,4 +64,4 @@ public class AppBatchConfig extends SplibAppParentBatchConfig {
 
 未捕捉の例外がバッチ用の例外ハンドラーに到達した際に、任意の副作用（アラートメール送信など）を
 実行したい場合は `SplibExceptionHandlerAction` を実装した Bean を登録してください。
-[例外処理](/public/showMarkdown/page?id=batch/exception-handling&lang=ja) を参照してください。
+[例外処理](page?id=batch/exception-handling&lang=ja) を参照してください。

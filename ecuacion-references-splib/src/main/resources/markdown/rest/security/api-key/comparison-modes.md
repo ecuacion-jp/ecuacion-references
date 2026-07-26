@@ -1,5 +1,5 @@
 `SplibApiKeyComparisonMode` selects how the value your
-[`SplibApiKeyExpectedValueProvider`](/public/showMarkdown/page?id=rest/security/api-key/overview&lang=en)
+[`SplibApiKeyExpectedValueProvider`](page?id=rest/security/api-key/overview&lang=en)
 returns is compared against the client-presented `X-Api-Key` header. It is set application-wide via:
 
 ```properties
@@ -11,13 +11,13 @@ per key. The default is `PLAIN`.
 
 ## `PLAIN`
 
-The provider returns the key itself. It is compared directly (in constant time) against the
-presented value.
+The provider returns the keys themselves. Each is compared directly (in constant time) against the
+presented value; the request is authenticated if any of them matches.
 
 ## `HASH`
 
-The provider returns the lowercase-hex SHA-256 digest of the key, rather than the key itself, so the
-raw key is never at rest anywhere the application can read it back. The presented header value is
+The provider returns the lowercase-hex SHA-256 digest of each key, rather than the key itself, so the
+raw keys are never at rest anywhere the application can read them back. The presented header value is
 hashed the same way before the comparison.
 
 To compute the value to store, hash the raw key on the command line:

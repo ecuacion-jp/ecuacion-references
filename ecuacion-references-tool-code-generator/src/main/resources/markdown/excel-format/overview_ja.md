@@ -11,10 +11,10 @@ db-definition-book-fmt-v4.11.0_<プロジェクト名>_ja.xlsx
 
 | シート名 | 役割 | 詳細 |
 | --- | --- | --- |
-| 各種設定 | プロジェクト全体の設定（パッケージ名など） | [各種設定シート](/public/showMarkdown/page?id=excel-format/general-settings&lang=ja) |
-| dataType定義 | フィールドの型定義（`DT_XXXX` 形式） | [dataType定義シート](/public/showMarkdown/page?id=excel-format/data-type-sheet&lang=ja) |
-| DB項目定義 | テーブルとカラムの定義 | [DB項目定義シート](/public/showMarkdown/page?id=excel-format/db-definition-sheet&lang=ja) |
-| enum定義 | ENUM 型の値定義 | [enum定義シート](/public/showMarkdown/page?id=excel-format/enum-sheet&lang=ja) |
+| 各種設定 | プロジェクト全体の設定（パッケージ名など） | [各種設定シート](page?id=excel-format/general-settings&lang=ja) |
+| dataType定義 | フィールドの型定義（`DT_XXXX` 形式） | [dataType定義シート](page?id=excel-format/data-type-sheet&lang=ja) |
+| DB項目定義 | テーブルとカラムの定義 | [DB項目定義シート](page?id=excel-format/db-definition-sheet&lang=ja) |
+| enum定義 | ENUM 型の値定義 | [enum定義シート](page?id=excel-format/enum-sheet&lang=ja) |
 
 ## 新規プロジェクトでの作成手順
 

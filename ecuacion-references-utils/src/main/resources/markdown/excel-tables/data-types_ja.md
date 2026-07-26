@@ -81,14 +81,14 @@ LocalDate birthday = (LocalDate) data.get(0).get(1);
 で各行を Bean にマッピングする際は、上記で取得した値がさらに Bean フィールドの
 宣言型に合わせて変換されます。例えば数値セルから取得した `Double` の値は、
 フィールドが `Integer` や `Long` で宣言されている場合に四捨五入（`Math.round`）
-されます。詳細は[Bean マッピング](/public/showMarkdown/page?id=excel-tables/bean-mapping&lang=ja)
+されます。詳細は[Bean マッピング](page?id=excel-tables/bean-mapping&lang=ja)
 を参照してください。
 
 書き込み側では、`TypedHeaderExcelTableFromBeanWriter` /
 `TypedOneLineHeaderExcelTableFromBeanWriter` が各 Bean フィールドの値を
 ネイティブ型のままセルに書き込みます。例えば `LocalDate` 型のフィールドは、
 単なる数値や文字列ではなく日付書式のセルとして書き込まれます。詳細は
-[From-Bean Writer](/public/showMarkdown/page?id=excel-tables/from-bean-writer&lang=ja) を参照してください。
+[From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=ja) を参照してください。
 
 ## Cell 型（`IfDataTypeCellExcelTable`）
 

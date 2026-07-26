@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package jp.ecuacion.references.splib.tutorial.rest;
 
-package jp.ecuacion.references.splib.tutorial.config;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+/** Backs the {@code /api/public/hello} quickstart endpoint shown in the rest docs. */
+@RestController
+public class HelloController {
 
-/** Spring application configuration. */
-@Configuration
-@ComponentScan(basePackages = {"jp.ecuacion.splib.web.markdown.config",
-    "jp.ecuacion.splib.rest.config"})
-public class AppConfig {
-
+  @GetMapping("/api/public/hello")
+  public HelloResponse hello() {
+    return new HelloResponse("Hello, world!");
+  }
 }

@@ -7,7 +7,7 @@
 | ヘッダー | 必須 | 意味 |
 | --- | --- | --- |
 | `X-Api-Key` | 必須 | API キー本体。 |
-| `X-Api-Key-Id` | 任意 | 任意のキー識別子。Provider へそのまま渡されます。AWS のアクセスキー ID や HTTP Basic のユーザー名に近い位置づけで、「どのレコードの期待値と照合するか」を特定するために使います。単一の共有キーのみを扱う実装では無視して構いません。 |
+| `X-Api-Key-Id` | 任意 | 任意のキー識別子。Provider へそのまま渡されます。<br>AWS のアクセスキー ID や HTTP Basic のユーザー名に近い位置づけで、「どのレコードの期待値と照合するか」を特定するために使います。<br>単一の共有キーのみを扱う実装では無視して構いません。 |
 
 ## 照合ロジックの実装
 
@@ -18,21 +18,46 @@
 public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueProvider {
 
   @Override
-  public String getExpectedValue(@Nullable String apiKeyId, String presentedApiKey) {
+  public Collection<String> getExpectedValues(@Nullable String apiKeyId, String presentedApiKey) {
     // application.properties の固定値、apiKeyId をキーにした DB 検索など、
-    // アプリケーションに合った方法で期待値を取得する。
-    // 該当なし（apiKeyId が未知など）の場合は null を返してリクエストを拒否する。
-    return lookUpExpectedValue(apiKeyId);
+    // アプリケーションに合った方法で期待値（複数可）を取得する。
+    // 該当なし（apiKeyId が未知など）の場合は null または空のコレクションを返してリクエストを拒否する。
+    return lookUpExpectedValues(apiKeyId);
   }
 }
 ```
 
+同じ `apiKeyId` に対して複数の有効な値を返すこともできます（発行したトークンごとに1つ、など）。
+これにより、漏洩・失効したキー1つを他のキーを無効にすることなく取り除けます。提示された
+`presentedApiKey` が返された値のいずれかと一致すれば、リクエストは認証されます。
+
 戻り値を平文として比較するか SHA-256 ハッシュとして比較するかは `jp.ecuacion.splib.rest.api-key.mode`
 で制御されます。
-[比較モード](/public/showMarkdown/page?id=rest/security/api-key/comparison-modes&lang=ja) を参照してください。
+[比較モード](page?id=rest/security/api-key/comparison-modes&lang=ja) を参照してください。
 
 `SplibApiKeyExpectedValueProvider` の Bean が一つも登録されていない場合、`/api/key/**` へのリクエストは
 すべて拒否されます。`/api/public/**` と異なり、このプレフィックスに「キー不要」というデフォルト動作はありません。
+
+## Provider を `AppRestSecurityConfig` に渡す
+
+上記の Bean を登録しただけでは不十分です。[クイックスタート](page?id=rest/quickstart&lang=ja)
+の手順通りだと、`AppRestSecurityConfig` は `super(null)` を呼んでいるため、Provider の Bean を登録しても
+`/api/key/**` は引き続きすべて拒否されます。コンストラクタで Provider を受け取り、そのまま渡すように変更してください。
+
+```java
+@Configuration
+public class AppRestSecurityConfig extends SplibRestSecurityConfig {
+
+  public AppRestSecurityConfig(
+      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider) {
+    super(apiKeyExpectedValueProvider);
+  }
+}
+```
+
+上で登録した Bean は Spring が自動的に注入します。引数を `@Nullable` にしているのは、該当する Bean を
+登録していなくてもアプリが起動できるようにするためです（その場合はクイックスタートのデフォルトと同じく
+`/api/key/**` は引き続きすべて拒否されます）。
 
 ## 拒否時の挙動
 
@@ -41,7 +66,7 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 
 - `X-Api-Key` ヘッダーが欠落または空。
 - `SplibApiKeyExpectedValueProvider` の Bean が登録されていない。
-- Provider が `null` を返した（例：`apiKeyId` が未知）。
+- Provider が `null` または空のコレクションを返した（例：`apiKeyId` が未知）。
 - 提示されたキーが期待値と一致しない。
 
 詳細はサーバー側のログにのみ出力され、提示されたキーの値自体はログに出力されません。
@@ -52,12 +77,7 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 照合に成功すると、`apiKeyId`（`X-Api-Key-Id` が送られていない場合は `"api-key-client"`）として、
 `ROLE_API_KEY` 権限で認証されます。
 
-## ここでも CSRF が無効化されている理由
+## CSRF について
 
-通常の Cookie 認証エンドポイントと異なり、CSRF が悪用するのは「ブラウザが JavaScript に値を知らせることなく
-自動的に付与する」*アンビエント*な資格情報（Cookie 等）です。`X-Api-Key` はアンビエントではありません。
-クロスサイトのページはキーをあらかじめ知らない限りこのヘッダーを設定できず、知っているなら
-被害者のブラウザを介さず直接 API を呼び出せてしまいます。そのため配下のエンドポイントが読み取り専用かどうかに関わらず、
-ここでは CSRF 対策が守るべきものがありません。これは
-[Public エンドポイント](/public/showMarkdown/page?id=rest/security/public-endpoints&lang=ja) において
-「読み取り専用という規約があるからこそ」CSRF を無効化できる、という理屈とは対照的です。
+`X-Api-Key` はブラウザが自動付与するアンビエントな資格情報ではないため、CSRF が無効化されています。
+詳しくは [概要](page?id=rest/overview&lang=ja) を参照してください。

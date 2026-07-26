@@ -41,65 +41,10 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 
 #### メール通知（エラー発生時）
 
-SMTP 接続には Spring Boot 標準の `spring.mail.*` を使います。
-
-> **Note:** 以下のプロパティにはデフォルト値がありません。`spring.mail.host` / `spring.mail.username` / `spring.mail.password` / `jp.ecuacion.splib.mail.address-csv-on-system-error` のいずれかを設定しない場合、エラー発生時のメール通知は行われません（＝デフォルトは「メール送信なし」です）。
-
-**SMTP 設定（`spring.mail.*`）:**
-
-| プロパティ | 説明 |
-| --- | --- |
-| `spring.mail.host` | SMTP サーバーのホスト名 |
-| `spring.mail.port` | SMTP ポート（STARTTLS: `587`、SSL: `465`） |
-| `spring.mail.username` | 送信元アドレス（SMTP ログインユーザー名） |
-| `spring.mail.password` | SMTP パスワード（Gmail の場合はアプリパスワード） |
-| `spring.mail.properties.mail.smtp.auth` | SMTP 認証が必要な場合は `true` |
-| `spring.mail.properties.mail.smtp.ssl.enable` | SSL（ポート 465）の場合は `true`、STARTTLS（587）の場合は `false` |
-
-**アプリ設定（`jp.ecuacion.splib.mail.*`）:**
-
-| プロパティ | 説明 |
-| --- | --- |
-| `jp.ecuacion.splib.mail.title-prefix` | メール件名に付けるプレフィックス（例: 環境名） |
-| `jp.ecuacion.splib.mail.address-csv-on-system-error` | システムエラー時の通知先アドレス（カンマ区切り） |
-| `jp.ecuacion.splib.mail.smtp.bounce-address` | バウンスメールの受信アドレス（省略可） |
-| `jp.ecuacion.splib.mail.smtp.checks-certificate` | TLS 証明書検証をスキップする場合は `false`（デフォルト: `true`） |
-| `jp.ecuacion.splib.mail.debug` | JavaMail デバッグ出力を有効にする場合は `true`（デフォルト: `false`） |
-
-**設定例 — 一般的な SMTP サーバー（ポート 587 / STARTTLS）:**
-
-```properties
-app.work-root-dir=./app-work
-
-spring.mail.host=mail.example.com
-spring.mail.port=587
-spring.mail.username=no-reply@example.com
-spring.mail.password=your-smtp-password
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.ssl.enable=false
-
-jp.ecuacion.splib.mail.title-prefix=[code-generator]
-jp.ecuacion.splib.mail.address-csv-on-system-error=admin@example.com
-```
-
-**設定例 — Gmail（アプリパスワード必須）:**
-
-> Gmail SMTP を使うには、Google アカウントで 2 段階認証を有効にし、[アプリパスワード](https://myaccount.google.com/apppasswords) を発行してください。
-
-```properties
-app.work-root-dir=./app-work
-
-spring.mail.host=smtp.gmail.com
-spring.mail.port=587
-spring.mail.username=your-account@gmail.com
-spring.mail.password=xxxx-xxxx-xxxx-xxxx
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-spring.mail.properties.mail.smtp.ssl.enable=false
-
-jp.ecuacion.splib.mail.title-prefix=[code-generator]
-jp.ecuacion.splib.mail.address-csv-on-system-error=your-account@gmail.com
-```
+システムエラー発生時に `SplibMailUtil` で管理者へメール通知します。`spring.mail.*` /
+`jp.ecuacion.splib.mail.*` の各プロパティ・デフォルト値・設定例（Gmail含む）は
+[SplibMailUtil](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=core/util/mail-util&lang=ja)
+を参照してください。
 
 ---
 

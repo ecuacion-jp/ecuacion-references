@@ -1,4 +1,4 @@
-[セットアップ](/public/showMarkdown/page?id=command-api/setup&lang=ja) が完了していることを前提とします。
+[セットアップ](page?id=command-api/setup&lang=ja) が完了していることを前提とします。
 
 ## 単独で起動して使う
 
@@ -37,7 +37,7 @@ echo Touch done.
 
 ### 3. スクリプトを properties に登録する
 
-WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照）。
+WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照）。
 
 ```properties
 script.say-hello=/path/to/script/directory/sayHello.sh
@@ -51,13 +51,13 @@ script.say-hello=/path/to/script/directory/sayHello.sh
 
 ### 4. このクイックスタート用にアクセスを許可する
 
-デフォルトでは `GET` は無効化されており、`POST` には `apiKey` が必要です（[アクセス制御](/public/showMarkdown/page?id=command-api/config&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、`application.properties`（配置場所は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照）に以下を追記し、アプリを再起動してください。
+デフォルトでは `GET` は無効化されており、`POST` には `apiKey` が必要です（[アクセス制御](page?id=command-api/config&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、`application.properties`（配置場所は[設定ファイル](page?id=command-api/config&lang=ja)を参照）に以下を追記し、アプリを再起動してください。
 
 ```properties
 jp.ecuacion.tool.command-api.allow-insecure-access=true
 ```
 
-（本番環境ではこの設定を追加せず（未設定＝`false`のまま）、代わりに `POST` + `apiKey` でAPIを呼び出してください。詳細は[API仕様](/public/showMarkdown/page?id=command-api/api-spec&lang=ja)を参照）
+（本番環境ではこの設定を追加せず（未設定＝`false`のまま）、代わりに `POST` + `apiKey` でAPIを呼び出してください。詳細は[API仕様](page?id=command-api/api-spec&lang=ja)を参照）
 
 ### 5. API を呼び出す
 
@@ -107,6 +107,6 @@ script.say-hello=${USER_HOME}/script/directory/sayHello.sh
 
 ## エラーの確認方法
 
-リクエストが失敗した場合は HTTP ステータスコードとレスポンスボディでエラー内容を確認できます（詳細は[API仕様](/public/showMarkdown/page?id=command-api/api-spec&lang=ja)を参照）。
+リクエストが失敗した場合は HTTP ステータスコードとレスポンスボディでエラー内容を確認できます（詳細は[API仕様](page?id=command-api/api-spec&lang=ja)を参照）。
 
 詳細なログはアプリケーションのログファイル（またはコンソール）で確認できます。

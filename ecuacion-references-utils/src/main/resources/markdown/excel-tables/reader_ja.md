@@ -125,7 +125,7 @@ List<List<String>> data = reader.read("/path/to/file.xlsx");
 ヘッダー1行のテーブルを読み込み、各セルの値を文字列に変換せず、
 ネイティブな Java 型（`String`、`Double`、`LocalDate`、`LocalDateTime`、
 `Boolean`、`null`）として返します。セルの型からどの Java 型に変換されるかは
-[データ型の選択](/public/showMarkdown/page?id=excel-tables/data-types&lang=ja)の変換表を参照してください。
+[データ型の選択](page?id=excel-tables/data-types&lang=ja)の変換表を参照してください。
 
 ```java
 import java.time.LocalDate;
@@ -167,7 +167,7 @@ Excel 上でセルが結合（マージ）されていても、自動的に展�
 > **`TypedOneLineHeaderExcelTableToBeanReader` / `TypedHeaderExcelTableToBeanReader`：**
 > ネイティブ型を保ったまま各行を `TypedExcelTableBean` のサブクラスにマッピングします
 > （数値はフィールドの宣言型に応じて変換され、必要に応じて四捨五入されます）。
-> 詳細は[Bean マッピング](/public/showMarkdown/page?id=excel-tables/bean-mapping&lang=ja)を参照してください。
+> 詳細は[Bean マッピング](page?id=excel-tables/bean-mapping&lang=ja)を参照してください。
 
 ## `CellOneLineHeaderExcelTableReader`
 

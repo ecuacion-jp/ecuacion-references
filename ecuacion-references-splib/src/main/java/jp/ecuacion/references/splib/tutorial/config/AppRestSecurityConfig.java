@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package jp.ecuacion.references.splib.tutorial.config;
 
-import org.springframework.context.annotation.ComponentScan;
+import jp.ecuacion.splib.rest.config.SplibRestSecurityConfig;
 import org.springframework.context.annotation.Configuration;
 
-/** Spring application configuration. */
+/**
+ * Security config backing the {@code /api/public/hello} quickstart endpoint.
+ *
+ * <p>This site does not use {@code /api/key/**}, so {@code null} is passed for the
+ *     API-key provider, which makes that prefix deny all requests.</p>
+ */
 @Configuration
-@ComponentScan(basePackages = {"jp.ecuacion.splib.web.markdown.config",
-    "jp.ecuacion.splib.rest.config"})
-public class AppConfig {
+public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
+  public AppRestSecurityConfig() {
+    super(null);
+  }
 }

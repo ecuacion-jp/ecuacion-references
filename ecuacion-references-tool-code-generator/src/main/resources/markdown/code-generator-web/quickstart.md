@@ -1,4 +1,4 @@
-This assumes [Setup](/public/showMarkdown/page?id=code-generator-web/setup&lang=en) has been completed.
+This assumes [Setup](page?id=code-generator-web/setup&lang=en) has been completed.
 
 ## Running Locally
 

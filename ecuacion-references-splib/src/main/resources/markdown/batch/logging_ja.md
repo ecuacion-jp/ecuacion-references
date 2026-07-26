@@ -1,6 +1,6 @@
 `SplibJobExecutionListener` と `SplibStepExecutionListener` は、ジョブ設定クラスが
 `SplibAppParentBatchConfig` を継承していれば
-[`preparedJobBuilder`/`preparedStepBuilder`](/public/showMarkdown/page?id=batch/job-and-step-builders&lang=ja)
+[`preparedJobBuilder`/`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=ja)
 によって自動的にアタッチされます。追加の配線は不要です。
 
 ## `SplibJobExecutionListener`
@@ -13,11 +13,11 @@
   `END  : job-name: <name> [ABNORMAL END] exit status: <exitCode>`（`ERROR` レベル）を出力する。
 
 また、実行中のジョブ名を
-[`SplibBatchAdvice`](/public/showMarkdown/page?id=batch/current-execution-context&lang=ja)
+[`SplibBatchAdvice`](page?id=batch/current-execution-context&lang=ja)
 経由で記録するため、途中で失敗が発生した際に例外ハンドラーがそのジョブ名を参照できるようになります。
 
 ## `SplibStepExecutionListener`
 
 同じ仕組みを使って、`beforeStep` で実行中のステップ名を記録します。それ自体では何もログ出力しません。
 ステップレベルの詳細は、ステップ単位のサマリー行としてではなく、
-[例外処理](/public/showMarkdown/page?id=batch/exception-handling&lang=ja) で説明する例外処理の出力の一部として現れます。
+[例外処理](page?id=batch/exception-handling&lang=ja) で説明する例外処理の出力の一部として現れます。

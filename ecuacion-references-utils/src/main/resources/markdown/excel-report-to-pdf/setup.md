@@ -23,4 +23,4 @@ By default, the fonts installed on the OS are used as-is.
 If you want to use a font other than the system fonts, prepare a font file (TTF).
 
 For details on font configuration, see
-[Options](/public/showMarkdown/page?id=excel-report-to-pdf/options&lang=en).
+[Options](page?id=excel-report-to-pdf/options&lang=en).

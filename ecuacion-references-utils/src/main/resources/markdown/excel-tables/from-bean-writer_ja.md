@@ -2,7 +2,7 @@
 `StringHeaderExcelTableFromBeanWriter`（ヘッダー複数行）を使うと、
 `StringExcelTableBean` を継承した Bean のリストを Excel に書き込めます。
 
-Bean マッピング（読み込み）の[ToBeanReader](/public/showMarkdown/page?id=excel-tables/bean-mapping&lang=ja)と
+Bean マッピング（読み込み）の[ToBeanReader](page?id=excel-tables/bean-mapping&lang=ja)と
 対称的な仕組みです。
 
 ## 概要
@@ -203,4 +203,4 @@ new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
 
 FromBeanWriter も通常の Writer と同様に、テンプレート Excel ファイルを元に書き込みます。
 テンプレートファイルにはあらかじめヘッダー行・書式・列幅などを設定しておいてください。
-詳細は[Writer](/public/showMarkdown/page?id=excel-tables/writer&lang=ja)を参照してください。
+詳細は[Writer](page?id=excel-tables/writer&lang=ja)を参照してください。

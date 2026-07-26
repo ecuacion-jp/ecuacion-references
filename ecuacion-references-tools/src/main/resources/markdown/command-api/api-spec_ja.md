@@ -98,14 +98,14 @@ URL が正しくない場合、または `jp.ecuacion.tool.command-api.allow-ins
 
 デフォルトでは `GET` は無効化されており、`POST` は一致する `apiKey` が必要です。`apiKey` は**単純な共有シークレット**であり、サーバ側に配置したファイルの内容と照合されます。非対称鍵（公開鍵・秘密鍵のペア）ではなく、クライアントが送信する値が秘密鍵として扱われることもありません。
 
-`jp.ecuacion.tool.command-api.allow-insecure-access=true` を設定すると `GET` が許可され、`POST` の `apiKey` 検証も省略されます。信頼できる内部ネットワークでのみ使用してください。プロパティの詳細は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照してください。
+`jp.ecuacion.tool.command-api.allow-insecure-access=true` を設定すると `GET` が許可され、`POST` の `apiKey` 検証も省略されます。信頼できる内部ネットワークでのみ使用してください。プロパティの詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照してください。
 
 ---
 
 ## スクリプトの登録・設定ファイル
 
 `ecuacion-tool-command-api.properties` へのスクリプト登録方法、配置場所やログ設定については
-[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照してください。
+[設定ファイル](page?id=command-api/config&lang=ja)を参照してください。
 
 ---
 

@@ -31,7 +31,7 @@ Each row defines one file operation task. Tasks are executed from top to bottom.
 | Task ID | ○ | Identifies the task. Alphanumerics, spaces, and some symbols, max 10 characters |
 | Task Name | ○ | Human-readable name for the task. Max 40 characters |
 | Task Pattern (display) | — | Human-readable task pattern name (ignored during reading) |
-| Task Pattern | ○ | Type of operation. Specify a `TaskPtnEnum` value (see [Task Patterns](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=en)) |
+| Task Pattern | ○ | Type of operation. Specify a `TaskPtnEnum` value (see [Task Patterns](page?id=housekeep-files/task-patterns&lang=en)) |
 | Remote Server | △ | Required for SFTP tasks. Must match the server name in the Server Auth Settings sheet |
 | Source Path | △ | Source file or directory path. Path variables (`${VAR_NAME}`) and wildcards (`*`, `?`) are supported |
 | Is Src Dir | △ | `true` / `false`. Set `true` when the source path is a directory |
@@ -44,7 +44,7 @@ Each row defines one file operation task. Tasks are executed from top to bottom.
 | Action if Dest Exists | △ | Action when the destination already exists: `IGNORE` / `WARN` / `ERROR` |
 | options | — | Reserved for future use |
 
-△ = required, optional, or prohibited depending on the task pattern (see [Task Patterns](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=en)).
+△ = required, optional, or prohibited depending on the task pattern (see [Task Patterns](page?id=housekeep-files/task-patterns&lang=en)).
 
 ### Input Rule for Source Path Fields
 
@@ -65,7 +65,7 @@ Wildcards (`*`, `?`) can be used in the Source Path. When a wildcard is included
 
 ### Task Pattern Display Name
 
-The "Task Pattern (display)" column is for readability only; it is ignored when the tool reads the file. The tool only uses the "Task Pattern" column. See [Task Patterns](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=en) for the list of valid values.
+The "Task Pattern (display)" column is for readability only; it is ignored when the tool reads the file. The tool only uses the "Task Pattern" column. See [Task Patterns](page?id=housekeep-files/task-patterns&lang=en) for the list of valid values.
 
 ### Action Values
 

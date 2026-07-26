@@ -26,7 +26,7 @@ ecuacion-tool-command-api.war           # → /ecuacion-tool-command-api
 ecuacion-tool-command-api##x.x.x.war   # Tomcat のバージョン並行デプロイ機能を使う場合
 ```
 
-どちらの方法で起動しても、スクリプトの登録方法や設定ファイルの配置ルールは共通です（詳細は[設定ファイル](/public/showMarkdown/page?id=command-api/config&lang=ja)を参照）。
+どちらの方法で起動しても、スクリプトの登録方法や設定ファイルの配置ルールは共通です（詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照）。
 
 ## システム要件
 

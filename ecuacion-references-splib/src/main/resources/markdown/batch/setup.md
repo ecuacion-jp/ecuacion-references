@@ -41,7 +41,7 @@ public class BatchApplication {
 
 `SplibAppParentBatchConfig` is an abstract class that gives your job configuration pre-wired
 `JobBuilder`/`TaskletStepBuilder` factory methods — see
-[Job and Step Builders](/public/showMarkdown/page?id=batch/job-and-step-builders&lang=en). Its
+[Job and Step Builders](page?id=batch/job-and-step-builders&lang=en). Its
 constructor takes the listener/exception-handler beans `SplibBatchConfig` registers; declare them as
 constructor parameters and pass them straight to `super(...)`:
 
@@ -62,4 +62,4 @@ public class AppBatchConfig extends SplibAppParentBatchConfig {
 
 Register a bean implementing `SplibExceptionHandlerAction` if you want a side effect (such as sending
 an alert email) to run whenever an uncaught exception reaches the batch exception handler. See
-[Exception Handling](/public/showMarkdown/page?id=batch/exception-handling&lang=en).
+[Exception Handling](page?id=batch/exception-handling&lang=en).

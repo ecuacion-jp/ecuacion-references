@@ -1,4 +1,4 @@
-This assumes [Setup](/public/showMarkdown/page?id=code-generator-batch/setup&lang=en) has been completed.
+This assumes [Setup](page?id=code-generator-batch/setup&lang=en) has been completed.
 
 ## Steps
 
@@ -12,7 +12,7 @@ and configure at least the following two entries in the **General Settings sheet
 | 8 | `SYSTEM_NAME` | Project identifier. Becomes the output folder name under `products/` | `my-project` |
 | 9 | `BASE_PACKAGE` | Common Java package prefix for generated code | `jp.example.myapp` |
 
-For details on other settings and sheets, see [DB Definition Book (Excel) Specification](/public/showMarkdown/page?id=excel-format/overview&lang=en).
+For details on other settings and sheets, see [DB Definition Book (Excel) Specification](page?id=excel-format/overview&lang=en).
 
 ### 2. Run the Batch
 

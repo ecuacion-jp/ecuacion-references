@@ -82,14 +82,14 @@ When mapping rows to a Bean with `TypedOneLineHeaderExcelTableToBeanReader` /
 `TypedHeaderExcelTableToBeanReader`, the raw value obtained above is further
 converted to match the Bean field's declared type — for example, a numeric
 cell read as `Double` is rounded (`Math.round`) when the field is declared as
-`Integer` or `Long`. See [Bean Mapping](/public/showMarkdown/page?id=excel-tables/bean-mapping&lang=en)
+`Integer` or `Long`. See [Bean Mapping](page?id=excel-tables/bean-mapping&lang=en)
 for details.
 
 On the writer side, `TypedHeaderExcelTableFromBeanWriter` /
 `TypedOneLineHeaderExcelTableFromBeanWriter` write each Bean field's value to
 the cell as its native type — for example, a `LocalDate` field is written as a
 date-formatted cell, not as a plain number or string. See
-[From-Bean Writer](/public/showMarkdown/page?id=excel-tables/from-bean-writer&lang=en) for details.
+[From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=en) for details.
 
 ## Cell Type (`IfDataTypeCellExcelTable`)
 

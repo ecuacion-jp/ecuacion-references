@@ -42,5 +42,5 @@ By importing `ecuacion-util-parent` as a BOM, you do not need to specify the ver
 
 See the following pages for each module's dependency:
 
-- `ecuacion-util-excel-table`: [Setup](/public/showMarkdown/page?id=excel-tables/setup&lang=en)
-- `ecuacion-util-excel-report-to-pdf`: [Setup](/public/showMarkdown/page?id=excel-report-to-pdf/setup&lang=en)
+- `ecuacion-util-excel-table`: [Setup](page?id=excel-tables/setup&lang=en)
+- `ecuacion-util-excel-report-to-pdf`: [Setup](page?id=excel-report-to-pdf/setup&lang=en)

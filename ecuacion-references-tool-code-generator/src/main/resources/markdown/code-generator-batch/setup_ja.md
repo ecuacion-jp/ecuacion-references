@@ -20,7 +20,7 @@ JAR と同じディレクトリに `excel-format/` ディレクトリを作成�
     db-definition-book-fmt-v4.11.0_myproject_ja.xlsx
 ```
 
-DB項目定義書の編集方法は [DB項目定義書（Excel）の仕様](/public/showMarkdown/page?id=excel-format/overview&lang=ja) を参照してください。
+DB項目定義書の編集方法は [DB項目定義書（Excel）の仕様](page?id=excel-format/overview&lang=ja) を参照してください。
 
 ## システム要件
 

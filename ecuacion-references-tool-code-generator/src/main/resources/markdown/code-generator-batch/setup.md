@@ -20,7 +20,7 @@ and place the renamed file inside it.
     db-definition-book-fmt-v4.11.0_myproject_en.xlsx
 ```
 
-For editing instructions, see [DB Definition Book (Excel) Specification](/public/showMarkdown/page?id=excel-format/overview&lang=en).
+For editing instructions, see [DB Definition Book (Excel) Specification](page?id=excel-format/overview&lang=en).
 
 ## System Requirements
 

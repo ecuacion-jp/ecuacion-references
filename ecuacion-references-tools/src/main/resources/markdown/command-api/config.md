@@ -12,7 +12,7 @@ Spring Boot's external configuration files are loaded in the following priority 
 
 ### Access Control
 
-Two properties control access to `executeScript` (see [API Spec](/public/showMarkdown/page?id=command-api/api-spec&lang=en) for the resulting HTTP behavior). They are intentionally **not** set in the embedded `application.properties`, so leaving either unconfigured is logged as a warning at startup instead of silently defaulting.
+Two properties control access to `executeScript` (see [API Spec](page?id=command-api/api-spec&lang=en) for the resulting HTTP behavior). They are intentionally **not** set in the embedded `application.properties`, so leaving either unconfigured is logged as a warning at startup instead of silently defaulting.
 
 | Property | Type | Description |
 | --- | --- | --- |

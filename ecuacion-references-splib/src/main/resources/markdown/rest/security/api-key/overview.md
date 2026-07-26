@@ -17,21 +17,47 @@ Register a Spring bean implementing `SplibApiKeyExpectedValueProvider`:
 public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueProvider {
 
   @Override
-  public String getExpectedValue(@Nullable String apiKeyId, String presentedApiKey) {
-    // Look up the expected value however fits the application: a fixed value from
-    // application.properties, a database row keyed by apiKeyId, etc.
-    // Return null to reject the request (e.g. unknown apiKeyId).
-    return lookUpExpectedValue(apiKeyId);
+  public Collection<String> getExpectedValues(@Nullable String apiKeyId, String presentedApiKey) {
+    // Look up the expected value(s) however fits the application: fixed values from
+    // application.properties, database rows keyed by apiKeyId, etc.
+    // Return null or an empty collection to reject the request (e.g. unknown apiKeyId).
+    return lookUpExpectedValues(apiKeyId);
   }
 }
 ```
 
-Whether the returned value is compared as plain text or as a SHA-256 hash is controlled by
+More than one valid value can be returned for a single `apiKeyId` — e.g. one per issued token — so a
+single leaked or retired key can be dropped without invalidating the others. The request is
+authenticated if `presentedApiKey` matches any of the returned values.
+
+Whether the returned values are compared as plain text or as a SHA-256 hash is controlled by
 `jp.ecuacion.splib.rest.api-key.mode`; see
-[Comparison Modes](/public/showMarkdown/page?id=rest/security/api-key/comparison-modes&lang=en).
+[Comparison Modes](page?id=rest/security/api-key/comparison-modes&lang=en).
 
 If no `SplibApiKeyExpectedValueProvider` bean is registered at all, every request to `/api/key/**` is
 rejected — there is no default "no key required" behavior for this prefix, unlike `/api/public/**`.
+
+## Wiring the provider into `AppRestSecurityConfig`
+
+Registering the bean above is not enough by itself. If you followed
+[Quickstart](page?id=rest/quickstart&lang=en), `AppRestSecurityConfig` calls
+`super(null)`, so `/api/key/**` keeps rejecting everything regardless of whether a provider bean
+exists. Accept the provider in the constructor and forward it instead:
+
+```java
+@Configuration
+public class AppRestSecurityConfig extends SplibRestSecurityConfig {
+
+  public AppRestSecurityConfig(
+      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider) {
+    super(apiKeyExpectedValueProvider);
+  }
+}
+```
+
+Spring injects the bean registered above automatically. The parameter stays `@Nullable` so the
+application still starts even without such a bean — in which case `/api/key/**` keeps rejecting
+everything, same as the Quickstart default.
 
 ## Rejection behavior
 
@@ -40,7 +66,7 @@ tell which one occurred:
 
 - The `X-Api-Key` header is missing or empty.
 - No `SplibApiKeyExpectedValueProvider` bean is registered.
-- The provider returns `null` (e.g. unknown `apiKeyId`).
+- The provider returns `null` or an empty collection (e.g. unknown `apiKeyId`).
 - The presented key does not match the expected value.
 
 Details are logged server-side only; the presented key value itself is never logged. The comparison
@@ -51,13 +77,7 @@ uses `MessageDigest.isEqual` (constant-time) to avoid a timing attack.
 A successful match authenticates the request as `apiKeyId` (or `"api-key-client"` if no
 `X-Api-Key-Id` was sent) with the `ROLE_API_KEY` authority.
 
-## Why CSRF is disabled here too
+## About CSRF
 
-Unlike a typical cookie-authenticated endpoint, CSRF exploits *ambient* credentials — ones the
-browser attaches automatically without the page's JavaScript needing to know their value.
-`X-Api-Key` is not ambient: a cross-site page cannot set it without already knowing the key, and by
-then it could call the API directly without needing the victim's browser at all. So there is nothing
-for CSRF protection to add here, regardless of whether the endpoint underneath is read-only —
-contrast this with
-[Public Endpoints](/public/showMarkdown/page?id=rest/security/public-endpoints&lang=en), where CSRF is
-safe to disable only *because* the convention is read-only.
+`X-Api-Key` is not an ambient credential the browser attaches automatically, so CSRF is disabled.
+See [Overview](page?id=rest/overview&lang=en) for details.

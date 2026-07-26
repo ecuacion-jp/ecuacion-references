@@ -3,7 +3,7 @@
 
 ## 前提
 
-- JAR ファイルと Excel 設定ファイルのサンプルを[セットアップ](/public/showMarkdown/page?id=housekeep-db/setup&lang=ja)に従って準備済みであること
+- JAR ファイルと Excel 設定ファイルのサンプルを[セットアップ](page?id=housekeep-db/setup&lang=ja)に従って準備済みであること
 - PostgreSQL が利用可能であること
 
 ## 手順

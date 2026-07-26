@@ -1,5 +1,5 @@
 `SplibApiKeyComparisonMode` は、
-[`SplibApiKeyExpectedValueProvider`](/public/showMarkdown/page?id=rest/security/api-key/overview&lang=ja)
+[`SplibApiKeyExpectedValueProvider`](page?id=rest/security/api-key/overview&lang=ja)
 が返す値と、クライアントが提示する `X-Api-Key` ヘッダーの値をどう比較するかを選択します。
 アプリケーション全体に対して以下のように設定します。
 
@@ -12,11 +12,12 @@ jp.ecuacion.splib.rest.api-key.mode=PLAIN
 
 ## `PLAIN`
 
-Provider はキーそのものを返します。提示された値と（定数時間で）直接比較されます。
+Provider はキーそのものを（複数可で）返します。それぞれが提示された値と（定数時間で）直接比較され、
+いずれか一つでも一致すればリクエストは認証されます。
 
 ## `HASH`
 
-Provider はキーそのものではなく、キーの小文字16進表記の SHA-256 ダイジェストを返します。
+Provider はキーそのものではなく、各キーの小文字16進表記の SHA-256 ダイジェストを返します。
 これにより、生のキーがアプリケーションから読み取り可能な場所に一切保存されなくなります。
 提示されたヘッダー値も同じ方法でハッシュ化してから比較されます。
 

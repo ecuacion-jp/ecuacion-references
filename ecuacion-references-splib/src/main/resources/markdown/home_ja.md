@@ -21,8 +21,8 @@ ecuacion-splib は以下のモジュールで構成されています。
 | `ecuacion-splib-web-markdown` | Markdown ファイルを Web ページとして表示する機能。本リファレンスサイト自体もこれを利用して構築されている |
 | `ecuacion-splib-rest` | REST API 構築用フレームワーク（例外処理、API キー / Public / 拒否エンドポイントのセキュリティ） |
 
-現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **REST**）と
-**`ecuacion-splib-batch`**（上部メニューの **BATCH**）です。他モジュールの記事は順次追加予定です。
+現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **rest**）と
+**`ecuacion-splib-batch`**（上部メニューの **batch**）です。他モジュールの記事は順次追加予定です。
 
 `ecuacion-splib-web` については、Markdown 記事ではなく、フレームワーク上に実装された実際の画面を
 操作しながら学べる専用のチュートリアルアプリ（別サイト）が用意されています。
@@ -31,8 +31,10 @@ ecuacion-splib は以下のモジュールで構成されています。
 
 ## セットアップ
 
-`ecuacion-splib-parent` を親 POM として指定する（または BOM としてインポートする）ことで
-`ecuacion-splib-xxx` 各モジュールのバージョンを一元管理できます。その上で必要なモジュールを追加します。
+`ecuacion-splib-parent` を親 POM として指定する方法と、BOM としてインポートする方法の
+いずれかで `ecuacion-splib-xxx` 各モジュールのバージョンを一元管理できます。その上で必要なモジュールを追加します。
+
+### パターン 1: 親 POM として指定する
 
 ```xml
 <parent>
@@ -41,6 +43,34 @@ ecuacion-splib は以下のモジュールで構成されています。
     <version>（バージョン）</version>
 </parent>
 ```
+
+### パターン 2: BOM としてインポートする
+
+既に他の親 POM を使用しているなどの理由で `ecuacion-splib-parent` を親 POM にできない場合は、
+BOM としてインポートします。
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.splib</groupId>
+            <artifactId>ecuacion-splib-parent</artifactId>
+            <version>（バージョン）</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+`ecuacion-splib-parent` がインポートしている `spring-boot-dependencies` の内容もこの BOM import に
+推移的に含まれるため、Spring Boot 関連の依存関係（`spring-boot-starter-tomcat` など）も
+バージョンを明記せずに追加できます。
+
+ただし `spring-boot-maven-plugin` のようなプラグインのバージョン・設定（`pluginManagement`）は
+BOM import では継承されません。これらを利用する場合はバージョンを個別に指定してください。
+
+### 必要なモジュールを追加する
 
 ```xml
 <!-- REST API を構築する場合 -->
@@ -56,6 +86,6 @@ ecuacion-splib は以下のモジュールで構成されています。
 </dependency>
 ```
 
-モジュールごとの詳細は、上部メニューの **REST** にある
-[セットアップ](/public/showMarkdown/page?id=rest/setup&lang=ja)、または **BATCH** にある
-[セットアップ](/public/showMarkdown/page?id=batch/setup&lang=ja) を参照してください。
+モジュールごとの詳細は、上部メニューの **rest** にある
+[セットアップ](page?id=rest/setup&lang=ja)、または **batch** にある
+[セットアップ](page?id=batch/setup&lang=ja) を参照してください。

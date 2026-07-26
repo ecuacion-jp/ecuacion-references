@@ -203,7 +203,7 @@ public class PersonBean extends TypedExcelTableBean {
 Where `StringExcelTableBean` always receives `String` values and parses them,
 `TypedExcelTableBean` receives each cell's value already converted to its
 native Java type (`String`, `Double`, `LocalDate`, `LocalDateTime`, `Boolean`,
-or `null` — see [Data Types](/public/showMarkdown/page?id=excel-tables/data-types&lang=en)),
+or `null` — see [Data Types](page?id=excel-tables/data-types&lang=en)),
 and then converts that raw value to the field's declared type:
 
 | Raw value | Convertible field types |

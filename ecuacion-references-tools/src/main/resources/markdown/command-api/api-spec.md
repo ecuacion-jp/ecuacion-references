@@ -98,13 +98,13 @@ Script file paths are validated against the regular expression `^[a-zA-Z0-9.\-_/
 
 By default, `GET` is disabled and `POST` requires a matching `apiKey`. `apiKey` is a **simple shared secret** compared against a file placed on the server — it is **not** an asymmetric (public/private) key pair, and the value the client sends is never treated as a private key.
 
-`jp.ecuacion.tool.command-api.allow-insecure-access=true` allows `GET` and skips `apiKey` verification on `POST`; use this only on trusted internal networks. See [Configuration Files](/public/showMarkdown/page?id=command-api/config&lang=en) for the full property reference.
+`jp.ecuacion.tool.command-api.allow-insecure-access=true` allows `GET` and skips `apiKey` verification on `POST`; use this only on trusted internal networks. See [Configuration Files](page?id=command-api/config&lang=en) for the full property reference.
 
 ---
 
 ## Script Registration and Configuration Files
 
-For how to register scripts in `ecuacion-tool-command-api.properties`, where to place configuration files, and logging setup, see [Configuration Files](/public/showMarkdown/page?id=command-api/config&lang=en).
+For how to register scripts in `ecuacion-tool-command-api.properties`, where to place configuration files, and logging setup, see [Configuration Files](page?id=command-api/config&lang=en).
 
 ---
 

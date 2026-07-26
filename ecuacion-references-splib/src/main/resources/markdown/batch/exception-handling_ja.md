@@ -1,5 +1,5 @@
 `SplibExceptionHandler` は Spring Batch の `ExceptionHandler` を実装しており、
-[`preparedStepBuilder`](/public/showMarkdown/page?id=batch/job-and-step-builders&lang=ja)
+[`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=ja)
 で構築されたすべてのステップにアタッチされます。ジョブ設定クラスが `SplibAppParentBatchConfig` を
 継承していれば、追加の配線は不要です。
 
@@ -10,7 +10,7 @@
 ## Tasklet が例外を throw したときの挙動
 
 1. 現在の job / step / tasklet-or-chunk 名が
-   [`SplibBatchAdvice`](/public/showMarkdown/page?id=batch/current-execution-context&lang=ja)
+   [`SplibBatchAdvice`](page?id=batch/current-execution-context&lang=ja)
    から取得され `INFO` レベルでログ出力されます（例：
    `job: importJob, step: importStep, tasklet or chunk: ImportTasklet`）。まだ取得できていない項目
    （該当する advice が実行される前に失敗が発生した場合）は、空欄ではなくその旨が出力されます。
@@ -26,20 +26,37 @@
 
 ## 失敗時に独自処理を実行する
 
-`jp.ecuacion.splib.core.exceptionhandler.SplibExceptionHandlerAction` を実装した Bean を登録すると、
-上記手順 3 のタイミングでアラートメール送信や監視システムへの通知といった独自処理を実行できます。
+`jp.ecuacion.splib.core.exceptionhandler.SplibExceptionHandlerAction` を実装した Bean を
+登録すると、上記手順 3 のタイミングで独自処理を実行できます。処理内容は
+`execute(Throwable th)` に自由に記述してください。
 任意設定のため、Bean を登録しなければ手順 3 は単にスキップされます。
+
+例えば、アラートメールで stack trace を送信したい場合は次のように書けます。
 
 ```java
 @Component
 public class AppExceptionHandlerAction implements SplibExceptionHandlerAction {
 
+  private final SplibMailUtil mailUtil;
+
+  public AppExceptionHandlerAction(SplibMailUtil mailUtil) {
+    this.mailUtil = mailUtil;
+  }
+
   @Override
   public void execute(@Nullable Throwable th) {
-    // 例: MailUtil.sendErrorMail(Objects.requireNonNull(th));
+    mailUtil.sendErrorMail(Objects.requireNonNull(th));
   }
 }
 ```
 
-これは `ecuacion-splib-web` や `ecuacion-splib-rest` が自身の例外ハンドラーで使っているものと同じ拡張ポイントのため、
-バッチジョブと REST API など複数のフロントエンドを持つアプリケーションでは 1 つの実装を共有できます。
+メール送信はあくまで一例です。実際にメールを送信する場合に必要な設定（`spring.mail.*`・
+`jp.ecuacion.splib.mail.*`）は [SplibMailUtil](page?id=core/util/mail-util&lang=ja) を参照してください。
+未設定の場合、上記の呼び出しは黙ってスキップされます。
+
+これは `ecuacion-splib-web` が自身の例外ハンドラーで使っているものと同じインターフェースです。
+バッチアプリは常にそれ単体の独立したプロセスとして動く（web/REST アプリと同一プロセスで
+併用されることがない）ため、区別する必要がなく、どちらも単純に
+`SplibExceptionHandlerAction` を共有します。例外は `ecuacion-splib-rest` で、
+REST フロントエンドは web フロントエンドと同じプロセスで動くことが多いため、
+専用の `SplibRestExceptionHandlerAction` を持っています。

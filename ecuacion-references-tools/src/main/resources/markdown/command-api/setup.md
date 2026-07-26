@@ -26,7 +26,7 @@ ecuacion-tool-command-api.war           # → /ecuacion-tool-command-api
 ecuacion-tool-command-api##x.x.x.war   # For Tomcat's parallel deployment feature
 ```
 
-Either way you start it, script registration and configuration file placement follow the same rules (see [Configuration Files](/public/showMarkdown/page?id=command-api/config&lang=en)).
+Either way you start it, script registration and configuration file placement follow the same rules (see [Configuration Files](page?id=command-api/config&lang=en)).
 
 ## System Requirements
 

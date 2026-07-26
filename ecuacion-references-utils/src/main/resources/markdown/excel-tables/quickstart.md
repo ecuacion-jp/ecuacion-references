@@ -1,6 +1,6 @@
 This page shows the simplest possible example using `StringOneLineHeaderExcelTableReader`.
 
-For dependency setup, see the [Setup](/public/showMarkdown/page?id=excel-tables/setup&lang=en) page.
+For dependency setup, see the [Setup](page?id=excel-tables/setup&lang=en) page.
 
 ## Preparing the Excel File
 
@@ -44,4 +44,4 @@ for (List<String> row : data) {
 
 - The return value does **not** include header rows (all header rows are removed after validation).
 - Empty cells default to `null` (`NoDataString.NULL`).
-  See [Data Types](/public/showMarkdown/page?id=excel-tables/data-types&lang=en) for details.
+  See [Data Types](page?id=excel-tables/data-types&lang=en) for details.

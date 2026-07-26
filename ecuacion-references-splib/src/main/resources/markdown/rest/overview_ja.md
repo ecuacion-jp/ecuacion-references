@@ -5,29 +5,38 @@ URL プレフィックスベースのセキュリティ規約、API キー認証
 ## 提供する機能
 
 - **エンドポイントプレフィックスによるセキュリティ規約** — すべてのエンドポイントは
-  `/api/public/**`・`/api/key/**`・`/api/**` のいずれかのプレフィックス配下に置かれ、
-  それぞれに固定のセキュリティポリシーが適用されます。
-  [Public エンドポイント](/public/showMarkdown/page?id=rest/security/public-endpoints&lang=ja) と
-  [API キー認証](/public/showMarkdown/page?id=rest/security/api-key/overview&lang=ja) を参照してください。
+  `/api/public/**`・`/api/key/**`・`/api/**` の 3 つのセキュリティポリシーのいずれかに属します。
+  `/api/ecuacion/public/**` は `/api/public/**` と同じポリシーを共有しますが、`ecuacion-splib`
+  自身の組み込みエンドポイント用に予約されています。
+  [Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja) と
+  [API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。
 - **API キー認証** — マシン間通信向けのヘッダーベース認証（`X-Api-Key`）。
   キーの照合方法はプラガブルで、平文比較とハッシュ比較の 2 モードを選べます。
 - **共通の例外処理** — 未捕捉の例外や専用の `HttpStatusException` を統一的に HTTP レスポンスへ変換します。
-  [例外処理](/public/showMarkdown/page?id=rest/exception-handling&lang=ja) を参照してください。
+  [例外処理](page?id=rest/exception-handling&lang=ja) を参照してください。
 
 ## URL プレフィックスの規約
 
-| プレフィックス | セキュリティポリシー | CSRF |
-| --- | --- | --- |
-| `/api/public/**` | 常に許可（`permitAll`） | 無効 |
-| `/api/key/**` | 有効な `X-Api-Key` ヘッダーが必須 | 無効 |
-| `/api/**`（それ以外） | 常に拒否（`denyAll`） | 対象外 |
+| プレフィックス | セキュリティポリシー |
+| --- | --- |
+| `/api/public/**` | 常に許可（`permitAll`） |
+| `/api/ecuacion/public/**` | 常に許可（`permitAll`）— `ecuacion-splib` 自身の組み込みエンドポイント用に予約 |
+| `/api/key/**` | 有効な `X-Api-Key` ヘッダーが必須 |
+| `/api/**`（それ以外） | 常に拒否（`denyAll`） |
 
 これら 3 つのポリシーは、アプリケーション側が継承する抽象クラス `SplibRestSecurityConfig` によって設定されます。
-[セットアップ](/public/showMarkdown/page?id=rest/setup&lang=ja) を参照してください。
+[クイックスタート](page?id=rest/quickstart&lang=ja) を参照してください。
+
+## CSRF について
+
+いずれのパスも CSRF 対策は無効化されています。CSRF 対策は、Cookie/セッションなどブラウザが自動付与する
+資格情報に紐づいた認可がある場合にのみ意味を持ちますが、`/api/public/**` は無認証、`/api/key/**` は
+`X-Api-Key` ヘッダーによる非 ambient な（ブラウザが勝手に付与しない）認証であり、いずれもそうした前提を
+持ちません。
 
 ## 依存関係
 
 `ecuacion-splib-rest` は `ecuacion-splib-core` に依存し、`spring-boot-starter-web-services`
 （JAX-WS を含まない Spring MVC 用スターター）と `spring-boot-starter-security` を取り込みます。
-Tomcat 自体は提供しないため、WAR 化した `ecuacion-splib-web` アプリケーションと同様に、
-アプリケーション側で `spring-boot-starter-tomcat` を `provided` スコープで追加してください。
+Tomcat 自体は提供しないため、アプリケーション側で `spring-boot-starter-tomcat` を `provided` スコープで
+追加してください。

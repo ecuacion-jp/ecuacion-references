@@ -3,7 +3,7 @@
 
 ## 前提
 
-- JAR ファイルと Excel 設定ファイルのサンプルを[セットアップ](/public/showMarkdown/page?id=housekeep-files/setup&lang=ja)に従って準備済みであること
+- JAR ファイルと Excel 設定ファイルのサンプルを[セットアップ](page?id=housekeep-files/setup&lang=ja)に従って準備済みであること
 
 ## 手順
 

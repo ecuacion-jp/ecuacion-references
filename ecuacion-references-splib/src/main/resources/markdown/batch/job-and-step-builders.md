@@ -1,4 +1,4 @@
-`SplibAppParentBatchConfig` (see [Setup](/public/showMarkdown/page?id=batch/setup&lang=en)) provides
+`SplibAppParentBatchConfig` (see [Setup](page?id=batch/setup&lang=en)) provides
 two protected factory methods that return `ecuacion-splib` standard, pre-wired builders. Use them
 instead of constructing `JobBuilder`/`StepBuilder` directly.
 
@@ -12,7 +12,7 @@ Returns a `JobBuilder` with:
 
 - `.incrementer(new RunIdIncrementer())` — so the job can be re-run with a new instance each time.
 - `.listener(jobExecutionListener)` — the `SplibJobExecutionListener` passed to the constructor. See
-  [Logging](/public/showMarkdown/page?id=batch/logging&lang=en).
+  [Logging](page?id=batch/logging&lang=en).
 
 ## `preparedStepBuilder`
 
@@ -25,7 +25,7 @@ Returns a `TaskletStepBuilder` with:
 
 - `.listener(stepExecutionListener)` — the `SplibStepExecutionListener` passed to the constructor.
 - `.exceptionHandler(exceptionHandler)` — the shared `SplibExceptionHandler`. See
-  [Exception Handling](/public/showMarkdown/page?id=batch/exception-handling&lang=en).
+  [Exception Handling](page?id=batch/exception-handling&lang=en).
 
 It accepts one or more `Tasklet`s and chains them onto the same step builder, so a step made of
 several tasklets in sequence can be built in one call.
@@ -45,6 +45,6 @@ Job importJob(JobRepository jobRepository, PlatformTransactionManager transactio
 
 Because both builders already have the listener(s) and exception handler attached, jobs and steps
 built this way automatically get the logging described in
-[Logging](/public/showMarkdown/page?id=batch/logging&lang=en) and the exception handling described in
-[Exception Handling](/public/showMarkdown/page?id=batch/exception-handling&lang=en) without any extra
+[Logging](page?id=batch/logging&lang=en) and the exception handling described in
+[Exception Handling](page?id=batch/exception-handling&lang=en) without any extra
 wiring per job.

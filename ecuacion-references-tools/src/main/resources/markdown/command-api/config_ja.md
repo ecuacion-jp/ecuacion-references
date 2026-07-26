@@ -12,7 +12,7 @@ Spring Boot の外部設定ファイルは以下の優先順位で読み込ま�
 
 ### アクセス制御
 
-`executeScript` へのアクセスを制御するプロパティが2つあります（実際のHTTP挙動については[APIスペック](/public/showMarkdown/page?id=command-api/api-spec&lang=ja)を参照）。どちらも埋め込みの`application.properties`には意図的に設定されていません。未設定のままだと、デフォルトに静かにフォールバックするのではなく、起動時に警告ログが出力されます。
+`executeScript` へのアクセスを制御するプロパティが2つあります（実際のHTTP挙動については[APIスペック](page?id=command-api/api-spec&lang=ja)を参照）。どちらも埋め込みの`application.properties`には意図的に設定されていません。未設定のままだと、デフォルトに静かにフォールバックするのではなく、起動時に警告ログが出力されます。
 
 | プロパティ | 型 | 説明 |
 | --- | --- | --- |

@@ -66,4 +66,4 @@ Pick the concrete class from the combination of the two axes.
 | `CellHeaderExcelTableWriter` | Cell | Header (multi-row) | Cell type; 2 or more header rows |
 | `CellFreeExcelTableWriter` | Cell | Free | |
 
-For dependency setup, see the [Quick Start](/public/showMarkdown/page?id=excel-tables/quickstart&lang=en) page.
+For dependency setup, see the [Quick Start](page?id=excel-tables/quickstart&lang=en) page.

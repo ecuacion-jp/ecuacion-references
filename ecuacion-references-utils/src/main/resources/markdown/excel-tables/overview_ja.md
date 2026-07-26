@@ -21,7 +21,7 @@
 | `IfDataTypeTypedExcelTable` | Java のネイティブ型（`Double`、`LocalDate`、`LocalDateTime`、`String`、`Boolean`） | 各セルの値を変換せずそのままの型で扱いたい場合 |
 | `IfDataTypeCellExcelTable` | Apache POI `Cell` | セルのスタイルや型情報も参照したい場合 |
 
-詳細は[データ型の選択](/public/showMarkdown/page?id=excel-tables/data-types&lang=ja)を参照してください。
+詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照してください。
 
 ### テーブル形式
 
@@ -30,7 +30,7 @@
 | `IfFormatHeaderExcelTable` | 先頭に1行以上のヘッダー行があるテーブル（ヘッダー検証あり） |
 | `IfFormatFreeExcelTable` | ヘッダーなし・任意位置のテーブル |
 
-詳細は[テーブル形式の選択](/public/showMarkdown/page?id=excel-tables/table-formats&lang=ja)を参照してください。
+詳細は[テーブル形式の選択](page?id=excel-tables/table-formats&lang=ja)を参照してください。
 
 ## 使用するクラスの選び方
 
@@ -71,4 +71,4 @@
 | `CellHeaderExcelTableWriter` | Cell | Header（複数行） | Cell 型・ヘッダーが2行以上の場合。 |
 | `CellFreeExcelTableWriter` | Cell | Free | |
 
-依存の追加については[クイックスタート](/public/showMarkdown/page?id=excel-tables/quickstart&lang=ja)を参照してください。
+依存の追加については[クイックスタート](page?id=excel-tables/quickstart&lang=ja)を参照してください。

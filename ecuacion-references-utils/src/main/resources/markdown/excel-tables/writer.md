@@ -158,7 +158,7 @@ can pass a `String[][]` with a single inner array to `TypedHeaderExcelTableWrite
 
 For how date/datetime cell formatting is determined (and how to customise it
 with `defaultDateFormat` / `defaultDateTimeFormat`), see
-[From-Bean Writer](/public/showMarkdown/page?id=excel-tables/from-bean-writer&lang=en)
+[From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=en)
 — the same `IfDataTypeTypedExcelTableWriter` logic is shared by both the
 plain Typed writer and the Typed FromBeanWriter classes.
 
@@ -206,7 +206,7 @@ multi-row-header table, respectively — the Typed-type counterparts of
 `StringOneLineHeaderExcelTableFromBeanWriter` / `StringHeaderExcelTableFromBeanWriter`.
 The key difference: each field's value is written to the cell as its native
 type, and date/datetime fields are guaranteed to land in a date-formatted cell.
-See [From-Bean Writer](/public/showMarkdown/page?id=excel-tables/from-bean-writer&lang=en)
+See [From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=en)
 for full details, including how the date cell format is determined and how
 to customise it.
 

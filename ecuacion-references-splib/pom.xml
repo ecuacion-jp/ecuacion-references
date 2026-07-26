@@ -67,5 +67,11 @@
 			<artifactId>ecuacion-splib-web-markdown</artifactId>
 		</dependency>
 
+		<!-- backs the /api/public/hello quickstart endpoint demonstrated in the rest docs -->
+		<dependency>
+			<groupId>jp.ecuacion.splib</groupId>
+			<artifactId>ecuacion-splib-rest</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>

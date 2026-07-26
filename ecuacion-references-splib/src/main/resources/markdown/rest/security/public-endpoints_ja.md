@@ -2,24 +2,22 @@
 このフィルターチェーンは `SplibRestSecurityConfig` が登録する 3 つのチェーンのうち最初、
 `@Order(8)` で実行されます。
 
-## CSRF が無効化されている理由
+## `/api/public/**` は公開して問題ない範囲に留める
 
-CSRF 対策が意味を持つのは、偽装されたクロスサイトリクエストが被害者に代わって状態を変更できてしまう場合です。
-データを読み取るだけのリクエストには CSRF が守るべきものが存在しないため、このプレフィックスでは CSRF が無効化されています。
+`/api/public/**` は認証なしで到達可能（`permitAll`）です。誰でもどこからでも直接呼び出せるため、
+**公開しても問題のない情報・操作のみ**をこの配下に置いてください。
 
-**この理屈は、`/api/public/**` 配下のすべてのエンドポイントが副作用を持たないことを前提としています。**
-`ecuacion-splib-rest` はこれを強制する仕組みを持っていません。あくまでフレームワークが前提とするだけの規約であり、
-自動的には検証されません。このプレフィックス配下に書き込みを行う `@PostMapping` を追加することも技術的には可能で、
-その場合 `/api/public/**` は `permitAll`（ログイン中セッションから除外されているわけではない）であるため、
-悪意あるサイトがログイン中ユーザーのブラウザ経由で CSRF トークンなしにその書き込みをトリガーできてしまいます。
-
-**`/api/public/**` は読み取り専用（GET/HEAD のみ）に保ってください。** 書き込みが必要なエンドポイントは
-[API キー認証](/public/showMarkdown/page?id=rest/security/api-key/overview&lang=ja) 配下の `/api/key/**` に置くか、
-[独自エンドポイントのセキュリティ](/public/showMarkdown/page?id=rest/security/custom-endpoints&lang=ja) で
+書き込みを伴うエンドポイント（副作用のあるもの）が「公開しても問題ない」となるケースはほぼないため、
+実質的にはこのプレフィックス配下は読み取り専用（GET/HEAD のみ）になります。`ecuacion-splib-rest`
+はこれを強制する仕組みを持たないため、書き込みが必要なエンドポイントは、
+[Key エンドポイント](page?id=rest/security/api-key/overview&lang=ja) 配下の
+`/api/key/**` に置くか、
+[独自エンドポイントのセキュリティ](page?id=rest/security/custom-endpoints&lang=ja) で
 説明する独自のセキュリティ設定の配下に置いてください。
 
-## 例
+## `/api/ecuacion/public/**` は `ecuacion-splib` 自身のエンドポイント用に予約されています
 
-組み込みの
-[Config エンドポイント](/public/showMarkdown/page?id=rest/config-endpoint&lang=ja)
-（`GET /api/public/ecuacion/config`）は、このプレフィックス配下にある読み取り専用エンドポイントの例です。
+同じフィルターチェーンは `/api/ecuacion/public/**` も許可しており、ポリシーは `permitAll` で同一です。
+このプレフィックスは `ecuacion-splib` 自身が提供するエンドポイント用に予約されています。組み込みの
+[Config エンドポイント](page?id=rest/config-endpoint&lang=ja)（`GET /api/ecuacion/public/config`）が
+その例で、これにより `/api/public/**` はアプリケーション独自の名前空間として保たれます。

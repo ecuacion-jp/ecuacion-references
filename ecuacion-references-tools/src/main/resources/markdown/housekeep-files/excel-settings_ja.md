@@ -31,7 +31,7 @@ Excel ファイルには以下の 4 つのシートがあります。
 | タスクID | ○ | タスクを識別する ID。半角英数字・スペース・記号（一部除く）、最大 10 文字 |
 | タスク名 | ○ | タスクの名前。最大 40 文字 |
 | 処理パターン日本語名 | — | 人間が読むための処理パターン名（読み取り時は無視される） |
-| 処理パターン | ○ | 処理の種類。`TaskPtnEnum` の値を記載（詳細は[処理パターン](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=ja)参照） |
+| 処理パターン | ○ | 処理の種類。`TaskPtnEnum` の値を記載（詳細は[処理パターン](page?id=housekeep-files/task-patterns&lang=ja)参照） |
 | 接続先サーバ | △ | SFTP タスク使用時に必須。サーバ認証設定シートの「サーバ名」と一致させる |
 | 元パス | △ | 操作元のファイル・ディレクトリパス。`${VAR_NAME}` 形式の変数参照可。ワイルドカード（`*`, `?`）も使用可 |
 | 元パスがディレクトリ | △ | `true` / `false`。元パスがディレクトリの場合は `true` |
@@ -44,7 +44,7 @@ Excel ファイルには以下の 4 つのシートがあります。
 | 先パス存在時処理 | △ | 先パスが存在する場合の処理。`IGNORE` / `WARN` / `ERROR` |
 | options | — | 予約項目（現在未使用） |
 
-△ は処理パターンによって必須・禁止・任意が変わります（詳細は[処理パターン](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=ja)参照）。
+△ は処理パターンによって必須・禁止・任意が変わります（詳細は[処理パターン](page?id=housekeep-files/task-patterns&lang=ja)参照）。
 
 ### 元パス関連項目の入力ルール
 
@@ -69,7 +69,7 @@ Excel ファイルには以下の 4 つのシートがあります。
 ### 処理パターン値の設定について
 
 「処理パターン日本語名」列は人間が読みやすいように記載する列で、ツールの読み取り時には無視されます。
-ツールが参照するのは「処理パターン」列です。使用可能な値は[処理パターン](/public/showMarkdown/page?id=housekeep-files/task-patterns&lang=ja)を参照してください。
+ツールが参照するのは「処理パターン」列です。使用可能な値は[処理パターン](page?id=housekeep-files/task-patterns&lang=ja)を参照してください。
 
 ### 元パス存在なし時処理 / 先パス存在時処理 の値
 

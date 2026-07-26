@@ -158,7 +158,7 @@ writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
 
 日付・日時セルの書式がどのように決まるか（また `defaultDateFormat` /
 `defaultDateTimeFormat` によるカスタマイズ方法）については
-[From-Bean Writer](/public/showMarkdown/page?id=excel-tables/from-bean-writer&lang=ja)
+[From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=ja)
 を参照してください。Typed の通常 Writer と FromBeanWriter は、いずれも同じ
 `IfDataTypeTypedExcelTableWriter` のロジックを共有しています。
 
@@ -207,7 +207,7 @@ new StringHeaderExcelTableFromBeanWriter<ProductBean>(
 重要な違いは、各フィールドの値がネイティブ型のままセルに書き込まれること、
 そして日付・日時系のフィールドが必ず日付書式のセルとして書き込まれることです。
 詳細（日付セルの書式の決まり方やカスタマイズ方法を含む）は
-[From-Bean Writer](/public/showMarkdown/page?id=excel-tables/from-bean-writer&lang=ja)
+[From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=ja)
 を参照してください。
 
 ## `CellOneLineHeaderExcelTableWriter`

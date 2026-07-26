@@ -121,7 +121,7 @@ Reading continues until a fully-empty row is encountered.
 
 Reads a single-row-header table, returning each cell's value as its native
 Java type (`String`, `Double`, `LocalDate`, `LocalDateTime`, `Boolean`, or
-`null`) instead of as a string. See [Data Types](/public/showMarkdown/page?id=excel-tables/data-types&lang=en)
+`null`) instead of as a string. See [Data Types](page?id=excel-tables/data-types&lang=en)
 for the cell-to-type conversion table.
 
 ```java
@@ -165,7 +165,7 @@ Merged cells in the header area are automatically expanded before validation.
 > **`TypedOneLineHeaderExcelTableToBeanReader` / `TypedHeaderExcelTableToBeanReader`:**
 > These map each row to a `TypedExcelTableBean` subclass while preserving native
 > types (and converting numeric values to the field's declared numeric type,
-> rounding when necessary). See [Bean Mapping](/public/showMarkdown/page?id=excel-tables/bean-mapping&lang=en).
+> rounding when necessary). See [Bean Mapping](page?id=excel-tables/bean-mapping&lang=en).
 
 ## `CellOneLineHeaderExcelTableReader`
 

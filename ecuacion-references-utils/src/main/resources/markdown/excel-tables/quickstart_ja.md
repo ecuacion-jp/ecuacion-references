@@ -1,6 +1,6 @@
 このページでは `StringOneLineHeaderExcelTableReader` を使った最もシンプルな読み込み例を紹介します。
 
-依存の追加については[セットアップ](/public/showMarkdown/page?id=excel-tables/setup&lang=ja)を参照してください。
+依存の追加については[セットアップ](page?id=excel-tables/setup&lang=ja)を参照してください。
 
 ## Excel ファイルの準備
 
@@ -44,4 +44,4 @@ for (List<String> row : data) {
 
 - `read()` の戻り値にはヘッダー行は含まれません（複数行の場合はすべてのヘッダー行が検証後に除去されます）。
 - 空セルの値はデフォルトで `null` になります
-  （詳細は[データ型の選択](/public/showMarkdown/page?id=excel-tables/data-types&lang=ja)を参照）。
+  （詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照）。

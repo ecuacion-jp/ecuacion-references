@@ -11,10 +11,10 @@ db-definition-book-fmt-v4.11.0_<project-name>_en.xlsx
 
 | Sheet Name | Purpose | Details |
 | --- | --- | --- |
-| General Settings | Project-wide settings (package names, etc.) | [General Settings Sheet](/public/showMarkdown/page?id=excel-format/general-settings&lang=en) |
-| DataType Definition | Field type definitions (`DT_XXXX` format) | [DataType Definition Sheet](/public/showMarkdown/page?id=excel-format/data-type-sheet&lang=en) |
-| DB Definition | Table and column definitions | [DB Definition Sheet](/public/showMarkdown/page?id=excel-format/db-definition-sheet&lang=en) |
-| Enum Definition | Enumeration value definitions | [Enum Definition Sheet](/public/showMarkdown/page?id=excel-format/enum-sheet&lang=en) |
+| General Settings | Project-wide settings (package names, etc.) | [General Settings Sheet](page?id=excel-format/general-settings&lang=en) |
+| DataType Definition | Field type definitions (`DT_XXXX` format) | [DataType Definition Sheet](page?id=excel-format/data-type-sheet&lang=en) |
+| DB Definition | Table and column definitions | [DB Definition Sheet](page?id=excel-format/db-definition-sheet&lang=en) |
+| Enum Definition | Enumeration value definitions | [Enum Definition Sheet](page?id=excel-format/enum-sheet&lang=en) |
 
 ## Creating a File for a New Project
 

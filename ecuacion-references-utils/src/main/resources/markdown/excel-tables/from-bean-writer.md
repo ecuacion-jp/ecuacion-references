@@ -3,7 +3,7 @@
 `StringExcelTableBean` instances to an Excel file.
 
 This is the counterpart to the
-[ToBeanReader](/public/showMarkdown/page?id=excel-tables/bean-mapping&lang=en).
+[ToBeanReader](page?id=excel-tables/bean-mapping&lang=en).
 
 ## Overview
 
@@ -201,4 +201,4 @@ not a `DateTimeFormatter`.
 
 Like other Writer classes, `FromBeanWriter` writes into a copy of a template Excel file.
 Prepare the template with header rows, formatting, and column widths in advance.
-See [Writer](/public/showMarkdown/page?id=excel-tables/writer&lang=en) for details.
+See [Writer](page?id=excel-tables/writer&lang=en) for details.
