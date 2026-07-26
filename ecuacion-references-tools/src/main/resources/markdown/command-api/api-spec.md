@@ -127,16 +127,10 @@ For how to register scripts in `ecuacion-tool-command-api.properties`, where to 
 
 ## Alive Check Endpoint
 
-Use the following endpoint to verify that the server is running:
+Use the following endpoint to verify that the server is running. It's a shared endpoint provided by `ecuacion-splib-rest`, not something specific to command-api.
 
 ```
-GET /api/public/aliveCheck
+GET /api/ecuacion/public/aliveCheck
 ```
 
-Response (HTTP 200):
-
-```json
-{
-    "returnCode": "0"
-}
-```
+Returns HTTP 200 with no response body.

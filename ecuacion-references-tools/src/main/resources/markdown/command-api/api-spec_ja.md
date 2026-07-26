@@ -128,16 +128,10 @@ URL が正しくない場合に返ります。
 
 ## 生存確認エンドポイント
 
-以下のエンドポイントでサーバが正常に動作しているかを確認できます。
+以下のエンドポイントでサーバが正常に動作しているかを確認できます。`ecuacion-splib-rest` が提供する共通エンドポイントで、command-api 固有のものではありません。
 
 ```
-GET /api/public/aliveCheck
+GET /api/ecuacion/public/aliveCheck
 ```
 
-レスポンス（HTTP 200）:
-
-```json
-{
-    "returnCode": "0"
-}
-```
+レスポンスボディなしの HTTP 200 が返ります。
