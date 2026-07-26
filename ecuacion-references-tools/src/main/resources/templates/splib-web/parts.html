@@ -65,6 +65,12 @@
 					@{/public/showMarkdown/page(id='command-api/quickstart',lang=${lang})},
 					#{navBar.ca.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='command-api/launch-patterns',lang=${lang})},
+					#{navBar.ca.launchPatterns}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='command-api/usage-patterns',lang=${lang})},
+					#{navBar.ca.usagePatterns}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='command-api/config',lang=${lang})},
 					#{navBar.ca.config}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(

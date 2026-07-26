@@ -1,4 +1,4 @@
-`SplibAppParentBatchConfig` (see [Setup](page?id=batch/setup&lang=en)) provides
+`SplibAppParentBatchConfig` (see [Quickstart](page?id=batch/quickstart&lang=en)) provides
 two protected factory methods that return `ecuacion-splib` standard, pre-wired builders. Use them
 instead of constructing `JobBuilder`/`StepBuilder` directly.
 

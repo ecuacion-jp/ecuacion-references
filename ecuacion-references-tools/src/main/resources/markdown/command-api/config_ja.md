@@ -16,13 +16,13 @@ Spring Boot の外部設定ファイルは以下の優先順位で読み込ま�
 
 | プロパティ | 型 | 説明 |
 | --- | --- | --- |
-| `jp.ecuacion.tool.command-api.allow-insecure-access` | boolean | `true`: `GET` が許可され、`POST` の `apiKey` 検証も省略されます。信頼できる内部ネットワークでのみ使用してください。`false`（未設定時に適用されるデフォルト）: `GET` は拒否（403）され、`POST` には有効な `apiKey` が必須です。 |
-| `jp.ecuacion.tool.command-api.api-key-file-path` | String | `apiKey` POSTパラメータと照合する共有シークレットが書かれたファイルのパス。スクリプトパス（後述）と同様に `${ENV_VAR}` 展開に対応しています。 |
+| `jp.ecuacion.tool.command-api.api-key-required` | boolean | `true`（未設定時に適用されるデフォルト）: `api/public/executeScript` へのアクセスは拒否（403）されます。APIを呼び出すには `api/key/executeScript`（`X-Api-Key` ヘッダによる認証が必須）を使用してください。`false`: `api/public/executeScript` が有効になります。信頼できる内部ネットワークでのみ使用してください。（どちらのエンドポイントでも、スクリプトごとに許可するHTTPメソッドはHTTPメソッドのプレフィックス（後述）で制御されます。） |
+| `jp.ecuacion.tool.command-api.api-key-file-path` | String | `api/key/executeScript` の `X-Api-Key` ヘッダの値と照合する共有シークレットが書かれたファイルのパス。スクリプトパス（後述）と同様に `${ENV_VAR}` 展開に対応しています。 |
 
 例:
 
 ```properties
-jp.ecuacion.tool.command-api.allow-insecure-access=false
+jp.ecuacion.tool.command-api.api-key-required=true
 jp.ecuacion.tool.command-api.api-key-file-path=${HOME}/secrets/command-api-key.txt
 ```
 
@@ -96,6 +96,26 @@ script.<スクリプトID>=<スクリプトの絶対パス>
 script.say-hello=/opt/scripts/sayHello.sh
 script.daily-batch=/opt/scripts/dailyBatch.sh
 ```
+
+#### 許可するHTTPメソッドの指定
+
+スクリプト定義の値の先頭に `GET:` / `POST:` / `ALL:`（大文字小文字を区別しない）を付けると、`api/public/executeScript`（有効化されている場合）・`api/key/executeScript` の両方で、そのスクリプトを呼び出せるHTTPメソッドを制限できます。プレフィックスを省略した場合は `POST` のみ許可されます。
+
+```properties
+script.say-hello=GET:/opt/scripts/sayHello.sh
+script.daily-batch=POST:/opt/scripts/dailyBatch.sh
+script.status-check=ALL:/opt/scripts/statusCheck.sh
+script.legacy-job=/opt/scripts/legacyJob.sh
+```
+
+| スクリプトID | 許可されるメソッド |
+| --- | --- |
+| `script.say-hello` | `GET` のみ |
+| `script.daily-batch` | `POST` のみ |
+| `script.status-check` | `GET` ・ `POST` いずれも |
+| `script.legacy-job` | `POST` のみ（プレフィックス省略時のデフォルト） |
+
+> **Note:** このプレフィックスは `api/public/executeScript` と `api/key/executeScript` の両方に同じルールで適用されます。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` ヘッダによる認証が必須かどうかだけです。
 
 #### 環境変数の使用
 

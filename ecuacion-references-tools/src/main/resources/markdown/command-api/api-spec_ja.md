@@ -5,11 +5,17 @@
 ### スクリプト実行
 
 ```
-GET  /api/public/executeScript
-POST /api/public/executeScript
+GET  /api/public/executeScript   # jp.ecuacion.tool.command-api.api-key-required=false の場合のみ有効
+POST /api/public/executeScript   # jp.ecuacion.tool.command-api.api-key-required=false の場合のみ有効
+GET  /api/key/executeScript      # X-Api-Key ヘッダによる認証が必須
+POST /api/key/executeScript      # X-Api-Key ヘッダによる認証が必須
 ```
 
-デフォルトでは `GET` は拒否され、`POST` は一致する `apiKey` が必要です。詳細は下記の[アクセス制御](#アクセス制御)を参照してください。
+`api/public/executeScript` はデフォルトで無効（403で拒否）です。`api/key/executeScript` は常に `X-Api-Key` ヘッダによる認証が必須です。
+
+どちらのエンドポイントでも、`GET` / `POST` のどちらでアクセスできるかは、スクリプト定義の `GET:` / `POST:` / `ALL:` プレフィックス（[設定ファイル](page?id=command-api/config&lang=ja)を参照）で個別に制御します（プレフィックス省略時は `POST` のみ許可）。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` による認証が必須かどうかだけです。
+
+詳細は下記の[アクセス制御](#アクセス制御)を参照してください。
 
 ### パラメータ
 
@@ -17,7 +23,7 @@ POST /api/public/executeScript
 | --- | --- | --- |
 | `scriptId` | ○ | `ecuacion-tool-command-api.properties` で定義したスクリプト ID |
 | `parameter` | — | スクリプトに渡すパラメータ（カンマ区切りで複数指定） |
-| `apiKey` | POST時のみ、条件付き必須 | サーバ側に配置した api-key ファイルの内容と照合する共有シークレット。`jp.ecuacion.tool.command-api.allow-insecure-access=true` の場合を除き必須。`GET` では無視されます。 |
+| `X-Api-Key`（HTTPヘッダ） | `api/key/executeScript` では必須 | サーバ側に配置した api-key ファイルの内容と照合する共有シークレット。`api/public/executeScript` では使用されません。 |
 
 ### レスポンス
 
@@ -25,11 +31,13 @@ POST /api/public/executeScript
 
 ```json
 {
-    "returnCode": "0"
+    "returnCode": "0",
+    "stdout": "...",
+    "stderr": "..."
 }
 ```
 
-`returnCode` はシェルスクリプトの終了コード（`$?` の値）です。
+`returnCode` はシェルスクリプトの終了コード（`$?` の値）です。`stdout` / `stderr` はスクリプトの標準出力・標準エラー出力を改行区切りで結合したものです（出力がない場合は空文字列）。
 
 スクリプト実行自体は成功したが、スクリプト内でエラーが発生した場合も HTTP 200 が返ります。
 終了コードの値でスクリプトの成否を確認してください。
@@ -38,13 +46,20 @@ POST /api/public/executeScript
 
 ## エラーレスポンス
 
-### HTTP 403 / 404
+### HTTP 403
 
-URL が正しくない場合、または `jp.ecuacion.tool.command-api.allow-insecure-access` が `true` でない状態で `GET` リクエストが来た場合に返ります（[アクセス制御](#アクセス制御)を参照）。
+以下の場合に返ります（[アクセス制御](#アクセス制御)を参照）。
+
+- `jp.ecuacion.tool.command-api.api-key-required` が `false` に設定されていない状態（デフォルト）で `api/public/executeScript` にリクエストが来た場合
+- `api/public/executeScript`（有効化されている場合）または `api/key/executeScript`（有効な `X-Api-Key` を伴う場合）へのリクエストで、対象スクリプトの定義（`GET:` / `POST:` / `ALL:` プレフィックス）がそのHTTPメソッドを許可していない場合
+
+### HTTP 404
+
+URL が正しくない場合に返ります。
 
 ### HTTP 401
 
-`POST` リクエストで `apiKey` が未指定、サーバ側の api-key ファイルの内容と一致しない、または api-key ファイル自体が未設定・読み込み不可の場合に返ります。原因の切り分けを応答内容から行えないよう、いずれの場合も同一のレスポンスになります（設定不備とキー不一致の区別を攻撃者にさせないため）。原因の切り分けはサーバ側のログで行ってください。
+`api/key/executeScript` へのリクエストで、`X-Api-Key` ヘッダが未指定、サーバ側の api-key ファイルの内容と一致しない、または api-key ファイル自体が未設定・読み込み不可の場合に返ります。原因の切り分けを応答内容から行えないよう、いずれの場合も同一のレスポンスになります（設定不備とキー不一致の区別を攻撃者にさせないため）。原因の切り分けはサーバ側のログで行ってください。
 
 ### HTTP 400
 
@@ -96,9 +111,11 @@ URL が正しくない場合、または `jp.ecuacion.tool.command-api.allow-ins
 
 ### アクセス制御
 
-デフォルトでは `GET` は無効化されており、`POST` は一致する `apiKey` が必要です。`apiKey` は**単純な共有シークレット**であり、サーバ側に配置したファイルの内容と照合されます。非対称鍵（公開鍵・秘密鍵のペア）ではなく、クライアントが送信する値が秘密鍵として扱われることもありません。
+デフォルトでは `api/public/executeScript` は無効化されており（`jp.ecuacion.tool.command-api.api-key-required` のデフォルト値 `true`）、スクリプトの実行には `api/key/executeScript` と有効な `X-Api-Key` ヘッダが必要です。`X-Api-Key` は**単純な共有シークレット**であり、サーバ側に配置したファイルの内容と照合されます。非対称鍵（公開鍵・秘密鍵のペア）ではなく、クライアントが送信する値が秘密鍵として扱われることもありません。
 
-`jp.ecuacion.tool.command-api.allow-insecure-access=true` を設定すると `GET` が許可され、`POST` の `apiKey` 検証も省略されます。信頼できる内部ネットワークでのみ使用してください。プロパティの詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照してください。
+`jp.ecuacion.tool.command-api.api-key-required=false` を設定すると `api/public/executeScript` が有効になります。信頼できる内部ネットワークでのみ使用してください。
+
+どちらのエンドポイントでも、スクリプトごとに許可するHTTPメソッドは `ecuacion-tool-command-api.properties` 側の `GET:` / `POST:` / `ALL:` プレフィックスで宣言します（プレフィックス省略時は `POST` のみ）。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` による認証が必須かどうかだけです。プロパティの詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照してください。
 
 ---
 

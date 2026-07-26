@@ -1,4 +1,4 @@
-`SplibAppParentBatchConfig`（[セットアップ](page?id=batch/setup&lang=ja) 参照）は、
+`SplibAppParentBatchConfig`（[クイックスタート](page?id=batch/quickstart&lang=ja) 参照）は、
 ecuacion-splib 標準の、あらかじめ組み込み済みのビルダーを返す 2 つの protected ファクトリメソッドを提供します。
 `JobBuilder`/`StepBuilder` を直接生成する代わりにこれらを使ってください。
 

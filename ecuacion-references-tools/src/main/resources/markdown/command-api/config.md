@@ -16,13 +16,13 @@ Two properties control access to `executeScript` (see [API Spec](page?id=command
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `jp.ecuacion.tool.command-api.allow-insecure-access` | boolean | `true`: `GET` is allowed, and `POST` skips `apiKey` verification. Intended for trusted internal networks only. `false` (the default applied when unset): `GET` is rejected (403), and `POST` requires a valid `apiKey`. |
-| `jp.ecuacion.tool.command-api.api-key-file-path` | String | Path to a file containing the shared secret compared against the `apiKey` POST parameter. Supports `${ENV_VAR}` resolution, same as script paths (see below). |
+| `jp.ecuacion.tool.command-api.api-key-required` | boolean | `true` (the default applied when unset): `api/public/executeScript` is rejected (403). Call `api/key/executeScript` instead, which always requires a valid `X-Api-Key` header. `false`: `api/public/executeScript` is enabled. Use this only on trusted internal networks. (On both endpoints, which HTTP method(s) a script accepts is controlled by its HTTP-method prefix, described below.) |
+| `jp.ecuacion.tool.command-api.api-key-file-path` | String | Path to a file containing the shared secret compared against the `X-Api-Key` header on `api/key/executeScript`. Supports `${ENV_VAR}` resolution, same as script paths (see below). |
 
 Example:
 
 ```properties
-jp.ecuacion.tool.command-api.allow-insecure-access=false
+jp.ecuacion.tool.command-api.api-key-required=true
 jp.ecuacion.tool.command-api.api-key-file-path=${HOME}/secrets/command-api-key.txt
 ```
 
@@ -96,6 +96,26 @@ Example:
 script.say-hello=/opt/scripts/sayHello.sh
 script.daily-batch=/opt/scripts/dailyBatch.sh
 ```
+
+#### Restricting the Allowed HTTP Method
+
+Prefix a script definition's value with `GET:`, `POST:`, or `ALL:` (case-insensitive) to control which HTTP method(s) can invoke that script on `api/public/executeScript` (once enabled) and `api/key/executeScript` alike. Omitting the prefix allows `POST` only.
+
+```properties
+script.say-hello=GET:/opt/scripts/sayHello.sh
+script.daily-batch=POST:/opt/scripts/dailyBatch.sh
+script.status-check=ALL:/opt/scripts/statusCheck.sh
+script.legacy-job=/opt/scripts/legacyJob.sh
+```
+
+| Script ID | Allowed method(s) |
+| --- | --- |
+| `script.say-hello` | `GET` only |
+| `script.daily-batch` | `POST` only |
+| `script.status-check` | `GET` and `POST` |
+| `script.legacy-job` | `POST` only (the default when the prefix is omitted) |
+
+> **Note:** This prefix applies identically to `api/public/executeScript` and `api/key/executeScript`. The only difference between the two endpoints is whether `X-Api-Key` header authentication is required, not this method restriction.
 
 #### Using Environment Variables
 
