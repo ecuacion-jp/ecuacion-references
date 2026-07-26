@@ -60,3 +60,9 @@ public class AppExceptionHandlerAction implements SplibExceptionHandlerAction {
 `SplibExceptionHandlerAction` を共有します。例外は `ecuacion-splib-rest` で、
 REST フロントエンドは web フロントエンドと同じプロセスで動くことが多いため、
 専用の `SplibRestExceptionHandlerAction` を持っています。
+
+## 実際のバグなしにテストする
+
+独自の `SplibExceptionHandlerAction` も含め、上記の挙動をわざと失敗する Tasklet を書かずに
+確認したい場合は、組み込みの
+[System Error Job](page?id=batch/system-error-job&lang=ja) を使ってください。

@@ -117,6 +117,15 @@
 					@{/public/showMarkdown/page(id='batch/current-execution-context',lang=${lang})},
 					#{navBar.batch.currentExecutionContext}, '')}"></div>
 
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.batch.grp.other}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/system-error-job',lang=${lang})},
+					#{navBar.batch.systemErrorJob}, '')}"></div>
+
 		</div></th:block>
 	</div>
 

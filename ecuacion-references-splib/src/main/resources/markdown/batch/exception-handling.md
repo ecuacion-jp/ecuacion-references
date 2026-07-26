@@ -61,3 +61,9 @@ running application), there's no need to differentiate; both simply share
 `SplibExceptionHandlerAction`. `ecuacion-splib-rest` is the exception: it has its own
 `SplibRestExceptionHandlerAction`, since a REST API frontend commonly runs in the same process as
 a web frontend.
+
+## Testing it without a real bug
+
+To exercise everything described above — including your own `SplibExceptionHandlerAction` — without
+writing a tasklet that fails on purpose, use the built-in
+[System Error Job](page?id=batch/system-error-job&lang=en).
