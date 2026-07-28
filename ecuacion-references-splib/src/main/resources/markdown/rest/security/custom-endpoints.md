@@ -1,7 +1,7 @@
-Every request that reaches the third filter chain registered by `SplibRestSecurityConfig`
-(`@Order(10)`, `securityMatcher("/api/**")`) is denied — `anyRequest().denyAll()`. This is the
-catch-all for anything under `/api/**` that is not `/api/public/**`, `/api/ecuacion/public/**`, or
-`/api/key/**`.
+Every request that reaches the fourth filter chain registered by `SplibRestSecurityConfig`
+(`@Order(11)`, `securityMatcher("/api/**")`) is denied — `anyRequest().denyAll()`. This is the
+catch-all for anything under `/api/**` that is not `/api/public/**`,
+`/api/ecuacion-splib/public/**`, `/api/key/**`, or `/api/ecuacion-splib/key/**`.
 
 ## Adding your own security policy
 
@@ -28,13 +28,14 @@ public class AppCustomApiSecurityConfig {
 ```
 
 Requests that don't match your custom `securityMatcher` fall through to the built-in
-`/api/public/**` / `/api/ecuacion/public/**` (8), `/api/key/**` (9), and finally the `/api/**`
-deny-all (10) chains, in that order.
+`/api/public/**` / `/api/ecuacion-splib/public/**` (8), `/api/key/**` (9),
+`/api/ecuacion-splib/key/**` (10), and finally the `/api/**` deny-all (11) chains, in that order.
 
 ## Reserved orders
 
-`ecuacion-splib-rest` uses `@Order(8)`, `@Order(9)`, and `@Order(10)` for
+`ecuacion-splib-rest` uses `@Order(8)`, `@Order(9)`, `@Order(10)`, and `@Order(11)` for
 [Public Endpoints](page?id=rest/security/public-endpoints&lang=en),
-[API Key Authentication](page?id=rest/security/api-key/overview&lang=en), and the
+[API Key Authentication](page?id=rest/security/api-key/overview&lang=en),
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en), and the
 deny-all rule, respectively. Keep application-defined chains outside this range (below 8, since the
-deny-all rule at 10 must remain the final fallback).
+deny-all rule at 11 must remain the final fallback).

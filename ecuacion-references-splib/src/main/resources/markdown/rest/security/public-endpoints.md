@@ -14,12 +14,15 @@ endpoint needs to write data, put it under `/api/key/**` (see
 behind your own security configuration (see
 [Custom Endpoint Security](page?id=rest/security/custom-endpoints&lang=en)).
 
-## `/api/ecuacion/public/**` is reserved for `ecuacion-splib`'s own endpoints
+## `/api/ecuacion-splib/public/**` is reserved for `ecuacion-splib`'s own endpoints
 
-The same filter chain also permits `/api/ecuacion/public/**`, with the identical `permitAll`
-policy. This prefix is reserved for endpoints `ecuacion-splib` itself provides — the built-in
-[Alive Check Endpoint](page?id=rest/alive-check-endpoint&lang=en) (`GET /api/ecuacion/public/aliveCheck`)
-and the [Config Endpoints](page?id=rest/config-endpoints&lang=en)
-(`POST /api/ecuacion/public/clearPropertiesCache`, `POST /api/ecuacion/public/systemError`,
-disabled by default) — so that `/api/public/**` stays exclusively the application's own
-namespace.
+The same filter chain also permits `/api/ecuacion-splib/public/**`, with the identical `permitAll`
+policy. This prefix is reserved for `ecuacion-splib`'s own built-in endpoints that are safe to
+expose without authentication — currently just the
+[Alive Check Endpoint](page?id=rest/alive-check-endpoint&lang=en)
+(`GET`/`POST /api/ecuacion-splib/public/aliveCheck`) — so that `/api/public/**` stays exclusively
+the application's own namespace. Built-in endpoints with side effects, such as the
+[Config Endpoints](page?id=rest/config-endpoints&lang=en)
+(`POST /api/ecuacion-splib/key/clearPropertiesCache`, `POST /api/ecuacion-splib/key/systemError`),
+instead live under `/api/ecuacion-splib/key/**`; see
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en).

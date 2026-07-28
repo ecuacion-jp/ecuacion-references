@@ -21,13 +21,14 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Security config backing the {@code /api/public/hello} quickstart endpoint.
  *
- * <p>This site does not use {@code /api/key/**}, so {@code null} is passed for the
- *     API-key provider, which makes that prefix deny all requests.</p>
+ * <p>This site does not use {@code /api/key/**} or {@code /api/ecuacion-splib/key/**}, so
+ *     {@code null} is passed for both key providers, which makes those prefixes deny all
+ *     requests.</p>
  */
 @Configuration
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig() {
-    super(null);
+    super(null, null);
   }
 }

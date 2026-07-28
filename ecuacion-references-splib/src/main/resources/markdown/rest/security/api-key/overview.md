@@ -1,5 +1,6 @@
 Endpoints mapped under `/api/key/**` require a valid `X-Api-Key` header. This filter chain runs at
-`@Order(9)`, after `/api/public/**` (8) and before the catch-all `/api/**` deny rule (10).
+`@Order(9)`, after `/api/public/**` (8) and before `/api/ecuacion-splib/key/**` (10) and the
+catch-all `/api/**` deny rule (11).
 
 ## Request headers
 
@@ -41,23 +42,27 @@ rejected — there is no default "no key required" behavior for this prefix, unl
 
 Registering the bean above is not enough by itself. If you followed
 [Quickstart](page?id=rest/quickstart&lang=en), `AppRestSecurityConfig` calls
-`super(null)`, so `/api/key/**` keeps rejecting everything regardless of whether a provider bean
-exists. Accept the provider in the constructor and forward it instead:
+`super(null, null)`, so `/api/key/**` keeps rejecting everything regardless of whether a provider
+bean exists. Accept the provider in the constructor and forward it instead:
 
 ```java
 @Configuration
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig(
-      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider) {
-    super(apiKeyExpectedValueProvider);
+      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider,
+      @Nullable SplibBuiltinApiKeyExpectedValueProvider builtinApiKeyExpectedValueProvider) {
+    super(apiKeyExpectedValueProvider, builtinApiKeyExpectedValueProvider);
   }
 }
 ```
 
 Spring injects the bean registered above automatically. The parameter stays `@Nullable` so the
 application still starts even without such a bean — in which case `/api/key/**` keeps rejecting
-everything, same as the Quickstart default.
+everything, same as the Quickstart default. The second parameter is unrelated to `/api/key/**`
+itself — it backs `/api/ecuacion-splib/key/**` instead; see
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en). Pass `null` for
+it here if your application doesn't need those built-in endpoints enabled.
 
 ## Rejection behavior
 

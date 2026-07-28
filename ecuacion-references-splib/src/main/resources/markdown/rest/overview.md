@@ -4,13 +4,17 @@ convention, an API key authentication mechanism, and a common exception handler.
 
 ## What it provides
 
-- **Endpoint-prefix security convention** — every endpoint is placed under one of three security
-  policies (`/api/public/**`, `/api/key/**`, `/api/**`). `/api/ecuacion/public/**` shares the
-  `/api/public/**` policy but is reserved for `ecuacion-splib`'s own built-in endpoints. See
-  [Public Endpoints](page?id=rest/security/public-endpoints&lang=en) and
+- **Endpoint-prefix security convention** — every endpoint is placed under one of four security
+  policies (`/api/public/**`, `/api/ecuacion-splib/key/**`, `/api/key/**`, `/api/**`).
+  `/api/ecuacion-splib/public/**` shares the `/api/public/**` policy but is reserved for
+  `ecuacion-splib`'s own built-in endpoints that are safe to expose without authentication. See
+  [Public Endpoints](page?id=rest/security/public-endpoints&lang=en),
+  [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en), and
   [API Key Authentication](page?id=rest/security/api-key/overview&lang=en).
 - **API key authentication** — header-based authentication (`X-Api-Key`) for machine-to-machine
-  calls, with a pluggable lookup and a plain/hashed comparison mode.
+  calls, with a pluggable lookup and a plain/hashed comparison mode. `ecuacion-splib`'s own
+  built-in endpoints with side effects use an independently-registered key set, kept separate from
+  the application's `/api/key/**` keys.
 - **Common exception handling** — uncaught exceptions and a dedicated `HttpStatusException` are
   translated into HTTP responses uniformly. See
   [Exception Handling](page?id=rest/exception-handling&lang=en).
@@ -20,11 +24,12 @@ convention, an API key authentication mechanism, and a common exception handler.
 | Prefix | Security policy |
 | --- | --- |
 | `/api/public/**` | Always allowed (`permitAll`) |
-| `/api/ecuacion/public/**` | Always allowed (`permitAll`) — reserved for `ecuacion-splib`'s own built-in endpoints |
-| `/api/key/**` | Requires a valid `X-Api-Key` header |
+| `/api/ecuacion-splib/public/**` | Always allowed (`permitAll`) — reserved for `ecuacion-splib`'s own built-in endpoints that are safe to expose without authentication |
+| `/api/ecuacion-splib/key/**` | Requires a valid `X-Api-Key` header — for `ecuacion-splib`'s own built-in endpoints with side effects |
+| `/api/key/**` | Requires a valid `X-Api-Key` header — the application's own keys |
 | `/api/**` (anything else) | Always denied (`denyAll`) |
 
-These three policies are wired up by `SplibRestSecurityConfig`, an abstract class your application
+These four policies are wired up by `SplibRestSecurityConfig`, an abstract class your application
 extends. See [Quickstart](page?id=rest/quickstart&lang=en).
 
 ## A note on CSRF

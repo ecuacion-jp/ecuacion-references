@@ -16,7 +16,7 @@ public class AppConfig {
 
 ## 2. Extend `SplibRestSecurityConfig`
 
-`SplibRestSecurityConfig` is an abstract class that wires up the three security filter chains
+`SplibRestSecurityConfig` is an abstract class that wires up the four security filter chains
 described in [Overview](page?id=rest/overview&lang=en). Your application
 provides a concrete `@Configuration` subclass:
 
@@ -25,7 +25,7 @@ provides a concrete `@Configuration` subclass:
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig() {
-    super(null);
+    super(null, null);
   }
 }
 ```

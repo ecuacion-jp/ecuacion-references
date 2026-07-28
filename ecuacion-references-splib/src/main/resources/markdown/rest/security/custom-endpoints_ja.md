@@ -1,7 +1,7 @@
-`SplibRestSecurityConfig` が登録する 3 番目のフィルターチェーン（`@Order(10)`、
+`SplibRestSecurityConfig` が登録する 4 番目のフィルターチェーン（`@Order(11)`、
 `securityMatcher("/api/**")`）に到達したリクエストはすべて拒否されます（`anyRequest().denyAll()`）。
-これは `/api/public/**` にも `/api/ecuacion/public/**` にも `/api/key/**` にも該当しない、`/api/**`
-配下すべてに対する catch-all です。
+これは `/api/public/**` にも `/api/ecuacion-splib/public/**` にも `/api/key/**` にも
+`/api/ecuacion-splib/key/**` にも該当しない、`/api/**` 配下すべてに対する catch-all です。
 
 ## 独自のセキュリティポリシーを追加する
 
@@ -28,14 +28,15 @@ public class AppCustomApiSecurityConfig {
 ```
 
 独自の `securityMatcher` にマッチしなかったリクエストは、組み込みの `/api/public/**` /
-`/api/ecuacion/public/**`（8）→ `/api/key/**`（9）→ `/api/**` の deny-all（10）の順に
-フォールスルーします。
+`/api/ecuacion-splib/public/**`（8）→ `/api/key/**`（9）→ `/api/ecuacion-splib/key/**`（10）→
+`/api/**` の deny-all（11）の順にフォールスルーします。
 
 ## 予約済みの Order 値
 
 `ecuacion-splib-rest` は
 [Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)、
 [API キー認証](page?id=rest/security/api-key/overview&lang=ja)、
-deny-all ルールにそれぞれ `@Order(8)`・`@Order(9)`・`@Order(10)` を使用しています。
-アプリケーション側で定義するチェーンはこの範囲の外（10 の deny-all は最終フォールバックとして
+[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)、
+deny-all ルールにそれぞれ `@Order(8)`・`@Order(9)`・`@Order(10)`・`@Order(11)` を使用しています。
+アプリケーション側で定義するチェーンはこの範囲の外（11 の deny-all は最終フォールバックとして
 残す必要があるため、8 より小さい値）を使用してください。

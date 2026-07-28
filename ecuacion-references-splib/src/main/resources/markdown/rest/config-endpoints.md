@@ -1,9 +1,9 @@
 `ecuacion-splib-rest` provides two built-in controllers for operational testing, both mapped
-under `/api/ecuacion/public/**`:
+under `/api/ecuacion-splib/key/**`:
 
 ```
-POST /api/ecuacion/public/clearPropertiesCache
-POST /api/ecuacion/public/systemError
+POST /api/ecuacion-splib/key/clearPropertiesCache
+POST /api/ecuacion-splib/key/systemError
 ```
 
 - `ClearPropertiesCacheController` clears the cache of properties files read via
@@ -14,7 +14,11 @@ POST /api/ecuacion/public/systemError
   bug.
 
 Unlike the [Alive Check Endpoint](page?id=rest/alive-check-endpoint&lang=en), both of these have
-side effects, so each is rejected with an HTTP `403` response unless
-`jp.ecuacion.splib.rest.ecuacion-config-endpoints.enabled` is explicitly set to `true` in
-application.properties. Leave it unset (or `false`) in production, and enable it only in
-environments where triggering these operational actions publicly is safe.
+side effects, so neither lives under `/api/ecuacion-splib/public/**`. Instead they require a valid
+`X-Api-Key` header, authenticated the same way as [API Key
+Authentication](page?id=rest/security/api-key/overview&lang=en) but against a key set that is
+registered and rotated independently — see [Built-in Key
+Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en). Until your application
+registers a `SplibBuiltinApiKeyExpectedValueProvider` bean and wires it into
+`AppRestSecurityConfig`, every request to `/api/ecuacion-splib/key/**` — including these two
+endpoints — is rejected.

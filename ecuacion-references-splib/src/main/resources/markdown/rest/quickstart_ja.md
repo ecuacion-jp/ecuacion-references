@@ -18,7 +18,7 @@ public class AppConfig {
 ## 2. `SplibRestSecurityConfig` を継承する
 
 `SplibRestSecurityConfig` は抽象クラスで、
-[概要](page?id=rest/overview&lang=ja) で説明した 3 つのセキュリティフィルターチェーンを
+[概要](page?id=rest/overview&lang=ja) で説明した 4 つのセキュリティフィルターチェーンを
 設定します。アプリケーション側で具象の `@Configuration` サブクラスを用意してください。
 
 ```java
@@ -26,7 +26,7 @@ public class AppConfig {
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig() {
-    super(null);
+    super(null, null);
   }
 }
 ```

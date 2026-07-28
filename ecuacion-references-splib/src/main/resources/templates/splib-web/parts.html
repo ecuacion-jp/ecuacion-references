@@ -62,6 +62,10 @@
 			</div></th:block>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/security/builtin-api-key/overview',lang=${lang})},
+					#{navBar.rest.security.builtinApiKey}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='rest/security/custom-endpoints',lang=${lang})},
 					#{navBar.rest.security.customEndpoints}, '')}"></div>
 

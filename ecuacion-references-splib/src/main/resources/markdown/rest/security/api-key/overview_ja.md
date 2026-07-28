@@ -1,6 +1,7 @@
 `/api/key/**` 配下にマッピングされたエンドポイントは、有効な `X-Api-Key` ヘッダーが必須です。
 このフィルターチェーンは `@Order(9)` で実行され、`/api/public/**`（8）の後、
-残りすべてを拒否する `/api/**` のルール（10）より前に評価されます。
+`/api/ecuacion-splib/key/**`（10）および残りすべてを拒否する `/api/**` のルール（11）より前に
+評価されます。
 
 ## リクエストヘッダー
 
@@ -41,23 +42,28 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 ## Provider を `AppRestSecurityConfig` に渡す
 
 上記の Bean を登録しただけでは不十分です。[クイックスタート](page?id=rest/quickstart&lang=ja)
-の手順通りだと、`AppRestSecurityConfig` は `super(null)` を呼んでいるため、Provider の Bean を登録しても
-`/api/key/**` は引き続きすべて拒否されます。コンストラクタで Provider を受け取り、そのまま渡すように変更してください。
+の手順通りだと、`AppRestSecurityConfig` は `super(null, null)` を呼んでいるため、Provider の Bean を
+登録しても `/api/key/**` は引き続きすべて拒否されます。コンストラクタで Provider を受け取り、
+そのまま渡すように変更してください。
 
 ```java
 @Configuration
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig(
-      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider) {
-    super(apiKeyExpectedValueProvider);
+      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider,
+      @Nullable SplibBuiltinApiKeyExpectedValueProvider builtinApiKeyExpectedValueProvider) {
+    super(apiKeyExpectedValueProvider, builtinApiKeyExpectedValueProvider);
   }
 }
 ```
 
 上で登録した Bean は Spring が自動的に注入します。引数を `@Nullable` にしているのは、該当する Bean を
 登録していなくてもアプリが起動できるようにするためです（その場合はクイックスタートのデフォルトと同じく
-`/api/key/**` は引き続きすべて拒否されます）。
+`/api/key/**` は引き続きすべて拒否されます）。2 番目の引数は `/api/key/**` とは無関係で、代わりに
+`/api/ecuacion-splib/key/**` を支える引数です。詳しくは
+[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を
+参照してください。組み込みエンドポイントを有効化する必要がなければ、ここには `null` を渡してください。
 
 ## 拒否時の挙動
 

@@ -1,9 +1,9 @@
 `ecuacion-splib-rest` は、運用テスト用の組み込みコントローラーを 2 つ提供しています。
-どちらも `/api/ecuacion/public/**` 配下にマッピングされています。
+どちらも `/api/ecuacion-splib/key/**` 配下にマッピングされています。
 
 ```
-POST /api/ecuacion/public/clearPropertiesCache
-POST /api/ecuacion/public/systemError
+POST /api/ecuacion-splib/key/clearPropertiesCache
+POST /api/ecuacion-splib/key/systemError
 ```
 
 - `ClearPropertiesCacheController` は `PropertiesFileUtil` が読み込むプロパティファイルの
@@ -14,7 +14,10 @@ POST /api/ecuacion/public/systemError
   テストできます。
 
 [Alive Check エンドポイント](page?id=rest/alive-check-endpoint&lang=ja) とは異なり、この 2 つは
-副作用を伴うため、`jp.ecuacion.splib.rest.ecuacion-config-endpoints.enabled` を
-application.properties で明示的に `true` に設定しない限り、HTTP `403` で拒否されます。
-本番環境では未設定（または `false`）のままにし、これらの操作を公開しても問題ない環境でのみ
-有効にしてください。
+副作用を伴うため `/api/ecuacion-splib/public/**` には置かれていません。代わりに有効な
+`X-Api-Key` ヘッダーが必須で、[API キー認証](page?id=rest/security/api-key/overview&lang=ja)
+と同じ仕組みで認証されますが、照合に使うキーセットは独立して登録・ローテーションされます。詳しくは
+[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を
+参照してください。アプリケーション側で `SplibBuiltinApiKeyExpectedValueProvider` の Bean を登録し、
+`AppRestSecurityConfig` に渡すまでは、この 2 つを含め `/api/ecuacion-splib/key/**` への
+リクエストはすべて拒否されます。

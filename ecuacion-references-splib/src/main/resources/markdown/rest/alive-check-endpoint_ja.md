@@ -1,14 +1,23 @@
-`ecuacion-splib-rest` は、`/api/ecuacion/public/aliveCheck` にマッピングされた組み込みコントローラー
+`ecuacion-splib-rest` は、`/api/ecuacion-splib/public/aliveCheck` にマッピングされた組み込みコントローラー
 `AliveCheckController` を 1 つ提供しています。
 
 ```
-GET /api/ecuacion/public/aliveCheck
+GET  /api/ecuacion-splib/public/aliveCheck
+POST /api/ecuacion-splib/public/aliveCheck
 ```
 
-`/api/ecuacion/public/**` プレフィックス配下にあります。これは `ecuacion-splib` 自身の組み込み
+`/api/ecuacion-splib/public/**` プレフィックス配下にあります。これは `ecuacion-splib` 自身の組み込み
 エンドポイント用に予約されたパスで、アプリケーション側の
 [Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)（`/api/public/**`）
 とは区別されていますが、`/api/public/**` と同様に認証なしで到達可能です。
-リクエストパラメータもレスポンスボディも定義されておらず、空のボディで HTTP `200` を返すだけです。
+`GET`・`POST` の両方を受け付けます（`HEAD` は Spring MVC が `GET` に付随して自動的に処理します）。
+これにより、監視ツールやアップタイムチェックがメソッド制限で弾かれることがないようにしています。
+
+リクエストパラメータは定義されていません。レスポンスは以下の小さな JSON ボディとともに HTTP `200` を返します。
+
+```json
+{"status": "OK"}
+```
+
 アプリケーション固有のエンドポイントとは独立に、アプリケーションが起動していること、
-`/api/ecuacion/public/**` のフィルターチェーンが正しく組まれていることを手軽に確認できるエンドポイントとして利用できます。
+`/api/ecuacion-splib/public/**` のフィルターチェーンが正しく組まれていることを手軽に確認できるエンドポイントとして利用できます。
