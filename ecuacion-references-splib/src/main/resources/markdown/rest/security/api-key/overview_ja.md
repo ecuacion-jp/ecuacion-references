@@ -42,7 +42,7 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 ## Provider を `AppRestSecurityConfig` に渡す
 
 上記の Bean を登録しただけでは不十分です。[クイックスタート](page?id=rest/quickstart&lang=ja)
-の手順通りだと、`AppRestSecurityConfig` は `super(null, null)` を呼んでいるため、Provider の Bean を
+の手順通りだと、`AppRestSecurityConfig` は `super(null)` を呼んでいるため、Provider の Bean を
 登録しても `/api/key/**` は引き続きすべて拒否されます。コンストラクタで Provider を受け取り、
 そのまま渡すように変更してください。
 
@@ -51,19 +51,19 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig(
-      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider,
-      @Nullable SplibBuiltinApiKeyExpectedValueProvider builtinApiKeyExpectedValueProvider) {
-    super(apiKeyExpectedValueProvider, builtinApiKeyExpectedValueProvider);
+      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider) {
+    super(apiKeyExpectedValueProvider);
   }
 }
 ```
 
 上で登録した Bean は Spring が自動的に注入します。引数を `@Nullable` にしているのは、該当する Bean を
 登録していなくてもアプリが起動できるようにするためです（その場合はクイックスタートのデフォルトと同じく
-`/api/key/**` は引き続きすべて拒否されます）。2 番目の引数は `/api/key/**` とは無関係で、代わりに
-`/api/ecuacion-splib/key/**` を支える引数です。詳しくは
+`/api/key/**` は引き続きすべて拒否されます）。このコンストラクタ引数は `/api/ecuacion-splib/key/**`
+とは無関係です。そちらには Provider Bean 自体が存在せず、代わりに `application.properties` で
+設定します。詳しくは
 [組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を
-参照してください。組み込みエンドポイントを有効化する必要がなければ、ここには `null` を渡してください。
+参照してください。
 
 ## 拒否時の挙動
 

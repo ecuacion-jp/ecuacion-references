@@ -41,28 +41,27 @@ rejected — there is no default "no key required" behavior for this prefix, unl
 ## Wiring the provider into `AppRestSecurityConfig`
 
 Registering the bean above is not enough by itself. If you followed
-[Quickstart](page?id=rest/quickstart&lang=en), `AppRestSecurityConfig` calls
-`super(null, null)`, so `/api/key/**` keeps rejecting everything regardless of whether a provider
-bean exists. Accept the provider in the constructor and forward it instead:
+[Quickstart](page?id=rest/quickstart&lang=en), `AppRestSecurityConfig` calls `super(null)`, so
+`/api/key/**` keeps rejecting everything regardless of whether a provider bean exists. Accept the
+provider in the constructor and forward it instead:
 
 ```java
 @Configuration
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig(
-      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider,
-      @Nullable SplibBuiltinApiKeyExpectedValueProvider builtinApiKeyExpectedValueProvider) {
-    super(apiKeyExpectedValueProvider, builtinApiKeyExpectedValueProvider);
+      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider) {
+    super(apiKeyExpectedValueProvider);
   }
 }
 ```
 
 Spring injects the bean registered above automatically. The parameter stays `@Nullable` so the
 application still starts even without such a bean — in which case `/api/key/**` keeps rejecting
-everything, same as the Quickstart default. The second parameter is unrelated to `/api/key/**`
-itself — it backs `/api/ecuacion-splib/key/**` instead; see
-[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en). Pass `null` for
-it here if your application doesn't need those built-in endpoints enabled.
+everything, same as the Quickstart default. This constructor argument is unrelated to
+`/api/ecuacion-splib/key/**`, which has no provider bean of its own — see
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en) for how that one
+is configured instead, via `application.properties`.
 
 ## Rejection behavior
 

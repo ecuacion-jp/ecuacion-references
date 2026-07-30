@@ -9,11 +9,10 @@ jp.ecuacion.splib.rest.api-key.mode=PLAIN
 A single application is assumed to use one mode consistently — it is not configurable per endpoint or
 per key. The default is `PLAIN`.
 
-The same enum also selects the comparison mode for
-[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en)
-(`/api/ecuacion-splib/key/**`), via the separate property
-`jp.ecuacion.splib.rest.builtin-api-key.mode` (also default `PLAIN`) — the two prefixes' modes are
-configured independently, since they guard unrelated key sets.
+This mode selection is specific to `/api/key/**`. [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en)
+(`/api/ecuacion-splib/key/**`) does not use `SplibApiKeyComparisonMode` at all — its credential is
+configured directly via `jp.ecuacion.splib.rest.builtin-api-key.password-plain` or
+`...password-bcrypt` instead, with no separate mode property.
 
 ## `PLAIN`
 

@@ -26,7 +26,7 @@ public class AppConfig {
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig() {
-    super(null, null);
+    super(null);
   }
 }
 ```

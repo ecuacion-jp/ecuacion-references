@@ -10,10 +10,10 @@ jp.ecuacion.splib.rest.api-key.mode=PLAIN
 単一のアプリケーションは一貫して 1 つのモードを使うことを前提としており、エンドポイント単位・キー単位での
 切り替えはできません。デフォルトは `PLAIN` です。
 
-同じ enum は、[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)
-（`/api/ecuacion-splib/key/**`）の比較モード選択にも使われますが、こちらは別のプロパティ
-`jp.ecuacion.splib.rest.builtin-api-key.mode`（デフォルトも `PLAIN`）で設定します。守っている
-キーセットが別ものであるため、2 つのプレフィックスのモードは独立して設定できます。
+このモード選択は `/api/key/**` 専用です。[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)
+（`/api/ecuacion-splib/key/**`）は `SplibApiKeyComparisonMode` を一切使いません。こちらの認証情報は
+`jp.ecuacion.splib.rest.builtin-api-key.password-plain` または `...password-bcrypt` で直接設定する形で、
+別途モード用のプロパティはありません。
 
 ## `PLAIN`
 

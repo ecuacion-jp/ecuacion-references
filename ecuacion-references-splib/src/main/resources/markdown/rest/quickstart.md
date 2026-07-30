@@ -25,7 +25,7 @@ provides a concrete `@Configuration` subclass:
 public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 
   public AppRestSecurityConfig() {
-    super(null, null);
+    super(null);
   }
 }
 ```

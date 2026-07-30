@@ -18,7 +18,7 @@ side effects, so neither lives under `/api/ecuacion-splib/public/**`. Instead th
 `X-Api-Key` header, authenticated the same way as [API Key
 Authentication](page?id=rest/security/api-key/overview&lang=en) but against a key set that is
 registered and rotated independently — see [Built-in Key
-Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en). Until your application
-registers a `SplibBuiltinApiKeyExpectedValueProvider` bean and wires it into
-`AppRestSecurityConfig`, every request to `/api/ecuacion-splib/key/**` — including these two
+Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en). Until your application sets
+`jp.ecuacion.splib.rest.builtin-api-key.password-plain` or `...password-bcrypt` in
+`application.properties`, every request to `/api/ecuacion-splib/key/**` — including these two
 endpoints — is rejected.

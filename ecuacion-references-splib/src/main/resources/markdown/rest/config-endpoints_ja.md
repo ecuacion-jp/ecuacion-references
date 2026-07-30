@@ -18,6 +18,6 @@ POST /api/ecuacion-splib/key/systemError
 `X-Api-Key` ヘッダーが必須で、[API キー認証](page?id=rest/security/api-key/overview&lang=ja)
 と同じ仕組みで認証されますが、照合に使うキーセットは独立して登録・ローテーションされます。詳しくは
 [組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を
-参照してください。アプリケーション側で `SplibBuiltinApiKeyExpectedValueProvider` の Bean を登録し、
-`AppRestSecurityConfig` に渡すまでは、この 2 つを含め `/api/ecuacion-splib/key/**` への
-リクエストはすべて拒否されます。
+参照してください。アプリケーション側で `application.properties` に
+`jp.ecuacion.splib.rest.builtin-api-key.password-plain` または `...password-bcrypt` を
+設定するまでは、この 2 つを含め `/api/ecuacion-splib/key/**` へのリクエストはすべて拒否されます。

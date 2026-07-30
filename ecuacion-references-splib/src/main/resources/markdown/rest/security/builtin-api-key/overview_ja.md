@@ -9,66 +9,50 @@
 
 ## なぜキーセットを分けているか
 
-`SplibBuiltinApiKeyExpectedValueProvider` は `SplibApiKeyExpectedValueProvider` とは別のインターフェースで、
-`jp.ecuacion.splib.rest.builtin-api-key.mode` も `jp.ecuacion.splib.rest.api-key.mode` とは
-別のプロパティです。これにより、`ecuacion-splib` 自身の運用系エンドポイントを守るキーを、
-アプリケーションが `/api/key/**` で独自に発行しているキーとは独立して発行・ローテーション・失効
+`jp.ecuacion.splib.rest.builtin-api-key.*` は `jp.ecuacion.splib.rest.api-key.*` とは別の
+プロパティの名前空間です。これにより、`ecuacion-splib` 自身の運用系エンドポイントを守るキーを、
+アプリケーションが `/api/key/**` で独自に使っているキーとは独立して発行・ローテーション
 できるようにしています。
 
 ## リクエストヘッダー
 
-`/api/key/**` と同一です：`X-Api-Key`（必須）と `X-Api-Key-Id`（任意）。詳しくは
-[API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。
+`/api/key/**` と同一です：`X-Api-Key`（必須）と `X-Api-Key-Id`（任意。ここでは複数クライアント向けの
+キーではなく固定の単一キーなので、認証後のプリンシパル名としてログ用途に引き継がれるだけです）。
+詳しくは [API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。
 
-## 照合ロジックの実装
+## キーの設定
 
-`SplibBuiltinApiKeyExpectedValueProvider` を実装した Bean を登録します。
+`/api/key/**` と異なり、ここではアプリケーション実装の Provider Bean は不要です。期待値は
+`application.properties` から直接読み込まれます。次のどちらか一方だけを設定してください。
 
-```java
-@Component
-public class AppBuiltinApiKeyExpectedValueProvider
-    implements SplibBuiltinApiKeyExpectedValueProvider {
-
-  @Override
-  public Collection<String> getExpectedValues(@Nullable String apiKeyId, String presentedApiKey) {
-    // application.properties の固定値、apiKeyId をキーにした DB 検索など、
-    // アプリケーションに合った方法で期待値（複数可）を取得する。
-    // 該当なし（apiKeyId が未知など）の場合は null または空のコレクションを返してリクエストを拒否する。
-    return lookUpExpectedValues(apiKeyId);
-  }
-}
+```properties
+jp.ecuacion.splib.rest.builtin-api-key.password-plain=your-api-key-here
+# または
+jp.ecuacion.splib.rest.builtin-api-key.password-bcrypt=$2a$10$...
 ```
 
-`/api/key/**` と同様、複数の有効な値を返すこともでき、比較モード（平文 or SHA-256 ハッシュ、
-[比較モード](page?id=rest/security/api-key/comparison-modes&lang=ja) 参照）はアプリケーション全体で
-制御されます（こちらは `jp.ecuacion.splib.rest.builtin-api-key.mode`、デフォルト `PLAIN`）。
-Provider の Bean が一つも登録されていない場合、`/api/ecuacion-splib/key/**` へのリクエストは
-すべて拒否されます。
+`password-bcrypt` にはキーの bcrypt ハッシュを設定します。これにより生の値は
+`application.properties` に平文のままでは残りません。どちらも
+`jp.ecuacion.splib.core.util.SplibHashedPropertyResolver` を通じてリクエストのたびに都度読み直される
+ため、`PropertiesFileUtil` のキャッシュをクリアすれば（[Config エンドポイント](page?id=rest/config-endpoints&lang=ja)
+参照）再起動なしで変更が反映されます。
 
-## Provider を `AppRestSecurityConfig` に渡す
-
-コンストラクタで Provider を受け取り、`super` の第 2 引数として渡してください。
-
-```java
-@Configuration
-public class AppRestSecurityConfig extends SplibRestSecurityConfig {
-
-  public AppRestSecurityConfig(
-      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider,
-      @Nullable SplibBuiltinApiKeyExpectedValueProvider builtinApiKeyExpectedValueProvider) {
-    super(apiKeyExpectedValueProvider, builtinApiKeyExpectedValueProvider);
-  }
-}
-```
-
-`null` のまま（クイックスタートのデフォルト）にすると、`/api/ecuacion-splib/key/**`
-（つまり `clearPropertiesCache`・`systemError`）は、Provider 未登録時の `/api/key/**` と同様に
-引き続きすべて拒否されます。
+- **どちらも未設定の場合：** `/api/ecuacion-splib/key/**` へのリクエストはすべて拒否されます。
+  これらの組み込みエンドポイントを使わないアプリケーションにとって安全なデフォルトです。
+- **どちらか一方のみ設定されている場合：** 送られてきた `X-Api-Key` を、設定に応じて
+  平文または bcrypt で比較します。
+- **両方設定されている場合：** これは `application.properties` を管理する側にしか起こりえない
+  設定ミスなので（外部からの呼び出しでは発生し得ない）、下記の通り別扱いで報告されます。
 
 ## 拒否時の挙動・認証成功時
 
-`/api/key/**` と同一です。拒否理由（ヘッダー欠落、Provider 未登録、不一致、キー相違）に関わらず
-汎用的な `401` を返し、比較には `MessageDigest.isEqual`（定数時間比較）を使用します。
+ヘッダー欠落や誤った（あるいは存在しない）キーの場合は、`/api/key/**` と同様に汎用的な `401` を
+返します（比較には `MessageDigest.isEqual` による定数時間比較を使用）。「該当キーなし」と
+「キー相違」を呼び出し元が区別できないようにするためです。一方、
+`jp.ecuacion.splib.rest.builtin-api-key.password-plain` と `...password-bcrypt` の**両方**が
+設定されている場合はこれとは異なり、該当する2つのプロパティキー名を明示した `500` を返します。
+この状態は `application.properties` を管理する側にしか起こりえないためです。
+
 認証に成功すると `ROLE_BUILTIN_API_KEY` 権限で認証されます（`/api/key/**` では `ROLE_API_KEY`）。
 
 ## CSRF について

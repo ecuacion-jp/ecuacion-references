@@ -7,68 +7,53 @@ is reserved for `ecuacion-splib`'s own built-in endpoints with side effects, cur
 
 ## Why a separate key set
 
-`SplibBuiltinApiKeyExpectedValueProvider` is a distinct interface from
-`SplibApiKeyExpectedValueProvider`, and `jp.ecuacion.splib.rest.builtin-api-key.mode` is a
-separate property from `jp.ecuacion.splib.rest.api-key.mode`, so that the keys guarding
-`ecuacion-splib`'s own operational endpoints can be issued, rotated, and revoked independently of
-whatever keys your application hands out under `/api/key/**` for its own purposes.
+`jp.ecuacion.splib.rest.builtin-api-key.*` is a separate property namespace from
+`jp.ecuacion.splib.rest.api-key.*`, so that the key guarding `ecuacion-splib`'s own operational
+endpoints can be issued and rotated independently of whatever key your application uses under
+`/api/key/**` for its own purposes.
 
 ## Request headers
 
-Identical to `/api/key/**`: `X-Api-Key` (required) and `X-Api-Key-Id` (optional). See
+Identical to `/api/key/**`: `X-Api-Key` (required) and `X-Api-Key-Id` (optional, carried through
+only as the authenticated principal's name for logging — there is a single fixed key here, not
+one per client). See
 [API Key Authentication](page?id=rest/security/api-key/overview&lang=en) for details.
 
-## Implementing the lookup
+## Configuring the key
 
-Register a Spring bean implementing `SplibBuiltinApiKeyExpectedValueProvider`:
+Unlike `/api/key/**`, there is no application-implemented provider bean here — the expected value
+is read directly from `application.properties`. Set exactly one of:
 
-```java
-@Component
-public class AppBuiltinApiKeyExpectedValueProvider
-    implements SplibBuiltinApiKeyExpectedValueProvider {
-
-  @Override
-  public Collection<String> getExpectedValues(@Nullable String apiKeyId, String presentedApiKey) {
-    // Look up the expected value(s) however fits the application: fixed values from
-    // application.properties, database rows keyed by apiKeyId, etc.
-    // Return null or an empty collection to reject the request (e.g. unknown apiKeyId).
-    return lookUpExpectedValues(apiKeyId);
-  }
-}
+```properties
+jp.ecuacion.splib.rest.builtin-api-key.password-plain=your-api-key-here
+# or
+jp.ecuacion.splib.rest.builtin-api-key.password-bcrypt=$2a$10$...
 ```
 
-As with `/api/key/**`, more than one valid value can be returned, the comparison mode
-(plain text vs. SHA-256 hash, [Comparison Modes](page?id=rest/security/api-key/comparison-modes&lang=en))
-is controlled application-wide — here by `jp.ecuacion.splib.rest.builtin-api-key.mode`
-(default `PLAIN`) — and if no provider bean is registered, every request to
-`/api/ecuacion-splib/key/**` is rejected.
+`password-bcrypt` holds a bcrypt hash of the key, so the raw value is never at rest in
+`application.properties`. Both are resolved fresh on every request via
+`jp.ecuacion.splib.core.util.SplibHashedPropertyResolver`, so clearing the
+`PropertiesFileUtil` cache (see [Config Endpoints](page?id=rest/config-endpoints&lang=en)) picks
+up a changed value without a restart.
 
-## Wiring the provider into `AppRestSecurityConfig`
-
-Accept the provider in the constructor and forward it as the second argument to `super`:
-
-```java
-@Configuration
-public class AppRestSecurityConfig extends SplibRestSecurityConfig {
-
-  public AppRestSecurityConfig(
-      @Nullable SplibApiKeyExpectedValueProvider apiKeyExpectedValueProvider,
-      @Nullable SplibBuiltinApiKeyExpectedValueProvider builtinApiKeyExpectedValueProvider) {
-    super(apiKeyExpectedValueProvider, builtinApiKeyExpectedValueProvider);
-  }
-}
-```
-
-Leaving it `null` (the Quickstart default) keeps `/api/ecuacion-splib/key/**` — and so
-`clearPropertiesCache`/`systemError` — rejecting everything, same as `/api/key/**` without a
-provider.
+- **Neither set:** every request to `/api/ecuacion-splib/key/**` is rejected — the safe default
+  for an application that doesn't use these built-in endpoints.
+- **Exactly one set:** the presented `X-Api-Key` is compared against it (plain text or bcrypt, as
+  configured).
+- **Both set:** this is a misconfiguration only whoever controls `application.properties` could
+  cause (never an external caller), so it's reported distinctly — see below.
 
 ## Rejection behavior and on success
 
-Identical to `/api/key/**`: a generic `401` for every rejection reason (missing header, no
-provider bean, no match, wrong key), with `MessageDigest.isEqual` used for a constant-time
-comparison. A successful match authenticates the request with the `ROLE_BUILTIN_API_KEY`
-authority (`ROLE_API_KEY` is used for `/api/key/**`).
+A missing header or a wrong/absent key returns a generic `401` (`MessageDigest.isEqual` is used
+for a constant-time comparison), the same as `/api/key/**` — indistinguishable from each other so
+a caller can't tell "no such key" from "wrong key". Having *both*
+`jp.ecuacion.splib.rest.builtin-api-key.password-plain` and `...password-bcrypt` set at once is
+different: it returns a `500` naming the two offending property keys, since that state can only
+be reached by whoever controls `application.properties`.
+
+A successful match authenticates the request with the `ROLE_BUILTIN_API_KEY` authority
+(`ROLE_API_KEY` is used for `/api/key/**`).
 
 ## About CSRF
 
