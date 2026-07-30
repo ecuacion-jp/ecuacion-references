@@ -37,7 +37,7 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 
 | プロパティ | 説明 | デフォルト |
 | --- | --- | --- |
-| `app.work-root-dir` | 一時作業ファイルのベースディレクトリ | `./app-work` |
+| `work-dir` | 一時作業ファイルのベースディレクトリ | `./app-work` |
 
 #### メール通知（エラー発生時）
 

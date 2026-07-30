@@ -37,7 +37,7 @@ Additional settings should be written in `application.properties`.
 
 | Property | Description | Default |
 | --- | --- | --- |
-| `app.work-root-dir` | Base directory for temporary working files | `./app-work` |
+| `work-dir` | Base directory for temporary working files | `./app-work` |
 
 #### Mail notification (on error)
 

@@ -7,22 +7,10 @@
 で構築した他のJobと同様に、`SplibExceptionHandler` / `SplibJobExecutionListener` という同じ経路で
 失敗が処理されます。
 
-## 有効化
-
-このJob Beanは、application.properties で
-`jp.ecuacion.splib.batch.ecuacion-system-error-job.enabled` を明示的に `true` に設定した場合のみ
-登録されます。
-
-```properties
-jp.ecuacion.splib.batch.ecuacion-system-error-job.enabled=true
-```
-
-本番環境では未設定（または `false`）のままにしてください。発火させても問題のない環境で、
-一時的に有効化することを想定しています。
-
 ## 実行方法
 
-有効化した後は、他のJobと同様に Spring Boot 標準のJob選択用プロパティで指定します。
+このJob Beanは常に登録されているため、他のJobと同様に Spring Boot 標準のJob選択用プロパティで
+指定するだけで実行できます。
 
 ```properties
 spring.batch.job.name=ecuacionSystemErrorJob

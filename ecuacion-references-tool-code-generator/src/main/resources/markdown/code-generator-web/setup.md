@@ -15,7 +15,7 @@ To use a different directory, create `application-profile.properties` in the sam
 and add the following:
 
 ```properties
-app.work-root-dir=/path/to/work/directory
+work-dir=/path/to/work/directory
 ```
 
 ## System Requirements

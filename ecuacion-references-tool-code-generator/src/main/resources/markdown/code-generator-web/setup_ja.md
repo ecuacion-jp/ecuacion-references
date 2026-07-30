@@ -15,7 +15,7 @@ Web モジュールはアップロードされた Excel とコード生成物を
 以下を記載します。
 
 ```properties
-app.work-root-dir=/path/to/work/directory
+work-dir=/path/to/work/directory
 ```
 
 ## システム要件
