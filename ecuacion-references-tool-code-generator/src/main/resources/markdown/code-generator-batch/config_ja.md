@@ -56,9 +56,12 @@ Logback の設定ファイルは以下の優先順位で読み込まれます。
 | 優先度 | 場所 |
 | --- | --- |
 | 1（高） | `-Dlogging.config=...` で指定したパス |
-| 2（低） | カレントディレクトリの `config/logback-spring.xml` |
+| 2 | カレントディレクトリの `config/logback-spring.xml` |
+| 3（低） | カレントディレクトリ直下の `logback-spring.xml` |
 
-> **Note:** 優先度2の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。JAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「JAR と同じディレクトリの `config/`」と同じ意味になります。別のディレクトリから起動する場合は、そちらのディレクトリ基準で探索される点に注意してください。また、`application.properties` と異なり、`config/` を使わずに JAR と同じディレクトリへ直接置いた `logback-spring.xml` は自動認識されません。
+> **Note:** 優先度2・3の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。JAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「JAR と同じディレクトリ」基準になります。別のディレクトリから起動する場合は、そちらのディレクトリ基準で探索される点に注意してください。
+>
+> 優先度2・3はSpring Boot自体の機能ではなく、`ecuacion-splib-core`（`SplibEnvironmentPostProcessor`）が提供する ecuacion 独自の拡張です。`application.properties`と挙動を揃えるために、`config/`とカレントディレクトリ直下の両方を自動的に見るようにしています。
 
 ### カスタム logback-spring.xml を使う場合
 
@@ -69,6 +72,19 @@ Logback の設定ファイルは以下の優先順位で読み込まれます。
 ├── ecuacion-tool-code-generator-batch-x.x.x.jar
 └── config/
     └── logback-spring.xml
+```
+
+```bash
+cd /your-work-dir
+java -jar ecuacion-tool-code-generator-batch-x.x.x.jar
+```
+
+**方法 1b — カレントディレクトリ直下に直接配置:**
+
+```
+/your-work-dir/
+├── ecuacion-tool-code-generator-batch-x.x.x.jar
+└── logback-spring.xml
 ```
 
 ```bash

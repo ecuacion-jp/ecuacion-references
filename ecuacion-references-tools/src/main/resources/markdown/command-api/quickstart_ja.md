@@ -29,7 +29,7 @@ type nul > C:\path\to\script\directory\touch.file
 
 ### 2. スクリプトを properties に登録する
 
-WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照）。
+WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja#ecuacion-tool-command-api-properties)を参照）。
 
 ```properties
 script.say-hello=GET:/path/to/script/directory/sayHello.sh
@@ -39,17 +39,17 @@ script.say-hello=GET:/path/to/script/directory/sayHello.sh
 
 **書式**: `script.<スクリプトID>=[GET:|POST:|ALL:]<スクリプトのフルパス>`
 
-先頭の `GET:` は、このスクリプトを `GET` で呼び出せるようにする指定です（プレフィックスを省略すると `POST` のみ許可になり、後述の手順5のGET呼び出しが失敗します。詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照）。スクリプト ID はリクエスト時の `scriptId` パラメータに対応します。
+先頭の `GET:` は、このスクリプトを `GET` で呼び出せるようにする指定です。詳細は[設定ファイル](page?id=command-api/config&lang=ja#許可するhttpメソッドの指定)を参照
 
 ### 3. このクイックスタート用にアクセスを許可する
 
-デフォルトでは `api/public/executeScript` への `GET` アクセスは無効化されています（[アクセス制御](page?id=command-api/config&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、`application.properties`（配置場所は[設定ファイル](page?id=command-api/config&lang=ja)を参照）に以下を追記してください。
+デフォルトでは `api/public/executeScript` へのアクセスは無効化されています（[アクセス制御](page?id=command-api/config&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、WAR と同じディレクトリに `application.properties` を作成し、以下を追記してください（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja#application-properties)を参照）。
 
 ```properties
 jp.ecuacion.tool.command-api.api-key-required=false
 ```
 
-（本番環境ではこの設定は行わず、`jp.ecuacion.tool.command-api.api-key-required=true` を明示的に設定した上で、代わりに `X-Api-Key` ヘッダを付けて `api/key/executeScript` を呼び出してください。未設定のままだと起動時に警告ログが出力されるため、`true` を明示することをおすすめします。詳細は[API仕様](page?id=command-api/api-spec&lang=ja)を参照）
+（本番環境ではこの設定は行わず、`jp.ecuacion.tool.command-api.api-key-required=true` を明示的に設定してください。詳細は[API仕様](page?id=command-api/api-spec&lang=ja)を参照）
 
 ### 4. アプリを起動する
 

@@ -43,7 +43,7 @@ The leading `GET:` makes this script callable via `GET` (omitting the prefix wou
 
 ### 3. Allow Access for This Quickstart
 
-By default, `GET` access to `api/public/executeScript` is disabled (see [Access Control](page?id=command-api/config&lang=en#access-control)). For this local quickstart, add the following to `application.properties` (placed as described in [Configuration Files](page?id=command-api/config&lang=en)):
+By default, access to `api/public/executeScript` is disabled (see [Access Control](page?id=command-api/config&lang=en#access-control)). For this local quickstart, add the following to `application.properties` (placed as described in [Configuration Files](page?id=command-api/config&lang=en)):
 
 ```properties
 jp.ecuacion.tool.command-api.api-key-required=false

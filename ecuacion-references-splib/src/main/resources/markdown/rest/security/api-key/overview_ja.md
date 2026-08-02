@@ -19,9 +19,11 @@
 public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueProvider {
 
   @Override
-  public Collection<String> getExpectedValues(@Nullable String apiKeyId, String presentedApiKey) {
+  public Collection<SplibApiKeyExpectedValue> getExpectedValues(@Nullable String apiKeyId,
+      String presentedApiKey) {
     // application.properties の固定値、apiKeyId をキーにした DB 検索など、
-    // アプリケーションに合った方法で期待値（複数可）を取得する。
+    // アプリケーションに合った方法で期待値（複数可）を取得する。返す値ごとに
+    // SplibApiKeyComparisonMode を持たせるので、平文と bcrypt ハッシュの値を混在できる。
     // 該当なし（apiKeyId が未知など）の場合は null または空のコレクションを返してリクエストを拒否する。
     return lookUpExpectedValues(apiKeyId);
   }
@@ -32,9 +34,10 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 これにより、漏洩・失効したキー1つを他のキーを無効にすることなく取り除けます。提示された
 `presentedApiKey` が返された値のいずれかと一致すれば、リクエストは認証されます。
 
-戻り値を平文として比較するか SHA-256 ハッシュとして比較するかは `jp.ecuacion.splib.rest.api-key.mode`
-で制御されます。
-[比較モード](page?id=rest/security/api-key/comparison-modes&lang=ja) を参照してください。
+返される `SplibApiKeyExpectedValue` はそれぞれ自分自身の `SplibApiKeyComparisonMode`（平文か
+bcrypt か）を持ちます。アプリケーション全体で1つに固定する設定ではないため、1回の呼び出しで
+両方を混在させることもできます（例：保存済みのキーを平文から bcrypt へ1件ずつ移行している間など）。
+詳しくは [比較モード](page?id=rest/security/api-key/comparison-modes&lang=ja) を参照してください。
 
 `SplibApiKeyExpectedValueProvider` の Bean が一つも登録されていない場合、`/api/key/**` へのリクエストは
 すべて拒否されます。`/api/public/**` と異なり、このプレフィックスに「キー不要」というデフォルト動作はありません。

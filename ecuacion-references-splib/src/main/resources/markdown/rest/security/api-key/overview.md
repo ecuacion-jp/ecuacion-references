@@ -18,9 +18,11 @@ Register a Spring bean implementing `SplibApiKeyExpectedValueProvider`:
 public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueProvider {
 
   @Override
-  public Collection<String> getExpectedValues(@Nullable String apiKeyId, String presentedApiKey) {
+  public Collection<SplibApiKeyExpectedValue> getExpectedValues(@Nullable String apiKeyId,
+      String presentedApiKey) {
     // Look up the expected value(s) however fits the application: fixed values from
-    // application.properties, database rows keyed by apiKeyId, etc.
+    // application.properties, database rows keyed by apiKeyId, etc. Each returned value carries
+    // its own SplibApiKeyComparisonMode, so plain-text and bcrypt-hashed values can be mixed.
     // Return null or an empty collection to reject the request (e.g. unknown apiKeyId).
     return lookUpExpectedValues(apiKeyId);
   }
@@ -31,8 +33,9 @@ More than one valid value can be returned for a single `apiKeyId` — e.g. one p
 single leaked or retired key can be dropped without invalidating the others. The request is
 authenticated if `presentedApiKey` matches any of the returned values.
 
-Whether the returned values are compared as plain text or as a SHA-256 hash is controlled by
-`jp.ecuacion.splib.rest.api-key.mode`; see
+Each returned `SplibApiKeyExpectedValue` carries its own `SplibApiKeyComparisonMode` (plain text or
+bcrypt) rather than a single application-wide setting, so one call can mix both — e.g. while
+migrating stored keys from plain text to bcrypt one row at a time. See
 [Comparison Modes](page?id=rest/security/api-key/comparison-modes&lang=en).
 
 If no `SplibApiKeyExpectedValueProvider` bean is registered at all, every request to `/api/key/**` is

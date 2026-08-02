@@ -56,9 +56,12 @@ Logback configuration is resolved as follows:
 | Priority | Location |
 | --- | --- |
 | 1 (highest) | Path specified by `-Dlogging.config=...` |
-| 2 (lowest) | `config/logback-spring.xml`, relative to the current directory |
+| 2 | `config/logback-spring.xml`, relative to the current directory |
+| 3 (lowest) | `logback-spring.xml`, directly in the current directory |
 
-> **Note:** "Current directory" for priority 2 means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the JAR before starting it (as shown below), this is effectively the same as "the `config/` directory next to the JAR." If you launch from elsewhere, the search is relative to that directory instead. Also, unlike `application.properties`, a `logback-spring.xml` placed directly next to the JAR (without a `config/` subdirectory) is **not** automatically picked up.
+> **Note:** "Current directory" for priorities 2 and 3 means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the JAR before starting it (as shown below), this is effectively the same as "next to the JAR." If you launch from elsewhere, the search is relative to that directory instead.
+>
+> Priorities 2 and 3 aren't a Spring Boot feature — they're an ecuacion-specific extension provided by `ecuacion-splib-core` (`SplibEnvironmentPostProcessor`), added to match `application.properties`'s behavior by automatically checking both `config/` and the current directory root.
 
 ### Using a custom logback-spring.xml
 
@@ -69,6 +72,19 @@ Logback configuration is resolved as follows:
 ├── ecuacion-tool-code-generator-batch-x.x.x.jar
 └── config/
     └── logback-spring.xml
+```
+
+```bash
+cd /your-work-dir
+java -jar ecuacion-tool-code-generator-batch-x.x.x.jar
+```
+
+**Option 1b — Place directly in the current directory:**
+
+```
+/your-work-dir/
+├── ecuacion-tool-code-generator-batch-x.x.x.jar
+└── logback-spring.xml
 ```
 
 ```bash

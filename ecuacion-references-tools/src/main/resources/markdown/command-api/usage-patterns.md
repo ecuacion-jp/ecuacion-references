@@ -2,10 +2,10 @@ This page covers additional usage patterns for `api/public/executeScript` and `a
 
 ## Passing Parameters
 
-Use the `parameter` query parameter to pass arguments to the script:
+Use the `parameters` query parameter to pass arguments to the script:
 
 ```
-http://localhost:8080/api/public/executeScript?scriptId=script.say-hello&parameter=param1,param2
+http://localhost:8080/api/public/executeScript?scriptId=script.say-hello&parameters=param1,param2
 ```
 
 The above request executes `sayHello.sh param1 param2` (or `sayHello.bat param1 param2` on Windows).

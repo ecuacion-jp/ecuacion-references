@@ -2,10 +2,10 @@
 
 ## パラメータを渡す
 
-スクリプトにパラメータを渡すには `parameter` クエリパラメータを使用します。
+スクリプトにパラメータを渡すには `parameters` クエリパラメータを使用します。
 
 ```
-http://localhost:8080/api/public/executeScript?scriptId=script.say-hello&parameter=param1,param2
+http://localhost:8080/api/public/executeScript?scriptId=script.say-hello&parameters=param1,param2
 ```
 
 上記のリクエストでは `sayHello.sh param1 param2`（Windows の場合は `sayHello.bat param1 param2`）として実行されます。

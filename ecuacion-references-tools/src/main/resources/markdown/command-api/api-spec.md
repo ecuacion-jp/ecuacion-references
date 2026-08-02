@@ -22,7 +22,7 @@ See [Access Control](#access-control) below for details.
 | Parameter | Required | Description |
 | --- | --- | --- |
 | `scriptId` | ○ | The script ID defined in `ecuacion-tool-command-api.properties` |
-| `parameter` | — | Parameters to pass to the script (comma-separated for multiple values) |
+| `parameters` | — | Parameters to pass to the script (comma-separated for multiple values) |
 | `X-Api-Key` (HTTP header) | Required on `api/key/executeScript` | The shared secret compared against the server-side api-key file. Not used on `api/public/executeScript`. |
 
 ### Response
@@ -46,6 +46,22 @@ Check `returnCode` to determine whether the script succeeded.
 
 ## Error Responses
 
+### HTTP 400
+
+Returned for the following request-side causes.
+
+- The `scriptId` value doesn't match the regular expression `^[a-zA-Z0-9.\-_]*$`
+- The script ID specified by `scriptId` is not registered in `ecuacion-tool-command-api.properties`
+- The `parameters` value doesn't match the regular expression `^[a-zA-Z0-9 ./:_=@\-]*$`
+
+### HTTP 401
+
+Returned for a request to `api/key/executeScript` in the following cases. All of these causes return the identical response so a caller cannot distinguish a server misconfiguration from a wrong key — check the server-side log to tell them apart.
+
+- `X-Api-Key` is missing
+- The presented `X-Api-Key` value doesn't match the server-side api-key file
+- The api-key file itself is missing/unreadable/unconfigured
+
 ### HTTP 403
 
 Returned in the following cases (see [Access Control](#access-control)).
@@ -57,27 +73,19 @@ Returned in the following cases (see [Access Control](#access-control)).
 
 Returned when the URL is incorrect.
 
-### HTTP 401
-
-Returned for a request to `api/key/executeScript` when `X-Api-Key` is missing, doesn't match the server-side api-key file, or the api-key file itself is missing/unreadable/unconfigured. All of these causes return the identical response so a caller cannot distinguish a server misconfiguration from a wrong key — check the server-side log to tell them apart.
-
-### HTTP 400
-
-Returned for the following request-side causes.
-
-- The `scriptId` value doesn't match the regular expression `^[a-zA-Z0-9.\-_]*$`
-- The script ID specified by `scriptId` is not registered in `ecuacion-tool-command-api.properties`
-
 ### HTTP 500
 
 Returned for the following server-side configuration causes.
 
 - The script file path registered for the `scriptId` doesn't match the regular expression `^[a-zA-Z0-9.\-_/${}]*$` (a misconfiguration)
 - The registered script file doesn't actually exist
+- The registered script file isn't executable
+- A `${...}` environment variable reference in the script file path is malformed (unmatched braces), or the referenced environment variable isn't set
+- The OS itself failed to start the script (e.g. a bad shebang) even though it's executable
 
 ### Error Response Body Format
 
-For both 400 and 500, the response body is in the following format ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) ProblemDetail).
+For 400, 403, and 500, the response body is in the following format ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) ProblemDetail).
 
 ```json
 {
@@ -90,6 +98,8 @@ For both 400 and 500, the response body is in the following format ([RFC 9457](h
 ```
 
 > **Note:** Currently, `title` / `detail` show the same fixed text regardless of the actual error, and the response body doesn't contain a cause-specific message. To identify the cause, use the `status` value together with the server-side logs (which record the `scriptId` / `scriptFilePath` values).
+
+> **Note:** 401 (see [Access Control](#access-control)) is not covered by this format. It's returned from the servlet filter layer, via `HttpServletResponse.sendError()`, before the request ever reaches Spring MVC — so instead of the ProblemDetail shape above, it comes back as Spring Boot's default error page (JSON with `timestamp` / `status` / `error` / `path`).
 
 ---
 
@@ -111,7 +121,7 @@ Script file paths are validated against the regular expression `^[a-zA-Z0-9.\-_/
 
 ### Access Control
 
-By default, `api/public/executeScript` is disabled (`jp.ecuacion.tool.command-api.api-key-required` defaults to `true`), and executing a script requires `api/key/executeScript` with a valid `X-Api-Key` header. `X-Api-Key` is a **simple shared secret** compared against a file placed on the server — it is **not** an asymmetric (public/private) key pair, and the value the client sends is never treated as a private key.
+By default, `api/public/executeScript` is disabled (`jp.ecuacion.tool.command-api.api-key-required` defaults to `true`), and executing a script requires `api/key/executeScript` with a valid `X-Api-Key` header. `X-Api-Key` is a **shared secret** compared against a file placed on the server (the comparison mode is selectable via `jp.ecuacion.tool.command-api.api-key-comparison-mode` — plain text (`PLAIN`, the default) or bcrypt hashes (`BCRYPT`); see [Configuration Files](page?id=command-api/config&lang=en) for details) — it is **not** an asymmetric (public/private) key pair, and the value the client sends is never treated as a private key.
 
 Setting `jp.ecuacion.tool.command-api.api-key-required=false` enables `api/public/executeScript`. Use this only on trusted internal networks.
 
@@ -130,7 +140,8 @@ For how to register scripts in `ecuacion-tool-command-api.properties`, where to 
 Use the following endpoint to verify that the server is running. It's a shared endpoint provided by `ecuacion-splib-rest`, not something specific to command-api.
 
 ```
-GET /api/ecuacion/public/aliveCheck
+GET  /api/ecuacion-splib/public/aliveCheck
+POST /api/ecuacion-splib/public/aliveCheck
 ```
 
-Returns HTTP 200 with no response body.
+Returns HTTP 200 with body `{"status": "OK"}`.

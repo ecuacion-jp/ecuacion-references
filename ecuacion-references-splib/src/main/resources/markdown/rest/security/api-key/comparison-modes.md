@@ -1,13 +1,16 @@
-`SplibApiKeyComparisonMode` selects how the value your
+`SplibApiKeyComparisonMode` selects how one value returned by your
 [`SplibApiKeyExpectedValueProvider`](page?id=rest/security/api-key/overview&lang=en)
-returns is compared against the client-presented `X-Api-Key` header. It is set application-wide via:
+is compared against the client-presented `X-Api-Key` header. It is carried per value, via
+`SplibApiKeyExpectedValue`:
 
-```properties
-jp.ecuacion.splib.rest.api-key.mode=PLAIN
+```java
+new SplibApiKeyExpectedValue(storedValue, SplibApiKeyComparisonMode.BCRYPT)
 ```
 
-A single application is assumed to use one mode consistently — it is not configurable per endpoint or
-per key. The default is `PLAIN`.
+There is no application-wide switch — a single call to `getExpectedValues` can freely return a mix
+of `PLAIN` and `BCRYPT` values. This is what makes migrating stored keys from plain text to bcrypt
+practical: convert rows one at a time, with both kinds accepted throughout the migration, rather
+than flipping every key over in one step.
 
 This mode selection is specific to `/api/key/**`. [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en)
 (`/api/ecuacion-splib/key/**`) does not use `SplibApiKeyComparisonMode` at all — its credential is
@@ -16,27 +19,29 @@ configured directly via `jp.ecuacion.splib.rest.builtin-api-key.password-plain` 
 
 ## `PLAIN`
 
-The provider returns the keys themselves. Each is compared directly (in constant time) against the
-presented value; the request is authenticated if any of them matches.
+`SplibApiKeyExpectedValue.value()` is the key itself, compared directly (in constant time) against
+the presented value.
 
-## `HASH`
+## `BCRYPT`
 
-The provider returns the lowercase-hex SHA-256 digest of each key, rather than the key itself, so the
-raw keys are never at rest anywhere the application can read them back. The presented header value is
-hashed the same way before the comparison.
+`SplibApiKeyExpectedValue.value()` is a bcrypt hash of the key, rather than the key itself, so the
+raw key is never at rest anywhere the application can read it back. Each presented header value is
+checked against every `BCRYPT` value via Spring Security's `BCryptPasswordEncoder.matches`, never
+short-circuiting on the first match.
 
-To compute the value to store, hash the raw key on the command line:
+Generate the hash to store with `BCryptPasswordEncoder`, the same way you would for a stored user
+password:
 
-```bash
-# macOS
-echo -n "your-api-key-here" | shasum -a 256
-
-# Linux
-echo -n "your-api-key-here" | sha256sum
-
-# Cross-platform (OpenSSL)
-echo -n "your-api-key-here" | openssl dgst -sha256
+```java
+new BCryptPasswordEncoder().encode(rawApiKey)
 ```
 
-`-n` is required in all three: without it, `echo` appends a trailing newline that would be hashed
-too, producing a digest that never matches the presented key.
+To generate one from the command line, without going through the app, `htpasswd` works:
+
+```bash
+htpasswd -nbBC 10 dummy "my-plain-key" | sed 's/^dummy://'
+```
+
+Because bcrypt is intentionally slow, a request is checked once per value `getExpectedValues`
+returns — keep that collection small (e.g. narrow it down using the `X-Api-Key-Id` header) rather
+than returning every issued key on every request.
