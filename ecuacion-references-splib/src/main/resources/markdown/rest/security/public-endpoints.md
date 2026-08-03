@@ -22,7 +22,7 @@ expose without authentication — currently just the
 [Alive Check Endpoint](page?id=rest/alive-check-endpoint&lang=en)
 (`GET`/`POST /api/ecuacion-splib/public/aliveCheck`) — so that `/api/public/**` stays exclusively
 the application's own namespace. Built-in endpoints with side effects, such as the
-[Config Endpoints](page?id=rest/config-endpoints&lang=en)
+[Operational Endpoints](page?id=rest/operational-endpoints&lang=en)
 (`POST /api/ecuacion-splib/key/clearPropertiesCache`, `POST /api/ecuacion-splib/key/systemError`),
 instead live under `/api/ecuacion-splib/key/**`; see
 [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en).

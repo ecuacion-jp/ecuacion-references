@@ -55,12 +55,7 @@ Sending mail is just one example of what you can do here. See
 `spring.mail.*` and `jp.ecuacion.splib.mail.*` settings) — without them, the call above is silently
 skipped.
 
-This is the same interface `ecuacion-splib-web` uses for its own exception handler — but since a
-batch app is always its own standalone process (never combined with a web/REST app in the same
-running application), there's no need to differentiate; both simply share
-`SplibExceptionHandlerAction`. `ecuacion-splib-rest` is the exception: it has its own
-`SplibRestExceptionHandlerAction`, since a REST API frontend commonly runs in the same process as
-a web frontend.
+This is the same interface `ecuacion-splib-web` uses for its own exception handler.
 
 ## Testing it without a real bug
 

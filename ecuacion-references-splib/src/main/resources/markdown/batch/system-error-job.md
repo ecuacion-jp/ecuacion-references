@@ -8,8 +8,12 @@ built with [`preparedJobBuilder`/`preparedStepBuilder`](page?id=batch/job-and-st
 
 ## Running it
 
-The job bean is always registered, so select it like any other job via Spring Boot's standard
-batch job-selection property:
+The job bean is registered only when `spring.batch.job.name=ecuacionSystemErrorJob` is explicitly
+set. If it were always registered alongside your app's own job, Spring Boot couldn't tell which
+job to run automatically, and startup would fail with
+`Job name must be specified in case of multiple jobs`.
+
+So specify it explicitly at run time, either via:
 
 ```properties
 spring.batch.job.name=ecuacionSystemErrorJob

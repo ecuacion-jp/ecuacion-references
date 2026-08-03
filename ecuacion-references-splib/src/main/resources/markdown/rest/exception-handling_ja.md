@@ -1,21 +1,42 @@
 `SplibRestExceptionHandler`（`@RestControllerAdvice`、Spring の `ResponseEntityExceptionHandler` を継承）は、
 `SplibRestConfig` をインポートすると自動的に登録されます（
-[クイックスタート](page?id=rest/quickstart&lang=ja) 参照）。次の 2 つのケースを処理します。
+[クイックスタート](page?id=rest/quickstart&lang=ja) 参照）。次の 3 種類の例外を処理し、
+それぞれ想定する読み手（オーディエンス）が異なるため、意図的に扱いを変えています。
 
-## `HttpStatusException`
+## `ViolationException`
 
-`jp.ecuacion.splib.rest.exception.HttpStatusException` を throw すると、ボディなしで指定した HTTP ステータスを
-返せます。
+`jp.ecuacion.lib.core.exception.ViolationException` は、業務/バリデーション上のエラーで、
+そのメッセージを実際の人間のエンドユーザーに届けたい場合（例えば、ローカル/デスクトップアプリが
+ユーザーの代わりにこの API を呼び出し、失敗内容をそのユーザーに表示するようなケース）に throw します。
 
 ```java
-throw new HttpStatusException(HttpStatus.NOT_FOUND);
+throw new ViolationException(...);
 ```
 
-これは `ResponseEntity.status(exception.getHttpStatus()).build()` にそのまま変換されます。
+例外が保持するすべての違反（最初の 1 件だけでなく）がレスポンスに含まれ、各メッセージはリクエストの
+ロケールに合わせてローカライズされ、ステータスは常に `400 Bad Request` になります
+（呼び出し側はステータスで分岐する想定がなく、テキストを表示するだけなので、複数種類のステータスは
+不要です）。レスポンスボディは `ViolationsResponse` で、ローカライズ済みメッセージを保持する
+`messages` フィールドを持ちます。
+
+## `ResponseStatusException`（および `ResponseEntityExceptionHandler` の組み込み処理が扱うその他の例外）
+
+Spring 自身の `org.springframework.web.server.ResponseStatusException` は、メッセージを
+人間のエンドユーザーではなく、API 呼び出し元の開発者/システム（例えば、このAPIをプログラムから
+呼び出すサーバー）に向けたい失敗の場合に throw します。
+
+```java
+throw new ResponseStatusException(HttpStatus.NOT_FOUND, "...");
+```
+
+メッセージはそのまま（ローカライズされずに）使われ、throw する側のコードが状況に応じたステータス
+（任意の `4xx`/`5xx`）を選びます（呼び出し側はステータスで分岐する想定です）。これには
+`ResponseEntityExceptionHandler` の組み込み処理が扱うその他の例外（`MethodArgumentNotValidException`・
+`HttpMessageNotReadableException` など）も含まれます。
 
 ## それ以外の未捕捉の `Throwable`
 
-ハンドラーに到達したそれ以外の例外は、以下の順に処理されます。
+本当に想定外の例外（報告されたエラーではなく、バグ）は、以下の順に処理されます。
 
 1. `LogUtil.logSystemError` でログ出力される。
 2. アプリケーションが `SplibRestExceptionHandlerAction` の Bean を登録していれば、それに渡される（下記参照）。

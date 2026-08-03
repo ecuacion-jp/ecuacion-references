@@ -1,21 +1,41 @@
 `SplibRestExceptionHandler` (`@RestControllerAdvice`, extending Spring's
 `ResponseEntityExceptionHandler`) is registered automatically once `SplibRestConfig` is imported — see
-[Quickstart](page?id=rest/quickstart&lang=en). It handles two cases.
+[Quickstart](page?id=rest/quickstart&lang=en). It handles three kinds of exceptions, each with a
+deliberately different treatment because each has a different audience.
 
-## `HttpStatusException`
+## `ViolationException`
 
-Throw `jp.ecuacion.splib.rest.exception.HttpStatusException` to return a specific HTTP status with no
-body:
+Throw `jp.ecuacion.lib.core.exception.ViolationException` for a business/validation failure whose
+message is meant to reach an actual human end user (e.g. a local/desktop app that calls this API on
+a user's behalf and displays the failure to them):
 
 ```java
-throw new HttpStatusException(HttpStatus.NOT_FOUND);
+throw new ViolationException(...);
 ```
 
-This is translated directly into `ResponseEntity.status(exception.getHttpStatus()).build()`.
+Every violation the exception carries is included (not just the first), each message is localized to
+the request's locale, and the response is always `400 Bad Request` — no variety of statuses is needed
+because nothing on the calling side is expected to branch on it, only display the text. The response
+body is a `ViolationsResponse` with a `messages` field holding the localized messages.
+
+## `ResponseStatusException` (and other exceptions Spring's built-in handling covers)
+
+Throw Spring's own `org.springframework.web.server.ResponseStatusException` for a failure whose
+message is meant for the developer/system on the other end of the API call (e.g. a server calling
+this API programmatically), not a human end user:
+
+```java
+throw new ResponseStatusException(HttpStatus.NOT_FOUND, "...");
+```
+
+The message is used as-is, not localized, and the throwing code picks whichever status (any
+`4xx`/`5xx`) fits — callers are expected to branch on it. This also covers anything else
+`ResponseEntityExceptionHandler`'s built-in handling deals with (e.g.
+`MethodArgumentNotValidException`, `HttpMessageNotReadableException`).
 
 ## Any other uncaught `Throwable`
 
-Any other exception that reaches the handler is:
+A genuinely unanticipated exception (a bug, not a reported failure) is:
 
 1. Logged via `LogUtil.logSystemError`.
 2. Passed to your application's `SplibRestExceptionHandlerAction` bean, if one is registered (see

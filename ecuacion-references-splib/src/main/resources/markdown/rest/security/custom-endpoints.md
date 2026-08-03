@@ -5,11 +5,16 @@ catch-all for anything under `/api/**` that is not `/api/public/**`,
 
 ## Adding your own security policy
 
-To expose an endpoint under a path other than the built-in prefixes, or to apply a different
-policy to a sub-path of `/api/**` (session-based authentication, a different header scheme, and so
-on), register your own `SecurityFilterChain` bean with `@Order` **lower than 8** — Spring Security
-evaluates filter chains in ascending `@Order` and stops at the first `securityMatcher` that matches
-the request, so your chain must be checked before the built-in ones.
+To expose an endpoint under a path other than the built-in prefixes (e.g. anything not starting
+with `/api/`), register your own `SecurityFilterChain` bean with a `securityMatcher` for that path.
+Any `@Order` works — none of `SplibRestSecurityConfig`'s four chains match a path outside
+`/api/**`, so your chain can never collide with them.
+
+To instead apply a different policy to a sub-path of `/api/**` (session-based authentication, a
+different header scheme, and so on), register your own `SecurityFilterChain` bean with `@Order`
+**lower than 8** — Spring Security evaluates filter chains in ascending `@Order` and stops at the
+first `securityMatcher` that matches the request, so your chain must be checked before the
+built-in ones, including the `/api/**` catch-all deny-all at `@Order(11)`.
 
 ```java
 @Configuration

@@ -55,11 +55,6 @@ public class AppExceptionHandlerAction implements SplibExceptionHandlerAction {
 未設定の場合、上記の呼び出しは黙ってスキップされます。
 
 これは `ecuacion-splib-web` が自身の例外ハンドラーで使っているものと同じインターフェースです。
-バッチアプリは常にそれ単体の独立したプロセスとして動く（web/REST アプリと同一プロセスで
-併用されることがない）ため、区別する必要がなく、どちらも単純に
-`SplibExceptionHandlerAction` を共有します。例外は `ecuacion-splib-rest` で、
-REST フロントエンドは web フロントエンドと同じプロセスで動くことが多いため、
-専用の `SplibRestExceptionHandlerAction` を持っています。
 
 ## 実際のバグなしにテストする
 

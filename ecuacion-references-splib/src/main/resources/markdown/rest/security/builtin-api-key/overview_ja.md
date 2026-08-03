@@ -2,7 +2,7 @@
 [API キー認証](page?id=rest/security/api-key/overview&lang=ja) と同様に有効な `X-Api-Key`
 ヘッダーが必須です。ただしこのプレフィックスは、`ecuacion-splib` 自身の組み込みエンドポイントのうち
 副作用のあるもの専用に予約されています。現時点では
-[Config エンドポイント](page?id=rest/config-endpoints&lang=ja)
+[運用エンドポイント](page?id=rest/operational-endpoints&lang=ja)
 （`ClearPropertiesCacheController`、`SystemErrorController`）がこれに該当します。
 このフィルターチェーンは `@Order(10)` で実行され、`/api/key/**`（9）の後、
 残りすべてを拒否する `/api/**` のルール（11）より前に評価されます。
@@ -34,7 +34,7 @@ jp.ecuacion.splib.rest.builtin-api-key.password-bcrypt=$2a$10$...
 `password-bcrypt` にはキーの bcrypt ハッシュを設定します。これにより生の値は
 `application.properties` に平文のままでは残りません。どちらも
 `jp.ecuacion.splib.core.util.SplibHashedPropertyResolver` を通じてリクエストのたびに都度読み直される
-ため、`PropertiesFileUtil` のキャッシュをクリアすれば（[Config エンドポイント](page?id=rest/config-endpoints&lang=ja)
+ため、`PropertiesFileUtil` のキャッシュをクリアすれば（[運用エンドポイント](page?id=rest/operational-endpoints&lang=ja)
 参照）再起動なしで変更が反映されます。
 
 - **どちらも未設定の場合：** `/api/ecuacion-splib/key/**` へのリクエストはすべて拒否されます。

@@ -31,23 +31,11 @@ ecuacion-splib は以下のモジュールで構成されています。
 
 ## セットアップ
 
-`ecuacion-splib-parent` を親 POM として指定する方法と、BOM としてインポートする方法の
-いずれかで `ecuacion-splib-xxx` 各モジュールのバージョンを一元管理できます。その上で必要なモジュールを追加します。
+`ecuacion-splib-xxx` 各モジュールのバージョンは、`ecuacion-splib-parent` を BOM としてインポートするか、
+親 POM として指定することで一元管理できます。Spring Boot 側のバージョンをどう扱うかによって、
+以下の3パターンがあります。
 
-### パターン 1: 親 POM として指定する
-
-```xml
-<parent>
-    <groupId>jp.ecuacion.splib</groupId>
-    <artifactId>ecuacion-splib-parent</artifactId>
-    <version>（バージョン）</version>
-</parent>
-```
-
-### パターン 2: BOM としてインポートする
-
-既に他の親 POM を使用しているなどの理由で `ecuacion-splib-parent` を親 POM にできない場合は、
-BOM としてインポートします。
+### パターン 1: ecuacion-splib・Spring Boot ともに BOM としてインポートする（推奨）
 
 ```xml
 <dependencyManagement>
@@ -63,12 +51,67 @@ BOM としてインポートします。
 </dependencyManagement>
 ```
 
-`ecuacion-splib-parent` がインポートしている `spring-boot-dependencies` の内容もこの BOM import に
-推移的に含まれるため、Spring Boot 関連の依存関係（`spring-boot-starter-tomcat` など）も
-バージョンを明記せずに追加できます。
+`ecuacion-splib-parent` は自身の `dependencyManagement` で `spring-boot-dependencies` を BOM
+インポートしており、その内容はこの import にも推移的に含まれます。そのため Spring Boot 関連の
+依存関係（`spring-boot-starter-tomcat` など）も、Spring Boot のバージョンを別途指定することなく
+バージョン管理下に置けます。
 
-ただし `spring-boot-maven-plugin` のようなプラグインのバージョン・設定（`pluginManagement`）は
-BOM import では継承されません。これらを利用する場合はバージョンを個別に指定してください。
+一方、プラグインのバージョン・設定（`pluginManagement`）は BOM import では継承されません。
+実行可能 jar を作る場合の `spring-boot-maven-plugin` など、こうしたプラグインが必要な場合は
+プロジェクト側で個別に追加してください。Spring Boot 公式の
+[Using Spring Boot without the Parent POM](https://docs.spring.io/spring-boot/maven-plugin/using.html#using.import)
+が参考になります。
+
+このパターンでは、プロジェクトが元々使用している親 POM（社内共通の親 POM など）をそのまま維持できます。
+
+### パターン 2: ecuacion-splib は BOM インポート、Spring Boot は親 POM として指定する
+
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>（Spring Boot のバージョン）</version>
+</parent>
+
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.splib</groupId>
+            <artifactId>ecuacion-splib-parent</artifactId>
+            <version>（バージョン）</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+このパターンでは Spring Boot のバージョンは ecuacion-splib 側のバージョンと連動しません。
+`<parent>` に指定するバージョンはプロパティ参照ができない（Maven の仕様上、親 POM のバージョンは
+プロパティ解決より前に決定されるため）ので、明示的に指定したうえで、ecuacion-splib が使用している
+Spring Boot のバージョンと手動で揃える必要があります。
+
+### パターン 3: ecuacion-splib を親 POM として指定する
+
+```xml
+<parent>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-parent</artifactId>
+    <version>（バージョン）</version>
+</parent>
+```
+
+パターン1と同様、Spring Boot のバージョンは ecuacion-splib 側と連動するため明示的な指定は不要です。
+ただし親 POM にすると、バージョン管理だけでなく `ecuacion-splib-parent` が内部的に使用している
+以下のビルド設定も一緒に継承される点に注意してください。
+
+- `spring-boot-devtools` / `spring-boot-starter-test` / `allure-jupiter` が、バージョン管理だけでなく
+  実際の依存関係として自動的に追加される
+- コンパイル時に NullAway / Error Prone による静的解析が強制される
+- `maven-surefire-plugin` の `useModulePath=false` など、テスト実行の設定が上書きされる
+
+`ecuacion-tool-code-generator` など一部の ecuacion 系プロジェクトではこのパターンを採用していますが、
+上記の副作用を許容できる場合を除き、一般のアプリケーションでは通常パターン1を推奨します。
 
 ### 必要なモジュールを追加する
 

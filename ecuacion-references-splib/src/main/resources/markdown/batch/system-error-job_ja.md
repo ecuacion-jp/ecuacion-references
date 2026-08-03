@@ -9,8 +9,11 @@
 
 ## 実行方法
 
-このJob Beanは常に登録されているため、他のJobと同様に Spring Boot 標準のJob選択用プロパティで
-指定するだけで実行できます。
+このJob Beanは `spring.batch.job.name=ecuacionSystemErrorJob` を指定したときだけ登録されます。
+アプリ固有のJobと同時に常時登録されてしまうと、Spring Bootが「どのJobを実行すべきか」自動判別
+できず `Job name must be specified in case of multiple jobs` エラーになってしまうためです。
+
+そのため実行時は、次のいずれかの方法で明示的に指定してください。
 
 ```properties
 spring.batch.job.name=ecuacionSystemErrorJob

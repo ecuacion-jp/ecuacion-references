@@ -1,6 +1,7 @@
 `SplibAppParentBatchConfig` (see [Quickstart](page?id=batch/quickstart&lang=en)) provides
-two protected factory methods that return `ecuacion-splib` standard, pre-wired builders. Use them
-instead of constructing `JobBuilder`/`StepBuilder` directly.
+two protected factory methods that return `ecuacion-splib` standard, pre-wired builders.
+Constructing `JobBuilder`/`StepBuilder` directly, the standard way, still works fine — using
+these instead simplifies configuration by wiring in the listeners and exception handler for you.
 
 ## `preparedJobBuilder`
 
@@ -48,3 +49,24 @@ built this way automatically get the logging described in
 [Logging](page?id=batch/logging&lang=en) and the exception handling described in
 [Exception Handling](page?id=batch/exception-handling&lang=en) without any extra
 wiring per job.
+
+## Combining multiple Tasklets into one Job
+
+To run several Steps (each wrapping one Tasklet) in sequence as a single Job, chain `.next(...)`
+after `.start(...)`.
+
+```java
+@Bean
+Job importAndNotifyJob(JobRepository jobRepository, PlatformTransactionManager transactionManager,
+    Tasklet importTasklet, Tasklet notifyTasklet) {
+  return preparedJobBuilder("importAndNotifyJob", jobRepository)
+      .start(preparedStepBuilder("importStep", jobRepository, transactionManager, importTasklet)
+          .build())
+      .next(preparedStepBuilder("notifyStep", jobRepository, transactionManager, notifyTasklet)
+          .build())
+      .build();
+}
+```
+
+Extracting each Step into its own `@Bean` method lets it be reused both as part of the combined
+Job and as a standalone Job of its own.

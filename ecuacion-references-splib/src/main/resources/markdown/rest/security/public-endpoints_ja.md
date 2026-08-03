@@ -23,7 +23,7 @@
 [Alive Check エンドポイント](page?id=rest/alive-check-endpoint&lang=ja)
 （`GET`/`POST /api/ecuacion-splib/public/aliveCheck`）のみがこれに該当し、これにより
 `/api/public/**` はアプリケーション独自の名前空間として保たれます。副作用のある組み込みエンドポイント、
-例えば [Config エンドポイント](page?id=rest/config-endpoints&lang=ja)
+例えば [運用エンドポイント](page?id=rest/operational-endpoints&lang=ja)
 （`POST /api/ecuacion-splib/key/clearPropertiesCache`、`POST /api/ecuacion-splib/key/systemError`）は、
 代わりに `/api/ecuacion-splib/key/**` 配下に置かれています。詳しくは
 [組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を

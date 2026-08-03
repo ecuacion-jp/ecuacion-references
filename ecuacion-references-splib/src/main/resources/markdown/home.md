@@ -32,24 +32,11 @@ with real screens built on the framework, rather than reading Markdown articles 
 
 ## Setup
 
-You can manage the versions of the `ecuacion-splib-xxx` modules either by using
-`ecuacion-splib-parent` as the parent POM, or by importing it as a BOM. Then add the module(s)
-your application needs.
+You can manage the versions of the `ecuacion-splib-xxx` modules either by importing
+`ecuacion-splib-parent` as a BOM, or by using it as the parent POM. Which one you should choose
+also depends on how you want to handle the Spring Boot version, giving three patterns overall.
 
-### Pattern 1: Use it as the parent POM
-
-```xml
-<parent>
-    <groupId>jp.ecuacion.splib</groupId>
-    <artifactId>ecuacion-splib-parent</artifactId>
-    <version>(version)</version>
-</parent>
-```
-
-### Pattern 2: Import it as a BOM
-
-If you cannot use `ecuacion-splib-parent` as the parent POM (for example, because your project
-already has another parent POM), import it as a BOM instead.
+### Pattern 1: Import both ecuacion-splib and Spring Boot as a BOM (recommended)
 
 ```xml
 <dependencyManagement>
@@ -68,11 +55,65 @@ already has another parent POM), import it as a BOM instead.
 Because `ecuacion-splib-parent` itself imports `spring-boot-dependencies` in its
 `dependencyManagement`, that import is transitively included in this BOM import too. So Spring
 Boot-related dependencies (e.g. `spring-boot-starter-tomcat`) can also be added without specifying
-a version.
+the Spring Boot version separately.
 
-Note, however, that plugin versions/configuration (`pluginManagement`) such as
-`spring-boot-maven-plugin` are not inherited via BOM import. If you use such plugins, you need to
-specify their versions yourself.
+Note, however, that plugin versions/configuration (`pluginManagement`) is not inherited via BOM
+import. If you need a plugin such as `spring-boot-maven-plugin` (e.g. to build an executable jar),
+add it to your own project. Spring Boot's official
+[Using Spring Boot without the Parent POM](https://docs.spring.io/spring-boot/maven-plugin/using.html#using.import)
+guide is a good reference.
+
+This pattern lets you keep whatever parent POM your project already uses (e.g. an in-house shared
+parent POM).
+
+### Pattern 2: Import ecuacion-splib as a BOM, use Spring Boot as the parent POM
+
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>(Spring Boot version)</version>
+</parent>
+
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.splib</groupId>
+            <artifactId>ecuacion-splib-parent</artifactId>
+            <version>(version)</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+With this pattern, the Spring Boot version is no longer tied to the ecuacion-splib version. The
+version in `<parent>` cannot reference a property (Maven resolves a parent POM's version before
+property resolution happens), so you must specify it explicitly and keep it in sync by hand with
+the Spring Boot version ecuacion-splib is built against.
+
+### Pattern 3: Use ecuacion-splib as the parent POM
+
+```xml
+<parent>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-parent</artifactId>
+    <version>(version)</version>
+</parent>
+```
+
+As with Pattern 1, the Spring Boot version stays tied to the ecuacion-splib version, so no explicit
+version is needed. Note, however, that using it as the parent POM also inherits the following
+build configuration that `ecuacion-splib-parent` uses internally, not just version management:
+
+- `spring-boot-devtools` / `spring-boot-starter-test` / `allure-jupiter` are added automatically as
+  actual dependencies, not just managed versions
+- NullAway / Error Prone static analysis is enforced at compile time
+- Test execution settings such as `maven-surefire-plugin`'s `useModulePath=false` are overridden
+
+Some ecuacion projects, such as `ecuacion-tool-code-generator`, use this pattern, but for general
+applications Pattern 1 is usually recommended unless you're fine with the side effects above.
 
 ### Add the module(s) you need
 

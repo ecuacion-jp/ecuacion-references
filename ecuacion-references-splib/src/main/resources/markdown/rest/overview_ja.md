@@ -4,12 +4,9 @@ URL プレフィックスベースのセキュリティ規約、API キー認証
 
 ## 提供する機能
 
-- **エンドポイントプレフィックスによるセキュリティ規約** — すべてのエンドポイントは
-  `/api/public/**`・`/api/ecuacion-splib/key/**`・`/api/key/**`・`/api/**` の
-  4 つのセキュリティポリシーのいずれかに属します。
-  `/api/ecuacion-splib/public/**` は `/api/public/**` と同じポリシーを共有しますが、
-  `ecuacion-splib` 自身の組み込みエンドポイントのうち認証なしで公開しても安全なもの用に
-  予約されています。
+- **エンドポイントプレフィックスによるセキュリティ規約** — すべてのエンドポイントは URL
+  プレフィックスに応じて 4 つのセキュリティポリシーのいずれかに属します。詳細は下記の
+  「URL プレフィックスの規約」表を参照してください。
   [Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)、
   [組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)、
   [API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。
@@ -17,7 +14,8 @@ URL プレフィックスベースのセキュリティ規約、API キー認証
   キーの照合方法はプラガブルで、平文比較とハッシュ比較の 2 モードを選べます。
   `ecuacion-splib` 自身の組み込みエンドポイントのうち副作用のあるものは、
   アプリケーション側の `/api/key/**` のキーとは別に、独立して登録されたキーセットを使用します。
-- **共通の例外処理** — 未捕捉の例外や専用の `HttpStatusException` を統一的に HTTP レスポンスへ変換します。
+- **共通の例外処理** — `ViolationException`・`ResponseStatusException`・それ以外の未捕捉の例外を
+  それぞれ異なる扱いで HTTP レスポンスへ変換します。
   [例外処理](page?id=rest/exception-handling&lang=ja) を参照してください。
 
 ## URL プレフィックスの規約

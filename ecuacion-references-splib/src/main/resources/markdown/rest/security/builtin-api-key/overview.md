@@ -1,7 +1,7 @@
 Endpoints mapped under `/api/ecuacion-splib/key/**` require a valid `X-Api-Key` header, the same
 way as [API Key Authentication](page?id=rest/security/api-key/overview&lang=en) — but this prefix
 is reserved for `ecuacion-splib`'s own built-in endpoints with side effects, currently the
-[Config Endpoints](page?id=rest/config-endpoints&lang=en)
+[Operational Endpoints](page?id=rest/operational-endpoints&lang=en)
 (`ClearPropertiesCacheController`, `SystemErrorController`). This filter chain runs at
 `@Order(10)`, after `/api/key/**` (9) and before the catch-all `/api/**` deny rule (11).
 
@@ -33,7 +33,7 @@ jp.ecuacion.splib.rest.builtin-api-key.password-bcrypt=$2a$10$...
 `password-bcrypt` holds a bcrypt hash of the key, so the raw value is never at rest in
 `application.properties`. Both are resolved fresh on every request via
 `jp.ecuacion.splib.core.util.SplibHashedPropertyResolver`, so clearing the
-`PropertiesFileUtil` cache (see [Config Endpoints](page?id=rest/config-endpoints&lang=en)) picks
+`PropertiesFileUtil` cache (see [Operational Endpoints](page?id=rest/operational-endpoints&lang=en)) picks
 up a changed value without a restart.
 
 - **Neither set:** every request to `/api/ecuacion-splib/key/**` is rejected — the safe default

@@ -5,9 +5,7 @@ convention, an API key authentication mechanism, and a common exception handler.
 ## What it provides
 
 - **Endpoint-prefix security convention** — every endpoint is placed under one of four security
-  policies (`/api/public/**`, `/api/ecuacion-splib/key/**`, `/api/key/**`, `/api/**`).
-  `/api/ecuacion-splib/public/**` shares the `/api/public/**` policy but is reserved for
-  `ecuacion-splib`'s own built-in endpoints that are safe to expose without authentication. See
+  policies based on its URL prefix. See the "URL prefix conventions" table below for details, and
   [Public Endpoints](page?id=rest/security/public-endpoints&lang=en),
   [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en), and
   [API Key Authentication](page?id=rest/security/api-key/overview&lang=en).
@@ -15,8 +13,9 @@ convention, an API key authentication mechanism, and a common exception handler.
   calls, with a pluggable lookup and a plain/hashed comparison mode. `ecuacion-splib`'s own
   built-in endpoints with side effects use an independently-registered key set, kept separate from
   the application's `/api/key/**` keys.
-- **Common exception handling** — uncaught exceptions and a dedicated `HttpStatusException` are
-  translated into HTTP responses uniformly. See
+- **Common exception handling** — `ViolationException`, `ResponseStatusException`, and any other
+  uncaught exception are each translated into an HTTP response, with different treatment for each.
+  See
   [Exception Handling](page?id=rest/exception-handling&lang=en).
 
 ## URL prefix conventions
