@@ -18,7 +18,3 @@ It performs soft delete or hard delete based on an Excel configuration file.
 ## How It Works
 
 All configuration is managed in a single Excel file. When the tool starts, you pass the Excel file path as an argument, and the tasks in the Housekeep DB Settings sheet are executed from top to bottom.
-
-```
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar [--classpath=/path/to/classpath] excelPath=/path/to/settings.xlsx
-```

@@ -19,7 +19,3 @@ Excel 設定ファイルに基づいて、ソフトデリートまたはハー�
 
 設定は Excel ファイル 1 枚で管理します。ツール起動時に Excel ファイルのパスを引数として渡すと、
 Housekeep DB Settings シートに記載されたタスクが上から順番に実行されます。
-
-```
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar [--classpath=/path/to/classpath] excelPath=/path/to/settings.xlsx
-```

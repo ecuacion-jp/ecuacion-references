@@ -11,47 +11,6 @@
 				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
-				#{navBar.housekeepFiles}, ~{::navbarHousekeepFiles}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="navbarHousekeepFiles" th:remove="tag">
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-files/overview',lang=${lang})},
-					#{navBar.hf.overview}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-files/setup',lang=${lang})},
-					#{navBar.hf.setup}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-files/quickstart',lang=${lang})},
-					#{navBar.hf.quickstart}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-files/excel-settings',lang=${lang})},
-					#{navBar.hf.excelSettings}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-files/task-patterns',lang=${lang})},
-					#{navBar.hf.taskPatterns}, '')}"></div>
-
-		</div></th:block>
-
-		<div th:replace="~{bootstrap/components :: navbarSubMenu(
-				#{navBar.housekeepDb}, ~{::navbarHousekeepDb}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="navbarHousekeepDb" th:remove="tag">
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-db/overview',lang=${lang})},
-					#{navBar.hd.overview}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-db/setup',lang=${lang})},
-					#{navBar.hd.setup}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-db/quickstart',lang=${lang})},
-					#{navBar.hd.quickstart}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-db/excel-settings',lang=${lang})},
-					#{navBar.hd.excelSettings}, '')}"></div>
-
-		</div></th:block>
-
-		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.commandApi}, ~{::navbarCommandApi}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarCommandApi" th:remove="tag">
 
@@ -76,6 +35,50 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='command-api/api-spec',lang=${lang})},
 					#{navBar.ca.apiSpec}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.housekeepDb}, ~{::navbarHousekeepDb}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarHousekeepDb" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/overview',lang=${lang})},
+					#{navBar.hd.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/setup',lang=${lang})},
+					#{navBar.hd.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/quickstart',lang=${lang})},
+					#{navBar.hd.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings',lang=${lang})},
+					#{navBar.hd.excelSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/config',lang=${lang})},
+					#{navBar.hd.config}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.housekeepFiles}, ~{::navbarHousekeepFiles}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarHousekeepFiles" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-files/overview',lang=${lang})},
+					#{navBar.hf.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-files/setup',lang=${lang})},
+					#{navBar.hf.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-files/quickstart',lang=${lang})},
+					#{navBar.hf.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-files/excel-settings',lang=${lang})},
+					#{navBar.hf.excelSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-files/task-patterns',lang=${lang})},
+					#{navBar.hf.taskPatterns}, '')}"></div>
 
 		</div></th:block>
 	</div>
