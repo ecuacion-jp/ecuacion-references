@@ -50,27 +50,4 @@ If the record inserted earlier has been deleted from `test_table`, the run was s
 
 ---
 
-## Filtering by Expiration Days
-
-To target only records older than a certain number of days, configure the `Expiration Check` columns.
-
-Example — delete records where `last_updated` column (LocalDateTime type) is 28 or more days ago:
-
-| Expiration Check: Timestamp Column Name | Expiration Check: Timestamp Column Data Type | Expiration Check: Validity Days |
-| --- | --- | --- |
-| last_updated | LocalDateTime | 28 |
-
-Timestamp column data types:
-- `LocalDateTime`: `timestamp without time zone`
-- `OffsetDateTime`: `timestamp with time zone`
-
----
-
-## Performing Soft Delete
-
-To perform soft delete instead of hard delete:
-
-1. Change `Soft / Hard Delete` to `Soft Delete` and `Soft / Hard Delete (internal value)` to `SOFT_DELETE`
-2. Specify the delete flag column name in `Soft Delete Column Name` (e.g., `deleted`)
-
-The `deleted` column of the matching records will be set to `true`.
+For other settings, such as [expiration-based filtering](page?id=housekeep-db/excel-settings&lang=en#expiration-based-filtering-optional) or [soft delete](page?id=housekeep-db/excel-settings&lang=en#soft-delete-columns-soft-delete-only), see [Excel Settings](page?id=housekeep-db/excel-settings&lang=en).

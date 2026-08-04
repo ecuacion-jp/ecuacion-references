@@ -52,28 +52,4 @@ java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/your-settings.
 
 ---
 
-## 経過日数でフィルタリングする
-
-「一定期間経過したレコードのみ削除したい」場合は、
-`Expiration Check` 関連の列を設定します。
-
-例: `last_updated` 列（`LocalDateTime` 型）が 28 日以上前のレコードのみを削除:
-
-| Expiration Check: Timestamp Column Name | Expiration Check: Timestamp Column Data Type | Expiration Check: Validity Days |
-| --- | --- | --- |
-| last_updated | LocalDateTime | 28 |
-
-タイムスタンプ列のデータ型:
-- `LocalDateTime`: `timestamp without time zone`
-- `OffsetDateTime`: `timestamp with time zone`
-
----
-
-## ソフトデリートを実行する
-
-ハードデリートの代わりにソフトデリートを実行するには:
-
-1. `Soft / Hard Delete` を「Soft Delete」、`Soft / Hard Delete (internal value)` を `SOFT_DELETE` に変更
-2. `Soft Delete Column Name` にソフトデリートフラグの列名を指定（例: `deleted`）
-
-実行すると、対象レコードの `deleted` 列が `true` に更新されます。
+経過日数での[フィルタリング](page?id=housekeep-db/excel-settings&lang=ja#経過日数による絞り込み任意)や、[ソフトデリート](page?id=housekeep-db/excel-settings&lang=ja#ソフトデリート用列ソフトデリート時のみ)の実行方法など、他の設定項目については[Excel設定ファイル](page?id=housekeep-db/excel-settings&lang=ja)を参照してください。
