@@ -13,7 +13,7 @@ It performs soft delete or hard delete based on an Excel configuration file.
 
 - Tables must have a single-column primary key or unique index (composite keys are not supported)
 - The soft-delete flag column must be of type `bool` (`true` means deleted)
-- Only **PostgreSQL** is supported at this time
+- **PostgreSQL** and **MySQL / MariaDB** are supported
 
 ## How It Works
 

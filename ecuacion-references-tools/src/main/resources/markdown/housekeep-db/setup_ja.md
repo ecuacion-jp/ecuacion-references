@@ -18,4 +18,4 @@ https://github.com/ecuacion-jp/ecuacion-tools/tree/main/ecuacion-tool-housekeep-
 ## システム要件
 
 - JDK 21 以上
-- PostgreSQL（現時点では他の DB は非対応）
+- PostgreSQL または MySQL / MariaDB

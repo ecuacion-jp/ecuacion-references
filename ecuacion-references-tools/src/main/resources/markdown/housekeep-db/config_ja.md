@@ -1,3 +1,25 @@
+## application.properties
+
+`ecuacion-tool-housekeep-db` は通常のSpring Boot実行可能jarのため、`application.properties`はSpring Bootのデフォルトの外部設定読み込みの仕組みがそのまま働きます。以下の優先順位で読み込まれ、jar内蔵の設定（`spring.main.banner-mode=off`のみ）を上書き・追加できます。
+
+| 優先度 | 場所 |
+| --- | --- |
+| 1（高） | カレントディレクトリの `config/application.properties` |
+| 2 | カレントディレクトリの `application.properties` |
+| 3（低） | jar内蔵の `application.properties`（デフォルト値） |
+
+logback-spring.xmlと同じく、`config/`サブディレクトリに配置する方法が推奨です。
+
+```
+/your-work-dir/
+├── ecuacion-tool-housekeep-db-x.x.x.jar
+└── config/
+    ├── application.properties
+    └── logback-spring.xml
+```
+
+`spring.*`のようなSpringネイティブなプロパティだけでなく、`jp.ecuacion.locale.use-root`のようなecuacion-lib独自のプロパティも、この外部配置による上書きの対象です。
+
 ## logback-spring.xml
 
 Logback の設定ファイルは以下の優先順位で読み込まれます。

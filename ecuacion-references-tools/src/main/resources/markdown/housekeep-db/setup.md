@@ -18,4 +18,4 @@ File: `housekeep-db_fmt-vx.x.x-en_sample.xlsx` (English version)
 ## System Requirements
 
 - JDK 21 or above
-- PostgreSQL (other databases are not supported at this time)
+- PostgreSQL or MySQL / MariaDB

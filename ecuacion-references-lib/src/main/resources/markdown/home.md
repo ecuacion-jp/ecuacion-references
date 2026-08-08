@@ -112,10 +112,30 @@ By importing it into `dependencyManagement`, you can use these libraries at vers
 
 ### Why is it separated from ecuacion-lib-parent?
 
-`ecuacion-splib` imports `ecuacion-lib-parent` as a BOM.
-If external library version management were included in `ecuacion-lib-parent`,
-it could conflict with versions managed by Spring Boot's `dependencyManagement`.
-Therefore, external library version management is separated into `ecuacion-lib-dependencies`.
+`ecuacion-splib-parent` uses `ecuacion-lib-parent` as its parent POM.
+That means anything included in `ecuacion-lib-parent` is inherited by every general application
+that uses `ecuacion-splib-parent` as its own parent POM (see Pattern 3 in the Setup section of
+[ecuacion-references-splib](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=home)).
+
+`ecuacion-lib-dependencies` gathers configuration and dependencies that are only needed for
+developing `ecuacion-lib` itself:
+
+- Version management for external libraries (`jakarta.validation-api`, `hibernate-validator`,
+  etc.). Including these in `ecuacion-lib-parent` would propagate versions that could conflict
+  with Spring Boot's `dependencyManagement` into any general application using
+  `ecuacion-splib-parent` as its parent POM.
+- Build tooling for ecuacion library's own quality assurance: checkstyle, spotbugs, automatic
+  license-header insertion, and NullAway/Error Prone static analysis.
+- Source jar / javadoc jar generation, uploading them to the ecuacion docs server (wagon), test
+  coverage measurement (jacoco), and enforcing a minimum Maven version (enforcer) — build/release
+  tooling for ecuacion-lib itself.
+- An actual (not just managed) dependency on `jspecify` (the null-safety annotations NullAway
+  relies on) and `allure-jupiter` (test report generation).
+
+By keeping these in `ecuacion-lib-dependencies` rather than `ecuacion-lib-parent`, general
+applications can safely use `ecuacion-lib-parent` (and, by extension, `ecuacion-splib-parent`) as
+their own parent POM. `ecuacion-lib-dependencies` is used by ecuacion-lib's own modules, as well as
+by `ecuacion-splib-dependencies` (the equivalent parent POM used by ecuacion-splib's own modules).
 
 ## ecuacion-lib-validation-business-messages
 

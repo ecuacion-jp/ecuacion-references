@@ -4,7 +4,7 @@
 ## 前提
 
 - JAR ファイルと Excel 設定ファイルのサンプルを[セットアップ](page?id=housekeep-db/setup&lang=ja)に従って準備済みであること
-- PostgreSQL が利用可能であること
+- PostgreSQL が利用可能であること（MySQL / MariaDB の場合は、[Excel設定ファイル](page?id=housekeep-db/excel-settings&lang=ja#db-connection-settings-シート)の「対応データベース」表の Driver Name / Protocol を使用してください）
 
 ## 手順
 

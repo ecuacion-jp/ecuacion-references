@@ -17,14 +17,21 @@ Excel ファイルには以下の 4 つのシートがあります。
 | 列名 | 必須 | 説明 |
 | --- | --- | --- |
 | DB Connection ID | ○ | 接続を識別する ID。Housekeep DB Settings シートから参照される |
-| Driver Name | ○ | JDBC ドライバ名（例: `postgresql`） |
-| Connection URL: Protocol | ○ | 接続 URL のプロトコル部分（例: `postgresql`） |
+| Driver Name | ○ | JDBC ドライバの完全修飾クラス名（下表参照） |
+| Connection URL: Protocol | ○ | 接続 URL のプロトコル部分（下表参照） |
 | Connection URL: Server | ○ | データベースサーバのホスト名または IP アドレス |
 | Connection URL: Port | ○ | ポート番号 |
 | Connection URL: Database | ○ | データベース名 |
-| Connection URL: Schema | — | スキーマ名（省略可） |
+| Connection URL: Schema | — | スキーマ名（省略可、**PostgreSQL のみ** — MySQL / MariaDB にはスキーマの概念がなく、この列は無視される） |
 | Username | ○ | 接続ユーザ名 |
 | Password | ○ | 接続パスワード |
+
+**対応データベース**
+
+| データベース | Driver Name | Connection URL: Protocol |
+| --- | --- | --- |
+| PostgreSQL | `org.postgresql.Driver` | `postgresql` |
+| MySQL / MariaDB | `org.mariadb.jdbc.Driver` | `mysql` |
 
 ---
 

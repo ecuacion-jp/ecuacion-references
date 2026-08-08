@@ -3,7 +3,7 @@ This guide walks you through the simplest example: hard-deleting all records in 
 ## Prerequisites
 
 - The JAR file and the sample Excel configuration file have been prepared following the [Setup](page?id=housekeep-db/setup&lang=en) instructions.
-- PostgreSQL is available.
+- PostgreSQL is available. (For MySQL / MariaDB, use the driver name and protocol from the [Supported Databases](page?id=housekeep-db/excel-settings&lang=en#db-connection-settings-sheet) table instead.)
 
 ## Steps
 
@@ -27,7 +27,7 @@ Open the sample Excel file and fill in the following two sheets.
 
 | DB Connection ID | Driver Name | Connection URL: Protocol | Connection URL: Server | Connection URL: Port | Connection URL: Database | Connection URL: Schema | Username | Password |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| test-conn | postgresql | postgresql | localhost | 5432 | mydb | public | myuser | mypassword |
+| test-conn | org.postgresql.Driver | postgresql | localhost | 5432 | mydb | public | myuser | mypassword |
 
 #### Housekeep DB Settings Sheet
 

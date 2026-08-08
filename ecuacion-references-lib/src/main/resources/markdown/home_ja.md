@@ -112,10 +112,26 @@ ecuacion-lib が依存する外部ライブラリ（`jakarta.validation-api`・`
 
 ### なぜ ecuacion-lib-parent と分けているのか
 
-`ecuacion-splib` は `ecuacion-lib-parent` を BOM としてインポートしています。
-もし外部ライブラリのバージョン管理を `ecuacion-lib-parent` に含めると、
-Spring Boot が dependencyManagement で管理するバージョンと競合するおそれがあります。
-そのため、外部ライブラリのバージョン管理は `ecuacion-lib-dependencies` として分離されています。
+`ecuacion-splib-parent` は `ecuacion-lib-parent` を親 POM として指定しています。
+そのため `ecuacion-lib-parent` に含めた設定は、`ecuacion-splib-parent` を親 POM として
+使う一般アプリケーション（[ecuacion-references-splib](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=home&lang=ja)
+のセットアップ パターン3）にもすべて継承されます。
+
+`ecuacion-lib-dependencies` は、`ecuacion-lib` 自身の開発でのみ必要な設定・依存関係をまとめたモジュールです。
+
+- 外部ライブラリのバージョン管理（`jakarta.validation-api`・`hibernate-validator` 等）。
+  これを `ecuacion-lib-parent` に含めると、`ecuacion-splib-parent` を親 POM にした一般アプリケーションにまで
+  Spring Boot の dependencyManagement と競合しうるバージョンが伝播してしまいます。
+- checkstyle・spotbugs・ライセンスヘッダー自動付与・NullAway/Error Prone による静的解析など、
+  ecuacion ライブラリ自身の品質担保のためのビルド設定。
+- ソース jar・javadoc jar の生成、ecuacion 運用サーバへのアップロード（wagon）、テストカバレッジ計測
+  （jacoco）、必要な Maven バージョンの強制（enforcer）など、ecuacion-lib 自身の公開・ビルド運用のための設定。
+- `jspecify`（NullAway が利用する null 安全アノテーション）・`allure-jupiter`（テストレポート生成）の実依存関係。
+
+これらを `ecuacion-lib-parent` ではなく `ecuacion-lib-dependencies` に切り出すことで、
+`ecuacion-lib-parent`（ひいては `ecuacion-splib-parent`）を一般アプリケーションが安心して
+親 POM に指定できる状態に保っています。`ecuacion-lib-dependencies` は `ecuacion-lib` 自身のモジュールと、
+同様の役割を持つ `ecuacion-splib-dependencies`（`ecuacion-splib` 自身のモジュールが使う親 POM）から利用されます。
 
 ## ecuacion-lib-validation-business-messages
 

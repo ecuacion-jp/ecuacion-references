@@ -81,6 +81,7 @@ public class MemoryDataStoreDao {
     }
   }
 
+  @SuppressWarnings("null")
   public List<RecordWithId> findAll() {
     return new ArrayList<>(getRootMap().get(dataKind));
   }

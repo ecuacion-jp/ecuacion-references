@@ -34,7 +34,8 @@ with real screens built on the framework, rather than reading Markdown articles 
 
 You can manage the versions of the `ecuacion-splib-xxx` modules either by importing
 `ecuacion-splib-parent` as a BOM, or by using it as the parent POM. Which one you should choose
-also depends on how you want to handle the Spring Boot version, giving three patterns overall.
+also depends on how you want to handle the Spring Boot version, and whether you want to align with
+ecuacion's own build conventions (static analysis, etc.), giving four patterns overall.
 
 ### Pattern 1: Import both ecuacion-splib and Spring Boot as a BOM (recommended)
 
@@ -104,16 +105,40 @@ the Spring Boot version ecuacion-splib is built against.
 ```
 
 As with Pattern 1, the Spring Boot version stays tied to the ecuacion-splib version, so no explicit
-version is needed. Note, however, that using it as the parent POM also inherits the following
-build configuration that `ecuacion-splib-parent` uses internally, not just version management:
+version is needed. `ecuacion-splib-parent` is a thin parent POM with no real dependencies and none
+of ecuacion's own build enforcement, so it can be used just as safely as Pattern 1. The one
+exception is the `-parameters` compiler flag, needed for Spring 6+'s `@RequestParam` /
+`@PathVariable` parameter-name resolution — since that also needs to apply to the consuming
+application's own compilation, it's included here too.
+
+If your project already has its own shared parent POM, use Pattern 1. Otherwise, this pattern is
+simpler since it saves you from writing a separate BOM import.
+
+### Pattern 4: Use ecuacion-splib-dependencies as the parent POM
+
+```xml
+<parent>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-dependencies</artifactId>
+    <version>(version)</version>
+</parent>
+```
+
+`ecuacion-splib-dependencies` is the parent POM used by ecuacion-splib's own modules (such as
+`ecuacion-splib-core`). On top of everything in Pattern 3, it also brings in the following build
+configuration:
 
 - `spring-boot-devtools` / `spring-boot-starter-test` / `allure-jupiter` are added automatically as
   actual dependencies, not just managed versions
 - NullAway / Error Prone static analysis is enforced at compile time
 - Test execution settings such as `maven-surefire-plugin`'s `useModulePath=false` are overridden
+- Code-quality checks via checkstyle and spotbugs, and automatic license-header insertion into source files
+- `failOnMissingWebXml=false` is set for WAR packaging, and if `NOTICE.txt` / `LICENSE.txt` are
+  present, they're automatically bundled into the META-INF of both the jar and the war
 
-Some ecuacion projects, such as `ecuacion-tool-code-generator`, use this pattern, but for general
-applications Pattern 1 is usually recommended unless you're fine with the side effects above.
+Some ecuacion projects, such as `ecuacion-tool-code-generator`, use this pattern when they want to
+align with ecuacion's own build conventions. General applications usually don't need it — use
+Pattern 1 or Pattern 3 instead.
 
 ### Add the module(s) you need
 

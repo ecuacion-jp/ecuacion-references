@@ -1,3 +1,25 @@
+## application.properties
+
+`ecuacion-tool-housekeep-db` is a standard Spring Boot executable jar, so `application.properties` is loaded through Spring Boot's default external configuration mechanism as-is. It is loaded in the following priority order, letting you override or add to the settings bundled in the jar (currently only `spring.main.banner-mode=off`).
+
+| Priority | Location |
+| --- | --- |
+| 1 (highest) | `config/application.properties`, relative to the current directory |
+| 2 | `application.properties`, relative to the current directory |
+| 3 (lowest) | `application.properties` bundled in the jar (default values) |
+
+As with logback-spring.xml, placing it in a `config/` subdirectory is recommended.
+
+```
+/your-work-dir/
+├── ecuacion-tool-housekeep-db-x.x.x.jar
+└── config/
+    ├── application.properties
+    └── logback-spring.xml
+```
+
+This external placement overrides not only Spring-native properties such as `spring.*`, but also ecuacion-lib-specific properties such as `jp.ecuacion.locale.use-root`.
+
 ## logback-spring.xml
 
 The Logback configuration file is loaded in the following priority order.

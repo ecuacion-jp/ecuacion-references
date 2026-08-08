@@ -27,9 +27,9 @@
 	</organization>
 	<parent>
 		<groupId>jp.ecuacion.splib</groupId>
-		<artifactId>ecuacion-splib-parent</artifactId>
+		<artifactId>ecuacion-splib-dependencies</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
-		<relativePath>../ecuacion-splib</relativePath>
+		<relativePath>../ecuacion-splib/ecuacion-splib-dependencies</relativePath>
 	</parent>
 	<properties>
 		<!-- deploy to public repository without "profile-xxx" directory -->
