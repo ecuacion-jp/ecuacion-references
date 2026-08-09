@@ -19,27 +19,17 @@ ecuacion-utils は、アプリケーション開発で必要となる汎用ユ�
 
 ## セットアップ
 
-### 1. BOM をインポートする
-
-`ecuacion-util-parent` を BOM としてインポートすることで、各モジュールのバージョンを個別に指定せずに済みます。
+`pom.xml` に必要なモジュールを追加します。
 
 ```xml
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>jp.ecuacion.util</groupId>
-            <artifactId>ecuacion-util-parent</artifactId>
-            <version>（バージョン）</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
+<dependency>
+    <groupId>jp.ecuacion.util</groupId>
+    <artifactId>ecuacion-util-excel-table</artifactId>
+    <version>（バージョン）</version>
+</dependency>
 ```
 
-### 2. 必要なモジュールを追加する
-
-各モジュールの依存については以下のページを参照してください。
+各モジュールで追加が必要な依存など、詳細は以下のページを参照してください。
 
 - `ecuacion-util-excel-table`: [セットアップ](page?id=excel-tables/setup&lang=ja)
 - `ecuacion-util-excel-report-to-pdf`: [セットアップ](page?id=excel-report-to-pdf/setup&lang=ja)

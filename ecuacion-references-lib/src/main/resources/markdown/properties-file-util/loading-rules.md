@@ -79,6 +79,12 @@ some.key=Application-specific value
 
 `getApplication("some.key")` returns the application's value with priority.
 
+For example, message keys provided by `ecuacion-lib-validation-business-messages` have a `.default`
+suffix (e.g., `jakarta.validation.constraints.NotNull.message.default`). ecuacion-lib falls back to the
+`.default` key when the regular key (e.g., `jakarta.validation.constraints.NotNull.message`) is not
+found in the application's `ValidationMessages.properties`, allowing you to replace default messages
+without preventing application-specific customization.
+
 ---
 
 ## Resolving `${...}` Placeholders in application.properties
@@ -100,7 +106,7 @@ modules such as `ecuacion-splib` wire this up automatically, resolving `${...}` 
 
 This resolution applies only to `application[_xxx].properties` values; `messages.properties`,
 `ValidationMessages.properties`, etc. are not affected. (For `${...}` EL expression evaluation
-in `ValidationMessages` files, see [ValidationMessages](/public/article?id=properties-file-util/validation-messages).)
+in `ValidationMessages` files, see [ValidationMessages](/public/showMarkdown/page?id=properties-file-util/validation-messages).)
 
 ---
 

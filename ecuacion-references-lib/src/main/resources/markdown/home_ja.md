@@ -8,65 +8,20 @@ ecuacion library は、アプリケーション開発で共通的に必要とな
 
 ## モジュール構成
 
-ecuacion library は以下の 5 つのモジュールで構成されています。
+ecuacion library は以下の 6 つのモジュールで構成されています。
 
 | モジュール名 | 役割 |
 | --- | --- |
 | `ecuacion-lib-parent` | 親 POM（ecuacion-lib 各モジュールのバージョン管理） |
-| `ecuacion-lib-dependencies` | BOM（ecuacion-lib が依存する外部ライブラリのバージョン管理） |
+| `ecuacion-lib-bom` | BOM（ecuacion-lib が依存する外部ライブラリのバージョン管理） |
 | `ecuacion-lib-core` | コア機能（Item・PropertiesFileUtil・Violation など） |
 | `ecuacion-lib-validation` | Jakarta Validation 独自アノテーション群 |
 | `ecuacion-lib-validation-business-messages` | ビジネス向けバリデーションメッセージ |
+| `ecuacion-lib-dependencies` | ecuacion モジュールのビルド用に使用（一般アプリ開発者向けには非推奨） |
 
 `ecuacion-lib-core` と `ecuacion-lib-validation` の詳細はナビゲーションの各ページを参照してください。
-以降では、このページで説明を完結させる残り 3 モジュールについて説明します。
-
----
-
-## セットアップ
-
-### 1. BOM をインポートする
-
-`ecuacion-lib-parent` を BOM としてインポートすることで、各モジュールのバージョンを個別に指定せずに済みます。
-
-```xml
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>jp.ecuacion.lib</groupId>
-            <artifactId>ecuacion-lib-parent</artifactId>
-            <version>（バージョン）</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-```
-
-### 2. 必要なモジュールを追加する
-
-```xml
-<!-- コア機能（Item・PropertiesFileUtil・Violation など） -->
-<dependency>
-    <groupId>jp.ecuacion.lib</groupId>
-    <artifactId>ecuacion-lib-core</artifactId>
-</dependency>
-
-<!-- Jakarta Validation 独自アノテーション群 -->
-<dependency>
-    <groupId>jp.ecuacion.lib</groupId>
-    <artifactId>ecuacion-lib-validation</artifactId>
-</dependency>
-
-<!-- ビジネス向けバリデーションメッセージ（任意） -->
-<dependency>
-    <groupId>jp.ecuacion.lib</groupId>
-    <artifactId>ecuacion-lib-validation-business-messages</artifactId>
-</dependency>
-```
-
-`ecuacion-lib-validation` は `ecuacion-lib-core` に依存しているため、
-`ecuacion-lib-validation` を追加すれば `ecuacion-lib-core` も自動的に含まれます。
+`ecuacion-lib-dependencies` は ecuacion-lib 自身のビルド用モジュールで一般アプリケーション開発者は
+使わないため、以降では、このページで説明を完結させる残り 3 モジュールについて説明します。
 
 ---
 
@@ -75,74 +30,32 @@ ecuacion library は以下の 5 つのモジュールで構成されています
 ecuacion-lib 全モジュールの親 POM です。dependencyManagement に ecuacion-lib 各モジュール
 （`ecuacion-lib-core`・`ecuacion-lib-validation`・`ecuacion-lib-validation-business-messages`）の
 バージョンが定義されており、BOM としてインポートすることでバージョンを個別に記述しなくて済みます。
+インポート方法は下記の「セットアップ」を参照してください。
 
-```xml
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>jp.ecuacion.lib</groupId>
-            <artifactId>ecuacion-lib-parent</artifactId>
-            <version>（バージョン）</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-```
+## ecuacion-lib-bom
 
-## ecuacion-lib-dependencies
+ecuacion-lib-core・ecuacion-lib-validation などが直接依存する外部ライブラリ（`jakarta.validation-api`・
+`hibernate-validator`・`jakarta.el`・`jakarta.servlet-api`・`jakarta.mail-api`・`angus-mail`・
+`slf4j-api`・`jackson-databind`・`commons-lang3`）のバージョンを一元管理する Maven BOM です。dependencyManagement に
+インポートすることで、これらのライブラリのバージョンを指定せずに使えます。
 
-ecuacion-lib が依存する外部ライブラリ（`jakarta.validation-api`・`hibernate-validator`・`junit` 等）の
-バージョンを一元管理する Maven BOM です。dependencyManagement にインポートすることで、
-これらのライブラリを ecuacion-lib と互換性のあるバージョンで利用できます。
+`ecuacion-lib-parent` にこれらのバージョン管理を含めていないのは、`ecuacion-lib-parent` を継承する
+`ecuacion-splib-parent`（Spring Boot ベース）を親 POM とする Spring Boot アプリケーションで、
+ecuacion-lib と重複するモジュールのバージョンを ecuacion-lib 側ではなく Spring Boot 側の管理下に
+置けるようにするためです。
 
-```xml
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>jp.ecuacion.lib</groupId>
-            <artifactId>ecuacion-lib-dependencies</artifactId>
-            <version>（バージョン）</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
-```
-
-### なぜ ecuacion-lib-parent と分けているのか
-
-`ecuacion-splib-parent` は `ecuacion-lib-parent` を親 POM として指定しています。
-そのため `ecuacion-lib-parent` に含めた設定は、`ecuacion-splib-parent` を親 POM として
-使う一般アプリケーション（[ecuacion-references-splib](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=home&lang=ja)
-のセットアップ パターン3）にもすべて継承されます。
-
-`ecuacion-lib-dependencies` は、`ecuacion-lib` 自身の開発でのみ必要な設定・依存関係をまとめたモジュールです。
-
-- 外部ライブラリのバージョン管理（`jakarta.validation-api`・`hibernate-validator` 等）。
-  これを `ecuacion-lib-parent` に含めると、`ecuacion-splib-parent` を親 POM にした一般アプリケーションにまで
-  Spring Boot の dependencyManagement と競合しうるバージョンが伝播してしまいます。
-- checkstyle・spotbugs・ライセンスヘッダー自動付与・NullAway/Error Prone による静的解析など、
-  ecuacion ライブラリ自身の品質担保のためのビルド設定。
-- ソース jar・javadoc jar の生成、ecuacion 運用サーバへのアップロード（wagon）、テストカバレッジ計測
-  （jacoco）、必要な Maven バージョンの強制（enforcer）など、ecuacion-lib 自身の公開・ビルド運用のための設定。
-- `jspecify`（NullAway が利用する null 安全アノテーション）・`allure-jupiter`（テストレポート生成）の実依存関係。
-
-これらを `ecuacion-lib-parent` ではなく `ecuacion-lib-dependencies` に切り出すことで、
-`ecuacion-lib-parent`（ひいては `ecuacion-splib-parent`）を一般アプリケーションが安心して
-親 POM に指定できる状態に保っています。`ecuacion-lib-dependencies` は `ecuacion-lib` 自身のモジュールと、
-同様の役割を持つ `ecuacion-splib-dependencies`（`ecuacion-splib` 自身のモジュールが使う親 POM）から利用されます。
+インポート方法は下記の「セットアップ」を参照してください。
 
 ## ecuacion-lib-validation-business-messages
 
-Jakarta Validation のデフォルトメッセージ（Hibernate Validator が提供する `"must not be null"` など）は
-技術者向けの表現です。このモジュールはそれをエンドユーザー向けの自然な表現に置き換える
+Jakarta Validation のデフォルトメッセージ（Hibernate Validator が提供する `"null は許可されていません"` など）は
+技術者向けの表現です。このモジュールはそれをエンドユーザー向けの自然な表現（`"入力必須です"` など）に置き換える
 **ValidationMessages プロパティファイルのみ**を含みます。Java コードは一切含まれておらず、
 dependency に追加するだけで有効になります。
 
 ### 使い方
 
-`pom.xml` に以下を追加します（バージョンは `ecuacion-lib-dependencies` BOM で管理されます）。
+`pom.xml` に以下を追加します（バージョン指定の要否は「セットアップ」の各パターンを参照してください）。
 
 ```xml
 <dependency>
@@ -156,30 +69,125 @@ dependency に追加するだけで有効になります。
 Jakarta Validation 標準アノテーションと ecuacion-lib-validation 独自アノテーションの両方を対象に、
 英語（デフォルト）と日本語（`_ja` ロケール）のメッセージを提供します。
 
-#### 置き換えの例（英語）
+このモジュールが提供するメッセージキーは、ecuacion モジュール共通の `.default` サフィックスの
+仕組みでアプリ側から上書きできます。詳細は [PropertiesFileUtil](/public/showMarkdown/page?id=properties-file-util/loading-rules)
+の「`.default` サフィックスによるデフォルト値の上書き」を参照してください。
 
-| アノテーション | デフォルト（Hibernate Validator） | このモジュール適用後 |
-| --- | --- | --- |
-| `@NotNull` | must not be null | is required |
-| `@NotEmpty` | must not be empty | is required |
-| `@Pattern` | must match "..." | must be in the correct format |
-| `@Size` | size must be between {min} and {max} | must be between {min} and {max} characters |
-| `@Email` | must be a well-formed email address | must be a valid email address |
+---
 
-#### 置き換えの例（日本語）
+## セットアップ
 
-| アノテーション | デフォルト（Hibernate Validator） | このモジュール適用後 |
-| --- | --- | --- |
-| `@NotNull` | null は許可されていません | 入力必須です |
-| `@NotEmpty` | 空要素は許可されていません | 入力必須です |
-| `@Pattern` | 正規表現 "{regexp}" にマッチさせてください | 正しい形式で入力してください |
-| `@Size` | {min} から {max} の間のサイズにしてください | {min}文字以上{max}文字以内で入力してください |
-| `@Email` | 電子メールアドレスとして正しい形式にしてください | メールアドレスの形式で入力してください |
+`ecuacion-lib-core`・`ecuacion-lib-validation` は `hibernate-validator`・`jakarta.el`（validation
+機能を使う場合に必要）、`org.eclipse.angus:angus-mail`（`MailUtil` を使う場合に必要）に
+`provided` スコープで依存しています。`provided` は推移的に伝播しないため、これらはアプリ側で
+明示的に追加する必要があります。これらのライブラリ、および `ecuacion-lib-xxx` 自体のバージョンを
+どこまで自動管理したいかによって、以下の3パターンがあります。
 
-### アプリ側でのメッセージ上書き
+### パターン1: BOM をインポートせず、直接バージョンを指定する
 
-このモジュールのメッセージキーには `.default` サフィックスが付いています
-（例：`jakarta.validation.constraints.NotNull.message.default`）。
-ecuacion-lib は、通常のキー（例：`jakarta.validation.constraints.NotNull.message`）が
-アプリの `ValidationMessages.properties` に見つからない場合に `.default` キーへフォールバックする仕組みを持っています。
-これにより、アプリ固有のカスタマイズを妨げることなくデフォルトメッセージを差し替えられます。
+```xml
+<dependency>
+    <groupId>jp.ecuacion.lib</groupId>
+    <artifactId>ecuacion-lib-validation</artifactId>
+    <version>（バージョン）</version>
+</dependency>
+
+<!-- validation機能を使う場合 -->
+<dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>（バージョン）</version>
+</dependency>
+<dependency>
+    <groupId>org.glassfish</groupId>
+    <artifactId>jakarta.el</artifactId>
+    <version>（バージョン）</version>
+</dependency>
+```
+
+`ecuacion-lib-parent`・`ecuacion-lib-bom` のどちらもインポートしないため、
+上記すべてのバージョンを自分で指定する必要があります。
+
+### パターン2: `ecuacion-lib-parent` を BOM としてインポートする
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.lib</groupId>
+            <artifactId>ecuacion-lib-parent</artifactId>
+            <version>（バージョン）</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>jp.ecuacion.lib</groupId>
+        <artifactId>ecuacion-lib-validation</artifactId>
+    </dependency>
+
+    <!-- validation機能を使う場合。ecuacion-lib-parent は ecuacion-lib-xxx 自身の
+         バージョンしか管理していないため、引き続きバージョン指定が必要。 -->
+    <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>（バージョン）</version>
+    </dependency>
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>jakarta.el</artifactId>
+        <version>（バージョン）</version>
+    </dependency>
+</dependencies>
+```
+
+`ecuacion-lib-validation` は `ecuacion-lib-core` に依存しているため、
+`ecuacion-lib-validation` を追加すれば `ecuacion-lib-core` も自動的に含まれます
+（他のパターンでも同様です）。
+
+### パターン3: `ecuacion-lib-bom` を BOM としてインポートする
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>jp.ecuacion.lib</groupId>
+            <artifactId>ecuacion-lib-bom</artifactId>
+            <version>（バージョン）</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>jp.ecuacion.lib</groupId>
+        <artifactId>ecuacion-lib-validation</artifactId>
+    </dependency>
+
+    <!-- validation機能を使う場合 -->
+    <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>jakarta.el</artifactId>
+    </dependency>
+</dependencies>
+```
+
+`ecuacion-lib-bom` は `ecuacion-lib-parent` を親 POM としており、BOM インポートは親の
+dependencyManagement も引き継ぐため、`ecuacion-lib-bom` だけをインポートすれば
+`ecuacion-lib-validation`・`hibernate-validator`・`jakarta.el` のいずれもバージョン指定が
+不要になります。`ecuacion-lib-parent` を別途インポートする必要はありません。
+
+### ビジネス向けバリデーションメッセージを使う場合
+
+上記のいずれのパターンでも、`ecuacion-lib-validation-business-messages` を追加する場合の
+バージョン要否は `ecuacion-lib-validation` と同様です（詳細は
+[ecuacion-lib-validation-business-messages](#ecuacion-lib-validation-business-messages) を参照）。

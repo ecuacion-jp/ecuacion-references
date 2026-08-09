@@ -26,4 +26,4 @@ LogUtil.logSystemError(detailLog, throwable, "追加情報");
 ## 各ロガーの役割
 
 各ロガー（`DetailLogger`, `ErrorLogger` 等）の詳細は
-[Logging](/public/article?id=other/logging) を参照してください。
+[Logging](/public/showMarkdown/page?id=other/logging) を参照してください。

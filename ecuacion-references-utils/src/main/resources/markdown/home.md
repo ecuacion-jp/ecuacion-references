@@ -20,27 +20,17 @@ See the navigation links for details on each module.
 
 ## Setup
 
-### 1. Import the BOM
-
-By importing `ecuacion-util-parent` as a BOM, you do not need to specify the version of each module individually.
+Add the required modules to your `pom.xml`.
 
 ```xml
-<dependencyManagement>
-    <dependencies>
-        <dependency>
-            <groupId>jp.ecuacion.util</groupId>
-            <artifactId>ecuacion-util-parent</artifactId>
-            <version>(version)</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
-</dependencyManagement>
+<dependency>
+    <groupId>jp.ecuacion.util</groupId>
+    <artifactId>ecuacion-util-excel-table</artifactId>
+    <version>(version)</version>
+</dependency>
 ```
 
-### 2. Add the required modules
-
-See the following pages for each module's dependency:
+See the following pages for details on each module, such as additional dependencies that may be needed:
 
 - `ecuacion-util-excel-table`: [Setup](page?id=excel-tables/setup&lang=en)
 - `ecuacion-util-excel-report-to-pdf`: [Setup](page?id=excel-report-to-pdf/setup&lang=en)

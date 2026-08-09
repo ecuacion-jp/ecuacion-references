@@ -74,6 +74,12 @@ some.key=アプリ独自の値
 
 `getApplication("some.key")` はアプリ側の値を優先して返します。
 
+例えば `ecuacion-lib-validation-business-messages` が提供するメッセージキーには
+`.default` サフィックスが付いています（例：`jakarta.validation.constraints.NotNull.message.default`）。
+通常のキー（例：`jakarta.validation.constraints.NotNull.message`）がアプリの
+`ValidationMessages.properties` に見つからない場合に `.default` キーへフォールバックするため、
+アプリ固有のカスタマイズを妨げることなくデフォルトメッセージを差し替えられます。
+
 ---
 
 ## application.properties 内の `${...}` プレースホルダーの解決
@@ -94,7 +100,7 @@ ecuacion-lib 自体は環境変数やフレームワーク固有のプロパテ�
 
 この解決処理は `application[_xxx].properties` の値にのみ適用され、`messages.properties` や
 `ValidationMessages.properties` などには影響しません（`ValidationMessages` 系ファイルにおける
-`${...}` EL 式評価については [ValidationMessages](/public/article?id=properties-file-util/validation-messages) を参照してください）。
+`${...}` EL 式評価については [ValidationMessages](/public/showMarkdown/page?id=properties-file-util/validation-messages) を参照してください）。
 
 ---
 

@@ -22,7 +22,7 @@ Java 標準の `ResourceBundle` をベースに、各種機能を追加してい
 | `ValidationMessagesPatternDescriptions[_xxx].properties` | `getValidationMessagePatternDescription(...)` | ✓ | パターン説明文 |
 
 `ValidationMessages` 系の3種類は引数の形式が他と異なります。
-詳細は [ValidationMessages](/public/article?id=properties-file-util/validation-messages) を参照してください。
+詳細は [ValidationMessages](/public/showMarkdown/page?id=properties-file-util/validation-messages) を参照してください。
 
 Locale 列に ✓ があるメソッドは、Locale 引数を省略するか `null` を渡した場合、`Locale.ROOT` として扱われます。
 

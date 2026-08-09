@@ -26,4 +26,4 @@ Only the `DetailLogger` needs to be passed from the caller.
 ## Role of Each Logger
 
 For details on each logger (`DetailLogger`, `ErrorLogger`, etc.), see
-[Logging](/public/article?id=other/logging).
+[Logging](/public/showMarkdown/page?id=other/logging).

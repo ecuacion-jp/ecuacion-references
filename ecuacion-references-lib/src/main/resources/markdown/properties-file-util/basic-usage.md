@@ -22,7 +22,7 @@ It is based on Java's standard `ResourceBundle` with additional features. (Detai
 | `ValidationMessagesPatternDescriptions[_xxx].properties` | `getValidationMessagePatternDescription(...)` | ✓ | Pattern description text |
 
 The 3 `ValidationMessages` variants have a different argument format from the others.
-For details, see [ValidationMessages](/public/article?id=properties-file-util/validation-messages).
+For details, see [ValidationMessages](/public/showMarkdown/page?id=properties-file-util/validation-messages).
 
 For methods with ✓ in the Locale column, if the Locale argument is omitted or `null` is passed, it is treated as `Locale.ROOT`.
 
