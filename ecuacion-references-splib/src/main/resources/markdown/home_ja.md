@@ -20,6 +20,10 @@ ecuacion-splib は以下のモジュールで構成されています。
 | `ecuacion-splib-web-jpa` | `ecuacion-splib-web` と `ecuacion-splib-jpa` を繋ぐ連携機能 |
 | `ecuacion-splib-web-markdown` | Markdown ファイルを Web ページとして表示する機能。本リファレンスサイト自体もこれを利用して構築されている |
 | `ecuacion-splib-rest` | REST API 構築用フレームワーク（例外処理、API キー / Public / 拒否エンドポイントのセキュリティ） |
+| `ecuacion-splib-dependencies` | ecuacion モジュールのビルド用に使用する親 POM（一般アプリケーション開発者向けには非推奨） |
+
+`ecuacion-splib-dependencies` は ecuacion-splib 自身（および他の ecuacion 系プロジェクト）のビルド用モジュールで、
+一般アプリケーション開発者は使いません。詳細は下記「セットアップ」を参照してください。
 
 現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **rest**）と
 **`ecuacion-splib-batch`**（上部メニューの **batch**）です。他モジュールの記事は順次追加予定です。
@@ -32,10 +36,35 @@ ecuacion-splib は以下のモジュールで構成されています。
 ## セットアップ
 
 `ecuacion-splib-xxx` 各モジュールのバージョンは、`ecuacion-splib-parent` を BOM としてインポートするか、
-親 POM として指定することで一元管理できます。Spring Boot 側のバージョンをどう扱うか、
-ecuacion 自身のビルド規約（静的解析など）まで揃えたいかによって、以下の4パターンがあります。
+親 POM として指定することで一元管理できます。Spring Boot 側のバージョンをどう扱うかによって、
+以下の3パターンがあります。
 
-### パターン 1: ecuacion-splib・Spring Boot ともに BOM としてインポートする（推奨）
+### パターン 1: ecuacion-splib を親 POM として指定する（推奨）
+
+```xml
+<parent>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-parent</artifactId>
+    <version>（バージョン）</version>
+</parent>
+```
+
+Spring Boot のバージョンは ecuacion-splib 側と連動するため明示的な指定は不要です。
+`ecuacion-splib-parent` は実際の依存関係や ecuacion 独自のビルド強制設定を持たない薄い親 POM なので、
+副作用なく利用できます。唯一、Spring 6+ の `@RequestParam` / `@PathVariable` の
+パラメータ名解決に必要な `-parameters` コンパイラオプションだけは、これを親 POM にする一般アプリケーション
+自身のコンパイルにも必要なため、ここに含まれています。
+
+また、実際の Maven `<parent>` を経由するこのパターンでは、プラグインのバージョン・設定
+（`pluginManagement`）もあわせて継承されます。実行可能 jar を作りたい場合、
+`spring-boot-maven-plugin` はバージョンや `repackage` の実行設定を書かずに `<plugin>` 要素を
+追加するだけで使えます（パターン2 の BOM import ではこの `pluginManagement` は継承されません）。
+
+記述量が最も少なくバージョン指定のミスも起きにくいため、このパターンを推奨します。
+社内共通の親 POM など、`ecuacion-splib-parent` 以外を親 POM にしたいためこのパターンが
+使えない場合は、パターン2を使ってください。
+
+### パターン 2: ecuacion-splib・Spring Boot ともに BOM としてインポートする
 
 ```xml
 <dependencyManagement>
@@ -63,8 +92,9 @@ ecuacion 自身のビルド規約（静的解析など）まで揃えたいか�
 が参考になります。
 
 このパターンでは、プロジェクトが元々使用している親 POM（社内共通の親 POM など）をそのまま維持できます。
+社内共通の親 POM など、`ecuacion-splib-parent` 以外の親 POM を使いたいためパターン1が使えない場合に選んでください。
 
-### パターン 2: ecuacion-splib は BOM インポート、Spring Boot は親 POM として指定する
+### パターン 3: ecuacion-splib は BOM インポート、Spring Boot は親 POM として指定する
 
 ```xml
 <parent>
@@ -89,50 +119,7 @@ ecuacion 自身のビルド規約（静的解析など）まで揃えたいか�
 このパターンでは Spring Boot のバージョンは ecuacion-splib 側のバージョンと連動しません。
 `<parent>` に指定するバージョンはプロパティ参照ができない（Maven の仕様上、親 POM のバージョンは
 プロパティ解決より前に決定されるため）ので、明示的に指定したうえで、ecuacion-splib が使用している
-Spring Boot のバージョンと手動で揃える必要があります。
-
-### パターン 3: ecuacion-splib を親 POM として指定する
-
-```xml
-<parent>
-    <groupId>jp.ecuacion.splib</groupId>
-    <artifactId>ecuacion-splib-parent</artifactId>
-    <version>（バージョン）</version>
-</parent>
-```
-
-パターン1と同様、Spring Boot のバージョンは ecuacion-splib 側と連動するため明示的な指定は不要です。
-`ecuacion-splib-parent` は実際の依存関係や ecuacion 独自のビルド強制設定を持たない薄い親 POM なので、
-パターン1と同様に副作用なく利用できます。唯一、Spring 6+ の `@RequestParam` / `@PathVariable` の
-パラメータ名解決に必要な `-parameters` コンパイラオプションだけは、これを親 POM にする一般アプリケーション
-自身のコンパイルにも必要なため、ここに含まれています。
-
-自社の共通親 POM をすでに使っている場合はパターン1を、そうでなければこのパターン3を使うと、
-別途 BOM import を書かずに済むぶんシンプルです。
-
-### パターン 4: ecuacion-splib-dependencies を親 POM として指定する
-
-```xml
-<parent>
-    <groupId>jp.ecuacion.splib</groupId>
-    <artifactId>ecuacion-splib-dependencies</artifactId>
-    <version>（バージョン）</version>
-</parent>
-```
-
-`ecuacion-splib-dependencies` は、`ecuacion-splib-core` などの ecuacion-splib 自身のモジュールが
-使用している親 POM です。パターン3の内容に加えて、以下のビルド設定も一緒に継承されます。
-
-- `spring-boot-devtools` / `spring-boot-starter-test` / `allure-jupiter` が、バージョン管理だけでなく
-  実際の依存関係として自動的に追加される
-- コンパイル時に NullAway / Error Prone による静的解析が強制される
-- `maven-surefire-plugin` の `useModulePath=false` など、テスト実行の設定が上書きされる
-- checkstyle・spotbugs によるコード品質チェック、ソースコードへのライセンスヘッダー自動付与
-- WAR パッケージング時に `failOnMissingWebXml=false` が設定され、また `NOTICE.txt` / `LICENSE.txt`
-  が存在する場合は jar・war 双方の META-INF に自動的に同梱される
-
-`ecuacion-tool-code-generator` など、ecuacion 自身のビルド規約に合わせたい一部の ecuacion 系
-プロジェクトで使われるパターンです。一般のアプリケーションでは通常不要で、パターン1かパターン3を使ってください。
+Spring Boot のバージョンと手動で揃える必要があります。この手間が生じるぶん、あまり推奨しません。
 
 ### 必要なモジュールを追加する
 

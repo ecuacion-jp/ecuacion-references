@@ -20,6 +20,10 @@ ecuacion-splib consists of the following modules.
 | `ecuacion-splib-web-jpa` | Glue between `ecuacion-splib-web` and `ecuacion-splib-jpa` |
 | `ecuacion-splib-web-markdown` | Renders Markdown files as web pages; this reference site itself is built on it |
 | `ecuacion-splib-rest` | Framework for building REST APIs (exception handling, API key / public / denied endpoint security) |
+| `ecuacion-splib-dependencies` | Parent POM used for building ecuacion's own modules (not recommended for general application developers) |
+
+`ecuacion-splib-dependencies` is a build-only module for ecuacion-splib itself (and other ecuacion
+projects); general application developers don't use it. See "Setup" below for details.
 
 This site currently covers **`ecuacion-splib-rest`** (see the **rest** menu above) and
 **`ecuacion-splib-batch`** (see the **batch** menu above). Articles for the other modules will be added
@@ -34,10 +38,36 @@ with real screens built on the framework, rather than reading Markdown articles 
 
 You can manage the versions of the `ecuacion-splib-xxx` modules either by importing
 `ecuacion-splib-parent` as a BOM, or by using it as the parent POM. Which one you should choose
-also depends on how you want to handle the Spring Boot version, and whether you want to align with
-ecuacion's own build conventions (static analysis, etc.), giving four patterns overall.
+also depends on how you want to handle the Spring Boot version, giving three patterns overall.
 
-### Pattern 1: Import both ecuacion-splib and Spring Boot as a BOM (recommended)
+### Pattern 1: Use ecuacion-splib as the parent POM (recommended)
+
+```xml
+<parent>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-parent</artifactId>
+    <version>(version)</version>
+</parent>
+```
+
+The Spring Boot version stays tied to the ecuacion-splib version, so no explicit version is
+needed. `ecuacion-splib-parent` is a thin parent POM with no real dependencies and none of
+ecuacion's own build enforcement, so it can be used without side effects. The one exception is the
+`-parameters` compiler flag, needed for Spring 6+'s `@RequestParam` / `@PathVariable`
+parameter-name resolution — since that also needs to apply to the consuming application's own
+compilation, it's included here too.
+
+Because this pattern goes through an actual Maven `<parent>`, plugin versions/configuration
+(`pluginManagement`) are inherited too. If you want to build an executable jar,
+`spring-boot-maven-plugin` can be added with just a `<plugin>` element — no version or
+`repackage` execution config needed (Pattern 2's BOM import does not inherit this
+`pluginManagement`).
+
+This pattern needs the least boilerplate and leaves the least room for a version mismatch, so
+it's the recommended default. If you can't use this pattern because you want a different parent
+POM (e.g. an in-house shared parent POM), use Pattern 2 instead.
+
+### Pattern 2: Import both ecuacion-splib and Spring Boot as a BOM
 
 ```xml
 <dependencyManagement>
@@ -65,9 +95,10 @@ add it to your own project. Spring Boot's official
 guide is a good reference.
 
 This pattern lets you keep whatever parent POM your project already uses (e.g. an in-house shared
-parent POM).
+parent POM). Use it when you can't use Pattern 1 because you want a parent POM other than
+`ecuacion-splib-parent`.
 
-### Pattern 2: Import ecuacion-splib as a BOM, use Spring Boot as the parent POM
+### Pattern 3: Import ecuacion-splib as a BOM, use Spring Boot as the parent POM
 
 ```xml
 <parent>
@@ -92,53 +123,8 @@ parent POM).
 With this pattern, the Spring Boot version is no longer tied to the ecuacion-splib version. The
 version in `<parent>` cannot reference a property (Maven resolves a parent POM's version before
 property resolution happens), so you must specify it explicitly and keep it in sync by hand with
-the Spring Boot version ecuacion-splib is built against.
-
-### Pattern 3: Use ecuacion-splib as the parent POM
-
-```xml
-<parent>
-    <groupId>jp.ecuacion.splib</groupId>
-    <artifactId>ecuacion-splib-parent</artifactId>
-    <version>(version)</version>
-</parent>
-```
-
-As with Pattern 1, the Spring Boot version stays tied to the ecuacion-splib version, so no explicit
-version is needed. `ecuacion-splib-parent` is a thin parent POM with no real dependencies and none
-of ecuacion's own build enforcement, so it can be used just as safely as Pattern 1. The one
-exception is the `-parameters` compiler flag, needed for Spring 6+'s `@RequestParam` /
-`@PathVariable` parameter-name resolution — since that also needs to apply to the consuming
-application's own compilation, it's included here too.
-
-If your project already has its own shared parent POM, use Pattern 1. Otherwise, this pattern is
-simpler since it saves you from writing a separate BOM import.
-
-### Pattern 4: Use ecuacion-splib-dependencies as the parent POM
-
-```xml
-<parent>
-    <groupId>jp.ecuacion.splib</groupId>
-    <artifactId>ecuacion-splib-dependencies</artifactId>
-    <version>(version)</version>
-</parent>
-```
-
-`ecuacion-splib-dependencies` is the parent POM used by ecuacion-splib's own modules (such as
-`ecuacion-splib-core`). On top of everything in Pattern 3, it also brings in the following build
-configuration:
-
-- `spring-boot-devtools` / `spring-boot-starter-test` / `allure-jupiter` are added automatically as
-  actual dependencies, not just managed versions
-- NullAway / Error Prone static analysis is enforced at compile time
-- Test execution settings such as `maven-surefire-plugin`'s `useModulePath=false` are overridden
-- Code-quality checks via checkstyle and spotbugs, and automatic license-header insertion into source files
-- `failOnMissingWebXml=false` is set for WAR packaging, and if `NOTICE.txt` / `LICENSE.txt` are
-  present, they're automatically bundled into the META-INF of both the jar and the war
-
-Some ecuacion projects, such as `ecuacion-tool-code-generator`, use this pattern when they want to
-align with ecuacion's own build conventions. General applications usually don't need it — use
-Pattern 1 or Pattern 3 instead.
+the Spring Boot version ecuacion-splib is built against. Because of this extra bookkeeping, it's
+not recommended.
 
 ### Add the module(s) you need
 
