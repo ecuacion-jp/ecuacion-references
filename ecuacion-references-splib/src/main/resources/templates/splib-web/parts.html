@@ -22,6 +22,23 @@
 						#{navBar.core.util.mailUtil}, '')}"></div>
 			</div></th:block>
 
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.core.config}, ~{::navbarCoreConfig}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarCoreConfig" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/overview',lang=${lang})},
+						#{navBar.core.config.overview}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/application-properties',lang=${lang})},
+						#{navBar.core.config.applicationProperties}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/messages',lang=${lang})},
+						#{navBar.core.config.messages}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/validation-messages',lang=${lang})},
+						#{navBar.core.config.validationMessages}, '')}"></div>
+			</div></th:block>
+
 		</div></th:block>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
