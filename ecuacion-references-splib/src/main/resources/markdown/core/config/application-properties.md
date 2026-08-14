@@ -55,3 +55,42 @@ To compose one property's value from another, do it in Java code instead (e.g.
 `getApplication(key)` throws if the key does not exist anywhere (`application.properties`, an
 externalized file, an environment variable, etc.). Use `hasApplication(key)` to check first, or
 `getApplicationOrElse(key, default)` for a fallback value.
+
+## Hot-reloading without a restart
+
+By default, `application.properties` is read once at startup and cached — both by
+`PropertiesFileUtil` and by Spring's own `Environment`. `ecuacion-splib` provides a REST endpoint
+to clear that cache without restarting the app: `POST /api/ecuacion-splib/key/clearPropertiesCache`
+— see [Operational Endpoints](page?id=rest/operational-endpoints&lang=en).
+
+This always clears `PropertiesFileUtil`'s cache. To *also* refresh Spring's own `Environment` (so
+`@Value` / `Environment.getProperty()` pick up the change), your app must add
+`spring-cloud-context` as a dependency of its own — it is an *optional* dependency of
+`ecuacion-splib-core`, so it is not pulled in unless you add it yourself:
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-context</artifactId>
+</dependency>
+```
+
+Even then, an ordinary singleton bean reads `@Value` only once, at construction — refreshing the
+`Environment` alone does not update its already-cached field. Mark any bean whose `@Value`-bound
+fields you want to actually pick up the new value with `@RefreshScope`:
+
+```java
+@Component
+@RefreshScope
+public class MyComponent {
+  @Value("${my.key}")
+  private String myKey;
+}
+```
+
+**Known limitation (as of `spring-cloud-context` 5.0.1)**: this refresh only reliably picks up
+changes to `application.properties` itself — verified working regardless of deployment style
+(executable WAR, external Tomcat, flat classpath). If your app also uses an *additional*
+`spring.config.name` (e.g. `spring.config.name=application,my-app`), changes to that additional
+file are not picked up by this refresh — see
+[Operational Endpoints](page?id=rest/operational-endpoints&lang=en) for details.

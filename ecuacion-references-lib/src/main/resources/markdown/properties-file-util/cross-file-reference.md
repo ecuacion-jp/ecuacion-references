@@ -33,9 +33,9 @@ The available file types are all values of `PropertiesFileUtilFileKindEnum`.
 | `item_names` | item_names[_xxx].properties |
 | `enum_names` | enum_names[_xxx].properties |
 | `constants` | constants[_xxx].properties |
-| `validation_messages` | ValidationMessages[_xxx].properties |
-| `validation_messages_with_item_names` | ValidationMessagesWithItemNames[_xxx].properties |
-| `validation_messages_pattern_descriptions` | ValidationMessagesPatternDescriptions[_xxx].properties |
+| `ValidationMessages` | ValidationMessages[_xxx].properties |
+| `ValidationMessagesWithItemNames` | ValidationMessagesWithItemNames[_xxx].properties |
+| `ValidationMessagesPatternDescriptions` | ValidationMessagesPatternDescriptions[_xxx].properties |
 
 ---
 

@@ -54,3 +54,43 @@ expression, there is still more data in the expression: 'colon(:)'
 `getApplication(key)`は、キーがどこにも存在しない場合（`application.properties`、外部化
 されたファイル、環境変数のいずれにもない場合）に例外を投げます。事前に`hasApplication(key)`
 で確認するか、デフォルト値が欲しい場合は`getApplicationOrElse(key, default)`を使ってください。
+
+## 再起動せずにホットリロードする
+
+`application.properties`はデフォルトでは起動時に一度だけ読み込まれ、`PropertiesFileUtil`側と
+Spring自身の`Environment`側の両方でキャッシュされます。`ecuacion-splib`は、アプリを再起動
+せずにこのキャッシュをクリアするREST APIを用意しています：
+`POST /api/ecuacion-splib/key/clearPropertiesCache` —
+[運用エンドポイント](page?id=rest/operational-endpoints&lang=ja) を参照してください。
+
+これは`PropertiesFileUtil`のキャッシュを常にクリアします。Spring自身の`Environment`
+（`@Value` / `Environment.getProperty()`が参照する値）**も**リフレッシュしたい場合は、
+アプリ側で`spring-cloud-context`を自分の依存性として追加する必要があります。これは
+`ecuacion-splib-core`のoptional依存性なので、自分で追加しない限り引き込まれません。
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-context</artifactId>
+</dependency>
+```
+
+それでも、通常のシングルトンBeanは`@Value`をコンストラクタ時に一度だけ読むため、
+`Environment`をリフレッシュしただけではBean内にキャッシュされたフィールドの値は
+更新されません。新しい値を実際に反映させたいBeanには`@RefreshScope`を付けてください。
+
+```java
+@Component
+@RefreshScope
+public class MyComponent {
+  @Value("${my.key}")
+  private String myKey;
+}
+```
+
+**既知の制限（`spring-cloud-context` 5.0.1時点）**：このリフレッシュは`application.properties`
+自体の変更しか確実には反映しません（executable WAR・外部Tomcat・フラットクラスパスのいずれでも
+同様に動作することを確認済み）。アプリが`spring.config.name`に追加の名前を指定している場合
+（例：`spring.config.name=application,my-app`）、その追加ファイルへの変更はこのリフレッシュでは
+反映されません。詳細は[運用エンドポイント](page?id=rest/operational-endpoints&lang=ja)を
+参照してください。

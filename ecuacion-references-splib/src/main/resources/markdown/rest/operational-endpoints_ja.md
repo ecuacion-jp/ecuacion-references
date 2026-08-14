@@ -8,7 +8,21 @@ POST /api/ecuacion-splib/key/systemError
 
 - `ClearPropertiesCacheController` は `PropertiesFileUtil` が読み込むプロパティファイルの
   キャッシュをクリアします。これにより、アプリを再起動せずに `application.properties` の変更を
-  反映できます。
+  反映できます。加えて、`spring-cloud-context` がクラスパス上にある場合は
+  `ContextRefresher` も呼び出し、Spring 自身が保持する `Environment`（`@Value` /
+  `@ConfigurationProperties` などが参照するプロパティキャッシュ）のリフレッシュも試みます。
+  `spring-cloud-context` が無い場合はこの部分は無視され、その旨が INFO ログに出力されます。
+
+  **既知の制限（`spring-cloud-context` 5.0.1 時点）**：この `ContextRefresher` によるリフレッシュは、
+  `application.properties`自体（`spring.config.name`の1番目＝プライマリ）の変更しか確実には
+  反映しません。Spring Bootのexecutable WAR（`java -jar xxx.war`）・外部Tomcatへの通常デプロイ・
+  フラットなクラスパスでの起動のいずれでも同じように動作することを確認済みなので、クラスローダーや
+  パッケージング形式の問題ではありません。一方、`spring.config.name`に複数の名前を指定した場合
+  （例：`spring.config.name=application,my-app`）の**2番目以降**のファイル（例：`my-app.properties`）
+  への変更は、デプロイ形態によらず一貫して`ContextRefresher`に再読込されません。これは
+  `ContextRefresher`が再読込したプロパティソースを実行中の`Environment`にマージし直す処理が、
+  プライマリ以外の設定名に対してはうまく機能していないためと考えられ、`ecuacion-splib`側では
+  回避できません。
 - `SystemErrorController` は意図的に `RuntimeException` をスローします。これにより、
   実際のバグを起こすことなくシステムエラー時の挙動（例外処理・ログ出力など）を
   テストできます。
