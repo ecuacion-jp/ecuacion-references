@@ -15,7 +15,9 @@ ecuacion-splib は以下のモジュールで構成されています。
 | --- | --- |
 | `ecuacion-splib-core` | 他の `ecuacion-splib-xxx` モジュール全体が共有する基盤機能（設定・例外処理の契約） |
 | `ecuacion-splib-jpa` | Web 層に依存しない JPA 連携（エンティティ・リポジトリ） |
-| `ecuacion-splib-batch` | Spring Batch 連携 |
+| `ecuacion-splib-batch` | Spring Batch 連携。スケジューラーが無人でトリガーするジョブ向け |
+| `ecuacion-splib-ui` | `ecuacion-splib-web` と `ecuacion-splib-cli` で共有するUI表示ロジック（必須項目バリデーションエラーによる他エラーのマスキング等）。アプリケーションコードから直接使うものではない |
+| `ecuacion-splib-cli` | ユーザーが直接実行し対話的に結果を見るコマンドライン（CUI）アプリケーション向けの軽量な基盤 |
 | `ecuacion-splib-web` | Spring MVC を用いた Web アプリケーションフレームワーク一式（コントローラー・フォーム・Thymeleaf/Bootstrap テンプレート） |
 | `ecuacion-splib-web-jpa` | `ecuacion-splib-web` と `ecuacion-splib-jpa` を繋ぐ連携機能 |
 | `ecuacion-splib-web-markdown` | Markdown ファイルを Web ページとして表示する機能。本リファレンスサイト自体もこれを利用して構築されている |
@@ -25,8 +27,9 @@ ecuacion-splib は以下のモジュールで構成されています。
 `ecuacion-splib-dependencies` は ecuacion-splib 自身（および他の ecuacion 系プロジェクト）のビルド用モジュールで、
 一般アプリケーション開発者は使いません。詳細は下記「セットアップ」を参照してください。
 
-現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **rest**）と
-**`ecuacion-splib-batch`**（上部メニューの **batch**）です。他モジュールの記事は順次追加予定です。
+現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **rest**）、
+**`ecuacion-splib-batch`**（上部メニューの **batch**）、**`ecuacion-splib-cli`**（上部メニューの
+**cli**）です。他モジュールの記事は順次追加予定です。
 
 `ecuacion-splib-web` については、Markdown 記事ではなく、フレームワーク上に実装された実際の画面を
 操作しながら学べる専用のチュートリアルアプリ（別サイト）が用意されています。
@@ -135,8 +138,15 @@ Spring Boot のバージョンと手動で揃える必要があります。こ�
     <groupId>jp.ecuacion.splib</groupId>
     <artifactId>ecuacion-splib-batch</artifactId>
 </dependency>
+
+<!-- コマンドライン（CUI）アプリケーションを構築する場合 -->
+<dependency>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-cli</artifactId>
+</dependency>
 ```
 
 モジュールごとの詳細は、上部メニューの **rest** にある
-[セットアップ](page?id=rest/setup&lang=ja)、または **batch** にある
-[セットアップ](page?id=batch/setup&lang=ja) を参照してください。
+[セットアップ](page?id=rest/setup&lang=ja)、**batch** にある
+[セットアップ](page?id=batch/setup&lang=ja)、または **cli** にある
+[セットアップ](page?id=cli/setup&lang=ja) を参照してください。

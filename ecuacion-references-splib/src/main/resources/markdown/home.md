@@ -15,7 +15,9 @@ ecuacion-splib consists of the following modules.
 | --- | --- |
 | `ecuacion-splib-core` | Common base features shared by every other `ecuacion-splib-xxx` module (configuration, exception-handling contracts) |
 | `ecuacion-splib-jpa` | JPA integration (entities, repositories) independent of the web layer |
-| `ecuacion-splib-batch` | Spring Batch integration |
+| `ecuacion-splib-batch` | Spring Batch integration, for jobs a scheduler triggers unattended |
+| `ecuacion-splib-ui` | UI-facing logic shared across `ecuacion-splib-web` and `ecuacion-splib-cli` (e.g. required-field violation filtering) — not used directly by application code |
+| `ecuacion-splib-cli` | Lightweight foundation for command-line (CUI) applications a user runs directly and watches interactively |
 | `ecuacion-splib-web` | Full Spring MVC web application framework (controllers, forms, Thymeleaf/Bootstrap templates) |
 | `ecuacion-splib-web-jpa` | Glue between `ecuacion-splib-web` and `ecuacion-splib-jpa` |
 | `ecuacion-splib-web-markdown` | Renders Markdown files as web pages; this reference site itself is built on it |
@@ -25,9 +27,9 @@ ecuacion-splib consists of the following modules.
 `ecuacion-splib-dependencies` is a build-only module for ecuacion-splib itself (and other ecuacion
 projects); general application developers don't use it. See "Setup" below for details.
 
-This site currently covers **`ecuacion-splib-rest`** (see the **rest** menu above) and
-**`ecuacion-splib-batch`** (see the **batch** menu above). Articles for the other modules will be added
-over time.
+This site currently covers **`ecuacion-splib-rest`** (see the **rest** menu above),
+**`ecuacion-splib-batch`** (see the **batch** menu above), and **`ecuacion-splib-cli`** (see the
+**cli** menu above). Articles for the other modules will be added over time.
 
 `ecuacion-splib-web` has its own hands-on tutorial application (a separate site) that lets you interact
 with real screens built on the framework, rather than reading Markdown articles about it.
@@ -140,8 +142,14 @@ not recommended.
     <groupId>jp.ecuacion.splib</groupId>
     <artifactId>ecuacion-splib-batch</artifactId>
 </dependency>
+
+<!-- to build a command-line (CUI) application -->
+<dependency>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-cli</artifactId>
+</dependency>
 ```
 
-See [Setup](page?id=rest/setup&lang=en) under the **rest** menu, or
-[Setup](page?id=batch/setup&lang=en) under the **batch** menu, for module-specific
-details.
+See [Setup](page?id=rest/setup&lang=en) under the **rest** menu,
+[Setup](page?id=batch/setup&lang=en) under the **batch** menu, or
+[Setup](page?id=cli/setup&lang=en) under the **cli** menu, for module-specific details.

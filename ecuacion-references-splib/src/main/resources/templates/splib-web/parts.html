@@ -148,6 +148,28 @@
 					#{navBar.batch.systemErrorJob}, '')}"></div>
 
 		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.cli}, ~{::navbarCli}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarCli" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/overview',lang=${lang})},
+					#{navBar.cli.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/setup',lang=${lang})},
+					#{navBar.cli.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/quickstart',lang=${lang})},
+					#{navBar.cli.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/banner',lang=${lang})},
+					#{navBar.cli.banner}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/exception-handling',lang=${lang})},
+					#{navBar.cli.exceptionHandling}, '')}"></div>
+
+		</div></th:block>
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
