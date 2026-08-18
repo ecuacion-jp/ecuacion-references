@@ -2,8 +2,7 @@
 `StringHeaderExcelTableFromBeanWriter`（ヘッダー複数行）を使うと、
 `StringExcelTableBean` を継承した Bean のリストを Excel に書き込めます。
 
-Bean マッピング（読み込み）の[ToBeanReader](page?id=excel-tables/bean-mapping&lang=ja)と
-対称的な仕組みです。
+Bean マッピング（読み込み）の[ToBeanReader](page?id=excel-tables/bean-mapping&lang=ja)と対称的な仕組みです。
 
 ## 概要
 
@@ -114,8 +113,7 @@ new StringOneLineHeaderExcelTableFromBeanWriter<ProductBean>(
 
 ### 概要
 
-String 型の FromBeanWriter との最大の違いは、**各フィールドの値を文字列に
-変換せず、ネイティブな Java 型のままセルへ書き込む**点です。
+String 型の FromBeanWriter との最大の違いは、**各フィールドの値を文字列に変換せず、ネイティブな Java 型のままセルへ書き込む**点です。
 
 ```
 List<T extends TypedExcelTableBean>
@@ -123,8 +121,7 @@ List<T extends TypedExcelTableBean>
     → Excel ファイル（各セルがネイティブ型の値を保持）
 ```
 
-例えば `Integer` フィールドは、数値に見えるだけの文字列セルではなく
-数値セルとして書き込まれます。そして最も重要な点として、`LocalDate` /
+例えば `Integer` フィールドは、数値に見えるだけの文字列セルではなく数値セルとして書き込まれます。そして最も重要な点として、`LocalDate` /
 `LocalDateTime` フィールドは**必ず日付書式のセルとして書き込まれる**ため、
 出力された Excel ファイルを開くと日付として認識されます。
 
@@ -143,8 +140,7 @@ new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
 ```
 
 ヘッダーが2行以上の場合は `TypedHeaderExcelTableFromBeanWriter` を使い、
-`StringHeaderExcelTableFromBeanWriter` と同様に `String[][]` でヘッダーを
-指定します。
+`StringHeaderExcelTableFromBeanWriter` と同様に `String[][]` でヘッダーを指定します。
 
 ### フィールド → 列のマッピング
 
@@ -166,19 +162,13 @@ new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
 
 ### 日付セルの書式保証
 
-これが Typed FromBeanWriter の目玉機能です。**テンプレート側のセルの書式が
-どうであれ、`LocalDate` / `LocalDateTime` の値は必ず Excel が日付として
-認識できるセルに書き込まれます**。
+これが Typed FromBeanWriter の目玉機能です。**テンプレート側のセルの書式がどうであれ、`LocalDate` / `LocalDateTime` の値は必ず Excel が日付として認識できるセルに書き込まれます**。
 
 - **テンプレートのセルに既に日付書式が設定されている場合**
-  （`DateUtil.isCellDateFormatted` が `true` を返す場合）は、その書式が
-  そのまま維持されます。`yyyy/mm/dd` や `yyyy年MM月dd日` など、
+  （`DateUtil.isCellDateFormatted` が `true` を返す場合）は、その書式がそのまま維持されます。`yyyy/mm/dd` や `yyyy年MM月dd日` など、
   あらかじめ作り込んだテンプレートの書式が尊重されます。
-- **テンプレートのセルに日付書式が設定されていない場合**は、デフォルトの
-  書式が自動的に適用されます（`LocalDate` には `yyyy-mm-dd`、
-  `LocalDateTime` には `yyyy-mm-dd hh:mm:ss`）。テンプレートの日付列に
-  書式を設定し忘れる心配がなくなり、必ず日付として認識される値が
-  書き込まれることが保証されます。
+- **テンプレートのセルに日付書式が設定されていない場合**は、デフォルトの書式が自動的に適用されます（`LocalDate` には `yyyy-mm-dd`、
+  `LocalDateTime` には `yyyy-mm-dd hh:mm:ss`）。テンプレートの日付列に書式を設定し忘れる心配がなくなり、必ず日付として認識される値が書き込まれることが保証されます。
 
 後者のケースで適用されるデフォルト書式は、fluent setter で変更できます。
 
@@ -196,8 +186,7 @@ new TypedOneLineHeaderExcelTableFromBeanWriter<PersonBean>(
 | `defaultDateFormat(String)` | `"yyyy-mm-dd"` | 日付書式が設定されていない `LocalDate` セルに適用される書式パターン |
 | `defaultDateTimeFormat(String)` | `"yyyy-mm-dd hh:mm:ss"` | 日付書式が設定されていない `LocalDateTime` セルに適用される書式パターン |
 
-これらの setter には、`DateTimeFormatter` ではなく POI のセル書式パターン
-文字列（例：`"yyyy/mm/dd"`）を渡します。
+これらの setter には、`DateTimeFormatter` ではなく POI のセル書式パターン文字列（例：`"yyyy/mm/dd"`）を渡します。
 
 ## テンプレートファイルについて
 

@@ -6,31 +6,24 @@
 ## `ViolationException`
 
 `jp.ecuacion.lib.core.exception.ViolationException` は、業務/バリデーション上のエラーで、
-そのメッセージを実際の人間のエンドユーザーに届けたい場合（例えば、ローカル/デスクトップアプリが
-ユーザーの代わりにこの API を呼び出し、失敗内容をそのユーザーに表示するようなケース）に throw します。
+そのメッセージを実際の人間のエンドユーザーに届けたい場合（例えば、ローカル/デスクトップアプリがユーザーの代わりにこの API を呼び出し、失敗内容をそのユーザーに表示するようなケース）に throw します。
 
 ```java
 throw new ViolationException(...);
 ```
 
-例外が保持するすべての違反（最初の 1 件だけでなく）がレスポンスに含まれ、各メッセージはリクエストの
-ロケールに合わせてローカライズされ、ステータスは常に `400 Bad Request` になります
-（呼び出し側はステータスで分岐する想定がなく、テキストを表示するだけなので、複数種類のステータスは
-不要です）。レスポンスボディは `ViolationsResponse` で、ローカライズ済みメッセージを保持する
+例外が保持するすべての違反（最初の 1 件だけでなく）がレスポンスに含まれ、各メッセージはリクエストのロケールに合わせてローカライズされ、ステータスは常に `400 Bad Request` になります（呼び出し側はステータスで分岐する想定がなく、テキストを表示するだけなので、複数種類のステータスは不要です）。レスポンスボディは `ViolationsResponse` で、ローカライズ済みメッセージを保持する
 `messages` フィールドを持ちます。
 
 ## `ResponseStatusException`（および `ResponseEntityExceptionHandler` の組み込み処理が扱うその他の例外）
 
-Spring 自身の `org.springframework.web.server.ResponseStatusException` は、メッセージを
-人間のエンドユーザーではなく、API 呼び出し元の開発者/システム（例えば、このAPIをプログラムから
-呼び出すサーバー）に向けたい失敗の場合に throw します。
+Spring 自身の `org.springframework.web.server.ResponseStatusException` は、メッセージを人間のエンドユーザーではなく、API 呼び出し元の開発者/システム（例えば、このAPIをプログラムから呼び出すサーバー）に向けたい失敗の場合に throw します。
 
 ```java
 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "...");
 ```
 
-メッセージはそのまま（ローカライズされずに）使われ、throw する側のコードが状況に応じたステータス
-（任意の `4xx`/`5xx`）を選びます（呼び出し側はステータスで分岐する想定です）。これには
+メッセージはそのまま（ローカライズされずに）使われ、throw する側のコードが状況に応じたステータス（任意の `4xx`/`5xx`）を選びます（呼び出し側はステータスで分岐する想定です）。これには
 `ResponseEntityExceptionHandler` の組み込み処理が扱うその他の例外（`MethodArgumentNotValidException`・
 `HttpMessageNotReadableException` など）も含まれます。
 
@@ -72,7 +65,5 @@ public class AppExceptionHandlerAction implements SplibRestExceptionHandlerActio
 未設定の場合、上記の呼び出しは黙ってスキップされます。
 
 `ecuacion-splib-web` や `ecuacion-splib-batch` にも同じ拡張ポイントがあり、どちらも
-`SplibExceptionHandlerAction` を使います。バッチアプリは常にそれ単体の独立したプロセスとして
-動くため、web と区別する必要がありません。例外は REST で、web フロントエンドと同じプロセスで
-動くことが多く、フロントエンドごとに挙動を変えたい場合があるため、専用の
+`SplibExceptionHandlerAction` を使います。バッチアプリは常にそれ単体の独立したプロセスとして動くため、web と区別する必要がありません。例外は REST で、web フロントエンドと同じプロセスで動くことが多く、フロントエンドごとに挙動を変えたい場合があるため、専用の
 `SplibRestExceptionHandlerAction` を持っています。

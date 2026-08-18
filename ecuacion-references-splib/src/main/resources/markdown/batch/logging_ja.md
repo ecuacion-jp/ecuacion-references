@@ -5,8 +5,7 @@
 
 ## `SplibJobExecutionListener`
 
-`"summary-logger"` という専用ロガーにログを出力します（ジョブの開始・終了ログを通常のアプリケーションログとは
-別の出力先に振り分けたい場合は、このロガーを個別に設定してください）。
+`"summary-logger"` という専用ロガーにログを出力します（ジョブの開始・終了ログを通常のアプリケーションログとは別の出力先に振り分けたい場合は、このロガーを個別に設定してください）。
 
 - `beforeJob` — `START: job-name: <name>` を出力する。
 - `afterJob` — 成功時は `END  : job-name: <name> [NORMAL END]`、失敗時は

@@ -1,7 +1,6 @@
 ## 1. JAR のダウンロード
 
-[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から
-最新の `ecuacion-tool-code-generator-cli-x.x.x.jar` をダウンロードします。
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から最新の `ecuacion-tool-code-generator-cli-x.x.x.jar` をダウンロードします。
 
 JAR は任意のディレクトリに配置してください。
 

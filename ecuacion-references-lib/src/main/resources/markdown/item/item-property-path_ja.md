@@ -17,8 +17,7 @@ propertyPath と同じドット記法を用います。
 ## 基点となるオブジェクト
 
 `ItemContainer`（`jp.ecuacion.lib.core.item.ItemContainer`）は、フィールドの表示属性をカスタマイズした
-`Item` を保持するインターフェースです。Record や Form などのクラスに実装します
-（詳細は [ItemContainer](?id=item/item-container) を参照）。
+`Item` を保持するインターフェースです。Record や Form などのクラスに実装します（詳細は [ItemContainer](?id=item/item-container) を参照）。
 
 `itemPropertyPath` の起点となるオブジェクトは、`ItemContainer` の有無によって以下のルールで決まります。
 
@@ -61,8 +60,7 @@ Thymeleaf 等のテンプレート側も同じ起点を共有することで、�
 
 ## itemPropertyPath の書き方と省略形
 
-`new Item()` に渡す `itemPropertyPath` は、Jakarta Validation の `propertyPath` をそのまま
-使う形式（インデックスあり）と、インデックスを省いた省略形のどちらでも指定できます。
+`new Item()` に渡す `itemPropertyPath` は、Jakarta Validation の `propertyPath` をそのまま使う形式（インデックスあり）と、インデックスを省いた省略形のどちらでも指定できます。
 内部で正規化されるため、どちらを渡しても同じ結果になります。
 
 ```java

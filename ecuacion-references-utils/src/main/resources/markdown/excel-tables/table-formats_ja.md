@@ -71,8 +71,7 @@ StringFreeExcelTableReader reader = new StringFreeExcelTableReader("Sheet1")
 List<List<String>> data = reader.read("/path/to/file.xlsx");
 ```
 
-`tableRowSize` と `tableColumnSize` を指定しない場合は自動検出されます
-（全列が空の行まで読み込み / 最初の空ヘッダーセルまで列を読み込み）。
+`tableRowSize` と `tableColumnSize` を指定しない場合は自動検出されます（全列が空の行まで読み込み / 最初の空ヘッダーセルまで列を読み込み）。
 
 ## どちらを使うべきか
 

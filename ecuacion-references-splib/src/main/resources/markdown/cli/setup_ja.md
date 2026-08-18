@@ -9,5 +9,4 @@
 </dependency>
 ```
 
-続けて[クイックスタート](page?id=cli/quickstart&lang=ja)で、アプリのエントリーポイントを
-書いて実行してみましょう。
+続けて[クイックスタート](page?id=cli/quickstart&lang=ja)で、アプリのエントリーポイントを書いて実行してみましょう。

@@ -121,11 +121,7 @@ Script file paths are validated against the regular expression `^[a-zA-Z0-9.\-_/
 
 ### Access Control
 
-By default, `api/public/executeScript` is disabled (`jp.ecuacion.tool.command-api.api-key-required` defaults to `true`), and executing a script requires `api/key/executeScript` with a valid `X-Api-Key` header. `X-Api-Key` is a **shared secret** compared against a file placed on the server (the comparison mode is selectable via `jp.ecuacion.tool.command-api.api-key-comparison-mode` — plain text (`PLAIN`, the default) or bcrypt hashes (`BCRYPT`); see [Configuration Files](page?id=command-api/config&lang=en) for details) — it is **not** an asymmetric (public/private) key pair, and the value the client sends is never treated as a private key.
-
-Setting `jp.ecuacion.tool.command-api.api-key-required=false` enables `api/public/executeScript`. Use this only on trusted internal networks.
-
-On both endpoints, each script declares which HTTP method(s) it allows via a `GET:` / `POST:` / `ALL:` prefix in `ecuacion-tool-command-api.properties` (omitting the prefix allows `POST` only). The only difference between the two endpoints is whether `X-Api-Key` authentication is required, not this method restriction. See [Configuration Files](page?id=command-api/config&lang=en) for the full property reference.
+`X-Api-Key` is a **shared secret** compared against a file placed on the server — it is **not** an asymmetric (public/private) key pair, and the value the client sends is never treated as a private key. See [Access Control](page?id=command-api/access-control&lang=en) for the full property reference (`api-key-required`, `api-key-comparison-mode`) and how the key file is managed.
 
 ---
 

@@ -9,8 +9,7 @@ new SplibApiKeyExpectedValue(storedValue, SplibApiKeyComparisonMode.BCRYPT)
 
 アプリケーション全体で切り替える設定はありません。`getExpectedValues` の1回の呼び出しで
 `PLAIN` と `BCRYPT` の値を自由に混在させられます。これにより、保存済みのキーを平文から
-bcrypt へ移行する際、一度に全件切り替えるのではなく1行ずつ変換し、移行期間中は両方の形式を
-受け付ける、といった運用が可能になります。
+bcrypt へ移行する際、一度に全件切り替えるのではなく1行ずつ変換し、移行期間中は両方の形式を受け付ける、といった運用が可能になります。
 
 このモード選択は `/api/key/**` 専用です。[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)
 （`/api/ecuacion-splib/key/**`）は `SplibApiKeyComparisonMode` を一切使いません。こちらの認証情報は

@@ -19,5 +19,4 @@
 ## 依存関係
 
 `ecuacion-splib-batch` は `ecuacion-splib-core` に依存し、`spring-boot-starter-batch` と
-`spring-boot-starter-aspectj`（実行中コンテキストの追跡が AspectJ の `@Aspect` として実装されているため必須）を
-取り込みます。
+`spring-boot-starter-aspectj`（実行中コンテキストの追跡が AspectJ の `@Aspect` として実装されているため必須）を取り込みます。

@@ -3,10 +3,8 @@
 
 ## 1. `SplibRestConfig` を有効化する
 
-`SplibRestConfig`（`jp.ecuacion.splib.rest.config` パッケージに存在）は `ecuacion-splib-rest` の動作に
-必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.rest.advice`・
-`jp.ecuacion.splib.rest.controller`）をコンポーネントスキャンします。アプリケーションの設定クラスから
-インポートしてください。
+`SplibRestConfig`（`jp.ecuacion.splib.rest.config` パッケージに存在）は `ecuacion-splib-rest` の動作に必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.rest.advice`・
+`jp.ecuacion.splib.rest.controller`）をコンポーネントスキャンします。アプリケーションの設定クラスからインポートしてください。
 
 ```java
 @Configuration
@@ -18,8 +16,7 @@ public class AppConfig {
 ## 2. `SplibRestSecurityConfig` を継承する
 
 `SplibRestSecurityConfig` は抽象クラスで、
-[概要](page?id=rest/overview&lang=ja) で説明した 4 つのセキュリティフィルターチェーンを
-設定します。アプリケーション側で具象の `@Configuration` サブクラスを用意してください。
+[概要](page?id=rest/overview&lang=ja) で説明した 4 つのセキュリティフィルターチェーンを設定します。アプリケーション側で具象の `@Configuration` サブクラスを用意してください。
 
 ```java
 @Configuration
@@ -49,8 +46,7 @@ record HelloResponse(String message) {
 }
 ```
 
-`/api/public/**` 配下に置いているので、手順2で継承した `SplibRestSecurityConfig` により
-追加の設定なしで誰でも呼び出せます（`permitAll`）。
+`/api/public/**` 配下に置いているので、手順2で継承した `SplibRestSecurityConfig` により追加の設定なしで誰でも呼び出せます（`permitAll`）。
 
 ## 4. 呼び出してみる
 
@@ -68,6 +64,5 @@ curl http://localhost:8080/api/public/hello
 [`/api/public/hello`](../../api/public/hello) として公開しています。実装はサイトのソースにある
 `jp.ecuacion.references.splib.tutorial.rest.HelloController` を参照してください。
 
-続きとして、[例外処理](page?id=rest/exception-handling&lang=ja) ではコントローラーが
-例外を投げたときの挙動と、未捕捉の例外発生時に独自処理（アラートメール送信など）を実行する方法を扱っています。
+続きとして、[例外処理](page?id=rest/exception-handling&lang=ja) ではコントローラーが例外を投げたときの挙動と、未捕捉の例外発生時に独自処理（アラートメール送信など）を実行する方法を扱っています。
 任意設定で、エンドポイントを動かすだけなら不要です。

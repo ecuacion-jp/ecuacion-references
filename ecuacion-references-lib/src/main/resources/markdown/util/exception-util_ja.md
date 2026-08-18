@@ -1,5 +1,4 @@
-`ExceptionUtil`（`jp.ecuacion.lib.core.util.ExceptionUtil`）は例外からメッセージ文字列を
-取り出すユーティリティクラスです。
+`ExceptionUtil`（`jp.ecuacion.lib.core.util.ExceptionUtil`）は例外からメッセージ文字列を取り出すユーティリティクラスです。
 カスタム例外ハンドラーを実装する際に使用します。
 
 ---

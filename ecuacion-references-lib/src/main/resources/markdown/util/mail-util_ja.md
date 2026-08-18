@@ -38,12 +38,8 @@ MailUtil.sendHtmlMail(null, List.of("cc@example.com"), "件名", "<b>本文</b>"
 | `smtp.password` | SMTP パスワード（Gmail の場合はアプリパスワード） | `xxxx xxxx xxxx xxxx` |
 | `smtp.authentication` | SMTP 認証の有無（`true` / `false`） | `true` |
 
-※1 `MailUtil` は、サーバーが提示する TLS 証明書が接続先のホスト名と一致するかを常に検証します
-（`mail.smtp.ssl.checkserveridentity`。この検証を無効化する設定はありません）。自ドメイン
-（例: `mail.example.com`）専用の TLS 証明書が存在しない場合——共有レンタルサーバーでよくある、
-メールサーバーがホスティング事業者側の共有ドメイン用の証明書を提示するケース——自ドメインの
-ホスト名で接続しようとするとエラーになります。その場合は、自ドメインではなく、実際に証明書が
-発行されているオリジナルのホスト名を `smtp.server` に設定してください（ホスティング事業者に確認するか、
+※1 `MailUtil` は、サーバーが提示する TLS 証明書が接続先のホスト名と一致するかを常に検証します（`mail.smtp.ssl.checkserveridentity`。この検証を無効化する設定はありません）。自ドメイン（例: `mail.example.com`）専用の TLS 証明書が存在しない場合——共有レンタルサーバーでよくある、
+メールサーバーがホスティング事業者側の共有ドメイン用の証明書を提示するケース——自ドメインのホスト名で接続しようとするとエラーになります。その場合は、自ドメインではなく、実際に証明書が発行されているオリジナルのホスト名を `smtp.server` に設定してください（ホスティング事業者に確認するか、
 `openssl s_client -starttls smtp -connect <host>:587` で証明書の CN を確認できます）。
 
 ### 任意

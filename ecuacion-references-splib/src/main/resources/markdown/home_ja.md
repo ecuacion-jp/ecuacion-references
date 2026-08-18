@@ -4,8 +4,7 @@
 ## ecuacion-splib とは
 
 ecuacion-splib は ecuacion-lib の上に構築された Spring Boot 向けベースライブラリです。
-設定・例外処理・セキュリティ・JPA/Batch 連携・Web アプリケーションフレームワーク一式といった
-共通基盤を提供し、各アプリケーションがそれらをゼロから作り込む必要をなくします。
+設定・例外処理・セキュリティ・JPA/Batch 連携・Web アプリケーションフレームワーク一式といった共通基盤を提供し、各アプリケーションがそれらをゼロから作り込む必要をなくします。
 
 ## モジュール構成
 
@@ -31,8 +30,7 @@ ecuacion-splib は以下のモジュールで構成されています。
 **`ecuacion-splib-batch`**（上部メニューの **batch**）、**`ecuacion-splib-cli`**（上部メニューの
 **cli**）です。他モジュールの記事は順次追加予定です。
 
-`ecuacion-splib-web` については、Markdown 記事ではなく、フレームワーク上に実装された実際の画面を
-操作しながら学べる専用のチュートリアルアプリ（別サイト）が用意されています。
+`ecuacion-splib-web` については、Markdown 記事ではなく、フレームワーク上に実装された実際の画面を操作しながら学べる専用のチュートリアルアプリ（別サイト）が用意されています。
 
 ---
 
@@ -54,18 +52,13 @@ ecuacion-splib は以下のモジュールで構成されています。
 
 Spring Boot のバージョンは ecuacion-splib 側と連動するため明示的な指定は不要です。
 `ecuacion-splib-parent` は実際の依存関係や ecuacion 独自のビルド強制設定を持たない薄い親 POM なので、
-副作用なく利用できます。唯一、Spring 6+ の `@RequestParam` / `@PathVariable` の
-パラメータ名解決に必要な `-parameters` コンパイラオプションだけは、これを親 POM にする一般アプリケーション
-自身のコンパイルにも必要なため、ここに含まれています。
+副作用なく利用できます。唯一、Spring 6+ の `@RequestParam` / `@PathVariable` のパラメータ名解決に必要な `-parameters` コンパイラオプションだけは、これを親 POM にする一般アプリケーション自身のコンパイルにも必要なため、ここに含まれています。
 
-また、実際の Maven `<parent>` を経由するこのパターンでは、プラグインのバージョン・設定
-（`pluginManagement`）もあわせて継承されます。実行可能 jar を作りたい場合、
-`spring-boot-maven-plugin` はバージョンや `repackage` の実行設定を書かずに `<plugin>` 要素を
-追加するだけで使えます（パターン2 の BOM import ではこの `pluginManagement` は継承されません）。
+また、実際の Maven `<parent>` を経由するこのパターンでは、プラグインのバージョン・設定（`pluginManagement`）もあわせて継承されます。実行可能 jar を作りたい場合、
+`spring-boot-maven-plugin` はバージョンや `repackage` の実行設定を書かずに `<plugin>` 要素を追加するだけで使えます（パターン2 の BOM import ではこの `pluginManagement` は継承されません）。
 
 記述量が最も少なくバージョン指定のミスも起きにくいため、このパターンを推奨します。
-社内共通の親 POM など、`ecuacion-splib-parent` 以外を親 POM にしたいためこのパターンが
-使えない場合は、パターン2を使ってください。
+社内共通の親 POM など、`ecuacion-splib-parent` 以外を親 POM にしたいためこのパターンが使えない場合は、パターン2を使ってください。
 
 ### パターン 2: ecuacion-splib・Spring Boot ともに BOM としてインポートする
 
@@ -84,13 +77,10 @@ Spring Boot のバージョンは ecuacion-splib 側と連動するため明示�
 ```
 
 `ecuacion-splib-parent` は自身の `dependencyManagement` で `spring-boot-dependencies` を BOM
-インポートしており、その内容はこの import にも推移的に含まれます。そのため Spring Boot 関連の
-依存関係（`spring-boot-starter-tomcat` など）も、Spring Boot のバージョンを別途指定することなく
-バージョン管理下に置けます。
+インポートしており、その内容はこの import にも推移的に含まれます。そのため Spring Boot 関連の依存関係（`spring-boot-starter-tomcat` など）も、Spring Boot のバージョンを別途指定することなくバージョン管理下に置けます。
 
 一方、プラグインのバージョン・設定（`pluginManagement`）は BOM import では継承されません。
-実行可能 jar を作る場合の `spring-boot-maven-plugin` など、こうしたプラグインが必要な場合は
-プロジェクト側で個別に追加してください。Spring Boot 公式の
+実行可能 jar を作る場合の `spring-boot-maven-plugin` など、こうしたプラグインが必要な場合はプロジェクト側で個別に追加してください。Spring Boot 公式の
 [Using Spring Boot without the Parent POM](https://docs.spring.io/spring-boot/maven-plugin/using.html#using.import)
 が参考になります。
 
@@ -120,8 +110,7 @@ Spring Boot のバージョンは ecuacion-splib 側と連動するため明示�
 ```
 
 このパターンでは Spring Boot のバージョンは ecuacion-splib 側のバージョンと連動しません。
-`<parent>` に指定するバージョンはプロパティ参照ができない（Maven の仕様上、親 POM のバージョンは
-プロパティ解決より前に決定されるため）ので、明示的に指定したうえで、ecuacion-splib が使用している
+`<parent>` に指定するバージョンはプロパティ参照ができない（Maven の仕様上、親 POM のバージョンはプロパティ解決より前に決定されるため）ので、明示的に指定したうえで、ecuacion-splib が使用している
 Spring Boot のバージョンと手動で揃える必要があります。この手間が生じるぶん、あまり推奨しません。
 
 ### 必要なモジュールを追加する

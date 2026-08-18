@@ -1,12 +1,10 @@
 ## `PdfGenerateException`
 
-PDF生成が、指定されたExcelファイルの内容や、それが依存するフォント環境に起因して
-失敗した場合にスローされる例外群の共通スーパークラスです（`abstract`、
+PDF生成が、指定されたExcelファイルの内容や、それが依存するフォント環境に起因して失敗した場合にスローされる例外群の共通スーパークラスです（`abstract`、
 `ViolationException` を継承）。`abstract` なので直接スローされることはなく、
 必ず下記のいずれかの具象サブクラスがスローされます。
 
-Excelファイルの読み込みやPDFファイルの書き込み中に起きる純粋に技術的な失敗
-（ファイル破損、ディスクI/Oエラーなど）は `PdfGenerateException` では表現されません。
+Excelファイルの読み込みやPDFファイルの書き込み中に起きる純粋に技術的な失敗（ファイル破損、ディスクI/Oエラーなど）は `PdfGenerateException` では表現されません。
 `generate()` はその場合、`java.io.UncheckedIOException`（非検査例外）をスローします。
 `getCause()` で元の `IOException` を取得できます。
 

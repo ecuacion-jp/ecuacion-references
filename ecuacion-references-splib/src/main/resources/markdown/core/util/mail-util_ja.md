@@ -25,15 +25,13 @@ public class AppExceptionHandlerAction implements SplibRestExceptionHandlerActio
 
 `ecuacion-splib-rest` の [例外処理](page?id=rest/exception-handling&lang=ja) における
 `SplibRestExceptionHandlerAction` の実装例です。`ecuacion-splib-batch` の
-[例外処理](page?id=batch/exception-handling&lang=ja) にある実装例も `implements` の型が
-違うだけで同じ形になりますが、そちらは `ecuacion-splib-web` と同じ `SplibExceptionHandlerAction`
+[例外処理](page?id=batch/exception-handling&lang=ja) にある実装例も `implements` の型が違うだけで同じ形になりますが、そちらは `ecuacion-splib-web` と同じ `SplibExceptionHandlerAction`
 を使います。REST だけが専用のインターフェースを持っています。
 
 ## 未設定時の挙動
 
 `spring.mail.host`・`spring.mail.username`・`spring.mail.password`・
-`jp.ecuacion.splib.mail.address-csv-on-system-error` のいずれかが未設定の場合、例外を投げずに黙って
-スキップされます（`INFO` レベルでログには記録されます）。開発環境でメール設定をしていなくても、
+`jp.ecuacion.splib.mail.address-csv-on-system-error` のいずれかが未設定の場合、例外を投げずに黙ってスキップされます（`INFO` レベルでログには記録されます）。開発環境でメール設定をしていなくても、
 このメソッドを呼ぶ経路（例外処理）自体は問題なく動きます。
 
 ## application.properties の設定
@@ -60,8 +58,7 @@ public class AppExceptionHandlerAction implements SplibRestExceptionHandlerActio
 | `jp.ecuacion.splib.mail.debug` | JavaMail のデバッグログ出力 | `false` |
 
 ※1 `false` に設定するとセキュリティリスクがあります。サーバーが STARTTLS に対応していない場合、
-SMTP 認証（パスワードを含む）が平文で送信されてしまいます。STARTTLS 非対応と分かっているサーバー
-（ローカルのテスト用リレーなど）向けにのみ `false` を設定し、本番環境では使用しないでください。
+SMTP 認証（パスワードを含む）が平文で送信されてしまいます。STARTTLS 非対応と分かっているサーバー（ローカルのテスト用リレーなど）向けにのみ `false` を設定し、本番環境では使用しないでください。
 
 ## 設定例（ポート 587 / STARTTLS、Gmail）
 

@@ -23,8 +23,7 @@ public Item[] customizedItems() {
 
 ## itemNameKey の明示指定
 
-`itemNameKey` はエラーメッセージ中の項目名を `item_names.properties` などから引くためのキーです
-（詳細は [itemNameKey の解決ルール](?id=item/item-name-key) を参照）。
+`itemNameKey` はエラーメッセージ中の項目名を `item_names.properties` などから引くためのキーです（詳細は [itemNameKey の解決ルール](?id=item/item-name-key) を参照）。
 
 通常は自動で解決されますが、明示的に指定することもできます。
 

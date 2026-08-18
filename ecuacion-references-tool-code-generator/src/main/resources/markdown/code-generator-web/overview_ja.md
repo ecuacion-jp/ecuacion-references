@@ -1,5 +1,4 @@
-`ecuacion-tool-code-generator-web` は、ブラウザから DB項目定義書（Excel）をアップロードすると
-生成された Java ソースコードを ZIP ファイルとしてダウンロードできる Web UI モジュールです。
+`ecuacion-tool-code-generator-web` は、ブラウザから DB項目定義書（Excel）をアップロードすると生成された Java ソースコードを ZIP ファイルとしてダウンロードできる Web UI モジュールです。
 
 ## cli との違い
 

@@ -1,6 +1,5 @@
 こちらは `ecuacion-tool-code-generator` のリファレンスページです。
-DB項目定義書（Excel）から Spring Boot + JPA アプリケーションの base モジュールコードを自動生成するツールの
-使い方をまとめています。
+DB項目定義書（Excel）から Spring Boot + JPA アプリケーションの base モジュールコードを自動生成するツールの使い方をまとめています。
 
 ## このツールは何をするか
 

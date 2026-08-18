@@ -43,5 +43,4 @@ for (List<String> row : data) {
 ## 戻り値について
 
 - `read()` の戻り値にはヘッダー行は含まれません（複数行の場合はすべてのヘッダー行が検証後に除去されます）。
-- 空セルの値はデフォルトで `null` になります
-  （詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照）。
+- 空セルの値はデフォルトで `null` になります（詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照）。

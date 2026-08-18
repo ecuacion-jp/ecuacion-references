@@ -40,8 +40,7 @@ jp.ecuacion.lib.validation.constraints.PatternWithDescription.message = 「{desc
 
 ## description のローカライズ
 
-`description` 属性にプロパティキーを記述し、プロパティファイルで実際の説明文を定義すると
-ローカライズできます。
+`description` 属性にプロパティキーを記述し、プロパティファイルで実際の説明文を定義するとローカライズできます。
 
 ```java
 @PatternWithDescription(

@@ -23,9 +23,9 @@ convention, an API key authentication mechanism, and a common exception handler.
 | Prefix | Security policy |
 | --- | --- |
 | `/api/public/**` | Always allowed (`permitAll`) |
-| `/api/ecuacion-splib/public/**` | Always allowed (`permitAll`) — reserved for `ecuacion-splib`'s own built-in endpoints that are safe to expose without authentication |
-| `/api/ecuacion-splib/key/**` | Requires a valid `X-Api-Key` header — for `ecuacion-splib`'s own built-in endpoints with side effects |
 | `/api/key/**` | Requires a valid `X-Api-Key` header — the application's own keys |
+| `/api/ecuacion-splib/public/**` | (used internally by `ecuacion-splib`) Always allowed (`permitAll`) — reserved for `ecuacion-splib`'s own built-in endpoints that are safe to expose without authentication |
+| `/api/ecuacion-splib/key/**` | (used internally by `ecuacion-splib`) Requires a valid `X-Api-Key` header — for `ecuacion-splib`'s own built-in endpoints with side effects |
 | `/api/**` (anything else) | Always denied (`denyAll`) |
 
 These four policies are wired up by `SplibRestSecurityConfig`, an abstract class your application

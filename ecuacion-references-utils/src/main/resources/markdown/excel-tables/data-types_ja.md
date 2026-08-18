@@ -18,8 +18,7 @@ String 型では、空セルをどの値で表現するかを `NoDataString` enu
 通常は `NoDataString.NULL` を使用してください。
 `@NotEmpty` は `null` と `""` のどちらも違反として扱うため、必須チェックはどちらを返しても正しく機能します。
 一方、`@Pattern` などの形式バリデーターは `null` をスキップしますが、`""` には適用されます。
-空セルに `""` を返すと、未入力のセルに対して「形式が不正です」という誤ったエラーが
-表示される可能性があります。`null` を返すことでこの問題を回避できます。
+空セルに `""` を返すと、未入力のセルに対して「形式が不正です」という誤ったエラーが表示される可能性があります。`null` を返すことでこの問題を回避できます。
 
 変更する場合は fluent setter で指定します。
 
@@ -32,8 +31,7 @@ StringOneLineHeaderExcelTableReader reader = new StringOneLineHeaderExcelTableRe
 
 ### 日付・数値セルの文字列変換
 
-数値セルや日付セルも文字列として取得できます。日付のフォーマットは
-デフォルトで `yyyy-MM-dd` です。列単位または全体でフォーマットを変更できます。
+数値セルや日付セルも文字列として取得できます。日付のフォーマットはデフォルトで `yyyy-MM-dd` です。列単位または全体でフォーマットを変更できます。
 
 ```java
 StringHeaderExcelTableReader reader = new StringHeaderExcelTableReader(
@@ -49,8 +47,7 @@ Excel シート上の絶対列番号）です。
 ## Typed 型（`IfDataTypeTypedExcelTable`）
 
 セルの値を、変換せずそのまま Java のネイティブ型として取得します。
-パース処理を自分で書く必要がありません。各セルは Excel 上のセルの型に応じて
-以下のように変換されます。
+パース処理を自分で書く必要がありません。各セルは Excel 上のセルの型に応じて以下のように変換されます。
 
 | Excel 上のセル | 取得される Java の型 |
 | --- | --- |
@@ -78,23 +75,19 @@ LocalDate birthday = (LocalDate) data.get(0).get(1);
 ```
 
 `TypedOneLineHeaderExcelTableToBeanReader` / `TypedHeaderExcelTableToBeanReader`
-で各行を Bean にマッピングする際は、上記で取得した値がさらに Bean フィールドの
-宣言型に合わせて変換されます。例えば数値セルから取得した `Double` の値は、
-フィールドが `Integer` や `Long` で宣言されている場合に四捨五入（`Math.round`）
-されます。詳細は[Bean マッピング](page?id=excel-tables/bean-mapping&lang=ja)
+で各行を Bean にマッピングする際は、上記で取得した値がさらに Bean フィールドの宣言型に合わせて変換されます。例えば数値セルから取得した `Double` の値は、
+フィールドが `Integer` や `Long` で宣言されている場合に四捨五入（`Math.round`）されます。詳細は[Bean マッピング](page?id=excel-tables/bean-mapping&lang=ja)
 を参照してください。
 
 書き込み側では、`TypedHeaderExcelTableFromBeanWriter` /
-`TypedOneLineHeaderExcelTableFromBeanWriter` が各 Bean フィールドの値を
-ネイティブ型のままセルに書き込みます。例えば `LocalDate` 型のフィールドは、
+`TypedOneLineHeaderExcelTableFromBeanWriter` が各 Bean フィールドの値をネイティブ型のままセルに書き込みます。例えば `LocalDate` 型のフィールドは、
 単なる数値や文字列ではなく日付書式のセルとして書き込まれます。詳細は
 [From-Bean Writer](page?id=excel-tables/from-bean-writer&lang=ja) を参照してください。
 
 ## Cell 型（`IfDataTypeCellExcelTable`）
 
 Apache POI の `Cell` オブジェクトとして取得します。
-セルの型情報（数値・文字列・日付）やスタイル情報（背景色・フォントなど）も
-参照したい場合に使用します。
+セルの型情報（数値・文字列・日付）やスタイル情報（背景色・フォントなど）も参照したい場合に使用します。
 
 ```java
 import jp.ecuacion.util.excel.table.reader.concrete.CellOneLineHeaderExcelTableReader;

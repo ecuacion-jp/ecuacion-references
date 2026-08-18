@@ -143,13 +143,11 @@ LocalDate birth  = (LocalDate) data.get(0).get(2);
 ```
 
 fluent setter は[共通の setter](#共通fluent-setter-一覧)のみで、
-`noDataString` や `defaultDateTimeFormat` のような String 型固有の setter は
-ありません。返される Java 型はセル自身の型・書式によって決まるためです。
+`noDataString` や `defaultDateTimeFormat` のような String 型固有の setter はありません。返される Java 型はセル自身の型・書式によって決まるためです。
 
 ## `TypedHeaderExcelTableReader`
 
-ヘッダーが 2 行以上のテーブルを読み込むクラスです。`String[][]` で
-ヘッダーを指定する点以外は `TypedOneLineHeaderExcelTableReader` と同様です。
+ヘッダーが 2 行以上のテーブルを読み込むクラスです。`String[][]` でヘッダーを指定する点以外は `TypedOneLineHeaderExcelTableReader` と同様です。
 
 ```java
 TypedHeaderExcelTableReader reader = new TypedHeaderExcelTableReader(

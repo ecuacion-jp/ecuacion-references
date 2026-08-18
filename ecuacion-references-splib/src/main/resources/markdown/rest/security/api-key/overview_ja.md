@@ -1,7 +1,6 @@
 `/api/key/**` 配下にマッピングされたエンドポイントは、有効な `X-Api-Key` ヘッダーが必須です。
 このフィルターチェーンは `@Order(9)` で実行され、`/api/public/**`（8）の後、
-`/api/ecuacion-splib/key/**`（10）および残りすべてを拒否する `/api/**` のルール（11）より前に
-評価されます。
+`/api/ecuacion-splib/key/**`（10）および残りすべてを拒否する `/api/**` のルール（11）より前に評価されます。
 
 ## リクエストヘッダー
 
@@ -35,18 +34,15 @@ public class AppApiKeyExpectedValueProvider implements SplibApiKeyExpectedValueP
 `presentedApiKey` が返された値のいずれかと一致すれば、リクエストは認証されます。
 
 返される `SplibApiKeyExpectedValue` はそれぞれ自分自身の `SplibApiKeyComparisonMode`（平文か
-bcrypt か）を持ちます。アプリケーション全体で1つに固定する設定ではないため、1回の呼び出しで
-両方を混在させることもできます（例：保存済みのキーを平文から bcrypt へ1件ずつ移行している間など）。
+bcrypt か）を持ちます。アプリケーション全体で1つに固定する設定ではないため、1回の呼び出しで両方を混在させることもできます（例：保存済みのキーを平文から bcrypt へ1件ずつ移行している間など）。
 詳しくは [比較モード](page?id=rest/security/api-key/comparison-modes&lang=ja) を参照してください。
 
-`SplibApiKeyExpectedValueProvider` の Bean が一つも登録されていない場合、`/api/key/**` へのリクエストは
-すべて拒否されます。`/api/public/**` と異なり、このプレフィックスに「キー不要」というデフォルト動作はありません。
+`SplibApiKeyExpectedValueProvider` の Bean が一つも登録されていない場合、`/api/key/**` へのリクエストはすべて拒否されます。`/api/public/**` と異なり、このプレフィックスに「キー不要」というデフォルト動作はありません。
 
 ## Provider を `AppRestSecurityConfig` に渡す
 
 上記の Bean を登録しただけでは不十分です。[クイックスタート](page?id=rest/quickstart&lang=ja)
-の手順通りだと、`AppRestSecurityConfig` は `super(null)` を呼んでいるため、Provider の Bean を
-登録しても `/api/key/**` は引き続きすべて拒否されます。コンストラクタで Provider を受け取り、
+の手順通りだと、`AppRestSecurityConfig` は `super(null)` を呼んでいるため、Provider の Bean を登録しても `/api/key/**` は引き続きすべて拒否されます。コンストラクタで Provider を受け取り、
 そのまま渡すように変更してください。
 
 ```java
@@ -60,13 +56,10 @@ public class AppRestSecurityConfig extends SplibRestSecurityConfig {
 }
 ```
 
-上で登録した Bean は Spring が自動的に注入します。引数を `@Nullable` にしているのは、該当する Bean を
-登録していなくてもアプリが起動できるようにするためです（その場合はクイックスタートのデフォルトと同じく
+上で登録した Bean は Spring が自動的に注入します。引数を `@Nullable` にしているのは、該当する Bean を登録していなくてもアプリが起動できるようにするためです（その場合はクイックスタートのデフォルトと同じく
 `/api/key/**` は引き続きすべて拒否されます）。このコンストラクタ引数は `/api/ecuacion-splib/key/**`
-とは無関係です。そちらには Provider Bean 自体が存在せず、代わりに `application.properties` で
-設定します。詳しくは
-[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を
-参照してください。
+とは無関係です。そちらには Provider Bean 自体が存在せず、代わりに `application.properties` で設定します。詳しくは
+[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を参照してください。
 
 ## 拒否時の挙動
 

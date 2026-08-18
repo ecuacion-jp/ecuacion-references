@@ -3,8 +3,7 @@
 
 ## 1. `SplibBatchConfig` を有効化する
 
-`SplibBatchConfig` は `ecuacion-splib-batch` の動作に必要なパッケージ
-（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.batch.advice`・`jp.ecuacion.splib.batch.listener`・
+`SplibBatchConfig` は `ecuacion-splib-batch` の動作に必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.batch.advice`・`jp.ecuacion.splib.batch.listener`・
 `jp.ecuacion.splib.batch.exceptionhandler`）をコンポーネントスキャンします。
 アプリケーションの設定クラスからインポートしてください。
 
@@ -17,11 +16,9 @@ public class AppConfig {
 
 ## 2. アプリケーションの main クラスを書く
 
-`SplibBatchApplication` は、すべてのバッチアプリに必要な `main` メソッドのロジック
-（`SpringApplication` を実行し、その結果コードで終了する）を提供していますが、
+`SplibBatchApplication` は、すべてのバッチアプリに必要な `main` メソッドのロジック（`SpringApplication` を実行し、その結果コードで終了する）を提供していますが、
 `java` コマンドは親クラスから継承した `main` メソッドを実行できないため、
-これ自体を起動対象のクラスにすることはできません。そのため、アプリケーション側で
-自身の `main` メソッドを持つクラスを用意し、単純に処理を委譲してください。
+これ自体を起動対象のクラスにすることはできません。そのため、アプリケーション側で自身の `main` メソッドを持つクラスを用意し、単純に処理を委譲してください。
 
 ```java
 @SpringBootApplication
@@ -35,8 +32,7 @@ public class BatchApplication {
 
 ## 3. `SplibAppParentBatchConfig` を継承してジョブを定義する
 
-`SplibAppParentBatchConfig` は抽象クラスで、ジョブ設定クラスに対して
-あらかじめ組み込み済みの `JobBuilder`/`TaskletStepBuilder` ファクトリメソッドを提供します。
+`SplibAppParentBatchConfig` は抽象クラスで、ジョブ設定クラスに対してあらかじめ組み込み済みの `JobBuilder`/`TaskletStepBuilder` ファクトリメソッドを提供します。
 コンストラクターは `SplibBatchConfig` が登録するリスナー・例外ハンドラーの Bean を受け取るので、
 それらをコンストラクター引数として宣言し、そのまま `super(...)` に渡してください。
 
@@ -54,8 +50,7 @@ public class HelloTasklet implements Tasklet {
 }
 ```
 
-それを1ステップだけのジョブとして組み立てるジョブ設定クラス。`JobBuilder`/`StepBuilder` を直接
-生成する代わりに `preparedJobBuilder`/`preparedStepBuilder` を使います。
+それを1ステップだけのジョブとして組み立てるジョブ設定クラス。`JobBuilder`/`StepBuilder` を直接生成する代わりに `preparedJobBuilder`/`preparedStepBuilder` を使います。
 
 ```java
 @Configuration

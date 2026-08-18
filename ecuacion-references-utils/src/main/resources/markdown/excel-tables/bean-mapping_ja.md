@@ -157,8 +157,7 @@ public void afterReading() {
 
 ## エラーセルのハイライト：`highlightErrors()`
 
-バリデーションエラーが発生した際に、エラーのある Excel セルを赤くハイライトした
-コピーファイルを出力できます。
+バリデーションエラーが発生した際に、エラーのある Excel セルを赤くハイライトしたコピーファイルを出力できます。
 
 ```java
 try {
@@ -215,8 +214,7 @@ public class PersonBean extends TypedExcelTableBean {
 `StringExcelTableBean` は常に `String` の値を受け取りパースしますが、
 `TypedExcelTableBean` は各セルの値が既にネイティブな Java 型（`String`、
 `Double`、`LocalDate`、`LocalDateTime`、`Boolean`、または `null`。
-詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照）
-に変換された状態で渡され、それをさらにフィールドの宣言型へ変換します。
+詳細は[データ型の選択](page?id=excel-tables/data-types&lang=ja)を参照）に変換された状態で渡され、それをさらにフィールドの宣言型へ変換します。
 
 | 渡される値の型 | 変換可能なフィールド型 |
 | --- | --- |
@@ -228,11 +226,9 @@ public class PersonBean extends TypedExcelTableBean {
 
 `Double` を整数系の型（`Integer`、`Long`、`Short`、`BigInteger`）に変換する際は、
 切り捨てではなく `Math.round` による四捨五入が行われます。例えばセルの値が
-`25.6` の場合は `25` ではなく `26` になります。これにより、数値セルにたまたま
-小数が入っていた場合の意図しない挙動を防げます。
+`25.6` の場合は `25` ではなく `26` になります。これにより、数値セルにたまたま小数が入っていた場合の意図しない挙動を防げます。
 
-`null`（空白セルや空文字列に由来）は、フィールドの宣言型に関わらず `null` に
-変換されます。
+`null`（空白セルや空文字列に由来）は、フィールドの宣言型に関わらず `null` に変換されます。
 
 ## マルチヘッダーへの対応
 

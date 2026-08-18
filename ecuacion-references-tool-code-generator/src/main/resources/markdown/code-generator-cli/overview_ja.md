@@ -1,6 +1,5 @@
 `ecuacion-tool-code-generator-cli` は、DB項目定義書（Excel）を入力として
-Spring Boot + JPA アプリケーションの **base モジュール** の Java ソースコードを自動生成する
-コマンドラインモジュールです。
+Spring Boot + JPA アプリケーションの **base モジュール** の Java ソースコードを自動生成するコマンドラインモジュールです。
 
 ## 動作の仕組み
 

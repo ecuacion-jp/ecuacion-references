@@ -10,23 +10,9 @@ Spring Boot's external configuration files are loaded in the following priority 
 
 > **Note:** External files don't replace the embedded configuration — they're **merged** into it. Only the keys explicitly defined in the external file are overridden; every other embedded setting stays in effect.
 
-### Access Control
+> **Note:** Changes to this file can be picked up without restarting the app, via `ecuacion-splib-rest`'s `clearPropertiesCache` endpoint (`POST /api/ecuacion-splib/key/clearPropertiesCache`) — see [Operational Endpoints](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=rest/operational-endpoints&lang=en) for how it works and its limitations. That endpoint is authenticated with a separate, built-in API key, not the `api-key-file-path` key described below.
 
-Two properties control access to `executeScript` (see [API Spec](page?id=command-api/api-spec&lang=en) for the resulting HTTP behavior). They are intentionally **not** set in the embedded `application.properties`, so leaving either unconfigured is logged as a warning at startup instead of silently defaulting.
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `jp.ecuacion.tool.command-api.api-key-required` | boolean | `true` (the default applied when unset): `api/public/executeScript` is rejected (403). Call `api/key/executeScript` instead, which always requires a valid `X-Api-Key` header. `false`: `api/public/executeScript` is enabled. Use this only on trusted internal networks. (On both endpoints, which HTTP method(s) a script accepts is controlled by its HTTP-method prefix, described below.) |
-| `jp.ecuacion.tool.command-api.api-key-file-path` | String | Path to a file containing the shared secret compared against the `X-Api-Key` header on `api/key/executeScript`. Supports `${ENV_VAR}` resolution, same as script paths (see below). Optional — see [ecuacion-tool-command-api-key.txt](#ecuacion-tool-command-api-key.txt) below for the default applied when unset. |
-
-Example:
-
-```properties
-jp.ecuacion.tool.command-api.api-key-required=true
-jp.ecuacion.tool.command-api.api-key-file-path=${HOME}/secrets/command-api-key.txt
-```
-
-### Using a Custom application.properties
+### Placement (Optional)
 
 Place it next to the WAR, or in a `config` subdirectory.
 
@@ -45,90 +31,28 @@ java -Dspring.config.location=file:/path/to/your/config/ \
      -jar ecuacion-tool-command-api-x.x.x.war
 ```
 
-> **Note:** Pointing at a single file loads only that file. If you also want `ecuacion-tool-command-api.properties` (described below) to be externalized, point at a **directory** instead.
+> **Note:** Pointing at a single file loads only that file. If you also want `ecuacion-tool-command-api.properties` (below) to be externalized, point at a **directory** instead.
 
----
+### Available Settings
 
-## ecuacion-tool-command-api-key.txt
+Additional settings should be written in `application.properties`.
 
-The file containing the shared secret compared against the `X-Api-Key` header on `api/key/executeScript` (see [Access Control](#access-control) above) is resolved in the following priority order.
-
-| Priority | Location |
-| --- | --- |
-| 1 (highest) | The path given by `jp.ecuacion.tool.command-api.api-key-file-path` |
-| 2 | `config/ecuacion-tool-command-api-key.txt`, relative to the current directory |
-| 3 (lowest) | `ecuacion-tool-command-api-key.txt`, directly in the current directory |
-
-Priorities 2 and 3 are a convenient zero-config default for casual/local use, with no `api-key-file-path` setting required at all.
-
-> **Note:** Unlike `application.properties` / `ecuacion-tool-command-api.properties`, priorities 2 and 3 are a plain filesystem check relative to the JVM's working directory (`user.dir`) — they do **not** go through Spring Boot's `spring.config.location` / `classpath:` search. They work as described for the standalone `java -jar` launch style (see [Getting Started](page?id=command-api/quickstart&lang=en)). Under the [Tomcat deployment options](#deploying-to-an-existing-tomcat) below, `user.dir` is Tomcat's own working directory, unrelated to the WAR or `app-conf` overlay directories, so this default won't reliably find a file there — set `api-key-file-path` explicitly in that case.
-
-The file's content is read (with surrounding whitespace/newlines trimmed) on every request, so the key can be rotated by replacing the file's content without restarting the app.
-
-### Using a Custom ecuacion-tool-command-api-key.txt
-
-**Option 1 — place it in a `config/` subdirectory:**
-
-```
-/your-work-dir/
-├── ecuacion-tool-command-api-x.x.x.war
-└── config/
-    └── ecuacion-tool-command-api-key.txt
-```
-
-**Option 2 — place it directly next to the WAR:**
-
-```
-/your-work-dir/
-├── ecuacion-tool-command-api-x.x.x.war
-└── ecuacion-tool-command-api-key.txt
-```
-
-**Option 3 — specify the path explicitly (recommended for production):**
-
-```properties
-jp.ecuacion.tool.command-api.api-key-file-path=${HOME}/secrets/command-api-key.txt
-```
-
-For production, prefer this option with a path outside the deployment directory (e.g. a secrets volume, or a location with tighter file permissions), so the key isn't bundled, backed up, or overwritten alongside the app.
-
-### Comparison Mode: Plain Text vs. bcrypt
-
-By default, every line in the file is compared as plain text. To store bcrypt hashes instead (so the raw keys aren't kept at rest anywhere the application can read them back), set the following property.
+#### Access Control
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `jp.ecuacion.tool.command-api.api-key-comparison-mode` | String | `PLAIN` (default): every line is a plain-text key, compared directly. `BCRYPT`: every line is a bcrypt hash, compared via `BCryptPasswordEncoder.matches`. An unrecognized value is logged as a warning at startup and treated as `PLAIN`. |
+| `jp.ecuacion.tool.command-api.api-key-required` | boolean | Whether `api/public/executeScript` is disabled, requiring `api/key/executeScript` with a valid `X-Api-Key` header instead. Default: `true`. |
+| `jp.ecuacion.tool.command-api.api-key-file-path` | String | Path to the file holding the shared secret compared against `X-Api-Key`. |
+| `jp.ecuacion.tool.command-api.api-key-comparison-mode` | String | Whether the api-key file's lines are compared as plain text (`PLAIN`) or bcrypt hashes (`BCRYPT`). Default: `PLAIN`. |
 
-```properties
-jp.ecuacion.tool.command-api.api-key-comparison-mode=BCRYPT
-```
+See [Access Control](page?id=command-api/access-control&lang=en) for the full explanation of each property, plus how the api-key file itself is managed.
 
-> **Note:** This mode applies to the **whole file** — every line must be the same kind (all plain, or all bcrypt hashes). Mixing plain-text keys and bcrypt hashes in the same file is not supported.
+#### Mail Notification (on Error)
 
-To generate a bcrypt hash for a key, for example:
-
-```bash
-htpasswd -nbBC 10 dummy "my-plain-key" | sed 's/^dummy://'
-```
-
-### Example
-
-The file contains nothing but the shared secret(s) — no key name, no `properties` syntax. One key per line; if the file has more than one line, a request is accepted as long as it presents any one of them. Issuing one key per caller lets you revoke a single caller by deleting its line, without affecting the others.
-
-Blank lines are skipped, and lines starting with `#` (after trimming leading whitespace) are treated as comments and skipped too — labeling which key belongs to which caller makes it easier to find the right line when a key needs revoking.
-
-```
-# key for client A
-04f1befd704277c4b76afd01d655e6f1e8e36af9f74abe3a010d539ed3ac88cf
-
-# key for client B
-dcef325238aed9023681c8971d6df53080c536d0643692f9cad5a465118d5e79
-```
-
-A long, random value is recommended for each key. For `PLAIN` (the default), append the value as-is; for `BCRYPT`, hash it first before appending (see the hashing command example above). What callers must send in `X-Api-Key` is the pre-hash value, not the hash stored in the file.
-
-Either way, a request is authenticated as long as its `X-Api-Key` header matches any one of the file's lines (after trimming surrounding whitespace/newlines).
+Uses `SplibMailUtil` to notify administrators by mail when a system error occurs. For the full list
+of `spring.mail.*` / `jp.ecuacion.splib.mail.*` properties, their defaults, and example
+configurations (including Gmail), see
+[SplibMailUtil](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=core/util/mail-util&lang=en).
 
 ---
 
@@ -142,7 +66,9 @@ Used for script registration. It's loaded following the exact same priority and 
 | 2 | `config/ecuacion-tool-command-api.properties`, in a `config` subdirectory next to the WAR |
 | 3 (lowest) | `ecuacion-tool-command-api.properties`, right next to the WAR |
 
-### Using a Custom ecuacion-tool-command-api.properties
+> **Note:** Unlike `application.properties`, changes to this file are **not** picked up by the `clearPropertiesCache` endpoint — see [Operational Endpoints](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=rest/operational-endpoints&lang=en) for why (it only reliably reloads the *primary* `spring.config.name`, and this file is registered under an additional one). Restart the app to apply script registration changes.
+
+### Placement
 
 Place it next to the WAR, or in a `config` subdirectory.
 
@@ -222,36 +148,19 @@ The Logback configuration file is loaded in the following priority order.
 >
 > Priorities 2 and 3 aren't a Spring Boot feature — they're an ecuacion-specific extension provided by `ecuacion-splib-core` (`SplibEnvironmentPostProcessor`), added to match `application.properties`'s behavior by automatically checking both `config/` and the current directory root.
 
-### Using a Custom logback-spring.xml
+### Placement
 
-**Option 1 — place it in a `config/` subdirectory (recommended):**
+Place it in a `config` subdirectory, or directly in the current directory the app is launched from (see the note above).
 
 ```
 /your-work-dir/
 ├── ecuacion-tool-command-api-x.x.x.war
+├── logback-spring.xml   ← also works here
 └── config/
-    └── logback-spring.xml
+    └── logback-spring.xml   ← or here (higher priority)
 ```
 
-```bash
-cd /your-work-dir
-java -jar ecuacion-tool-command-api-x.x.x.war
-```
-
-**Option 1b — place it directly in the current directory:**
-
-```
-/your-work-dir/
-├── ecuacion-tool-command-api-x.x.x.war
-└── logback-spring.xml
-```
-
-```bash
-cd /your-work-dir
-java -jar ecuacion-tool-command-api-x.x.x.war
-```
-
-**Option 2 — specify the path explicitly:**
+To specify an explicit path, use a system property.
 
 ```bash
 java -Dlogging.config=file:/path/to/logback-spring.xml \
@@ -291,15 +200,6 @@ java -Dlogging.config=file:/path/to/logback-spring.xml \
 
 </configuration>
 ```
-
-Main things to adjust:
-
-| Item | Where to change | Typical values |
-| --- | --- | --- |
-| Overall log level | `<root level="...">` | `DEBUG`, `INFO`, `WARN`, `ERROR` |
-| Per-package level | `<logger name="..." level="...">` | Same as above |
-| Log file path | `<file>` / `<fileNamePattern>` | Any writable path |
-| Retention days | `<maxHistory>` | Number of days |
 
 ---
 

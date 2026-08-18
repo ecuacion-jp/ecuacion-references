@@ -18,11 +18,5 @@ behind your own security configuration (see
 
 The same filter chain also permits `/api/ecuacion-splib/public/**`, with the identical `permitAll`
 policy. This prefix is reserved for `ecuacion-splib`'s own built-in endpoints that are safe to
-expose without authentication — currently just the
-[Alive Check Endpoint](page?id=rest/alive-check-endpoint&lang=en)
-(`GET`/`POST /api/ecuacion-splib/public/aliveCheck`) — so that `/api/public/**` stays exclusively
-the application's own namespace. Built-in endpoints with side effects, such as the
-[Operational Endpoints](page?id=rest/operational-endpoints&lang=en)
-(`POST /api/ecuacion-splib/key/clearPropertiesCache`, `POST /api/ecuacion-splib/key/systemError`),
-instead live under `/api/ecuacion-splib/key/**`; see
-[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en).
+expose without authentication. See
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en) for details.

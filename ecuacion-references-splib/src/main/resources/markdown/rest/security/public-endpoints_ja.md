@@ -12,19 +12,9 @@
 はこれを強制する仕組みを持たないため、書き込みが必要なエンドポイントは、
 [Key エンドポイント](page?id=rest/security/api-key/overview&lang=ja) 配下の
 `/api/key/**` に置くか、
-[独自エンドポイントのセキュリティ](page?id=rest/security/custom-endpoints&lang=ja) で
-説明する独自のセキュリティ設定の配下に置いてください。
+[独自エンドポイントのセキュリティ](page?id=rest/security/custom-endpoints&lang=ja) で説明する独自のセキュリティ設定の配下に置いてください。
 
-## `/api/ecuacion-splib/public/**` は `ecuacion-splib` 自身のエンドポイント用に予約されています
+## `/api/ecuacion-splib/public/**` は `ecuacion-splib` 自身のエンドポイント用に予約されている
 
-同じフィルターチェーンは `/api/ecuacion-splib/public/**` も許可しており、ポリシーは `permitAll` で
-同一です。このプレフィックスは `ecuacion-splib` 自身の組み込みエンドポイントのうち、認証なしで
-公開しても安全なもの用に予約されています。現時点では組み込みの
-[Alive Check エンドポイント](page?id=rest/alive-check-endpoint&lang=ja)
-（`GET`/`POST /api/ecuacion-splib/public/aliveCheck`）のみがこれに該当し、これにより
-`/api/public/**` はアプリケーション独自の名前空間として保たれます。副作用のある組み込みエンドポイント、
-例えば [運用エンドポイント](page?id=rest/operational-endpoints&lang=ja)
-（`POST /api/ecuacion-splib/key/clearPropertiesCache`、`POST /api/ecuacion-splib/key/systemError`）は、
-代わりに `/api/ecuacion-splib/key/**` 配下に置かれています。詳しくは
-[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を
-参照してください。
+同じフィルターチェーンは `/api/ecuacion-splib/public/**` も許可しており、ポリシーは `permitAll` で同一です。このプレフィックスは `ecuacion-splib` 自身の組み込みエンドポイントのうち、認証なしで公開しても安全なもの用に予約されています。詳しくは
+[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を参照してください。

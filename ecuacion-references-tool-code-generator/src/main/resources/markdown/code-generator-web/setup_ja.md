@@ -1,7 +1,6 @@
 ## 1. WAR のダウンロード
 
-[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から
-最新の `ecuacion-tool-code-generator-web-x.x.x.war` をダウンロードします。
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から最新の `ecuacion-tool-code-generator-web-x.x.x.war` をダウンロードします。
 
 WAR は任意のディレクトリに配置してください。WAR には Tomcat が組み込まれているため、
 外部のアプリケーションサーバは不要です。

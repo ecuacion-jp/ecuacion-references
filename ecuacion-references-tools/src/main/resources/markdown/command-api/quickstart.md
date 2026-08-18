@@ -37,13 +37,11 @@ script.say-hello=GET:/path/to/script/directory/sayHello.sh
 
 (On Windows, point to the `.bat` file instead, e.g. `script.say-hello=GET:C:\\path\\to\\script\\directory\\sayHello.bat`.)
 
-**Format**: `script.<script-id>=[GET:|POST:|ALL:]<absolute path to script>`
-
 The leading `GET:` makes this script callable via `GET` (omitting the prefix would allow `POST` only, and step 5's `GET` call below would fail — see [Configuration Files](page?id=command-api/config&lang=en) for details). The script ID corresponds to the `scriptId` query parameter in the request.
 
 ### 3. Allow Access for This Quickstart
 
-By default, access to `api/public/executeScript` is disabled (see [Access Control](page?id=command-api/config&lang=en#access-control)). For this local quickstart, add the following to `application.properties` (placed as described in [Configuration Files](page?id=command-api/config&lang=en)):
+By default, access to `api/public/executeScript` is disabled (see [Access Control](page?id=command-api/access-control&lang=en#access-control)). For this local quickstart, add the following to `application.properties` (placed as described in [Configuration Files](page?id=command-api/config&lang=en)):
 
 ```properties
 jp.ecuacion.tool.command-api.api-key-required=false

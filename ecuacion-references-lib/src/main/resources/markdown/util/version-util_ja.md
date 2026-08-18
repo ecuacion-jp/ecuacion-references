@@ -1,6 +1,5 @@
 `VersionUtil`（`jp.ecuacion.lib.core.util.VersionUtil`）は、ecuacion 製品（`ecuacion-lib`、
-`ecuacion-splib`、`ecuacion-utils` など）や、個々のアプリ自身のバージョンを取得するための
-ユーティリティクラスです。
+`ecuacion-splib`、`ecuacion-utils` など）や、個々のアプリ自身のバージョンを取得するためのユーティリティクラスです。
 
 ---
 
@@ -25,12 +24,10 @@ String appVersion = VersionUtil.getVersion("");
 各 ecuacion 製品は、それぞれ `version_<productName>.properties` ファイル（例:
 `version_ecuacion-lib.properties`）を同梱しています。また個々のアプリも同様に、独自の
 `version.properties` ファイルを同梱できます（読み込むには `productName` に `""` を渡します）。
-どちらの場合も、ファイル内の `version` キーには `@project.version@` が書かれており、Maven の
-リソースフィルタリングによってビルド時に実際のビルドバージョンへ置換されます。
+どちらの場合も、ファイル内の `version` キーには `@project.version@` が書かれており、Maven のリソースフィルタリングによってビルド時に実際のビルドバージョンへ置換されます。
 
 このクラスが `ecuacion-lib-core` に実装されているのは、他のすべての ecuacion 製品が
-`ecuacion-lib-core` に依存しているため、単一の共通実装でクラスパス上のあらゆる製品の
-バージョンファイルを読み込めるからです。取得結果は `productName` ごとにキャッシュされます。
+`ecuacion-lib-core` に依存しているため、単一の共通実装でクラスパス上のあらゆる製品のバージョンファイルを読み込めるからです。取得結果は `productName` ごとにキャッシュされます。
 
 自分のアプリのバージョンも同様の方法で取得できるようにするには、`version` キーを持つ
 `version.properties` ファイルを同梱し、（`${...}` と衝突しないデリミタ、例えば `@...@` を使って）

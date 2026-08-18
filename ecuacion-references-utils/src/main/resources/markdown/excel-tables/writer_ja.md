@@ -128,10 +128,8 @@ writer.write("/path/to/template.xlsx", "/path/to/output.xlsx", data);
 ## `TypedHeaderExcelTableWriter`
 
 ヘッダーが 2 行以上のテーブルに、ネイティブな Java 値（`String`、`Double`、
-`LocalDate`、`LocalDateTime`、`Boolean` など）からなる `List<List<Object>>` を
-書き込みます。各値はネイティブ型のままセルに書き込まれます。例えば
-`LocalDate` の値は、単なる数値や文字列ではなく日付書式のセルとして
-書き込まれます。`String[][]` でヘッダーを指定する点は
+`LocalDate`、`LocalDateTime`、`Boolean` など）からなる `List<List<Object>>` を書き込みます。各値はネイティブ型のままセルに書き込まれます。例えば
+`LocalDate` の値は、単なる数値や文字列ではなく日付書式のセルとして書き込まれます。`String[][]` でヘッダーを指定する点は
 `StringHeaderExcelTableWriter` と同様です。
 
 ```java
@@ -201,8 +199,7 @@ new StringHeaderExcelTableFromBeanWriter<ProductBean>(
 
 ## `TypedOneLineHeaderExcelTableFromBeanWriter` / `TypedHeaderExcelTableFromBeanWriter`
 
-それぞれヘッダー1行・複数行のテーブルに `TypedExcelTableBean` のリストから
-書き込みます。`StringOneLineHeaderExcelTableFromBeanWriter` /
+それぞれヘッダー1行・複数行のテーブルに `TypedExcelTableBean` のリストから書き込みます。`StringOneLineHeaderExcelTableFromBeanWriter` /
 `StringHeaderExcelTableFromBeanWriter` の Typed 版にあたります。
 重要な違いは、各フィールドの値がネイティブ型のままセルに書き込まれること、
 そして日付・日時系のフィールドが必ず日付書式のセルとして書き込まれることです。
@@ -252,5 +249,4 @@ try (ExcelTableWriter.IterableWriter<String> iter =
 
 テンプレートパス／出力先パスを渡すオーバーロード（`getIterable(String, String)`）は、
 自身が開いた`Workbook`を所有します。`close()`で出力先パスに保存してからクローズするので、
-try-with-resourcesで使ってください。既存の`Workbook`を渡す場合（`getIterable(Workbook)`）は
-所有権が呼び出し側のままなので、`close()`は何もしません。保存・クローズは呼び出し側の責任です。
+try-with-resourcesで使ってください。既存の`Workbook`を渡す場合（`getIterable(Workbook)`）は所有権が呼び出し側のままなので、`close()`は何もしません。保存・クローズは呼び出し側の責任です。

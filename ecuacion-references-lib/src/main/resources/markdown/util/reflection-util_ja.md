@@ -1,5 +1,4 @@
-`ReflectionUtil`（`jp.ecuacion.lib.core.util.ReflectionUtil`）は `java.lang.reflect` を
-使用した低レイヤーなリフレクション操作のユーティリティクラスです。
+`ReflectionUtil`（`jp.ecuacion.lib.core.util.ReflectionUtil`）は `java.lang.reflect` を使用した低レイヤーなリフレクション操作のユーティリティクラスです。
 
 propertyPath 文字列を使ったオブジェクトグラフのナビゲーション（フィールド値の取得、
 leafBean の取得など）は `PropertyPathUtil` が担います。
@@ -56,5 +55,4 @@ Optional<MyAnnotation> ann = ReflectionUtil.searchAnnotationPlacedAtClass(
 ann.ifPresent(a -> System.out.println(a.value()));
 ```
 
-最初に見つかったアノテーションを返します。`Object.class` まで遡っても
-見つからない場合は空の `Optional` を返します。
+最初に見つかったアノテーションを返します。`Object.class` まで遡っても見つからない場合は空の `Optional` を返します。

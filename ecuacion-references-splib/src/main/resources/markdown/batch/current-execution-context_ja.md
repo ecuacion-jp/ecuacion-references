@@ -17,8 +17,7 @@
 
 Job/Step リスナーは
 [`preparedJobBuilder`/`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=ja)
-によって自動的にアタッチされます。tasklet-or-chunk のアドバイスは、アプリケーション全体でこれらのメソッドが
-呼ばれるたびに実行されます。これが `ecuacion-splib-batch` が `spring-boot-starter-aspectj` に依存している理由です。
+によって自動的にアタッチされます。tasklet-or-chunk のアドバイスは、アプリケーション全体でこれらのメソッドが呼ばれるたびに実行されます。これが `ecuacion-splib-batch` が `spring-boot-starter-aspectj` に依存している理由です。
 
 ## 値の取得方法
 

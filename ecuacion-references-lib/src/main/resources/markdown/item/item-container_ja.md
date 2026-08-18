@@ -3,8 +3,7 @@
 `ItemContainer`（`jp.ecuacion.lib.core.item.ItemContainer`）は、
 フィールドの表示属性をカスタマイズした `Item` を保持するインターフェースです。
 
-Record や Form などのクラスに実装することで、そのクラスに属するフィールドの
-項目名キー（`itemNameKey`）や値の表示/非表示を一元管理できます。
+Record や Form などのクラスに実装することで、そのクラスに属するフィールドの項目名キー（`itemNameKey`）や値の表示/非表示を一元管理できます。
 
 ---
 
@@ -149,7 +148,6 @@ public class UserRecord implements ItemContainer {
 ## ItemContainer の検索範囲
 
 `ItemUtil.resolveItem()` は、rootBean と propertyPath をもとに ItemContainer を探して
-`Item` を解決するメソッドです。バリデーションエラーメッセージを生成する際などに
-フレームワーク内部から呼ばれます（詳細は [ItemUtil](?id=item/item-util) を参照）。
+`Item` を解決するメソッドです。バリデーションエラーメッセージを生成する際などにフレームワーク内部から呼ばれます（詳細は [ItemUtil](?id=item/item-util) を参照）。
 
 この検索範囲は **rootBean から 1 階層まで** です。

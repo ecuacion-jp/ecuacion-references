@@ -121,11 +121,7 @@ URL が正しくない場合に返ります。
 
 ### アクセス制御
 
-デフォルトでは `api/public/executeScript` は無効化されており（`jp.ecuacion.tool.command-api.api-key-required` のデフォルト値 `true`）、スクリプトの実行には `api/key/executeScript` と有効な `X-Api-Key` ヘッダが必要です。`X-Api-Key` は**共有シークレット**方式であり、サーバ側に配置したファイルの内容と照合されます（比較方式は `jp.ecuacion.tool.command-api.api-key-comparison-mode` により平文（`PLAIN`、デフォルト）またはbcryptハッシュ（`BCRYPT`）を選択できます。詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照）。非対称鍵（公開鍵・秘密鍵のペア）ではなく、クライアントが送信する値が秘密鍵として扱われることもありません。
-
-`jp.ecuacion.tool.command-api.api-key-required=false` を設定すると `api/public/executeScript` が有効になります。信頼できる内部ネットワークでのみ使用してください。
-
-どちらのエンドポイントでも、スクリプトごとに許可するHTTPメソッドは `ecuacion-tool-command-api.properties` 側の `GET:` / `POST:` / `ALL:` プレフィックスで宣言します（プレフィックス省略時は `POST` のみ）。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` による認証が必須かどうかだけです。プロパティの詳細は[設定ファイル](page?id=command-api/config&lang=ja)を参照してください。
+`X-Api-Key` は**共有シークレット**方式であり、サーバ側に配置したファイルの内容と照合されます。非対称鍵（公開鍵・秘密鍵のペア）ではなく、クライアントが送信する値が秘密鍵として扱われることもありません。プロパティの詳細（`api-key-required`、`api-key-comparison-mode`）やキーファイルの管理方法については[アクセス制御](page?id=command-api/access-control&lang=ja)を参照してください。
 
 ---
 

@@ -1,12 +1,10 @@
-`LogUtil`（`jp.ecuacion.lib.core.util.LogUtil`）は、`ErrorLogger` と `DetailLogger` の
-両方に同時にログ出力する手順をまとめたユーティリティクラスです。
+`LogUtil`（`jp.ecuacion.lib.core.util.LogUtil`）は、`ErrorLogger` と `DetailLogger` の両方に同時にログ出力する手順をまとめたユーティリティクラスです。
 
 ---
 
 ## logSystemError
 
-システムエラーが発生した際に、`ErrorLogger`（監視アラート用）と `DetailLogger`（詳細ログ）の
-両方へ一度にログ出力します。
+システムエラーが発生した際に、`ErrorLogger`（監視アラート用）と `DetailLogger`（詳細ログ）の両方へ一度にログ出力します。
 
 ```java
 private final DetailLogger detailLog = new DetailLogger(getClass());

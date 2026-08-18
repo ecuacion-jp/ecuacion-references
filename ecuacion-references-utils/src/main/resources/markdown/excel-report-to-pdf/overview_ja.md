@@ -1,5 +1,4 @@
-`ecuacion-util-excel-report-to-pdf` は、Excel ファイルの印刷設定（印刷範囲・ページ区切り）を
-元に PDF を生成するユーティリティです。Apache POI で Excel を読み込み、
+`ecuacion-util-excel-report-to-pdf` は、Excel ファイルの印刷設定（印刷範囲・ページ区切り）を元に PDF を生成するユーティリティです。Apache POI で Excel を読み込み、
 Apache PDFBox で PDF を出力します。
 
 ## 主な特徴

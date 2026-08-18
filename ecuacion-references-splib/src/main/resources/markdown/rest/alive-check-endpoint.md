@@ -19,6 +19,5 @@ No request parameters are defined. It returns an HTTP `200` with a small JSON bo
 {"status": "OK"}
 ```
 
-It is useful as a lightweight, always-allowed endpoint to confirm the application is up and its
-`/api/ecuacion-splib/public/**` chain is wired correctly, independent of any application-specific
-endpoint.
+It is useful as a lightweight, always-allowed endpoint to confirm the application is up,
+independent of any application-specific endpoint.

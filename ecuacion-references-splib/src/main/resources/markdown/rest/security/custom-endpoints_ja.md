@@ -6,12 +6,9 @@
 ## 独自のセキュリティポリシーを追加する
 
 組み込みプレフィックス以外のパス（`/api/` で始まらないパスなど）でエンドポイントを公開したい場合は、
-そのパス用の `securityMatcher` を持つ独自の `SecurityFilterChain` Bean を登録してください。`@Order` は
-何でも構いません — `SplibRestSecurityConfig` の 4 つのチェーンはいずれも `/api/**` 外のパスにはマッチ
-しないため、独自のチェーンと衝突することはありません。
+そのパス用の `securityMatcher` を持つ独自の `SecurityFilterChain` Bean を登録してください。`@Order` は何でも構いません — `SplibRestSecurityConfig` の 4 つのチェーンはいずれも `/api/**` 外のパスにはマッチしないため、独自のチェーンと衝突することはありません。
 
-一方、`/api/**` の一部のサブパスに別のポリシー（セッションベース認証、独自のヘッダー方式など）を
-適用したい場合は、`@Order` が **8 より小さい** 独自の `SecurityFilterChain` Bean を登録してください。
+一方、`/api/**` の一部のサブパスに別のポリシー（セッションベース認証、独自のヘッダー方式など）を適用したい場合は、`@Order` が **8 より小さい** 独自の `SecurityFilterChain` Bean を登録してください。
 Spring Security はフィルターチェーンを `@Order` の昇順で評価し、リクエストにマッチする最初の
 `securityMatcher` で処理を止めるため、独自のチェーンは組み込みのチェーン（`/api/**` の catch-all
 deny-all である `@Order(11)` を含む）より先に評価される必要があります。
@@ -43,5 +40,4 @@ public class AppCustomApiSecurityConfig {
 [API キー認証](page?id=rest/security/api-key/overview&lang=ja)、
 [組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)、
 deny-all ルールにそれぞれ `@Order(8)`・`@Order(9)`・`@Order(10)`・`@Order(11)` を使用しています。
-アプリケーション側で定義するチェーンはこの範囲の外（11 の deny-all は最終フォールバックとして
-残す必要があるため、8 より小さい値）を使用してください。
+アプリケーション側で定義するチェーンはこの範囲の外（11 の deny-all は最終フォールバックとして残す必要があるため、8 より小さい値）を使用してください。

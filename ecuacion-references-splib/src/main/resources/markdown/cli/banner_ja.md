@@ -31,8 +31,7 @@ SplibCliApplication.main(CliApplication.class, args, "my-app");
 表示されるバージョンは`VersionUtil.getVersion("")`で取得されるため、アプリ自身の
 `version.properties`が必要です。動作する実例として
 [`ecuacion-tool-code-generator-core`の`pom.xml`](https://github.com/ecuacion-jp/ecuacion-tool-code-generator)
-の`version.properties`ファイルと、それに必要な`<resources>`フィルタリング設定
-（`${...}`/`@...@`を他のリソース——logback設定など——で誤って置換しないよう、
+の`version.properties`ファイルと、それに必要な`<resources>`フィルタリング設定（`${...}`/`@...@`を他のリソース——logback設定など——で誤って置換しないよう、
 このファイルだけをフィルタリング対象にする）を参照してください。プロジェクトの親POMが
 `ecuacion-splib-parent`（ホームページの[セットアップ](page?id=home&lang=ja)参照）でない場合は、
 `version.properties`で`@project.version@`ではなく素の`${project.version}`を使ってください
@@ -44,10 +43,8 @@ SplibCliApplication.main(CliApplication.class, args, "my-app");
 `jp.ecuacion.splib.cli.banner-mode`プロパティ（デフォルトは`color`）は以下の値を受け付けます。
 
 - `color` — 上記の通り、ブロックごとに異なる色で表示します。
-- `white` — 全ての文字を白一色で表示します。ターミナルの背景が暗く、デフォルトの配色が
-  見づらい場合向けです。
-- `black` — 全ての文字を黒一色で表示します。ターミナルの背景が明るく、デフォルトの配色が
-  見づらい場合向けです。
+- `white` — 全ての文字を白一色で表示します。ターミナルの背景が暗く、デフォルトの配色が見づらい場合向けです。
+- `black` — 全ての文字を黒一色で表示します。ターミナルの背景が明るく、デフォルトの配色が見づらい場合向けです。
 - `off` — 何も表示しません。
 
 アプリとしてのデフォルトを固定するには`application.properties`に設定してください。

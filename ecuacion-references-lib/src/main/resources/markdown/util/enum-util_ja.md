@@ -1,5 +1,4 @@
-`EnumUtil`（`jp.ecuacion.lib.core.util.EnumUtil`）は ecuacion ライブラリの enum フォーマット向けの
-ユーティリティクラスです。
+`EnumUtil`（`jp.ecuacion.lib.core.util.EnumUtil`）は ecuacion ライブラリの enum フォーマット向けのユーティリティクラスです。
 
 ---
 
@@ -47,8 +46,7 @@ boolean exists = EnumUtil.hasEnumFromCode(StatusEnum.class, "99"); // false
 
 ## HTML の select 要素用リスト
 
-コードと表示名のペア（`String[]`）のリストを返します。Thymeleaf の select タグなどに
-そのまま渡せます。
+コードと表示名のペア（`String[]`）のリストを返します。Thymeleaf の select タグなどにそのまま渡せます。
 
 ```java
 // [["1", "有効"], ["0", "無効"]] のようなリストを返す

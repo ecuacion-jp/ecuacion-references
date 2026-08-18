@@ -1,8 +1,6 @@
 ## `ExcelTableException`
 
-`ecuacion-util-excel-table` でテーブル関連のエラーが発生した場合にスローされる例外群の
-共通スーパークラスです（`abstract`、`ViolationException` を継承）。`abstract` なので
-直接スローされることはなく、必ず下記のいずれかの具象サブクラスがスローされます。
+`ecuacion-util-excel-table` でテーブル関連のエラーが発生した場合にスローされる例外群の共通スーパークラスです（`abstract`、`ViolationException` を継承）。`abstract` なので直接スローされることはなく、必ず下記のいずれかの具象サブクラスがスローされます。
 
 ### 具象サブクラス
 
@@ -19,8 +17,7 @@
 | `ColumnSizeIsZeroException` | 自動検出されたテーブルの列数がゼロ |
 | `FarLeftHeaderLabelNotFoundException` | テーブル開始行の自動検出時、想定される左端ヘッダー文字列が見つからない |
 
-10クラスとも `jp.ecuacion.util.excel.exception` パッケージに属し、`ExcelTableException` を
-継承しています。
+10クラスとも `jp.ecuacion.util.excel.exception` パッケージに属し、`ExcelTableException` を継承しています。
 
 ### キャッチ方法
 
@@ -53,16 +50,13 @@ Sheet    sh = ex.getSheet();    // null の場合あり
 Cell     c  = ex.getCell();     // null の場合あり
 ```
 
-このコンテキスト情報（および任意でcause）は、abstractな`ExcelTableException`基底クラスから
-継承した `workbook()`・`sheet()`・`cell()`・`cause()` のfluentメソッドで設定します。
+このコンテキスト情報（および任意でcause）は、abstractな`ExcelTableException`基底クラスから継承した `workbook()`・`sheet()`・`cell()`・`cause()` のfluentメソッドで設定します。
 
 ```java
 throw new SheetNotExistException(sheetName).cause(originalException);
 ```
 
-注意: `ExcelTableException` のコンストラクタは `protected` になったため、以前のバージョンとは
-異なり、アプリケーション側で任意の `messageId` を指定して `ExcelTableException` を直接構築する
-ことはできません。スローできるのは上記10個の具象サブクラスのみです。
+注意: `ExcelTableException` のコンストラクタは `protected` になったため、以前のバージョンとは異なり、アプリケーション側で任意の `messageId` を指定して `ExcelTableException` を直接構築することはできません。スローできるのは上記10個の具象サブクラスのみです。
 
 ## `LoopBreakException`
 

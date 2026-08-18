@@ -1,7 +1,6 @@
 ## 1. JAR ファイルのダウンロード
 
-[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tools/releases) から
-最新の `ecuacion-tool-housekeep-files-x.x.x.jar` をダウンロードします。
+[GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tools/releases) から最新の `ecuacion-tool-housekeep-files-x.x.x.jar` をダウンロードします。
 
 JAR は任意のディレクトリに配置してください。
 
