@@ -11,10 +11,6 @@
 - **単一のエントリーポイント契約** — `SplibCliRunner`。アプリはメソッド1つ
   （`execute(String[] args)`）を実装するだけです。
   [クイックスタート](page?id=cli/quickstart&lang=ja) を参照してください。
-- **Spring Bootではなく専用の起動バナー** — コンパクトなブランドマーク
-  （ecuacion-splibのバージョン、任意でアプリ自身の名前とバージョンも表示可能）が、
-  Spring BootのASCIIアート調バナーと起動ログ行を置き換えます。コンソールは最初の行から
-  静かで意図的な状態を保てます。[クイックスタート](page?id=cli/quickstart&lang=ja) を参照してください。
 - **`execute`実行中の「実行中です...」インジケーター** — コンソールにアニメーションする
   ローカライズ済みステータス行を表示し、`execute`が終わると自動的に消えます。
   出力が対話的なターミナルでない場合（ファイルへのリダイレクト等）は完全にスキップされるため、
@@ -26,16 +22,6 @@
   [クイックスタート](page?id=cli/quickstart&lang=ja)を参照）——アプリが実際の
   logger/appenderを設定した瞬間にコストゼロで動き始めます。
   [例外処理](page?id=cli/exception-handling&lang=ja) を参照してください。
-
-## 命名についての補足：`Command` ではなく `Runner`
-
-`SplibCliRunner` という名前は、`SplibCliCommand` ではなく、Spring Boot 自身の
-`CommandLineRunner`/`ApplicationRunner`（「起動後に1回だけ動く」）に寄せた意図的な選択です。
-これは、将来 interactive・REPL 形式の CLI エントリーポイントを追加する可能性を見込んでのもので、
-その世界では "Command" は「read-eval-print ループの中で処理される、複数あるコマンドの1つ」を
-自然に意味する語になります — これは、今回のような「アプリ全体を1回だけ実行するエントリーポイント」
-とは異なる概念です。interactive モードは現時点では存在せず、本モジュールが現在サポートするのは
-「1回実行して終了する」形式の CLI アプリのみです。
 
 ## 依存関係
 

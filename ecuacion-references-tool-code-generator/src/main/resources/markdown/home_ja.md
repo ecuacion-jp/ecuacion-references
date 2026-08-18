@@ -19,7 +19,6 @@ DB項目定義書に記述したテーブル・カラム定義から、以下の
 | Entity | `*.base.entity` | JPA Entity クラス（`@Entity`, `@Table`） |
 | Record | `*.base.record` | 入出力 DTO（Entity ⇔ Record 変換） |
 | Repository | `*.base.repository` | Spring Data JPA インターフェース |
-| RepositoryImpl | `*.base.repositoryimpl` | カスタムクエリ実装 |
 | BL | `*.base.bl` | CRUD・検証・重複チェック等のビジネスロジック |
 | Enum | `*.base.enums` | 列挙型 |
 | Converter | `*.base.converter` | Enum ⇔ DB 変換（JPA `@Converter`） |
@@ -28,11 +27,12 @@ DB項目定義書に記述したテーブル・カラム定義から、以下の
 ## 主な生成機能
 
 生成されるコードにはフレームワーク共通の以下の機能が組み込まれます。
+いずれの機能もカラム名は固定ではなく、DB項目定義書側で任意の名前を指定できます（以下は設定例です）。
 
-- **ソフトデリート**: `DEL_FLG` カラムによる論理削除。Hibernate フィルタで透過的に適用
-- **グループフィルタ**: `ACC_GROUP_ID` によるマルチテナント対応
-- **楽観的ロック**: `VERSION` カラム
-- **監査情報**: `CREATE_ACC_ID`, `CREATE_TIME`, `LST_UPD_ACC_ID`, `LST_UPD_TIME`
+- **ソフトデリート**: 論理削除フラグカラム（例: `DEL_FLG`）による論理削除。Hibernate フィルタで透過的に適用
+- **グループフィルタ**: グループIDカラム（例: `ACC_GROUP_ID`）によるマルチテナント対応
+- **楽観的ロック**: バージョンカラム（例: `VERSION`）
+- **監査情報**: 作成者・作成日時・更新者・更新日時カラム（例: `CREATE_ACC_ID`, `CREATE_TIME`, `LST_UPD_ACC_ID`, `LST_UPD_TIME`）
 
 ## 実行方法の選択
 
@@ -40,7 +40,7 @@ DB項目定義書に記述したテーブル・カラム定義から、以下の
 
 | 実行方法 | 説明 |
 | --- | --- |
-| `code-generator-batch` | コマンドライン（`java -jar`）で実行。Excel をローカルに配置して使う |
+| `code-generator-cli` | コマンドライン（`java -jar`）で実行。Excel をローカルに配置して使う |
 | `code-generator-web` | ブラウザから Excel をアップロード → ZIP でダウンロード |
 
 どちらの方法でも同じ DB項目定義書（Excel）を使います。
@@ -49,6 +49,6 @@ DB項目定義書に記述したテーブル・カラム定義から、以下の
 
 | メニュー | 内容 |
 | --- | --- |
-| code-generator-batch | バッチ実行モジュールの概要・セットアップ・使い方 |
+| code-generator-cli | コマンドライン実行モジュールの概要・セットアップ・使い方 |
 | code-generator-web | Web UI モジュールの概要・セットアップ・使い方 |
 | DB項目定義書（Excel） | 入力 Excel のシート構成・列の詳細仕様 |

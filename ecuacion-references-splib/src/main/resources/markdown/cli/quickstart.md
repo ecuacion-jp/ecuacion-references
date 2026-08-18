@@ -19,9 +19,6 @@ public class CliApplication {
 }
 ```
 
-No `@ComponentScan` is needed here — unlike `ecuacion-splib-batch`, `ecuacion-splib-cli`'s own
-beans (`SplibExceptionHandler`) register themselves via Spring Boot auto-configuration.
-
 See [Banner](page?id=cli/banner&lang=en) for showing your own app's name/version in the startup
 banner, or turning the banner off entirely.
 
@@ -67,7 +64,7 @@ mvn spring-boot:run
 
 ```
 = ecuacion  command line interface
-                   v0.0.2-SNAPSHOT
+                            v5.0.0
               (spring boot v4.0.7)
 -----
 

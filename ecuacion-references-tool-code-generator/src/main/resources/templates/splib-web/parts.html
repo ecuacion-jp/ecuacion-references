@@ -11,21 +11,21 @@
 				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
-				#{navBar.batch}, ~{::navbarBatch}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="navbarBatch" th:remove="tag">
+				#{navBar.cli}, ~{::navbarCli}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarCli" th:remove="tag">
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='code-generator-batch/overview',lang=${lang})},
-					#{navBar.batch.overview}, '')}"></div>
+					@{/public/showMarkdown/page(id='code-generator-cli/overview',lang=${lang})},
+					#{navBar.cli.overview}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='code-generator-batch/setup',lang=${lang})},
-					#{navBar.batch.setup}, '')}"></div>
+					@{/public/showMarkdown/page(id='code-generator-cli/setup',lang=${lang})},
+					#{navBar.cli.setup}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='code-generator-batch/quickstart',lang=${lang})},
-					#{navBar.batch.quickstart}, '')}"></div>
+					@{/public/showMarkdown/page(id='code-generator-cli/quickstart',lang=${lang})},
+					#{navBar.cli.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='code-generator-batch/config',lang=${lang})},
-					#{navBar.batch.config}, '')}"></div>
+					@{/public/showMarkdown/page(id='code-generator-cli/config',lang=${lang})},
+					#{navBar.cli.config}, '')}"></div>
 
 		</div></th:block>
 
@@ -55,6 +55,9 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='excel-format/overview',lang=${lang})},
 					#{navBar.excel.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-format/quickstart',lang=${lang})},
+					#{navBar.excel.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='excel-format/general-settings',lang=${lang})},
 					#{navBar.excel.generalSettings}, '')}"></div>

@@ -4,7 +4,7 @@ own:
 
 ```
 = ecuacion  command line interface
-                   v0.0.2-SNAPSHOT
+                            v5.0.0
               (spring boot v4.0.7)
 -----
 ```
@@ -21,11 +21,11 @@ This adds a second block, right above the same separator line:
 
 ```
 = ecuacion  command line interface
-                   v0.0.2-SNAPSHOT
+                            v5.0.0
               (spring boot v4.0.7)
 
        app  my-app
-                   v1.0.0
+                            v1.0.0
 -----
 ```
 
@@ -40,17 +40,27 @@ logback configs — untouched). If your project's parent POM isn't `ecuacion-spl
 `ecuacion-splib-parent`'s own Maven plugin configuration, which a different parent POM won't
 provide.
 
-## Turning the banner off
+## Changing or turning off the banner's colors
 
-Set the `jp.ecuacion.splib.cli.banner-mode` property to `off` (default: `on`) — e.g. as a command
-line argument:
+The `jp.ecuacion.splib.cli.banner-mode` property (default: `color`) accepts:
+
+- `color` — each block in its own color, as shown above.
+- `white` — every character in plain white, for a terminal with a dark background where the
+  default colors don't read well.
+- `black` — every character in plain black, for a terminal with a light background where the
+  default colors don't read well.
+- `off` — prints nothing.
+
+Set it in `application.properties` to fix a mode for your app:
+
+```properties
+jp.ecuacion.splib.cli.banner-mode=white
+```
+
+Since command-line arguments always take precedence over `application.properties` (per Spring
+Boot's own property source order), an individual user can still override that default at run
+time — handy since not everyone's terminal uses the same color scheme:
 
 ```
-java -jar your-app.jar --jp.ecuacion.splib.cli.banner-mode=off
-```
-
-or in `application.properties`:
-
-```
-jp.ecuacion.splib.cli.banner-mode=off
+java -jar your-app.jar --jp.ecuacion.splib.cli.banner-mode=black
 ```

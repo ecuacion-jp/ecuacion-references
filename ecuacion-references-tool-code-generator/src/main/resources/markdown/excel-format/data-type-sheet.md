@@ -3,7 +3,7 @@ A DataType captures the Java type, validation rules, and character constraints f
 
 ## Column Layout
 
-Table name: `テーブル2`, range: `A8:S{last row}`
+Table name: `Table2`, range: `A8:S{last row}`
 
 | Column | Field | Description |
 | --- | --- | --- |
@@ -70,14 +70,32 @@ Available settings differ by type. ○ = required / △ = optional / (blank) = n
 
 ## Data Patterns (STRING Type)
 
-| Value | Description |
-| --- | --- |
-| `全半角（制限なし）` | No character restriction |
-| `半角` | ASCII printable characters only (space through tilde) |
+Column E holds the display name shown in the dropdown; column F is auto-populated by a VLOOKUP against the
+(hidden) "dataType Data Pattern List" sheet and holds the underlying `enumValue`. All 14 defined patterns:
 
-## Standard Built-in DataTypes
+| Display Name (Column E) | enumValue (Column F) | Matches |
+| --- | --- | --- |
+| `All Characters` | `REG_EX_ALL` | No character restriction |
+| `Half-width` | `REG_EX_HAN` | ASCII printable characters (space through tilde) |
+| `Half-width Numeric` | `REG_EX_HAN_NUM` | Digits (`0-9`) only |
+| `Uppercase` | `REG_EX_HAN_UC` | Uppercase ASCII letters (`A-Z`) only |
+| `Uppercase + Underscore` | `REG_EX_HAN_UC_US` | Uppercase ASCII letters and underscore |
+| `Lowercase` | `REG_EX_HAN_LC` | Lowercase ASCII letters (`a-z`) only |
+| `Lowercase + Underscore` | `REG_EX_HAN_LC_US` | Lowercase ASCII letters and underscore |
+| `Numeric + Uppercase` | `REG_EX_HAN_NUM_UC` | Digits and uppercase letters |
+| `Numeric + Uppercase + Underscore` | `REG_EX_HAN_NUM_UC_US` | Digits, uppercase letters, and underscore |
+| `Numeric + Lowercase` | `REG_EX_HAN_NUM_LC` | Digits and lowercase letters |
+| `Numeric + Lowercase + Underscore` | `REG_EX_HAN_NUM_LC_US` | Digits, lowercase letters, and underscore |
+| `Alphanumeric` | `REG_EX_HAN_NUM_UC_LC` | Uppercase and lowercase ASCII letters (despite the name, no digits) |
+| `Alphanumeric + Underscore` | `REG_EX_HAN_NUM_UC_LC_US` | Uppercase and lowercase ASCII letters, and underscore |
+| `Full-width` | `REG_EX_ZEN` | Full-width characters only (excludes ASCII and half-width kana) |
 
-These DataTypes are included in all projects.
+## Conventional DataTypes
+
+The blank template's DataType Definition sheet ships empty — none of these are pre-populated, and the tool has no
+built-in knowledge of them either; you add them like any other DataType. This particular set of names is simply
+used consistently across `ecuacion-splib`-based projects (including for the authentication tables `ecuacion-splib`
+expects), so most projects end up defining at least the first few near the top of their sheet.
 
 | DataType | Type | Purpose |
 | --- | --- | --- |
@@ -102,7 +120,7 @@ Example (Qiita data integration project):
 | `DT_QIITA_TITLE` | STRING | 1 | 255 | (no restriction) |
 | `DT_COUNT` | INTEGER | | | |
 
-When adding rows, extend the named table range (`テーブル2`) accordingly.
+When adding rows, extend the named table range (`Table2`) accordingly.
 
 ## DataType and Validation
 

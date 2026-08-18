@@ -2,7 +2,12 @@ This assumes [Setup](page?id=code-generator-web/setup&lang=en) has been complete
 
 ## Running Locally
 
-### 1. Start the Application
+### 1. Minimum Configuration of the DB Definition Book
+
+See [DB Definition Book Quick Start](page?id=excel-format/quickstart&lang=en) for the minimum settings required
+before uploading the file — this part is the same whether you use `code-generator-cli` or `code-generator-web`.
+
+### 2. Start the Application
 
 Run the following from the directory where the WAR is placed:
 
@@ -12,14 +17,14 @@ java -jar ecuacion-tool-code-generator-web-x.x.x.war
 
 Once started, open `http://localhost:8080` in your browser.
 
-### 2. Upload the Excel File
+### 3. Upload the Excel File
 
 Use the file selection button on the screen to choose your DB Definition Book (xlsx),
 then click the "Download" button.
 
 Only `.xlsx` files are accepted.
 
-### 3. Download the ZIP
+### 4. Download the ZIP
 
 When code generation completes, the download of `source.zip` begins automatically.
 
@@ -37,14 +42,13 @@ source.zip
             repository/
             ...
         resources/
-          messages_project/
-            base/
-              messages_base.properties
-              messages_base_ja.properties
-              messages_base_en.properties
+          item_names_base.properties
+          messages_base.properties
+          (plus _<lang> variants such as messages_base_en.properties for each
+          additional language configured in the General Settings sheet)
 ```
 
-### 4. Integrate the Generated Code
+### 5. Integrate the Generated Code
 
 Extract the ZIP and copy the contents of `src/main/java/` into the corresponding directory of your target project.
 Likewise, copy the contents of `src/main/resources/` into the corresponding directory of your target project.

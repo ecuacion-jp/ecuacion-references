@@ -4,7 +4,7 @@ A single Excel file (`.xlsx`) defines the data model for a project.
 ## File Naming
 
 ```
-db-definition-book-fmt-v4.11.0_<project-name>_en.xlsx
+db-column-definitions_fmt-v5.0.0-en_<project-name>.xlsx
 ```
 
 ## Sheet Structure
@@ -14,19 +14,21 @@ db-definition-book-fmt-v4.11.0_<project-name>_en.xlsx
 | General Settings | Project-wide settings (package names, etc.) | [General Settings Sheet](page?id=excel-format/general-settings&lang=en) |
 | DataType Definition | Field type definitions (`DT_XXXX` format) | [DataType Definition Sheet](page?id=excel-format/data-type-sheet&lang=en) |
 | DB Definition | Table and column definitions | [DB Definition Sheet](page?id=excel-format/db-definition-sheet&lang=en) |
+| DB Common Item Definition | Columns applied to every table (e.g. audit columns, soft-delete flag, optimistic-lock version), without repeating them on each table | Same column layout as DB Definition — see the [DB Definition Sheet](page?id=excel-format/db-definition-sheet&lang=en) |
+| Table List | Table display names per language. Populated automatically from the table names used in DB Definition | — |
 | Enum Definition | Enumeration value definitions | [Enum Definition Sheet](page?id=excel-format/enum-sheet&lang=en) |
 
 ## Creating a File for a New Project
 
 1. **Download the template and rename it**
    - Download the template from [the `excel-format/` directory in the GitHub repository](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/tree/main/excel-format)
-   - Rename to `db-definition-book-fmt-v4.11.0_<new-project-name>_en.xlsx`
+   - Rename to `db-column-definitions_fmt-v5.0.0-en_<new-project-name>.xlsx`
    - For a filled-in example, see [qiita-data-viewer's `excel-format/`](https://github.com/ecuacion-jp/qiita-data-viewer/tree/main/excel-format)
 
 2. **Update the General Settings sheet** (highest priority)
-   - `SYSTEM_NAME` (row 8): new project name
-   - `BASE_PACKAGE` (row 9): new Java package
-   - `TABLE_NAMES_WITHOUT_GROUPING` (row 31): list of tables without group filtering
+   - See [DB Definition Book Quick Start](page?id=excel-format/quickstart&lang=en) for the minimum settings
+     required for a new project, and the [General Settings sheet](page?id=excel-format/general-settings&lang=en)
+     for the full reference
 
 3. **Define all required DataTypes in the DataType Definition sheet**
 

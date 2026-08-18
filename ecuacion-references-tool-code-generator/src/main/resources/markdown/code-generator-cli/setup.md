@@ -1,6 +1,6 @@
 ## 1. Download the JAR
 
-Download the latest `ecuacion-tool-code-generator-batch-x.x.x.jar` from
+Download the latest `ecuacion-tool-code-generator-cli-x.x.x.jar` from
 [GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases).
 
 Place the JAR in any directory you prefer.
@@ -15,12 +15,10 @@ and place the renamed file inside it.
 
 ```
 /path/to/workdir/
-  ecuacion-tool-code-generator-batch-x.x.x.jar
+  ecuacion-tool-code-generator-cli-x.x.x.jar
   excel-format/
-    db-definition-book-fmt-v4.11.0_myproject_en.xlsx
+    db-column-definitions_fmt-v5.0.0-en_myproject.xlsx
 ```
-
-For editing instructions, see [DB Definition Book (Excel) Specification](page?id=excel-format/overview&lang=en).
 
 ## System Requirements
 

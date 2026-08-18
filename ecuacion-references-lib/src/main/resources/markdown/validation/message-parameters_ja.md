@@ -107,6 +107,41 @@ violations.withMessageParameters(p -> p
 
 ---
 
+## representativePropertyPath — まとまり全体を1つの項目に紐付ける
+
+アップロードされたExcelファイルの中身のように、画面上に表示されない構造の奥で発生した違反は、
+その`itemPropertyPaths`が画面上のどの項目にも対応しないことがあります。
+`representativePropertyPath`は、各違反自身の`itemPropertyPaths`は変えずに、
+このまとまり全体を表示上代表して紐付ける1つのプロパティパス（例: ファイルアップロード項目）を指定するためのものです。
+
+```java
+violations.withMessageParameters(p -> p.representativePropertyPath("fileToUpload"));
+```
+
+splibの画面エラー紐付けなどの利用側では、この値を使うことで、
+違反自体はその項目のプロパティパスに紐づいていなくても、
+代表項目（例: ファイルアップロード欄）をエラー表示（赤枠等）にすることができます。
+
+### メッセージのプレースホルダーとしての利用
+
+この値は、メッセージ本文を組み立てる際の`{representativePropertyPath}`という名前付きプレースホルダーとしても利用できます。
+「詳細はファイルアップロード欄を確認してください」のようなメッセージで直接参照できます。
+
+```properties
+# ValidationMessages.properties
+jp.ecuacion.ClassValidatorSample.message = {representativePropertyPath}に関連: {0}
+```
+
+違反の種類によって利用可否が異なります。
+
+| 違反の種類 | 利用可否 |
+| --- | --- |
+| `ConstraintViolation`（`ValidationMessages*.properties`） | `representativePropertyPath`が設定されていれば常に利用可能 |
+| `isMessageWithItemName(true)`の`BusinessViolation`（`messages_with_item_names.properties`） | 利用可能（`{item_name}`と同じ扱い） |
+| `isMessageWithItemName(false)`の`BusinessViolation`（`messages.properties`） | 利用不可 — このファイルは位置引数（`{0}`、`{1}`等）のみを受け取る |
+
+---
+
 ## 組み合わせ例
 
 Excelファイルの検証で、行番号をprefixに付けつつ項目名を含めたメッセージを出す例です。

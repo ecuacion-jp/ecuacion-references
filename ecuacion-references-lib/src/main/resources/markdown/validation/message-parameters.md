@@ -107,6 +107,43 @@ violations.withMessageParameters(p -> p
 
 ---
 
+## representativePropertyPath — Associating the Whole Batch with a Single Item
+
+When violations are found deep inside a structure that isn't itself displayed on screen
+(e.g., contents of an uploaded Excel file), their `itemPropertyPaths` don't correspond to
+any single displayable UI item. `representativePropertyPath` lets you designate one
+property path (e.g., the file upload item) that the entire batch of violations should be
+associated with for display purposes, without changing the violations' own `itemPropertyPaths`.
+
+```java
+violations.withMessageParameters(p -> p.representativePropertyPath("fileToUpload"));
+```
+
+Consumers such as splib's screen-error binding can use this value to highlight the
+representative item (e.g., mark the file upload field as invalid) even though the
+violations themselves are not tied to that item's property path.
+
+### Using It as a Message Placeholder
+
+The value is also available as the `{representativePropertyPath}` named placeholder when
+building the message itself, so a message like "See the file upload field for details" can
+reference it directly.
+
+```properties
+# ValidationMessages.properties
+jp.ecuacion.ClassValidatorSample.message = Related to {representativePropertyPath}: {0}
+```
+
+Availability differs depending on the violation kind:
+
+| Violation kind | Availability |
+| --- | --- |
+| `ConstraintViolation` (`ValidationMessages*.properties`) | Always available when `representativePropertyPath` is set |
+| `BusinessViolation` with `isMessageWithItemName(true)` (`messages_with_item_names.properties`) | Available, same as `{item_name}` |
+| `BusinessViolation` with `isMessageWithItemName(false)` (`messages.properties`) | Not available — this file only receives positional (`{0}`, `{1}`, ...) arguments |
+
+---
+
 ## Combined Example
 
 An example of validating an Excel file with the row number as prefix and including item names in messages.

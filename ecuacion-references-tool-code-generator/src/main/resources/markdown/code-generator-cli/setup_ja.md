@@ -1,7 +1,7 @@
 ## 1. JAR のダウンロード
 
 [GitHub Releases](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/releases) から
-最新の `ecuacion-tool-code-generator-batch-x.x.x.jar` をダウンロードします。
+最新の `ecuacion-tool-code-generator-cli-x.x.x.jar` をダウンロードします。
 
 JAR は任意のディレクトリに配置してください。
 
@@ -15,12 +15,10 @@ JAR と同じディレクトリに `excel-format/` ディレクトリを作成�
 
 ```
 /path/to/workdir/
-  ecuacion-tool-code-generator-batch-x.x.x.jar
+  ecuacion-tool-code-generator-cli-x.x.x.jar
   excel-format/
-    db-definition-book-fmt-v4.11.0_myproject_ja.xlsx
+    db-column-definitions_fmt-v5.0.0-ja_myproject.xlsx
 ```
-
-DB項目定義書の編集方法は [DB項目定義書（Excel）の仕様](page?id=excel-format/overview&lang=ja) を参照してください。
 
 ## システム要件
 

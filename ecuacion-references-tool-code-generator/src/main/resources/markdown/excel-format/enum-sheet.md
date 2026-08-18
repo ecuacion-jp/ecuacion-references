@@ -7,19 +7,32 @@ define the values that Enum can take in this sheet.
 
 ## Sheet Structure
 
-The sheet contains one table per Enum class.
-The first row of each table is the class name; subsequent rows are the value definitions.
+Each row defines one Enum value. There is no separate "class name" row: the DataType Name column is repeated
+on every row belonging to the same Enum, the same way the Table Name column repeats in the DB Definition sheet.
+The Enum class name itself is not entered directly — it is auto-generated from the DataType name (strip the
+`DT_` prefix, convert to UpperCamelCase, and append `Enum`).
+
+| Column | Field | Description |
+| --- | --- | --- |
+| DataType Name | DataType Name | The `DT_XXXX` DataType this value belongs to. Repeated on every row of the group |
+| code | code | The value stored in the DB column (e.g., `1`, `2`, `3`) |
+| varName | varName | The generated Java enum constant name (e.g., `ACTIVE`) |
+| Java Only | Java Only | Marker column (present in the sheet; not currently used by the code generator) |
+| Notes | Notes | Comments (not used in generation) |
+| Display Name (Default Lang) | Display Name (Default Lang) | Display name shown in the UI, default language |
+| Display Name (Additional Lang 1-3) | Display Name (Additional Lang 1-3) | Display name for each additional supported language |
 
 ### Example
 
-For a DataType `DT_STATUS` with type `ENUM`, create a table like this in the Enum Definition sheet:
+For a DataType `DT_STATUS` with type `ENUM`, create rows like this in the Enum Definition sheet:
 
-| Enum Class Name | DB Value | Display Name (English) | Display Name (Japanese) |
-| --- | --- | --- | --- |
-| StatusEnum | | | |
-| ACTIVE | 1 | Active | 有効 |
-| INACTIVE | 2 | Inactive | 無効 |
-| DELETED | 3 | Deleted | 削除済み |
+| DataType Name | code | varName | Display Name (Default Lang) | Display Name (Additional Lang 1) |
+| --- | --- | --- | --- | --- |
+| DT_STATUS | 1 | ACTIVE | Active | 有効 |
+| DT_STATUS | 2 | INACTIVE | Inactive | 無効 |
+| DT_STATUS | 3 | DELETED | Deleted | 削除済み |
+
+This produces an Enum class named `StatusEnum` (derived from `DT_STATUS`).
 
 ### Generated Code Example
 

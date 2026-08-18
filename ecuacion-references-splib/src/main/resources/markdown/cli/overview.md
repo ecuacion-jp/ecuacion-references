@@ -10,10 +10,6 @@ failure later via logs.
   Job/Step/JobRepository machinery, unlike `ecuacion-splib-batch`.
 - **Single entry-point contract** — `SplibCliRunner`, one method (`execute(String[] args)`) your
   app implements. See [Quickstart](page?id=cli/quickstart&lang=en).
-- **A startup banner, not Spring Boot's** — a compact brand mark (with the ecuacion-splib version
-  and, optionally, your app's own name and version) replaces Spring Boot's ASCII-art banner and
-  startup log lines, so the console stays quiet and deliberate from the first line. See
-  [Quickstart](page?id=cli/quickstart&lang=en).
 - **A "running..." indicator while `execute` is in progress** — an animated, localized status
   line on the console, cleared automatically once `execute` returns; skipped entirely when the
   output isn't an interactive terminal (e.g. redirected to a file), so it never pollutes
@@ -24,15 +20,6 @@ failure later via logs.
   at all (see [Quickstart](page?id=cli/quickstart&lang=en) on the quiet-console default) — it
   costs nothing and starts working the moment your app configures a real logger/appender. See
   [Exception Handling](page?id=cli/exception-handling&lang=en).
-
-## A note on naming: `Runner`, not `Command`
-
-`SplibCliRunner` echoes Spring Boot's own `CommandLineRunner`/`ApplicationRunner` ("runs once
-after startup") rather than being called `SplibCliCommand`. This is deliberate: it leaves the name
-`Command` free for a possible future interactive/REPL-style CLI entry point, where "Command" would
-naturally mean one of several commands dispatched inside a read-eval-print loop — a different
-concept from this single, whole-app entry point. That interactive mode does not exist yet; this
-module currently supports only the "run once and exit" style of CLI app.
 
 ## Dependencies
 

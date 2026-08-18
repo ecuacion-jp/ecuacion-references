@@ -1,9 +1,9 @@
 `ecuacion-tool-code-generator-web` は、ブラウザから DB項目定義書（Excel）をアップロードすると
 生成された Java ソースコードを ZIP ファイルとしてダウンロードできる Web UI モジュールです。
 
-## batch との違い
+## cli との違い
 
-| | code-generator-batch | code-generator-web |
+| | code-generator-cli | code-generator-web |
 | --- | --- | --- |
 | 実行方法 | コマンドライン（`java -jar`） | ブラウザからファイルアップロード |
 | 使い方 | Excel をローカルのディレクトリに配置して実行 | Excel をアップロードして ZIP をダウンロード |

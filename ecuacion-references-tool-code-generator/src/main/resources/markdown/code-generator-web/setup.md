@@ -6,17 +6,13 @@ Download the latest `ecuacion-tool-code-generator-web-x.x.x.war` from
 Place the WAR in any directory you prefer. The WAR includes an embedded Tomcat server,
 so no external application server is required.
 
-## 2. Configure the Work Directory (optional)
+## 2. Prepare the DB Definition Book (Excel)
 
-The web module temporarily stores uploaded Excel files and generated output on the server.
-The default location is `./app-work`.
+Download the template from [the `excel-format/` directory in the GitHub repository](https://github.com/ecuacion-jp/ecuacion-tool-code-generator/tree/main/excel-format)
+and rename it to match your project name.
 
-To use a different directory, create `application-profile.properties` in the same directory as the WAR
-and add the following:
-
-```properties
-work-dir=/path/to/work/directory
-```
+You'll upload this file from the browser in the next step, so there's no need to place it in any particular
+directory — just keep it somewhere you can find it.
 
 ## System Requirements
 

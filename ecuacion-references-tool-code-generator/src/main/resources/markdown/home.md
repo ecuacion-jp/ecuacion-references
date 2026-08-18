@@ -18,7 +18,6 @@ Based on the table and column definitions in the DB Definition Book, the followi
 | Entity | `*.base.entity` | JPA Entity classes (`@Entity`, `@Table`) |
 | Record | `*.base.record` | Input/output DTOs (Entity ⇔ Record conversion) |
 | Repository | `*.base.repository` | Spring Data JPA interfaces |
-| RepositoryImpl | `*.base.repositoryimpl` | Custom query implementations |
 | BL | `*.base.bl` | Business logic (CRUD, validation, duplicate checks, etc.) |
 | Enum | `*.base.enums` | Enumeration types |
 | Converter | `*.base.converter` | Enum ⇔ DB conversion (JPA `@Converter`) |
@@ -26,12 +25,13 @@ Based on the table and column definitions in the DB Definition Book, the followi
 
 ## Key Built-in Features
 
-The generated code includes these framework-standard features:
+The generated code includes these framework-standard features.
+For each feature, the column name is not fixed — you can specify any name in the DB Definition Book (the names below are just examples).
 
-- **Soft delete**: Logical deletion via `DEL_FLG` column, transparently applied with a Hibernate filter
-- **Group filter**: Multi-tenant support via `ACC_GROUP_ID`
-- **Optimistic locking**: `VERSION` column
-- **Audit fields**: `CREATE_ACC_ID`, `CREATE_TIME`, `LST_UPD_ACC_ID`, `LST_UPD_TIME`
+- **Soft delete**: Logical deletion via a delete-flag column (e.g. `DEL_FLG`), transparently applied with a Hibernate filter
+- **Group filter**: Multi-tenant support via a group-ID column (e.g. `ACC_GROUP_ID`)
+- **Optimistic locking**: A version column (e.g. `VERSION`)
+- **Audit fields**: Columns for creator, creation time, last updater, and last update time (e.g. `CREATE_ACC_ID`, `CREATE_TIME`, `LST_UPD_ACC_ID`, `LST_UPD_TIME`)
 
 ## Execution Methods
 
@@ -39,7 +39,7 @@ The tool provides two execution methods:
 
 | Method | Description |
 | --- | --- |
-| `code-generator-batch` | Run from the command line (`java -jar`). Place Excel locally and execute |
+| `code-generator-cli` | Run from the command line (`java -jar`). Place Excel locally and execute |
 | `code-generator-web` | Upload Excel from a browser → download generated code as a ZIP |
 
 Both methods use the same DB Definition Book (Excel) format.
@@ -48,6 +48,6 @@ Both methods use the same DB Definition Book (Excel) format.
 
 | Menu | Contents |
 | --- | --- |
-| code-generator-batch | Overview, setup, and usage for the batch execution module |
+| code-generator-cli | Overview, setup, and usage for the command-line module |
 | code-generator-web | Overview, setup, and usage for the Web UI module |
 | DB Definition Book (Excel) | Sheet structure and column reference for the input Excel file |

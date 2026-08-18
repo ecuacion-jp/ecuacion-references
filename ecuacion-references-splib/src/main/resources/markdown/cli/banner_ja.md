@@ -3,7 +3,7 @@ Spring Boot標準の起動バナーの代わりに独自のバナーを表示し
 
 ```
 = ecuacion  command line interface
-                   v0.0.2-SNAPSHOT
+                            v5.0.0
               (spring boot v4.0.7)
 -----
 ```
@@ -20,11 +20,11 @@ SplibCliApplication.main(CliApplication.class, args, "my-app");
 
 ```
 = ecuacion  command line interface
-                   v0.0.2-SNAPSHOT
+                            v5.0.0
               (spring boot v4.0.7)
 
        app  my-app
-                   v1.0.0
+                            v1.0.0
 -----
 ```
 
@@ -39,17 +39,27 @@ SplibCliApplication.main(CliApplication.class, args, "my-app");
 ——`@`区切り文字の慣習は`ecuacion-splib-parent`自身のMavenプラグイン設定に由来するもので、
 異なる親POMでは提供されません。
 
-## バナーを非表示にする
+## バナーの色を変更・非表示にする
 
-`jp.ecuacion.splib.cli.banner-mode`プロパティを`off`に設定してください（デフォルトは`on`）。
-コマンドライン引数での例：
+`jp.ecuacion.splib.cli.banner-mode`プロパティ（デフォルトは`color`）は以下の値を受け付けます。
+
+- `color` — 上記の通り、ブロックごとに異なる色で表示します。
+- `white` — 全ての文字を白一色で表示します。ターミナルの背景が暗く、デフォルトの配色が
+  見づらい場合向けです。
+- `black` — 全ての文字を黒一色で表示します。ターミナルの背景が明るく、デフォルトの配色が
+  見づらい場合向けです。
+- `off` — 何も表示しません。
+
+アプリとしてのデフォルトを固定するには`application.properties`に設定してください。
+
+```properties
+jp.ecuacion.splib.cli.banner-mode=white
+```
+
+コマンドライン引数は（Spring Boot自体のプロパティソースの優先順位により）常に
+`application.properties`より優先されるため、ユーザごとに使うターミナルの配色が異なる場合でも、
+実行時に個別に上書きできます。
 
 ```
-java -jar your-app.jar --jp.ecuacion.splib.cli.banner-mode=off
-```
-
-または`application.properties`で：
-
-```
-jp.ecuacion.splib.cli.banner-mode=off
+java -jar your-app.jar --jp.ecuacion.splib.cli.banner-mode=black
 ```
