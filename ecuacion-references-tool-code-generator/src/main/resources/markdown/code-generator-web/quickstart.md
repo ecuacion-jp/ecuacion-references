@@ -1,6 +1,6 @@
 This assumes [Setup](page?id=code-generator-web/setup&lang=en) has been completed.
 
-## Running Locally
+## Steps
 
 ### 1. Minimum Configuration of the DB Definition Book
 
@@ -44,20 +44,4 @@ source.zip
         resources/
           item_names_base.properties
           messages_base.properties
-          (plus _<lang> variants such as messages_base_en.properties for each
-          additional language configured in the General Settings sheet)
 ```
-
-### 5. Integrate the Generated Code
-
-Extract the ZIP and copy the contents of `src/main/java/` into the corresponding directory of your target project.
-Likewise, copy the contents of `src/main/resources/` into the corresponding directory of your target project.
-
----
-
-## Checking Errors
-
-If the uploaded Excel file has configuration issues, an error message is displayed at the top of the page.
-Review the error message and fix the DB Definition Book accordingly.
-
-Detailed logs are available in the application log file (or console).

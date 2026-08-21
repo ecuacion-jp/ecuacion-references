@@ -41,13 +41,4 @@ products/my-project/
       resources/
         item_names_base.properties
         messages_base.properties
-        (plus _<lang> variants such as messages_base_en.properties for each
-        additional language configured in the General Settings sheet)
 ```
-
-### 4. Integrate the Generated Code
-
-Copy the contents of `src/main/java/` into the corresponding directory of your target project.
-Likewise, copy the contents of `src/main/resources/` into the corresponding directory of your target project.
-
-For a concrete example of this integration, see [qiita-data-viewer](https://github.com/ecuacion-jp/qiita-data-viewer).

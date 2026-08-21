@@ -69,15 +69,15 @@ Excel ファイルには以下の 4 つのシートがあります。
 | Expiration Check: Timestamp Column Data Type | 列のデータ型。`LocalDateTime`（timestamp without time zone）または `OffsetDateTime`（timestamp with time zone） |
 | Expiration Check: Validity Days | 何日前以前のレコードを対象にするか（整数） |
 
-### ソフトデリート用列（ソフトデリート時のみ）
+### Soft delete（論理削除）用列（soft delete 時のみ）
 
 `Soft / Hard Delete (internal value)` が `SOFT_DELETE` の場合のみ使用します。
 
 | 列名 | 必須 | 説明 |
 | --- | --- | --- |
-| Soft Delete Column Name | ○（ソフトデリート時） | 削除フラグ列の名前（`bool` 型の列）。`true` に更新される |
-| Soft Delete: Update Timestamp Column Name | — | ソフトデリート時に更新するタイムスタンプ列の名前 |
-| Soft Delete: Update User ID Column Name | — | ソフトデリート時に更新するユーザ ID 列の名前 |
+| Soft Delete Column Name | ○（soft delete 時） | 削除フラグ列の名前（`bool` 型の列）。`true` に更新される |
+| Soft Delete: Update Timestamp Column Name | — | soft delete 時に更新するタイムスタンプ列の名前 |
+| Soft Delete: Update User ID Column Name | — | soft delete 時に更新するユーザ ID 列の名前 |
 | Soft Delete: Update User ID Column Literal Symbol | △ | ユーザ ID 列の値にクォートが必要かどうか。`(none)` または `quotes(')` |
 | Soft Delete: Update User ID Column Value | △ | ユーザ ID 列にセットする値 |
 
@@ -110,15 +110,15 @@ Excel ファイルには以下の 4 つのシートがあります。
 | Related Table ID Column Name | ○ | 関連テーブルの ID 列（主キーまたはユニークインデックス）の名前 |
 | Related Table ID Column Literal Symbol | ○ | 関連テーブルの ID 列にクォートが必要かどうか。`(none)` または `quotes(')` |
 
-**DELETE パターンのソフトデリート設定（任意）**
+**DELETE パターンの soft delete 設定（任意）**
 
-関連テーブルのレコードをソフトデリートする場合は以下の列も設定します。
+関連テーブルのレコードを soft delete する場合は以下の列も設定します。
 
 | 列名 | 説明 |
 | --- | --- |
 | Soft Delete Column Name | 関連テーブルの削除フラグ列 |
-| Soft Delete: Update Timestamp Column Name | ソフトデリート時に更新するタイムスタンプ列 |
-| Soft Delete: Update User ID Column Name | ソフトデリート時に更新するユーザ ID 列 |
+| Soft Delete: Update Timestamp Column Name | soft delete 時に更新するタイムスタンプ列 |
+| Soft Delete: Update User ID Column Name | soft delete 時に更新するユーザ ID 列 |
 | Soft Delete: Update User ID Column Literal Symbol | ユーザ ID 列のクォート要否 |
 | Soft Delete: Update User ID Column Value | ユーザ ID 列にセットする値 |
 

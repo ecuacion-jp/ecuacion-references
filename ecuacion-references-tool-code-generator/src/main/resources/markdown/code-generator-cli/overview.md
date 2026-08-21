@@ -5,3 +5,5 @@
 1. The DB Definition Book (xlsx) placed in `excel-format/` is read
 2. It is executed via `java -jar`
 3. Java source files are written to `products/<SYSTEM_NAME>/`
+
+\* Move the generated files into your target project's `src/main/java/` and `src/main/resources/` directories to use them as code.

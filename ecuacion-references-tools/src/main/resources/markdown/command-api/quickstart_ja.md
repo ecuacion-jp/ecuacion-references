@@ -1,7 +1,5 @@
 [セットアップ](page?id=command-api/setup&lang=ja) が完了していることを前提とします。
 
-## 単独で起動して使う
-
 ### 1. スクリプトの準備
 
 Linux/macOS の場合、任意のディレクトリに `sayHello.sh` を作成します。
@@ -29,7 +27,7 @@ type nul > C:\path\to\script\directory\touch.file
 
 ### 2. スクリプトを properties に登録する
 
-WAR と同じディレクトリに `ecuacion-tool-command-api.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja#ecuacion-tool-command-api-properties)を参照）。
+WAR と同じディレクトリに `ecuacion-tool-command-api-scripts.properties` を作成し、以下を追記します（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja#ecuacion-tool-command-api-scripts-properties)を参照）。
 
 ```properties
 script.say-hello=GET:/path/to/script/directory/sayHello.sh
@@ -41,7 +39,7 @@ script.say-hello=GET:/path/to/script/directory/sayHello.sh
 
 ### 3. このクイックスタート用にアクセスを許可する
 
-デフォルトでは `api/public/executeScript` へのアクセスは無効化されています（[アクセス制御](page?id=command-api/access-control&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、WAR と同じディレクトリに `application.properties` を作成し、以下を追記してください（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja#application-properties)を参照）。
+デフォルトでは `api/public/execute` へのアクセスは無効化されています（[アクセス制御](page?id=command-api/access-control&lang=ja#アクセス制御)を参照）。このローカルでのクイックスタートでは、WAR と同じディレクトリに `application.properties` を作成し、以下を追記してください（配置ルールの詳細は[設定ファイル](page?id=command-api/config&lang=ja#application-properties)を参照）。
 
 ```properties
 jp.ecuacion.tool.command-api.api-key-required=false
@@ -51,7 +49,7 @@ jp.ecuacion.tool.command-api.api-key-required=false
 
 ### 4. アプリを起動する
 
-WAR を配置したディレクトリで以下を実行します。ここまでの手順で配置した `sayHello.sh` ・ `ecuacion-tool-command-api.properties` ・ `application.properties` は、起動時に読み込まれます（アプリ起動後にこれらのファイルを追加・変更した場合は、反映のためにアプリの再起動が必要です）。
+WAR を配置したディレクトリで以下を実行します。
 
 ```bash
 java -jar ecuacion-tool-command-api-x.x.x.war
@@ -62,7 +60,7 @@ java -jar ecuacion-tool-command-api-x.x.x.war
 以下の URL にアクセスします。
 
 ```
-http://localhost:8080/api/public/executeScript?scriptId=script.say-hello
+http://localhost:8080/api/public/execute?scriptId=script.say-hello
 ```
 
 成功すると以下のような JSON レスポンスが返ります。
@@ -76,7 +74,3 @@ http://localhost:8080/api/public/executeScript?scriptId=script.say-hello
 ```
 
 `stdout` に `Hello!` が含まれ、`/path/to/script/directory/touch.file` が作成されていれば動作確認完了です。
-
----
-
-パラメータの渡し方、スクリプトパスへの環境変数の使用、エラーの確認方法など、APIの他の呼び出し方については[利用パターン](page?id=command-api/usage-patterns&lang=ja)を参照してください。

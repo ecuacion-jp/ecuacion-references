@@ -1,7 +1,5 @@
 [Setup](page?id=command-api/setup&lang=en) is assumed to be complete.
 
-## Run It Standalone
-
 ### 1. Prepare the Script
 
 On Linux or macOS, create `sayHello.sh` in any directory:
@@ -29,7 +27,7 @@ type nul > C:\path\to\script\directory\touch.file
 
 ### 2. Register the Script in the Properties File
 
-Create `ecuacion-tool-command-api.properties` next to the WAR and add the following (see [Configuration Files](page?id=command-api/config&lang=en) for every supported location):
+Create `ecuacion-tool-command-api-scripts.properties` next to the WAR and add the following (see [Configuration Files](page?id=command-api/config&lang=en) for every supported location):
 
 ```properties
 script.say-hello=GET:/path/to/script/directory/sayHello.sh
@@ -41,17 +39,17 @@ The leading `GET:` makes this script callable via `GET` (omitting the prefix wou
 
 ### 3. Allow Access for This Quickstart
 
-By default, access to `api/public/executeScript` is disabled (see [Access Control](page?id=command-api/access-control&lang=en#access-control)). For this local quickstart, add the following to `application.properties` (placed as described in [Configuration Files](page?id=command-api/config&lang=en)):
+By default, access to `api/public/execute` is disabled (see [Access Control](page?id=command-api/access-control&lang=en#access-control)). For this local quickstart, add the following to `application.properties` (placed as described in [Configuration Files](page?id=command-api/config&lang=en)):
 
 ```properties
 jp.ecuacion.tool.command-api.api-key-required=false
 ```
 
-(For production use, don't set this to `false` — instead, explicitly set `jp.ecuacion.tool.command-api.api-key-required=true` (leaving it unset also defaults to `true`, but logs a warning at startup, so setting it explicitly is recommended) and call `api/key/executeScript` with an `X-Api-Key` header. See [API Spec](page?id=command-api/api-spec&lang=en).)
+(For production use, don't set this to `false` — instead, explicitly set `jp.ecuacion.tool.command-api.api-key-required=true` (leaving it unset also defaults to `true`, but logs a warning at startup, so setting it explicitly is recommended) and call `api/key/execute` with an `X-Api-Key` header. See [API Spec](page?id=command-api/api-spec&lang=en).)
 
 ### 4. Start the App
 
-Run the following in the directory where you placed the WAR. The `sayHello.sh`, `ecuacion-tool-command-api.properties`, and `application.properties` files placed in the steps above are read at startup (if you add or change these files after the app has started, restart the app to apply the change):
+Run the following in the directory where you placed the WAR:
 
 ```bash
 java -jar ecuacion-tool-command-api-x.x.x.war
@@ -62,7 +60,7 @@ java -jar ecuacion-tool-command-api-x.x.x.war
 Access the following URL:
 
 ```
-http://localhost:8080/api/public/executeScript?scriptId=script.say-hello
+http://localhost:8080/api/public/execute?scriptId=script.say-hello
 ```
 
 On success, you will receive a JSON response like:
@@ -76,7 +74,3 @@ On success, you will receive a JSON response like:
 ```
 
 If `stdout` contains `Hello!` and `/path/to/script/directory/touch.file` has been created, the setup is working correctly.
-
----
-
-For more ways to call the API — passing parameters, using environment variables in script paths, and checking errors — see [Usage Patterns](page?id=command-api/usage-patterns&lang=en).

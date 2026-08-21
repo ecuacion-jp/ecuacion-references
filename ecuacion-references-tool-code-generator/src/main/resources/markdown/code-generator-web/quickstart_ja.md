@@ -1,6 +1,6 @@
 [セットアップ](page?id=code-generator-web/setup&lang=ja) が完了していることを前提とします。
 
-## ローカルで起動して使う
+## 手順
 
 ### 1. DB項目定義書の最低限の設定
 
@@ -44,20 +44,4 @@ source.zip
         resources/
           item_names_base.properties
           messages_base.properties
-          （各種設定シートで追加言語を設定した場合、messages_base_en.properties のような
-          _<言語> 付きファイルも追加で生成される）
 ```
-
-### 5. 生成コードをプロジェクトに取り込む
-
-ZIP を展開し、`src/main/java/` 以下を対象プロジェクトの `src/main/java/` に配置します。
-同様に、`src/main/resources/` 以下も対象プロジェクトの `src/main/resources/` に配置します。
-
----
-
-## エラーの確認方法
-
-アップロードした Excel のフォーマットに問題がある場合は、画面上部にエラーメッセージが表示されます。
-エラーメッセージを確認して DB項目定義書の設定を修正してください。
-
-詳細なログはアプリケーションのログファイル（またはコンソール）で確認できます。

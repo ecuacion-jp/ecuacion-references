@@ -4,7 +4,7 @@ It can run as a standalone executable WAR, or be deployed to an existing applica
 ## Key Features
 
 - Execute server-side scripts with a single HTTP GET request
-- Only scripts pre-registered in `ecuacion-tool-command-api.properties` can be executed (security measure)
+- Only scripts pre-registered in `ecuacion-tool-command-api-scripts.properties` can be executed (security measure)
 - Supports environment variable references (`${ENV_VAR}`) in script paths
 - Supports passing parameters to scripts
 - Returns the script's exit code in the response
@@ -12,4 +12,3 @@ It can run as a standalone executable WAR, or be deployed to an existing applica
 ## Use Cases
 
 - Triggering batch processing on the server via HTTP calls from other systems
-- Launching server operations that cannot be performed through a web app directly (e.g., file generation and placement)

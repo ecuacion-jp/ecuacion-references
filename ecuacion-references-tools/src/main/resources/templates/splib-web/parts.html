@@ -33,8 +33,14 @@
 					@{/public/showMarkdown/page(id='command-api/config',lang=${lang})},
 					#{navBar.ca.config}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='command-api/access-control',lang=${lang})},
+					#{navBar.ca.accessControl}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='command-api/api-spec',lang=${lang})},
 					#{navBar.ca.apiSpec}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='command-api/security',lang=${lang})},
+					#{navBar.ca.security}, '')}"></div>
 
 		</div></th:block>
 

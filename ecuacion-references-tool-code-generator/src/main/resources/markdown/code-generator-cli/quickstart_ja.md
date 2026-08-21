@@ -41,13 +41,4 @@ products/my-project/
       resources/
         item_names_base.properties
         messages_base.properties
-        （各種設定シートで追加言語を設定した場合、messages_base_en.properties のような
-        _<言語> 付きファイルも追加で生成される）
 ```
-
-### 4. 生成コードをプロジェクトに取り込む
-
-出力された `src/main/java/` 以下を、対象プロジェクトの `src/main/java/` に配置します。
-同様に、出力された `src/main/resources/` 以下も、対象プロジェクトの `src/main/resources/` に配置します。
-
-具体的な取り込み例は、[qiita-data-viewer](https://github.com/ecuacion-jp/qiita-data-viewer) などをご参照ください。

@@ -1,37 +1,8 @@
+このページでは、`ecuacion-tool-command-api` が使用する3つの設定ファイル — `application.properties` ・ `ecuacion-tool-command-api-scripts.properties` ・ `logback-spring.xml` — とその配置方法について説明します。
+
 ## application.properties
 
-Spring Boot の外部設定ファイルは以下の優先順位で読み込まれます（上位が下位を上書き）。
-
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | `-Dspring.config.location=...` で指定したパス |
-| 2 | WAR と同じディレクトリの `config/application.properties` |
-| 3（低） | WAR と同じディレクトリの `application.properties` |
-
-> **Note:** 外部ファイルは埋め込み設定を**置き換えるのではなく、マージ**されます。外部ファイルで明示的に定義したキーのみが上書きされ、それ以外の埋め込み設定はそのまま有効です。
-
-> **Note:** このファイルの変更は、`ecuacion-splib-rest` の `clearPropertiesCache` エンドポイント（`POST /api/ecuacion-splib/key/clearPropertiesCache`）を呼ぶことでアプリを再起動せずに反映できます。仕組みと制限事項については[運用系エンドポイント](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=rest/operational-endpoints&lang=ja)を参照してください。このエンドポイント自体の認証は、以下で説明する `api-key-file-path` のキーとは別の、組み込み専用のAPIキーで行われます。
-
-### 配置（任意）
-
-WAR と同じディレクトリ、または `config/` サブディレクトリに配置します。
-
-```
-/your-work-dir/
-├── ecuacion-tool-command-api-x.x.x.war
-├── application.properties   ← 埋め込み設定を上書き
-└── config/
-    └── application.properties   ← こちらでも可（優先度高）
-```
-
-特定のパスを明示したい場合はシステムプロパティで指定します。
-
-```bash
-java -Dspring.config.location=file:/path/to/your/config/ \
-     -jar ecuacion-tool-command-api-x.x.x.war
-```
-
-> **Note:** 単一ファイルを指定すると、そのファイルだけが読み込まれます。`ecuacion-tool-command-api.properties`（後述）も同時に外部化したい場合は、単一ファイルではなく**ディレクトリ**を指定してください。
+本ファイルの読み取りはcommand-api独自の仕組みではなく、Spring Bootの機能です。`application.yml` / `application.yaml` でも全く同じように動作します。網羅的な説明は[Spring Boot公式リファレンス](https://docs.spring.io/spring-boot/reference/features/external-config.html)を参照してください。配置場所については下記の[ファイルの配置](#ファイルの配置)を参照してください。
 
 ### 設定できる項目
 
@@ -41,9 +12,9 @@ java -Dspring.config.location=file:/path/to/your/config/ \
 
 | プロパティ | 型 | 説明 |
 | --- | --- | --- |
-| `jp.ecuacion.tool.command-api.api-key-required` | boolean | `api/public/executeScript` を無効化し、代わりに `api/key/executeScript` と有効な `X-Api-Key` ヘッダを必須にするかどうか。デフォルト: `true`。 |
+| `jp.ecuacion.tool.command-api.api-key-required` | boolean | `api/public/execute` を無効化し、代わりに `api/key/execute` と有効な `X-Api-Key` ヘッダを必須にするかどうか。デフォルト: `true`。 |
 | `jp.ecuacion.tool.command-api.api-key-file-path` | String | `X-Api-Key` と照合する共有シークレットが書かれたファイルのパス。 |
-| `jp.ecuacion.tool.command-api.api-key-comparison-mode` | String | api-key ファイルの各行を平文（`PLAIN`）またはbcryptハッシュ（`BCRYPT`）のどちらとして比較するか。デフォルト: `PLAIN`。 |
+| `jp.ecuacion.tool.command-api.api-key-comparison-mode` | String | api-key ファイルの各行を平文（`PLAIN`）またはbcryptハッシュ（`BCRYPT`）のどちらとして比較するか。デフォルト: `BCRYPT`。 |
 
 各プロパティの詳細、およびapi-keyファイル自体の管理方法については[アクセス制御](page?id=command-api/access-control&lang=ja)を参照してください。
 
@@ -54,45 +25,18 @@ java -Dspring.config.location=file:/path/to/your/config/ \
 
 ---
 
-## ecuacion-tool-command-api.properties
+## ecuacion-tool-command-api-scripts.properties
 
-スクリプト登録用の設定ファイルです。`application.properties` と全く同じ優先順位・配置ルールで読み込まれます。
-
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | `-Dspring.config.location=...` で指定したパス |
-| 2 | WAR と同じディレクトリの `config/ecuacion-tool-command-api.properties` |
-| 3（低） | WAR と同じディレクトリの `ecuacion-tool-command-api.properties` |
-
-> **Note:** `application.properties` とは異なり、このファイルの変更は `clearPropertiesCache` エンドポイントでは反映**されません**。理由については[運用系エンドポイント](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=rest/operational-endpoints&lang=ja)を参照してください（`ContextRefresher` は `spring.config.name` の1番目＝プライマリしか確実にはリロードせず、このファイルは2番目以降の設定名として登録されているため）。スクリプト登録の変更を反映するにはアプリの再起動が必要です。
-
-### 配置
-
-WAR と同じディレクトリ、または `config/` サブディレクトリに配置します。
-
-```
-/your-work-dir/
-├── ecuacion-tool-command-api-x.x.x.war
-├── ecuacion-tool-command-api.properties   ← スクリプト登録
-└── config/
-    └── ecuacion-tool-command-api.properties   ← こちらでも可（優先度高）
-```
-
-特定のパスを明示したい場合はシステムプロパティで指定します。単一ファイルを指定すると、そのファイルだけが読み込まれます。`application.properties` も同時に外部化したい場合は、単一ファイルではなく**ディレクトリ**を指定してください。
-
-```bash
-java -Dspring.config.location=file:/path/to/your/config/ \
-     -jar ecuacion-tool-command-api-x.x.x.war
-```
+スクリプト登録用の設定ファイルです。配置ルールは `application.properties` と同じです（下記の[ファイルの配置](#ファイルの配置)を参照）。
 
 ### 設定できる項目
 
 #### スクリプトの登録
 
-`ecuacion-tool-command-api.properties` に以下の形式でスクリプトを登録します。
+`ecuacion-tool-command-api-scripts.properties` に以下の形式でスクリプトを登録します。
 
 ```properties
-script.<スクリプトID>=<スクリプトの絶対パス>
+<スクリプトID>=<スクリプトの絶対パス>
 ```
 
 例:
@@ -104,7 +48,7 @@ script.daily-batch=/opt/scripts/dailyBatch.sh
 
 #### 許可するHTTPメソッドの指定
 
-スクリプト定義の値の先頭に `GET:` / `POST:` / `ALL:`（大文字小文字を区別しない）を付けると、`api/public/executeScript`（有効化されている場合）・`api/key/executeScript` の両方で、そのスクリプトを呼び出せるHTTPメソッドを制限できます。プレフィックスを省略した場合は `POST` のみ許可されます。
+スクリプト定義の値の先頭に `GET:` / `POST:` / `ALL:`（大文字小文字を区別しない）を付けると、`api/public/execute`（有効化されている場合）・`api/key/execute` の両方で、そのスクリプトを呼び出せるHTTPメソッドを制限できます。プレフィックスを省略した場合は `POST` のみ許可されます。
 
 ```properties
 script.say-hello=GET:/opt/scripts/sayHello.sh
@@ -120,7 +64,7 @@ script.legacy-job=/opt/scripts/legacyJob.sh
 | `script.status-check` | `GET` ・ `POST` いずれも |
 | `script.legacy-job` | `POST` のみ（プレフィックス省略時のデフォルト） |
 
-> **Note:** このプレフィックスは `api/public/executeScript` と `api/key/executeScript` の両方に同じルールで適用されます。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` ヘッダによる認証が必須かどうかだけです。
+> **Note:** このプレフィックスは `api/public/execute` と `api/key/execute` の両方に同じルールで適用されます。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` ヘッダによる認証が必須かどうかだけです。
 
 #### 環境変数の使用
 
@@ -134,36 +78,7 @@ script.say-hello=${SCRIPT_DIR}/sayHello.sh
 
 ## logback-spring.xml
 
-Logback の設定ファイルは以下の優先順位で読み込まれます。
-
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | `-Dlogging.config=...` で指定したパス |
-| 2 | カレントディレクトリの `config/logback-spring.xml` |
-| 3（低） | カレントディレクトリ直下の `logback-spring.xml` |
-
-> **Note:** 優先度2・3の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。WAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「WAR と同じディレクトリ」基準になります。別のディレクトリから起動する場合は、そちらのディレクトリ基準で探索される点に注意してください。
->
-> 優先度2・3はSpring Boot自体の機能ではなく、`ecuacion-splib-core`（`SplibEnvironmentPostProcessor`）が提供する ecuacion 独自の拡張です。`application.properties`と挙動を揃えるために、`config/`とカレントディレクトリ直下の両方を自動的に見るようにしています。
-
-### 配置
-
-`config/` サブディレクトリ、またはアプリの起動元のカレントディレクトリ直下に配置します（上記のNote参照）。
-
-```
-/your-work-dir/
-├── ecuacion-tool-command-api-x.x.x.war
-├── logback-spring.xml   ← こちらでも可
-└── config/
-    └── logback-spring.xml   ← こちらが優先度高
-```
-
-特定のパスを明示したい場合はシステムプロパティで指定します。
-
-```bash
-java -Dlogging.config=file:/path/to/logback-spring.xml \
-     -jar ecuacion-tool-command-api-x.x.x.war
-```
+Logbackの設定ファイルです。配置方法は下記の[ファイルの配置](#ファイルの配置)を参照してください。
 
 ### 設定例
 
@@ -201,11 +116,63 @@ java -Dlogging.config=file:/path/to/logback-spring.xml \
 
 ---
 
-## 既存の Tomcat 等にデプロイする場合
+## ファイルの配置
+
+この3つのファイルをどこに置くかは、`ecuacion-tool-command-api` の起動方法によって異なります — 起動方法自体については[起動方法](page?id=command-api/launch-patterns&lang=ja)を参照してください。
+
+> **Note:** `application.properties` の変更は、`ecuacion-splib-rest` の `clearPropertiesCache` エンドポイント（詳細は[運用系エンドポイント](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=rest/operational-endpoints&lang=ja)を参照）を呼ぶことでアプリを再起動せずに反映できます。一方 `ecuacion-tool-command-api-scripts.properties` の変更はこのエンドポイントでは反映**されません**（`ContextRefresher` は `spring.config.name` の1番目＝プライマリしか確実にはリロードせず、このファイルは2番目以降の設定名として登録されているため）— スクリプト登録の変更を反映するにはアプリの再起動が必要です。
+
+### 単独で起動する場合
+
+2つの`.properties`ファイルの配置ルールは、command-api独自ではなく素のSpring Bootの外部設定機能です。`logback-spring.xml`も*ほぼ*同じですが、こちらはSpring Boot自体には同等の探索機能が無いため、`ecuacion-splib-core`が拡張として提供しています。いずれも配置ルールの考え方は共通で、システムプロパティによるパス指定・`config`サブディレクトリ・デフォルトの配置場所の3段階です（後者2つはいずれもアプリの起動元のカレントディレクトリ基準で解決されます）。
+
+<table>
+<thead>
+<tr><th>ファイル</th><th>優先度1（高）</th><th>優先度2</th><th>優先度3（低）</th></tr>
+</thead>
+<tbody>
+<tr><td><code>application.properties</code></td><td rowspan="2"><code>-Dspring.config.location=...</code> で指定したパス</td><td rowspan="3"><code>config</code> サブディレクトリ</td><td rowspan="3">同じディレクトリ</td></tr>
+<tr><td><code>ecuacion-tool-command-api-scripts.properties</code></td></tr>
+<tr><td><code>logback-spring.xml</code></td><td><code>-Dlogging.config=...</code> で指定したパス</td></tr>
+</tbody>
+</table>
+
+例として `application.properties` の場合（他の2つも同じ考え方で、ファイル名を読み替えるだけです）:
+
+```
+/your-work-dir/
+├── ecuacion-tool-command-api-x.x.x.war
+├── application.properties   ← 優先度3
+└── config/
+    └── application.properties   ← 優先度2（こちらが優先）
+```
+
+特定のパスを明示したい場合はシステムプロパティで指定します。
+
+```bash
+java -Dspring.config.location=file:/path/to/your/config/ \
+     -jar ecuacion-tool-command-api-x.x.x.war
+```
+
+> **Note:** `-Dspring.config.location` は2つの `.properties` ファイル両方に効きます。単一ファイルを指定するとそのファイルだけが読み込まれるので、`application.properties` と `ecuacion-tool-command-api-scripts.properties` を両方外部化したい場合は**ディレクトリ**を指定してください。`logback-spring.xml` は専用のシステムプロパティ（上の表の `-Dlogging.config`）を使い、`-Dspring.config.location` の影響は受けません。
+
+### 既存の Tomcat 等にデプロイする場合
 
 WAR と同じディレクトリという概念がないため、代わりに Spring Boot の `classpath:` 探索に乗せる形で外部ディレクトリを認識させます。方法は2つあります。
 
-### 方法1 — `setenv.sh` で `CLASSPATH` を指定
+#### 方法1 — `jp.ecuacion.tool.command-api.app-conf-dir` によるアプリ個別のディレクトリ指定
+
+`jp.ecuacion.tool.command-api.app-conf-dir` システムプロパティで指定したディレクトリがclasspathとして設定されます。未指定の場合は `${catalina.base}/app-conf/ecuacion-tool-command-api` が使われます。
+個別アプリごとにclasspathのディレクトリを設定できるため、複数のアプリを同じ Tomcat に同居させても設定ファイルが混ざりません。
+
+`${CATALINA_HOME}/bin/setenv.sh` で `CATALINA_OPTS` として指定するのが一般的です。
+
+```bash
+CATALINA_OPTS="$CATALINA_OPTS -Djp.ecuacion.tool.command-api.app-conf-dir=/path/to/config/dir"
+export CATALINA_OPTS
+```
+
+#### 方法2 — `setenv.sh` で `CLASSPATH` を指定
 
 Tomcat の場合は `${CATALINA_HOME}/bin/setenv.sh` を作成（または編集）します。
 
@@ -214,41 +181,6 @@ CLASSPATH=/path/to/classpath/directory
 export CLASSPATH
 ```
 
-このディレクトリに置いた `application.properties` / `ecuacion-tool-command-api.properties` は、Spring Boot の `classpath:` 探索により自動的にマージされます。`logback-spring.xml` を差し替えたい場合は、この場合も引き続き `-Dlogging.config` でパスを明示してください。
+このディレクトリに置いた `application.properties` / `ecuacion-tool-command-api-scripts.properties` は、Spring Boot の `classpath:` 探索により自動的にマージされます。`logback-spring.xml` を差し替えたい場合は、この場合も引き続き `-Dlogging.config` でパスを明示してください。
 
-> **Note:** `CLASSPATH` は Tomcat プロセス全体で共有されます。同じ Tomcat に複数の ecuacion 製アプリ（例: `ecuacion-tool-command-api` と `ecuacion-tool-code-generator`）を同居させる場合、設定ファイルを置くディレクトリが共用されてしまい扱いにくくなります。アプリごとに設定を分けたい場合は方法2を使ってください。
-
-### 方法2 — `META-INF/context.xml` でアプリ個別のディレクトリを指定（推奨）
-
-`setenv.sh` を編集する必要がなく、複数の ecuacion 製アプリを同じ Tomcat に同居させても設定ファイルが混ざりません。`ecuacion-tool-command-api` の WAR には、あらかじめ以下の内容の `META-INF/context.xml` が同梱されています。
-
-```xml
-<Context>
-	<Resources>
-		<PreResources className="org.apache.catalina.webresources.DirResourceSet"
-				base="${catalina.base}/app-conf/ecuacion-tool-command-api"
-				webAppMount="/WEB-INF/classes"
-				readOnly="true"/>
-		<PreResources className="org.apache.catalina.webresources.DirResourceSet"
-				base="${catalina.base}/app-conf"
-				webAppMount="/WEB-INF/classes"
-				readOnly="true"/>
-	</Resources>
-</Context>
-```
-
-アプリ個別のディレクトリ（`app-conf/ecuacion-tool-command-api`）に加えて、共用の `app-conf` 直下も併せてマウントされています。両方に同名のファイルがあった場合はアプリ個別側が優先され、片方にしかないファイルもそのまま認識されます（ディレクトリ単位のオーバーレイ）。
-
-- **この Tomcat に `ecuacion-tool-command-api` の WAR しかデプロイしない場合**: `app-conf` 直下に直接設定ファイルを置けば十分です（`app-conf/ecuacion-tool-command-api/` の深い階層を作らなくて済みます）。
-- **複数の ecuacion 製アプリを同居させる場合**: アプリごとに設定を分けたいファイルは `app-conf/ecuacion-tool-command-api/` に置いてください（`app-conf` 直下より優先されます）。
-
-> **PREREQUISITE:** デプロイ前に、サーバー上に以下のディレクトリを作成しておく必要があります。存在しない状態でデプロイすると、Tomcat が `IllegalArgumentException` で起動に失敗します。
->
-> ```
-> ${catalina.base}/app-conf/ecuacion-tool-command-api/
->   (例: /usr/local/tomcat/app-conf/ecuacion-tool-command-api/)
-> ```
->
-> `mkdir -p` でこのディレクトリを作成すれば、親の `${catalina.base}/app-conf/` も同時に作られるため、実質コマンド1回で両方の前提条件を満たせます。
-
-このディレクトリに `application.properties` / `ecuacion-tool-command-api.properties` / `logback-spring.xml` を置くと、いずれも自動的に認識されます（`logback-spring.xml` についても、この方式では `-Dlogging.config` の指定は不要です）。
+> **Note:** `CLASSPATH` は Tomcat プロセス全体で共有されます。同じ Tomcat に複数の ecuacion 製アプリ（例: `ecuacion-tool-command-api` と `ecuacion-tool-code-generator`）を同居させる場合、設定ファイルを置くディレクトリが共用されてしまい扱いにくくなります。アプリごとに設定を分けたい場合は方法1を使ってください。

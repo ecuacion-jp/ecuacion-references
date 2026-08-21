@@ -1,37 +1,12 @@
+このページでは、`ecuacion-tool-code-generator-web` が使用する2つの設定ファイル — `application.properties` ・ `logback-spring.xml` — とその配置方法について説明します。
+
 ## application.properties
 
-Spring Boot の外部設定ファイルは以下の優先順位で読み込まれます（上位が下位を上書き）。
-
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | `-Dspring.config.location=...` で指定したパス |
-| 2 | WAR と同じディレクトリの `config/application.properties` |
-| 3（低） | WAR と同じディレクトリの `application.properties` |
-
-> **Note:** 作成する `application.properties` には、変更したい設定項目だけを記述すれば十分です。記述しなかった項目は、以下に記載のデフォルト値のまま動作します。
-
-### カスタム application.properties を使う場合
-
-WAR と同じディレクトリ、または `config/` サブディレクトリに配置します。
-
-```
-/your-work-dir/
-├── ecuacion-tool-code-generator-web-x.x.x.war
-├── application.properties          ← 埋め込み設定を上書き
-└── config/
-    └── application.properties      ← こちらでも可（優先度高）
-```
-
-特定のパスを明示したい場合はシステムプロパティで指定します。
-
-```bash
-java -Dspring.config.location=file:/path/to/your/application.properties \
-     -jar ecuacion-tool-code-generator-web-x.x.x.war
-```
+本ファイルの読み取りはcode-generator-web独自の仕組みではなく、Spring Bootの機能です。配置場所については下記の[ファイルの配置](#ファイルの配置)を参照してください。
 
 ### 設定できる項目
 
-追加の設定は `application.properties` に記述してください。
+追加の設定は `application.properties` に記述してください。作成するファイルには、変更したい設定項目だけを記述すれば十分です。記述しなかった項目は、以下に記載のデフォルト値のまま動作します。
 
 #### アプリ設定
 
@@ -50,53 +25,7 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 
 ## logback-spring.xml
 
-Logback の設定ファイルは以下の優先順位で読み込まれます。
-
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | `-Dlogging.config=...` で指定したパス |
-| 2 | カレントディレクトリの `config/logback-spring.xml` |
-| 3（低） | カレントディレクトリ直下の `logback-spring.xml` |
-
-> **Note:** 優先度2・3の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。WAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「WAR と同じディレクトリ」基準になります。別のディレクトリから起動する場合は、そちらのディレクトリ基準で探索される点に注意してください。
->
-> 優先度2・3はSpring Boot自体の機能ではなく、`ecuacion-splib-core`（`SplibEnvironmentPostProcessor`）が提供する ecuacion 独自の拡張です。`application.properties`と挙動を揃えるために、`config/`とカレントディレクトリ直下の両方を自動的に見るようにしています。
-
-### カスタム logback-spring.xml を使う場合
-
-**方法 1 — `config/` サブディレクトリに配置（推奨）:**
-
-```
-/your-work-dir/
-├── ecuacion-tool-code-generator-web-x.x.x.war
-└── config/
-    └── logback-spring.xml
-```
-
-```bash
-cd /your-work-dir
-java -jar ecuacion-tool-code-generator-web-x.x.x.war
-```
-
-**方法 1b — カレントディレクトリ直下に直接配置:**
-
-```
-/your-work-dir/
-├── ecuacion-tool-code-generator-web-x.x.x.war
-└── logback-spring.xml
-```
-
-```bash
-cd /your-work-dir
-java -jar ecuacion-tool-code-generator-web-x.x.x.war
-```
-
-**方法 2 — パスを明示:**
-
-```bash
-java -Dlogging.config=file:/path/to/logback-spring.xml \
-     -jar ecuacion-tool-code-generator-web-x.x.x.war
-```
+Logbackの設定ファイルです。配置方法は下記の[ファイルの配置](#ファイルの配置)を参照してください。
 
 ### 設定例
 
@@ -132,22 +61,68 @@ java -Dlogging.config=file:/path/to/logback-spring.xml \
 </configuration>
 ```
 
-主な調整ポイント:
-
-| 項目 | 変更箇所 | 主な値 |
-| --- | --- | --- |
-| 全体ログレベル | `<root level="...">` | `DEBUG`, `INFO`, `WARN`, `ERROR` |
-| パッケージ別レベル | `<logger name="..." level="...">` | 同上 |
-| ログファイルパス | `<file>` / `<fileNamePattern>` | 書き込み可能な任意のパス |
-| 保持日数 | `<maxHistory>` | 日数 |
-
 ---
 
-## 既存の Tomcat 等にデプロイする場合
+## ファイルの配置
+
+この2つのファイルをどこに置くかは、`ecuacion-tool-code-generator-web` の起動方法によって異なります。
+
+### 単独で起動する場合
+
+`application.properties` の配置ルールは、code-generator-web独自ではなく素のSpring Bootの外部設定機能です。`logback-spring.xml`も*ほぼ*同じですが、こちらはSpring Boot自体には同等の探索機能が無いため、`ecuacion-splib-core`が拡張として提供しています。いずれも配置ルールの考え方は共通で、システムプロパティによるパス指定・`config`サブディレクトリ・デフォルトの配置場所の3段階です（後者2つはいずれもアプリの起動元のカレントディレクトリ基準で解決されます）。
+
+<table>
+<thead>
+<tr><th>ファイル</th><th>優先度1（高）</th><th>優先度2</th><th>優先度3（低）</th></tr>
+</thead>
+<tbody>
+<tr><td><code>application.properties</code></td><td><code>-Dspring.config.location=...</code> で指定したパス</td><td rowspan="2"><code>config</code> サブディレクトリ</td><td rowspan="2">同じディレクトリ</td></tr>
+<tr><td><code>logback-spring.xml</code></td><td><code>-Dlogging.config=...</code> で指定したパス</td></tr>
+</tbody>
+</table>
+
+例として `application.properties` の場合（`logback-spring.xml` も同じ考え方で、ファイル名を読み替えるだけです）:
+
+```
+/your-work-dir/
+├── ecuacion-tool-code-generator-web-x.x.x.war
+├── application.properties   ← 優先度3
+└── config/
+    └── application.properties   ← 優先度2（こちらが優先）
+```
+
+特定のパスを明示したい場合はシステムプロパティで指定します。
+
+```bash
+java -Dspring.config.location=file:/path/to/your/application.properties \
+     -jar ecuacion-tool-code-generator-web-x.x.x.war
+
+java -Dlogging.config=file:/path/to/logback-spring.xml \
+     -jar ecuacion-tool-code-generator-web-x.x.x.war
+```
+
+> **Note:** 優先度2・3の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。WAR と同じディレクトリに `cd` してから起動する運用であれば、実質的に「WAR と同じディレクトリ」基準になります。別のディレクトリから起動する場合は、そちらのディレクトリ基準で探索される点に注意してください。
+
+### 既存の Tomcat 等にデプロイする場合
 
 WAR と同じディレクトリという概念がないため、代わりに Spring Boot の `classpath:` 探索に乗せる形で外部ディレクトリを認識させます。方法は2つあります。
 
-### 方法1 — `setenv.sh` で `CLASSPATH` を指定
+#### 方法1 — `jp.ecuacion.tool.code-generator.app-conf-dir` によるアプリ個別のディレクトリ指定
+
+`jp.ecuacion.tool.code-generator.app-conf-dir` システムプロパティで指定したディレクトリがclasspathとして設定されます。ディレクトリが存在しない場合は自動的に作成されるため、事前にディレクトリを用意しておく必要はありません。未設定の場合は何もマウントされず、WAR に埋め込まれた設定がそのまま使われます。
+
+個別アプリごとにclasspathのディレクトリを設定できるため、複数のアプリを同じ Tomcat に同居させても設定ファイルが混ざりません。
+
+`${CATALINA_HOME}/bin/setenv.sh` で `CATALINA_OPTS` として指定するのが一般的です。
+
+```bash
+CATALINA_OPTS="$CATALINA_OPTS -Djp.ecuacion.tool.code-generator.app-conf-dir=/path/to/config/dir"
+export CATALINA_OPTS
+```
+
+このディレクトリに `application.properties` / `logback-spring.xml` を置くと、いずれも自動的に認識されます（`logback-spring.xml` についても、この方式では `-Dlogging.config` の指定は不要です）。
+
+#### 方法2 — `setenv.sh` で `CLASSPATH` を指定
 
 Tomcat の場合は `${CATALINA_HOME}/bin/setenv.sh` を作成（または編集）します。
 
@@ -158,39 +133,4 @@ export CLASSPATH
 
 このディレクトリに置いた `application.properties` は、Spring Boot の `classpath:` 探索により自動的にマージされます。`logback-spring.xml` を差し替えたい場合は、この場合も引き続き `-Dlogging.config` でパスを明示してください。
 
-> **Note:** `CLASSPATH` は Tomcat プロセス全体で共有されます。同じ Tomcat に複数の ecuacion 製アプリ（例: `ecuacion-tool-code-generator` と `ecuacion-tool-command-api`）を同居させる場合、設定ファイルを置くディレクトリが共用されてしまい扱いにくくなります。アプリごとに設定を分けたい場合は方法2を使ってください。
-
-### 方法2 — `META-INF/context.xml` でアプリ個別のディレクトリを指定（推奨）
-
-`setenv.sh` を編集する必要がなく、複数の ecuacion 製アプリを同じ Tomcat に同居させても設定ファイルが混ざりません。`ecuacion-tool-code-generator-web` の WAR には、あらかじめ以下の内容の `META-INF/context.xml` が同梱されています。
-
-```xml
-<Context>
-	<Resources>
-		<PreResources className="org.apache.catalina.webresources.DirResourceSet"
-				base="${catalina.base}/app-conf/ecuacion-tool-code-generator"
-				webAppMount="/WEB-INF/classes"
-				readOnly="true"/>
-		<PreResources className="org.apache.catalina.webresources.DirResourceSet"
-				base="${catalina.base}/app-conf"
-				webAppMount="/WEB-INF/classes"
-				readOnly="true"/>
-	</Resources>
-</Context>
-```
-
-アプリ個別のディレクトリ（`app-conf/ecuacion-tool-code-generator`）に加えて、共用の `app-conf` 直下も併せてマウントされています。両方に同名のファイルがあった場合はアプリ個別側が優先され、片方にしかないファイルもそのまま認識されます（ディレクトリ単位のオーバーレイ）。
-
-- **この Tomcat に `ecuacion-tool-code-generator-web` の WAR しかデプロイしない場合**: `app-conf` 直下に直接設定ファイルを置けば十分です（`app-conf/ecuacion-tool-code-generator/` の深い階層を作らなくて済みます）。
-- **複数の ecuacion 製アプリを同居させる場合**: アプリごとに設定を分けたいファイルは `app-conf/ecuacion-tool-code-generator/` に置いてください（`app-conf` 直下より優先されます）。
-
-> **PREREQUISITE:** デプロイ前に、サーバー上に以下のディレクトリを作成しておく必要があります。存在しない状態でデプロイすると、Tomcat が `IllegalArgumentException` で起動に失敗します。
->
-> ```
-> ${catalina.base}/app-conf/ecuacion-tool-code-generator/
->   (例: /usr/local/tomcat/app-conf/ecuacion-tool-code-generator/)
-> ```
->
-> `mkdir -p` でこのディレクトリを作成すれば、親の `${catalina.base}/app-conf/` も同時に作られるため、実質コマンド1回で両方の前提条件を満たせます。
-
-このディレクトリに `application.properties` / `logback-spring.xml` を置くと、いずれも自動的に認識されます（`logback-spring.xml` についても、この方式では `-Dlogging.config` の指定は不要です）。
+> **Note:** `CLASSPATH` は Tomcat プロセス全体で共有されます。同じ Tomcat に複数の ecuacion 製アプリ（例: `ecuacion-tool-code-generator` と `ecuacion-tool-command-api`）を同居させる場合、設定ファイルを置くディレクトリが共用されてしまい扱いにくくなります。アプリごとに設定を分けたい場合は方法1を使ってください。

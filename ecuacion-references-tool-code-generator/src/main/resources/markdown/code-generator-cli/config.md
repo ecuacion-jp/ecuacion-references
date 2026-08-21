@@ -39,20 +39,3 @@ Additional settings should be written in `application.properties`.
 | --- | --- | --- |
 | `input-dir` | Directory containing the Excel specification files. Multiple directories can be specified as a comma-separated list (e.g. `./dir1,./dir2`) | `./excel-format` |
 | `output-dir` | Root directory for generated Java source files | `./products/` |
-
-You can also place multiple Excel files directly in the same `input-dir`. When the CLI runs, all xlsx files in the
-directory are processed and separate output is generated for each `SYSTEM_NAME`.
-
-> **Note:** Unlike `code-generator-web`, the CLI jar has no built-in mail notification on failure —
-> there is no `spring.mail.*` / `jp.ecuacion.splib.mail.*` configuration to set here. For scripted or
-> scheduled runs, check the process exit code (`0` on success, `1` on failure) and wire up notification
-> in your own wrapper script if needed. See **Troubleshooting** below for how failures are reported on
-> the console.
-
----
-
-## Troubleshooting
-
-If the Excel configuration is invalid, execution stops and a concise, bulleted list of validation messages is
-printed to the console, identifying which item is problematic. For an unexpected error, a short message is shown;
-re-run with `--verbose` to also print the full stack trace.

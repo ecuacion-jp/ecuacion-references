@@ -37,10 +37,11 @@ For each feature, the column name is not fixed — you can specify any name in t
 
 The tool provides two execution methods:
 
-| Method | Description |
-| --- | --- |
-| `code-generator-cli` | Run from the command line (`java -jar`). Place Excel locally and execute |
-| `code-generator-web` | Upload Excel from a browser → download generated code as a ZIP |
+| | code-generator-cli | code-generator-web |
+| --- | --- | --- |
+| How to run | Command line (`java -jar`) | File upload via browser |
+| Workflow | Place Excel in local directory and run | Upload Excel, download ZIP |
+| Best for | Developers running it locally | Sharing with teams, including non-developers |
 
 Both methods use the same DB Definition Book (Excel) format.
 
