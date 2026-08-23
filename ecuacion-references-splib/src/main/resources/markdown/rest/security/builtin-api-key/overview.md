@@ -1,61 +1,45 @@
-Endpoints mapped under `/api/ecuacion-splib/key/**` require a valid `X-Api-Key` header, the same
-way as [API Key Authentication](page?id=rest/security/api-key/overview&lang=en) — but this prefix
-is reserved for `ecuacion-splib`'s own built-in endpoints with side effects, currently the
-[Operational Endpoints](page?id=rest/operational-endpoints&lang=en)
-(`ClearPropertiesCacheController`, `SystemErrorController`). This filter chain runs at
-`@Order(10)`, after `/api/key/**` (9) and before the catch-all `/api/**` deny rule (11).
+`ecuacion-splib-rest` provides two built-in controllers under the `/api/ecuacion-splib/key/**`
+prefix, for operational testing.
 
-## Why a separate key set
+A valid `X-Api-Key` header is required, authenticated the same way as
+[API Key Authentication](page?id=rest/security/api-key/overview&lang=en), but using a key set
+reserved for `ecuacion-splib`'s own built-in endpoints with side effects. Unlike the
+[Built-in Public Endpoint](page?id=rest/alive-check-endpoint&lang=en), these have side effects, so
+they don't live under `/api/ecuacion-splib/public/**`.
 
-`jp.ecuacion.splib.rest.builtin-api-key.*` is a separate property namespace from
-`jp.ecuacion.splib.rest.api-key.*`, so that the key guarding `ecuacion-splib`'s own operational
-endpoints can be issued and rotated independently of whatever key your application uses under
-`/api/key/**` for its own purposes.
+See [Quickstart](page?id=rest/security/builtin-api-key/quickstart&lang=en) for the shortest path
+to an actual working call, or
+[Authentication Handling](page?id=rest/security/builtin-api-key/authentication&lang=en) for how
+the authentication mechanism works.
 
-## Request headers
+## ClearPropertiesCacheController
 
-Identical to `/api/key/**`: `X-Api-Key` (required) and `X-Api-Key-Id` (optional, carried through
-only as the authenticated principal's name for logging — there is a single fixed key here, not
-one per client). See
-[API Key Authentication](page?id=rest/security/api-key/overview&lang=en) for details.
-
-## Configuring the key
-
-Unlike `/api/key/**`, there is no application-implemented provider bean here — the expected value
-is read directly from `application.properties`. Set exactly one of:
-
-```properties
-jp.ecuacion.splib.rest.builtin-api-key.password-plain=your-api-key-here
-# or
-jp.ecuacion.splib.rest.builtin-api-key.password-bcrypt=$2a$10$...
+```
+POST /api/ecuacion-splib/key/clearPropertiesCache
 ```
 
-`password-bcrypt` holds a bcrypt hash of the key, so the raw value is never at rest in
-`application.properties`. Both are resolved fresh on every request via
-`jp.ecuacion.splib.core.util.SplibHashedPropertyResolver`, so clearing the
-`PropertiesFileUtil` cache (see [Operational Endpoints](page?id=rest/operational-endpoints&lang=en)) picks
-up a changed value without a restart.
+Clears the cache of properties files read via `PropertiesFileUtil`, so that changes to
+`application.properties` can be picked up without restarting the app. In addition, when
+`spring-cloud-context` is on the classpath, it also calls `ContextRefresher` to refresh Spring's
+own `Environment` (the property cache backing `@Value` / `@ConfigurationProperties`, etc.). When
+`spring-cloud-context` is absent, this part is skipped and an INFO log records that fact.
 
-- **Neither set:** every request to `/api/ecuacion-splib/key/**` is rejected — the safe default
-  for an application that doesn't use these built-in endpoints.
-- **Exactly one set:** the presented `X-Api-Key` is compared against it (plain text or bcrypt, as
-  configured).
-- **Both set:** this is a misconfiguration only whoever controls `application.properties` could
-  cause (never an external caller), so it's reported distinctly — see below.
+**Known limitation (as of `spring-cloud-context` 5.0.1)**: this `ContextRefresher`-based refresh
+only reliably picks up changes to `application.properties` itself (the *primary*
+`spring.config.name`) — verified working across a Spring Boot executable WAR (`java -jar
+xxx.war`), a normal deployment to an external Tomcat, and a flat classpath launch alike, so this
+is not a classloader or packaging issue. It does **not**, however, pick up changes to property
+files loaded via any *additional* name in a multi-name `spring.config.name` (e.g.
+`spring.config.name=application,my-app`) — `my-app.properties` changes are never re-read by
+`ContextRefresher`, consistently, regardless of deployment style. This appears to be a
+limitation in how `ContextRefresher` merges re-loaded property sources back into the running
+`Environment` for non-primary config names, not something `ecuacion-splib` can work around.
 
-## Rejection behavior and on success
+## SystemErrorController
 
-A missing header or a wrong/absent key returns a generic `401` (`MessageDigest.isEqual` is used
-for a constant-time comparison), the same as `/api/key/**` — indistinguishable from each other so
-a caller can't tell "no such key" from "wrong key". Having *both*
-`jp.ecuacion.splib.rest.builtin-api-key.password-plain` and `...password-bcrypt` set at once is
-different: it returns a `500` naming the two offending property keys, since that state can only
-be reached by whoever controls `application.properties`.
+```
+POST /api/ecuacion-splib/key/systemError
+```
 
-A successful match authenticates the request with the `ROLE_BUILTIN_API_KEY` authority
-(`ROLE_API_KEY` is used for `/api/key/**`).
-
-## About CSRF
-
-Disabled for the same reason as `/api/key/**`: `X-Api-Key` is not an ambient credential the
-browser attaches automatically. See [Overview](page?id=rest/overview&lang=en) for details.
+Deliberately throws a `RuntimeException`, so that the system-error behavior (exception handling,
+logging, and so on) can be tested without requiring an actual bug.

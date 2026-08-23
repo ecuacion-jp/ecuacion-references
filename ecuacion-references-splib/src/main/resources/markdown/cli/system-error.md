@@ -1,6 +1,7 @@
 `ecuacion-splib-cli` provides a built-in way to deliberately trigger a system error, for testing
-the [exception handling](page?id=cli/exception-handling&lang=en) behavior (console output,
-logging, your own `SplibExceptionHandlerAction`, and so on) without requiring an actual bug — the
+the [exception handling](page?id=cli/exception-handling&lang=en) (your own
+`SplibExceptionHandlerAction`, and so on) and [console output](page?id=cli/console-output&lang=en)
+(the `--verbose` stack trace, and so on) behavior without requiring an actual bug — the
 CLI counterpart of `ecuacion-splib-batch`'s built-in `ecuacionSystemErrorJob`.
 
 ## Running it

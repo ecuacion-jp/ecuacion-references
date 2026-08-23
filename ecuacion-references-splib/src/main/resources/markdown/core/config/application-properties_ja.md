@@ -51,7 +51,7 @@ expression, there is still more data in the expression: 'colon(:)'
 `application.properties`はデフォルトでは起動時に一度だけ読み込まれ、`PropertiesFileUtil`側と
 Spring自身の`Environment`側の両方でキャッシュされます。`ecuacion-splib`は、アプリを再起動せずにこのキャッシュをクリアするREST APIを用意しています：
 `POST /api/ecuacion-splib/key/clearPropertiesCache` —
-[運用エンドポイント](page?id=rest/operational-endpoints&lang=ja) を参照してください。
+[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を参照してください。
 
 これは`PropertiesFileUtil`のキャッシュを常にクリアします。Spring自身の`Environment`
 （`@Value` / `Environment.getProperty()`が参照する値）**も**リフレッシュしたい場合は、
@@ -78,4 +78,4 @@ public class MyComponent {
 ```
 
 **既知の制限（`spring-cloud-context` 5.0.1時点）**：このリフレッシュは`application.properties`
-自体の変更しか確実には反映しません（executable WAR・外部Tomcat・フラットクラスパスのいずれでも同様に動作することを確認済み）。アプリが`spring.config.name`に追加の名前を指定している場合（例：`spring.config.name=application,my-app`）、その追加ファイルへの変更はこのリフレッシュでは反映されません。詳細は[運用エンドポイント](page?id=rest/operational-endpoints&lang=ja)を参照してください。
+自体の変更しか確実には反映しません（executable WAR・外部Tomcat・フラットクラスパスのいずれでも同様に動作することを確認済み）。アプリが`spring.config.name`に追加の名前を指定している場合（例：`spring.config.name=application,my-app`）、その追加ファイルへの変更はこのリフレッシュでは反映されません。詳細は[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)を参照してください。

@@ -8,7 +8,7 @@ Spring Boot標準の起動バナーの代わりに独自のバナーを表示し
 -----
 ```
 
-## アプリ自身の名前とバージョンを表示する
+## アプリ自身の名前を表示する
 
 `SplibCliApplication.main`を2引数版の代わりに、3引数版で呼んでください。
 
@@ -24,19 +24,55 @@ SplibCliApplication.main(CliApplication.class, args, "my-app");
               (spring boot v4.0.7)
 
        app  my-app
+-----
+```
+
+## アプリ自身のバージョンを表示する
+
+表示されるバージョンは`VersionUtil.getVersion("")`で取得されるため、
+`src/main/resources/version.properties`を用意してください。
+
+```properties
+version=${project.version}
+```
+
+バージョンが表示されるようになると、名前の下にもう一行追加されます。
+
+```
+= ecuacion  command line interface
+                            v5.0.0
+              (spring boot v4.0.7)
+
+       app  my-app
                             v1.0.0
 -----
 ```
 
-表示されるバージョンは`VersionUtil.getVersion("")`で取得されるため、アプリ自身の
-`version.properties`が必要です。動作する実例として
+`${project.version}`はMavenのリソースフィルタリングでビルド時に実際のバージョン文字列へ置換されます。`${...}`を他のリソース——logback設定など——で誤って置換しないよう、`version.properties`だけをフィルタリング対象にする`<resources>`設定をpom.xmlに追加してください。
+
+```xml
+<build>
+  <resources>
+    <resource>
+      <directory>src/main/resources</directory>
+      <filtering>false</filtering>
+    </resource>
+    <resource>
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>version.properties</include>
+      </includes>
+      <filtering>true</filtering>
+    </resource>
+  </resources>
+</build>
+```
+
+動作する実例として
 [`ecuacion-tool-code-generator-core`の`pom.xml`](https://github.com/ecuacion-jp/ecuacion-tool-code-generator)
-の`version.properties`ファイルと、それに必要な`<resources>`フィルタリング設定（`${...}`/`@...@`を他のリソース——logback設定など——で誤って置換しないよう、
-このファイルだけをフィルタリング対象にする）を参照してください。プロジェクトの親POMが
-`ecuacion-splib-parent`（ホームページの[セットアップ](page?id=home&lang=ja)参照）でない場合は、
-`version.properties`で`@project.version@`ではなく素の`${project.version}`を使ってください
-——`@`区切り文字の慣習は`ecuacion-splib-parent`自身のMavenプラグイン設定に由来するもので、
-異なる親POMでは提供されません。
+を参照してください。ちなみにこの実例では親POMが`ecuacion-splib-parent`（ホームページの
+[セットアップ](page?id=home&lang=ja)参照）である都合上、`${project.version}`ではなく
+`@project.version@`を使っています。
 
 ## バナーの色を変更・非表示にする
 

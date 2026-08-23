@@ -4,27 +4,26 @@ URL プレフィックスベースのセキュリティ規約、API キー認証
 
 ## 提供する機能
 
-- **エンドポイントプレフィックスによるセキュリティ規約** — すべてのエンドポイントは URL
-  プレフィックスに応じて 4 つのセキュリティポリシーのいずれかに属します。詳細は下記の「URL プレフィックスの規約」表を参照してください。
-  [Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)、
-  [組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)、
-  [API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。
-- **API キー認証** — マシン間通信向けのヘッダーベース認証（`X-Api-Key`）。
-  キーの照合方法はプラガブルで、平文比較とハッシュ比較の 2 モードを選べます。
-  `ecuacion-splib` 自身の組み込みエンドポイントのうち副作用のあるものは、
-  アプリケーション側の `/api/key/**` のキーとは別に、独立して登録されたキーセットを使用します。
-- **共通の例外処理** — `ViolationException`・`ResponseStatusException`・それ以外の未捕捉の例外をそれぞれ異なる扱いで HTTP レスポンスへ変換します。
-  [例外処理](page?id=rest/exception-handling&lang=ja) を参照してください。
+| 機能 | 説明 |
+| --- | --- |
+| エンドポイントプレフィックスによるセキュリティ規約 | すべてのエンドポイントは URL プレフィックスに応じて 4 つのセキュリティポリシーのいずれかに属します。<br>詳細は下記の「URL プレフィックスの規約」表を参照してください。<br>[Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)、[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)、[API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。 |
+| API キー認証 | マシン間通信向けのヘッダーベース認証（`X-Api-Key`）。<br>キーの照合方法はプラガブルで、平文比較とハッシュ比較の 2 モードを選べます。<br>`ecuacion-splib` 自身の組み込みエンドポイントのうち副作用のあるものは、アプリケーション側の `/api/key/**` のキーとは別に、独立して登録されたキーセットを使用します。 |
+| 共通の例外処理 | `ViolationException`・`ResponseStatusException`・それ以外の未捕捉の例外をそれぞれ異なる扱いで HTTP レスポンスへ変換します。<br>[例外処理](page?id=rest/exception-handling&lang=ja) を参照してください。 |
 
 ## URL プレフィックスの規約
 
-| プレフィックス | セキュリティポリシー |
-| --- | --- |
-| `/api/public/**` | 常に許可（`permitAll`） |
-| `/api/key/**` | 有効な `X-Api-Key` ヘッダーが必須 — アプリケーション自身のキー |
-| `/api/ecuacion-splib/public/**` | （ecuacion-splibにて使用）常に許可（`permitAll`）— `ecuacion-splib` 自身の組み込みエンドポイントのうち認証なしで公開しても安全なもの用に予約 |
-| `/api/ecuacion-splib/key/**` | （ecuacion-splibにて使用）有効な `X-Api-Key` ヘッダーが必須 — `ecuacion-splib` 自身の組み込みエンドポイントのうち副作用のあるもの用 |
-| `/api/**`（それ以外） | 常に拒否（`denyAll`） |
+<table>
+<thead>
+<tr><th>プレフィックス</th><th>使用モジュール</th><th>セキュリティポリシー</th><th>備考</th></tr>
+</thead>
+<tbody>
+<tr><td><code>/api/public/**</code></td><td rowspan="2">アプリ</td><td>常に許可（<code>permitAll</code>）</td><td></td></tr>
+<tr><td><code>/api/key/**</code></td><td>有効な <code>X-Api-Key</code> ヘッダーが必須</td><td>アプリケーション自身のキー</td></tr>
+<tr><td><code>/api/ecuacion-splib/public/**</code></td><td rowspan="2">ecuacion-splib</td><td>常に許可（<code>permitAll</code>）</td><td>認証なしで公開しても安全なAPIに使用</td></tr>
+<tr><td><code>/api/ecuacion-splib/key/**</code></td><td>有効な <code>X-Api-Key</code> ヘッダーが必須</td><td>認証なしで公開するとリスクのあるAPIに使用</td></tr>
+<tr><td><code>/api/**</code>（それ以外）</td><td>ー</td><td>常に拒否（<code>denyAll</code>）</td><td></td></tr>
+</tbody>
+</table>
 
 これら 4 つのポリシーは、アプリケーション側が継承する抽象クラス `SplibRestSecurityConfig` によって設定されます。
 [クイックスタート](page?id=rest/quickstart&lang=ja) を参照してください。

@@ -63,6 +63,3 @@ curl http://localhost:8080/api/public/hello
 このリファレンスサイト自身も `ecuacion-splib-rest` を使っており、上のコントローラーとまったく同じものを
 [`/api/public/hello`](../../api/public/hello) として公開しています。実装はサイトのソースにある
 `jp.ecuacion.references.splib.tutorial.rest.HelloController` を参照してください。
-
-続きとして、[例外処理](page?id=rest/exception-handling&lang=ja) ではコントローラーが例外を投げたときの挙動と、未捕捉の例外発生時に独自処理（アラートメール送信など）を実行する方法を扱っています。
-任意設定で、エンドポイントを動かすだけなら不要です。

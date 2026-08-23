@@ -58,11 +58,26 @@
 					@{/public/showMarkdown/page(id='housekeep-db/quickstart',lang=${lang})},
 					#{navBar.hd.quickstart}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='housekeep-db/excel-settings',lang=${lang})},
-					#{navBar.hd.excelSettings}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='housekeep-db/config',lang=${lang})},
 					#{navBar.hd.config}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.hd.excelSettings}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings/db-connection-settings',lang=${lang})},
+					#{navBar.hd.excelSettings.dbConnectionSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings/housekeep-db-settings',lang=${lang})},
+					#{navBar.hd.excelSettings.housekeepDbSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings/related-table-settings',lang=${lang})},
+					#{navBar.hd.excelSettings.relatedTableSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings/search-condition-settings',lang=${lang})},
+					#{navBar.hd.excelSettings.searchConditionSettings}, '')}"></div>
 
 		</div></th:block>
 

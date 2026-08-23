@@ -9,7 +9,7 @@ own:
 -----
 ```
 
-## Showing your app's own name and version
+## Showing your app's own name
 
 Pass a third argument to `SplibCliApplication.main` instead of the two-argument form:
 
@@ -25,20 +25,57 @@ This adds a second block, right above the same separator line:
               (spring boot v4.0.7)
 
        app  my-app
+-----
+```
+
+## Showing your app's own version
+
+The version shown alongside it is read via `VersionUtil.getVersion("")`, so add
+`src/main/resources/version.properties`:
+
+```properties
+version=${project.version}
+```
+
+Once the version shows up, one more line is added below the name.
+
+```
+= ecuacion  command line interface
+                            v5.0.0
+              (spring boot v4.0.7)
+
+       app  my-app
                             v1.0.0
 -----
 ```
 
-The version shown alongside it is read via `VersionUtil.getVersion("")`, so your app needs its
-own `version.properties` — see
+`${project.version}` is replaced with the actual build version via Maven resource filtering. Add a
+`<resources>` config to your pom.xml that filters only `version.properties`, to keep `${...}` in
+other resources — e.g. logback configs — untouched.
+
+```xml
+<build>
+  <resources>
+    <resource>
+      <directory>src/main/resources</directory>
+      <filtering>false</filtering>
+    </resource>
+    <resource>
+      <directory>src/main/resources</directory>
+      <includes>
+        <include>version.properties</include>
+      </includes>
+      <filtering>true</filtering>
+    </resource>
+  </resources>
+</build>
+```
+
+See
 [`ecuacion-tool-code-generator-core`'s `pom.xml`](https://github.com/ecuacion-jp/ecuacion-tool-code-generator)
-for a working example of the `version.properties` file and the `<resources>` filtering it needs
-(only that one file should be filtered, to keep `${...}`/`@...@` in other resources — e.g.
-logback configs — untouched). If your project's parent POM isn't `ecuacion-splib-parent` (see
-[Setup](page?id=home&lang=en) on the home page), use plain `${project.version}` in
-`version.properties` instead of `@project.version@` — the `@`-delimiter convention comes from
-`ecuacion-splib-parent`'s own Maven plugin configuration, which a different parent POM won't
-provide.
+for a working example. That example uses `@project.version@` instead of `${project.version}`,
+since its parent POM is `ecuacion-splib-parent` (see [Setup](page?id=home&lang=en) on the home
+page).
 
 ## Changing or turning off the banner's colors
 

@@ -33,13 +33,17 @@ throw new ResponseStatusException(HttpStatus.NOT_FOUND, "...");
 
 1. `LogUtil.logSystemError` でログ出力される。
 2. アプリケーションが `SplibRestExceptionHandlerAction` の Bean を登録していれば、それに渡される（下記参照）。
-3. HTTP ステータス `501`、メッセージ `"Internal Server Error..."` の `ErrorResponse` に変換される。
+3. HTTP ステータス `500`、メッセージ `"Internal Server Error..."` の `ErrorResponse` に変換される。
 
 ## 未捕捉の例外発生時に独自処理を実行する
 
 `jp.ecuacion.splib.core.exceptionhandler.SplibRestExceptionHandlerAction` を実装した Bean を登録すると、
 上記手順 2 のタイミングで独自処理を実行できます。処理内容は `execute(Throwable th)` に自由に記述してください。
-任意設定のため、Bean を登録しなければ手順 2 は単にスキップされます。
+
+`SplibRestExceptionHandlerAction` の Bean が未登録の場合、`SplibRestExceptionHandler` は代わりに
+`SplibExceptionHandlerAction` の Bean（`ecuacion-splib-web` や `ecuacion-splib-batch` と共通の拡張ポイント。
+下記参照）が登録されていればそちらにフォールバックします。手順 2 がスキップされるのは、どちらの Bean も
+登録されていない場合のみです。
 
 例えば、アラートメールで stack trace を送信したい場合は次のように書けます。
 
@@ -63,7 +67,3 @@ public class AppExceptionHandlerAction implements SplibRestExceptionHandlerActio
 メール送信はあくまで一例です。実際にメールを送信する場合に必要な設定（`spring.mail.*`・
 `jp.ecuacion.splib.mail.*`）は [SplibMailUtil](page?id=core/util/mail-util&lang=ja) を参照してください。
 未設定の場合、上記の呼び出しは黙ってスキップされます。
-
-`ecuacion-splib-web` や `ecuacion-splib-batch` にも同じ拡張ポイントがあり、どちらも
-`SplibExceptionHandlerAction` を使います。バッチアプリは常にそれ単体の独立したプロセスとして動くため、web と区別する必要がありません。例外は REST で、web フロントエンドと同じプロセスで動くことが多く、フロントエンドごとに挙動を変えたい場合があるため、専用の
-`SplibRestExceptionHandlerAction` を持っています。

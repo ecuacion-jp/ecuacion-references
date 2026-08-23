@@ -58,7 +58,7 @@ Validates the format or type compatibility of field values. Used at the field le
 | `@IntegerString` | Must be an integer string |
 | `@EnumElement` | Must be a valid value of the specified Enum |
 | `@PatternWithDescription` | Regex match (with user-friendly message support) |
-| 3 more | ... |
+| 7 more | ... |
 
 ### Collection and Assertion Validators
 

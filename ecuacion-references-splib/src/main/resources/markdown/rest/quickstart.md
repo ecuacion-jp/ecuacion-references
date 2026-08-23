@@ -66,7 +66,3 @@ curl http://localhost:8080/api/public/hello
 This reference site itself uses `ecuacion-splib-rest` and exposes the exact same controller at
 [`/api/public/hello`](../../api/public/hello). See `jp.ecuacion.references.splib.tutorial.rest.HelloController`
 in the site's own source for the implementation.
-
-From here, [Exception Handling](page?id=rest/exception-handling&lang=en) covers
-what happens when a controller throws, including how to run your own side effect (such as sending an
-alert email) on uncaught exceptions — optional, and not needed to get an endpoint running.

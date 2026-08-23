@@ -3,11 +3,7 @@ minimal app and runs it.
 
 ## 1. Write the application's main class
 
-`SplibCliApplication` provides the `main` method logic every CLI app needs (running
-`SpringApplication`, running your `SplibCliRunner`, and exiting with the right code), but it
-cannot be the class Java actually launches — the `java` command does not follow a `main` method
-inherited from a parent class. Your application therefore needs its own class with its own `main`
-method that simply delegates:
+Write a class with its own `main` method that delegates to `SplibCliApplication`:
 
 ```java
 @SpringBootApplication
@@ -19,10 +15,24 @@ public class CliApplication {
 }
 ```
 
-See [Banner](page?id=cli/banner&lang=en) for showing your own app's name/version in the startup
-banner, or turning the banner off entirely.
+## 2. Implement `SplibCliRunner`
 
-## 2. Keep the console quiet (recommended)
+This is the only place your app's logic goes. Implement `SplibCliRunner` with a single `execute`
+method.
+
+```java
+@Component
+public class HelloRunner implements SplibCliRunner {
+
+  @Override
+  public void execute(String[] args) throws InterruptedException {
+    Thread.sleep(3000); // dummy work so you can see the "Running..." indicator
+    System.out.println("Hello, world!");
+  }
+}
+```
+
+## 3. Keep the console quiet (recommended: optional)
 
 A CLI app's console is its UI, watched directly by the person running it. Logging can be
 configured the same way as in any other Spring Boot app, via your own
@@ -36,31 +46,15 @@ only what you deliberately want the user to see:
 </configuration>
 ```
 
-See [Exception Handling](page?id=cli/exception-handling&lang=en) for how a user can still get a
-stack trace on demand despite this quiet default.
-
-## 3. Implement `SplibCliRunner`
-
-```java
-@Component
-public class HelloRunner implements SplibCliRunner {
-
-  @Override
-  public void execute(String[] args) {
-    System.out.println("Hello, world!");
-  }
-}
-```
-
-An app provides exactly one `SplibCliRunner` bean — unlike `ecuacion-splib-batch`'s Job/Step split
-for unattended execution, a CLI app is watched directly by the person running it, so there's no
-need for that kind of division.
-
 ## 4. Run it
+
+Run it and see it work.
 
 ```
 mvn spring-boot:run
 ```
+
+You should see output like this.
 
 ```
 = ecuacion  command line interface
@@ -72,18 +66,3 @@ mvn spring-boot:run
 Hello, world!
 [2026-08-15 15:37:42] Completed successfully.
 ```
-
-The banner is `SplibCliApplication`'s own — nothing to configure for the default shown above; see
-[Banner](page?id=cli/banner&lang=en) to show your own app's name/version there, or turn it off.
-The timestamped "Starting."/"Completed successfully." lines (localized) are printed automatically
-around your `execute` call — nothing to call for these either.
-
-While `execute` is running, an animated "Running..." indicator (localized; see
-[Overview](page?id=cli/overview&lang=en)) is shown on the last console line, spinner to the right
-of the text, and cleared once `execute` returns — automatic, nothing to call. It's skipped
-entirely when the output isn't an interactive terminal (e.g. redirected to a file), so
-redirected/CI output stays clean.
-
-From here: [Exception Handling](page?id=cli/exception-handling&lang=en) covers what happens when
-`execute` throws, including how to run your own side effect (such as notifying a developer) on
-uncaught exceptions — optional, and not needed to get the app running.

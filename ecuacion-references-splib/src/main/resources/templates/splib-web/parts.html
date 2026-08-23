@@ -77,13 +77,12 @@
 						@{/public/showMarkdown/page(id='rest/security/api-key/overview',lang=${lang})},
 						#{navBar.rest.apiKey.overview}, '')}"></div>
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-						@{/public/showMarkdown/page(id='rest/security/api-key/comparison-modes',lang=${lang})},
-						#{navBar.rest.apiKey.comparisonModes}, '')}"></div>
+						@{/public/showMarkdown/page(id='rest/security/api-key/quickstart',lang=${lang})},
+						#{navBar.rest.apiKey.quickstart}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/api-key/authentication',lang=${lang})},
+						#{navBar.rest.apiKey.authentication}, '')}"></div>
 			</div></th:block>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='rest/security/builtin-api-key/overview',lang=${lang})},
-					#{navBar.rest.security.builtinApiKey}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='rest/security/custom-endpoints',lang=${lang})},
@@ -97,9 +96,20 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='rest/alive-check-endpoint',lang=${lang})},
 					#{navBar.rest.aliveCheckEndpoint}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(id='rest/operational-endpoints',lang=${lang})},
-					#{navBar.rest.operationalEndpoints}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.rest.security.builtinApiKey}, ~{::navbarRestBuiltinApiKey}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarRestBuiltinApiKey" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/builtin-api-key/overview',lang=${lang})},
+						#{navBar.rest.builtinApiKey.overview}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/builtin-api-key/quickstart',lang=${lang})},
+						#{navBar.rest.builtinApiKey.quickstart}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/builtin-api-key/authentication',lang=${lang})},
+						#{navBar.rest.builtinApiKey.authentication}, '')}"></div>
+			</div></th:block>
 
 		</div></th:block>
 
@@ -168,6 +178,9 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='cli/banner',lang=${lang})},
 					#{navBar.cli.banner}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/console-output',lang=${lang})},
+					#{navBar.cli.consoleOutput}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='cli/exception-handling',lang=${lang})},
 					#{navBar.cli.exceptionHandling}, '')}"></div>

@@ -17,5 +17,13 @@ Excel 設定ファイルに基づいて、soft delete（論理削除）または
 
 ## ツールの仕組み
 
-設定は Excel ファイル 1 枚で管理します。ツール起動時に Excel ファイルのパスを引数として渡すと、
-Housekeep DB Settings シートに記載されたタスクが上から順番に実行されます。
+設定は Excel ファイル 1 枚で管理します。そのパスを `application.properties` に設定してください（[設定ファイル](page?id=housekeep-db/config&lang=ja)を参照）。ツール起動時に、housekeep DB設定 シートに記載されたタスクが上から順番に実行されます。
+
+Excel ファイルには以下の 4 つのシートがあります。
+
+| シート名 | 役割 |
+| --- | --- |
+| [DB接続設定](page?id=housekeep-db/excel-settings/db-connection-settings&lang=ja) | データベース接続情報 |
+| [housekeep DB設定](page?id=housekeep-db/excel-settings/housekeep-db-settings&lang=ja) | ハウスキーピングの実行タスク |
+| [関連テーブル処理設定](page?id=housekeep-db/excel-settings/related-table-settings&lang=ja) | 関連テーブルの連動処理設定 |
+| [データ検索条件設定](page?id=housekeep-db/excel-settings/search-condition-settings&lang=ja) | 追加の検索条件 |

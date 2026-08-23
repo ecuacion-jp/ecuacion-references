@@ -1,58 +1,26 @@
+This page covers the two config files used by `ecuacion-tool-housekeep-db` — `application.properties` and `logback-spring.xml` — and where to place them.
+
 ## application.properties
 
-`ecuacion-tool-housekeep-db` is a standard Spring Boot executable jar, so `application.properties` is loaded through Spring Boot's default external configuration mechanism as-is. It is loaded in the following priority order, letting you override or add to the settings bundled in the jar (currently only `spring.main.banner-mode=off`).
+Reading this file isn't a housekeep-db-specific mechanism — it's a Spring Boot feature. `application.yml` / `application.yaml` work exactly the same way. See [Spring Boot's own reference](https://docs.spring.io/spring-boot/reference/features/external-config.html) for the full picture. For where to place this file, see [File Placement](#file-placement) below.
 
-| Priority | Location |
-| --- | --- |
-| 1 (highest) | `config/application.properties`, relative to the current directory |
-| 2 | `application.properties`, relative to the current directory |
-| 3 (lowest) | `application.properties` bundled in the jar (default values) |
+### Available Settings
 
-As with logback-spring.xml, placing it in a `config/` subdirectory is recommended.
+| Property | Required | Default | Description |
+| --- | --- | --- | --- |
+| `jp.ecuacion.tool.housekeep-db.excel-path` | ○ | — | Path to the excel configuration file to run |
+| `jp.ecuacion.tool.housekeep-db.max-select-lines` | — | `1000` | The number of rows the main SELECT retrieves and commits per loop iteration |
 
-```
-/your-work-dir/
-├── ecuacion-tool-housekeep-db-x.x.x.jar
-└── config/
-    ├── application.properties
-    └── logback-spring.xml
+```properties
+jp.ecuacion.tool.housekeep-db.excel-path=/path/to/your-settings.xlsx
+jp.ecuacion.tool.housekeep-db.max-select-lines=1000
 ```
 
-This external placement overrides not only Spring-native properties such as `spring.*`, but also ecuacion-lib-specific properties such as `jp.ecuacion.locale.use-root`.
+---
 
 ## logback-spring.xml
 
-The Logback configuration file is loaded in the following priority order.
-
-| Priority | Location |
-| --- | --- |
-| 1 (highest) | The path given by `-Dlogging.config=...` |
-| 2 (lowest) | `config/logback-spring.xml`, relative to the current directory |
-
-> **Note:** "Current directory" for priority 2 means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the JAR before starting it (as shown below), this is effectively the same as "the `config/` directory next to the JAR."
-
-### Using a Custom logback-spring.xml
-
-**Option 1 — Place in `config/` subdirectory (recommended):**
-
-```
-/your-work-dir/
-├── ecuacion-tool-housekeep-db-x.x.x.jar
-└── config/
-    └── logback-spring.xml
-```
-
-```bash
-cd /your-work-dir
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
-```
-
-**Option 2 — Specify path explicitly:**
-
-```bash
-java -Dlogging.config=file:/path/to/logback-spring.xml \
-     -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
-```
+The Logback configuration file; placed as described in [File Placement](#file-placement) below.
 
 ### Example
 
@@ -65,9 +33,39 @@ java -Dlogging.config=file:/path/to/logback-spring.xml \
     <include resource="logback-spring-appenders-local.xml" />
 
     <property name="loglevel-jp.ecuacion" value="INFO" />
-    <property name="loglevel-security" value="INFO" />
-    <property name="loglevel-sql" value="INFO" />
     <property name="loglevel-root" value="INFO" />
     <include resource="logback-spring-loggers-for-local.xml" />
 </configuration>
 ```
+
+---
+
+## File Placement
+
+Placement for `application.properties` is standard Spring Boot externalized-configuration behavior — nothing housekeep-db-specific. `logback-spring.xml` is *almost* the same, except Spring Boot doesn't provide the equivalent lookup on its own, so `ecuacion-splib-core` adds it. Both follow the same three-tier lookup: an explicit path via a system property, a `config` subdirectory, or the current directory — the latter two resolved relative to the directory the app is launched from.
+
+| File | 1 (highest) | 2 | 3 (lowest) |
+| --- | --- | --- | --- |
+| `application.properties` | `-Dspring.config.location=...` | `config` subdirectory | Same directory |
+| `logback-spring.xml` | `-Dlogging.config=...` | `config` subdirectory | Same directory |
+
+For example, with `application.properties` (`logback-spring.xml` works identically — just swap the filename):
+
+```
+/your-work-dir/
+├── ecuacion-tool-housekeep-db-x.x.x.jar
+├── application.properties   ← priority 3
+└── config/
+    └── application.properties   ← priority 2, higher
+```
+
+`java -jar` must be run from `/your-work-dir` for either of these to be found — "same directory" and "`config` subdirectory" are both resolved relative to the directory the app is launched from, not the directory the JAR file happens to live in.
+
+To specify an explicit path instead:
+
+```bash
+java -Dspring.config.location=file:/path/to/your/config/ \
+     -jar ecuacion-tool-housekeep-db-x.x.x.jar
+```
+
+> **Note:** `-Dspring.config.location` points at a **directory**, not a single file — pointing it at a single file loads only that file. `logback-spring.xml` uses its own system property (`-Dlogging.config`, shown in the table above) and isn't affected by `-Dspring.config.location`.

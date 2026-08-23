@@ -41,23 +41,26 @@ Configure one of the following, depending on which database you're using.
 
 #### Housekeep DB Settings Sheet
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Soft / Hard Delete (internal value) | Table Name | ID Column Name | ID Column Literal Symbol | (remaining columns empty) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| task-1 | test-conn | Hard Delete | HARD_DELETE | test_table | num1 | (none) | |
+| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol | (remaining columns empty) |
+| --- | --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | Hard Delete | test_table | num1 | (none) | |
 
 **Points:**
-- `Soft / Hard Delete (internal value)`: the value the tool reads — enter `HARD_DELETE`
 - `ID Column Literal Symbol`: `num1` is an integer, so no quotes are needed → specify `(none)`
   - For varchar columns, specify `quotes(')`
 
-### 3. Run the Tool
+### 3. Configure application.properties
+
+Next to the JAR, create (or edit) `application.properties` and point it at the excel file you just configured.
+
+```properties
+jp.ecuacion.tool.housekeep-db.excel-path=/path/to/your-settings.xlsx
+```
+
+### 4. Run the Tool
 
 ```bash
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/your-settings.xlsx
+java -jar ecuacion-tool-housekeep-db-x.x.x.jar
 ```
 
 If the record inserted earlier has been deleted from `test_table`, the run was successful.
-
----
-
-For other settings, such as [expiration-based filtering](page?id=housekeep-db/excel-settings&lang=en#expiration-based-filtering-optional) or [soft delete](page?id=housekeep-db/excel-settings&lang=en#soft-delete-columns-soft-delete-only), see [Excel Settings](page?id=housekeep-db/excel-settings&lang=en).

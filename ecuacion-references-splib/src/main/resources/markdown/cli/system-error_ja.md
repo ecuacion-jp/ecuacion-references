@@ -1,5 +1,5 @@
 `ecuacion-splib-cli` は、意図的にシステムエラーを発生させる仕組みを組み込みで提供しています。
-実際のバグを起こすことなく、[例外処理](page?id=cli/exception-handling&lang=ja)の挙動（コンソール出力、ログ出力、独自の `SplibExceptionHandlerAction` など）をテストするためのもので、
+実際のバグを起こすことなく、[例外処理](page?id=cli/exception-handling&lang=ja)（独自の `SplibExceptionHandlerAction` など）や[コンソール出力](page?id=cli/console-output&lang=ja)（`--verbose` のスタックトレースなど）の挙動をテストするためのもので、
 `ecuacion-splib-batch` の組み込みJob `ecuacionSystemErrorJob` のCLI版に相当します。
 
 ## 実行方法

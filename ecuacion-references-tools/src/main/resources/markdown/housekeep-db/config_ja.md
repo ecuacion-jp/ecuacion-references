@@ -1,58 +1,26 @@
+このページでは、`ecuacion-tool-housekeep-db` が使用する2つの設定ファイル — `application.properties` ・ `logback-spring.xml` — とその配置方法について説明します。
+
 ## application.properties
 
-`ecuacion-tool-housekeep-db` は通常のSpring Boot実行可能jarのため、`application.properties`はSpring Bootのデフォルトの外部設定読み込みの仕組みがそのまま働きます。以下の優先順位で読み込まれ、jar内蔵の設定（`spring.main.banner-mode=off`のみ）を上書き・追加できます。
+本ファイルの読み取りはhousekeep-db独自の仕組みではなく、Spring Bootの機能です。`application.yml` / `application.yaml` でも全く同じように動作します。網羅的な説明は[Spring Boot公式リファレンス](https://docs.spring.io/spring-boot/reference/features/external-config.html)を参照してください。配置場所については下記の[ファイルの配置](#ファイルの配置)を参照してください。
 
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | カレントディレクトリの `config/application.properties` |
-| 2 | カレントディレクトリの `application.properties` |
-| 3（低） | jar内蔵の `application.properties`（デフォルト値） |
+### 設定できる項目
 
-logback-spring.xmlと同じく、`config/`サブディレクトリに配置する方法が推奨です。
+| プロパティ | 必須 | デフォルト | 説明 |
+| --- | --- | --- | --- |
+| `jp.ecuacion.tool.housekeep-db.excel-path` | ○ | — | 実行するExcel設定ファイルのパス |
+| `jp.ecuacion.tool.housekeep-db.max-select-lines` | — | `1000` | メインのSELECTが1ループあたりに取得・コミットする行数 |
 
-```
-/your-work-dir/
-├── ecuacion-tool-housekeep-db-x.x.x.jar
-└── config/
-    ├── application.properties
-    └── logback-spring.xml
+```properties
+jp.ecuacion.tool.housekeep-db.excel-path=/path/to/your-settings.xlsx
+jp.ecuacion.tool.housekeep-db.max-select-lines=1000
 ```
 
-`spring.*`のようなSpringネイティブなプロパティだけでなく、`jp.ecuacion.locale.use-root`のようなecuacion-lib独自のプロパティも、この外部配置による上書きの対象です。
+---
 
 ## logback-spring.xml
 
-Logback の設定ファイルは以下の優先順位で読み込まれます。
-
-| 優先度 | 場所 |
-| --- | --- |
-| 1（高） | `-Dlogging.config=...` で指定したパス |
-| 2（低） | カレントディレクトリの `config/logback-spring.xml` |
-
-> **Note:** 優先度2の「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。JAR と同じディレクトリに `cd` してから起動する運用（下記）であれば、実質的に「JAR と同じディレクトリの `config/`」と同じ意味になります。
-
-### カスタム logback-spring.xml を使う場合
-
-**方法 1 — `config/` サブディレクトリに配置（推奨）:**
-
-```
-/your-work-dir/
-├── ecuacion-tool-housekeep-db-x.x.x.jar
-└── config/
-    └── logback-spring.xml
-```
-
-```bash
-cd /your-work-dir
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
-```
-
-**方法 2 — パスを明示:**
-
-```bash
-java -Dlogging.config=file:/path/to/logback-spring.xml \
-     -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/settings.xlsx
-```
+Logbackの設定ファイルです。配置方法は下記の[ファイルの配置](#ファイルの配置)を参照してください。
 
 ### 設定例
 
@@ -65,9 +33,39 @@ java -Dlogging.config=file:/path/to/logback-spring.xml \
     <include resource="logback-spring-appenders-local.xml" />
 
     <property name="loglevel-jp.ecuacion" value="INFO" />
-    <property name="loglevel-security" value="INFO" />
-    <property name="loglevel-sql" value="INFO" />
     <property name="loglevel-root" value="INFO" />
     <include resource="logback-spring-loggers-for-local.xml" />
 </configuration>
 ```
+
+---
+
+## ファイルの配置
+
+`application.properties` の配置ルールは、housekeep-db独自ではなく素のSpring Bootの外部設定機能です。`logback-spring.xml` も*ほぼ*同じですが、こちらはSpring Boot自体には同等の探索機能が無いため、`ecuacion-splib-core` が拡張として提供しています。いずれも配置ルールの考え方は共通で、システムプロパティによるパス指定・`config`サブディレクトリ・カレントディレクトリの3段階です（後者2つはいずれもアプリの起動元のカレントディレクトリ基準で解決されます）。
+
+| ファイル | 優先度1（高） | 優先度2 | 優先度3（低） |
+| --- | --- | --- | --- |
+| `application.properties` | `-Dspring.config.location=...` で指定したパス | `config` サブディレクトリ | 同じディレクトリ |
+| `logback-spring.xml` | `-Dlogging.config=...` で指定したパス | `config` サブディレクトリ | 同じディレクトリ |
+
+例として `application.properties` の場合（`logback-spring.xml` も同じ考え方で、ファイル名を読み替えるだけです）:
+
+```
+/your-work-dir/
+├── ecuacion-tool-housekeep-db-x.x.x.jar
+├── application.properties   ← 優先度3
+└── config/
+    └── application.properties   ← 優先度2（こちらが優先）
+```
+
+`java -jar` は `/your-work-dir` から実行する必要があります。「同じディレクトリ」「`config` サブディレクトリ」はいずれも、JARファイルが置かれている場所ではなく、アプリを起動したカレントディレクトリを基準に解決されます。
+
+特定のパスを明示したい場合はシステムプロパティで指定します。
+
+```bash
+java -Dspring.config.location=file:/path/to/your/config/ \
+     -jar ecuacion-tool-housekeep-db-x.x.x.jar
+```
+
+> **Note:** `-Dspring.config.location` は**ディレクトリ**を指定するものです。単一ファイルを指定するとそのファイルだけが読み込まれます。`logback-spring.xml` は専用のシステムプロパティ（上の表の `-Dlogging.config`）を使い、`-Dspring.config.location` の影響は受けません。

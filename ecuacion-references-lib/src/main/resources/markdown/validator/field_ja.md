@@ -52,3 +52,40 @@ private String status;
 ```
 
 `"ACTIVE"`, `"INACTIVE"` などの文字列が `StatusEnum` に定義されているかを確認します。
+
+---
+
+## パス存在チェック系 — ファイル／ディレクトリの存在確認
+
+`String`、`java.io.File`、`java.nio.file.Path` の値が、実際にファイルシステム上に存在するパスを指しているかを検証します。
+
+| アノテーション | 検証内容 |
+| ------------- | -------- |
+| `@FileExists` | 既存の通常ファイルを指していること（ディレクトリの場合はNG） |
+| `@DirExists` | 既存のディレクトリを指していること（通常ファイルの場合はNG） |
+| `@PathExists` | 既存のファイルまたはディレクトリを指していること（どちらでもOK） |
+
+```java
+public class ImportForm {
+    @FileExists
+    private String sourceFilePath;
+
+    @DirExists
+    private Path outputDir;
+}
+```
+
+---
+
+## FileExtension — ファイル拡張子チェック
+
+`String`、`java.io.File`、`java.nio.file.Path` の値のファイル名の拡張子が、指定したものと一致するかを検証します。
+
+```java
+@FileExtension("xlsx")
+private String uploadedFileName;
+```
+
+- 拡張子は先頭のドットありなしどちらでも指定可能です（`"xlsx"` と `".xlsx"` は同じ扱い）。
+- 大文字小文字は区別しません（`@FileExtension("xlsx")` に対して `"report.XLSX"` は一致扱い）。
+- 拡張子が存在しないファイル名（例：`"report"`）はNGです。

@@ -40,14 +40,18 @@ A genuinely unanticipated exception (a bug, not a reported failure) is:
 1. Logged via `LogUtil.logSystemError`.
 2. Passed to your application's `SplibRestExceptionHandlerAction` bean, if one is registered (see
    below).
-3. Turned into an `ErrorResponse` with HTTP status `501` and the message `"Internal Server Error..."`.
+3. Turned into an `ErrorResponse` with HTTP status `500` and the message `"Internal Server Error..."`.
 
 ## Running your own logic on uncaught exceptions
 
 Register a bean implementing
 `jp.ecuacion.splib.core.exceptionhandler.SplibRestExceptionHandlerAction` to run custom logic
-whenever step 2 above runs — write whatever you need inside `execute(Throwable th)`. It is optional:
-if no such bean is registered, step 2 is simply skipped.
+whenever step 2 above runs — write whatever you need inside `execute(Throwable th)`.
+
+If no `SplibRestExceptionHandlerAction` bean is registered, `SplibRestExceptionHandler` falls back
+to a `SplibExceptionHandlerAction` bean instead, if one is registered — the same shared extension
+point `ecuacion-splib-web` and `ecuacion-splib-batch` use (see below). Step 2 is skipped only when
+neither kind of bean is registered.
 
 For example, here's what it looks like to send the stack trace as an alert email:
 
@@ -72,9 +76,3 @@ Sending mail is just one example of what you can do here. See
 [SplibMailUtil](page?id=core/util/mail-util&lang=en) for what it takes to actually send mail (the
 `spring.mail.*` and `jp.ecuacion.splib.mail.*` settings) — without them, the call above is silently
 skipped.
-
-`ecuacion-splib-web` and `ecuacion-splib-batch` have the same extension point, and both use
-`SplibExceptionHandlerAction` — a batch app is always its own standalone process, so there's no
-need to differentiate it from web. REST is the exception: it has its own
-`SplibRestExceptionHandlerAction`, since a REST API frontend commonly runs in the same process as
-a web frontend and an app may want different behavior for each.

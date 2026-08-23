@@ -17,4 +17,13 @@ It performs soft delete or hard delete based on an Excel configuration file.
 
 ## How It Works
 
-All configuration is managed in a single Excel file. When the tool starts, you pass the Excel file path as an argument, and the tasks in the Housekeep DB Settings sheet are executed from top to bottom.
+All configuration is managed in a single Excel file. Set its path in `application.properties` (see [Configuration](page?id=housekeep-db/config&lang=en)); when the tool starts, the tasks in the Housekeep DB Settings sheet are executed from top to bottom.
+
+The Excel file contains the following four sheets:
+
+| Sheet Name | Purpose |
+| --- | --- |
+| [DB Connection Settings](page?id=housekeep-db/excel-settings/db-connection-settings&lang=en) | Database connection information |
+| [Housekeep DB Settings](page?id=housekeep-db/excel-settings/housekeep-db-settings&lang=en) | Housekeeping task definitions |
+| [Related Table Settings](page?id=housekeep-db/excel-settings/related-table-settings&lang=en) | Related table processing configuration |
+| [Search Condition Settings](page?id=housekeep-db/excel-settings/search-condition-settings&lang=en) | Additional WHERE conditions |

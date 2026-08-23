@@ -1,7 +1,9 @@
-Every request that reaches the fourth filter chain registered by `SplibRestSecurityConfig`
-(`@Order(11)`, `securityMatcher("/api/**")`) is denied — `anyRequest().denyAll()`. This is the
-catch-all for anything under `/api/**` that is not `/api/public/**`,
-`/api/ecuacion-splib/public/**`, `/api/key/**`, or `/api/ecuacion-splib/key/**`.
+Requests fall through the built-in `/api/public/**` / `/api/ecuacion-splib/public/**` (8),
+`/api/key/**` (9), `/api/ecuacion-splib/key/**` (10), and finally the `/api/**` deny-all (11)
+chains, in that order. The fourth chain, at `@Order(11)` with `securityMatcher("/api/**")`, denies
+every request that reaches it — `anyRequest().denyAll()`. This is the catch-all for anything under
+`/api/**` that is not `/api/public/**`, `/api/ecuacion-splib/public/**`, `/api/key/**`, or
+`/api/ecuacion-splib/key/**`.
 
 ## Adding your own security policy
 
@@ -10,16 +12,29 @@ with `/api/`), register your own `SecurityFilterChain` bean with a `securityMatc
 Any `@Order` works — none of `SplibRestSecurityConfig`'s four chains match a path outside
 `/api/**`, so your chain can never collide with them.
 
-To instead apply a different policy to a sub-path of `/api/**` (session-based authentication, a
-different header scheme, and so on), register your own `SecurityFilterChain` bean with `@Order`
-**lower than 8** — Spring Security evaluates filter chains in ascending `@Order` and stops at the
-first `securityMatcher` that matches the request, so your chain must be checked before the
-built-in ones, including the `/api/**` catch-all deny-all at `@Order(11)`.
-
 ```java
 @Configuration
 public class AppCustomApiSecurityConfig {
 
+  @Order(100)
+  @Bean
+  SecurityFilterChain filterChainForCustomApi(HttpSecurity http) throws Exception {
+    http.securityMatcher("/custom/**");
+
+    // configure authentication/authorization for this path here
+
+    return http.build();
+  }
+}
+```
+
+To instead apply a different policy to a sub-path of `/api/**`, register your own
+`SecurityFilterChain` bean with `@Order` **lower than 8** — Spring Security evaluates filter
+chains in ascending `@Order` and stops at the first `securityMatcher` that matches the request, so
+your chain must be checked before the built-in ones, including the `/api/**` catch-all deny-all at
+`@Order(11)`.
+
+```java
   @Order(1)
   @Bean
   SecurityFilterChain filterChainForCustomApi(HttpSecurity http) throws Exception {
@@ -29,18 +44,4 @@ public class AppCustomApiSecurityConfig {
 
     return http.build();
   }
-}
 ```
-
-Requests that don't match your custom `securityMatcher` fall through to the built-in
-`/api/public/**` / `/api/ecuacion-splib/public/**` (8), `/api/key/**` (9),
-`/api/ecuacion-splib/key/**` (10), and finally the `/api/**` deny-all (11) chains, in that order.
-
-## Reserved orders
-
-`ecuacion-splib-rest` uses `@Order(8)`, `@Order(9)`, `@Order(10)`, and `@Order(11)` for
-[Public Endpoints](page?id=rest/security/public-endpoints&lang=en),
-[API Key Authentication](page?id=rest/security/api-key/overview&lang=en),
-[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en), and the
-deny-all rule, respectively. Keep application-defined chains outside this range (below 8, since the
-deny-all rule at 11 must remain the final fallback).

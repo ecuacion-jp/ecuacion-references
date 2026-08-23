@@ -23,42 +23,45 @@ INSERT INTO test_table (num1, char1) VALUES (123, 'abc');
 
 サンプルの Excel ファイルを開き、以下の 2 つのシートを設定します。
 
-#### DB Connection Settings シート
+#### DB接続設定 シート
 
 利用するデータベースに応じて、いずれか一方を設定してください。
 
 **PostgreSQL の場合**
 
-| DB Connection ID | Driver Name | Connection URL: Protocol | Connection URL: Server | Connection URL: Port | Connection URL: Database | Connection URL: Schema | Username | Password |
+| DB接続ID | driver名 | 接続url : protocol | 接続url : サーバ | 接続url : port | 接続url : database | 接続url : schema | ユーザ名 | password |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | test-conn | org.postgresql.Driver | postgresql | localhost | 5432 | mydb | public | myuser | mypassword |
 
 **MySQL / MariaDB の場合**
 
-| DB Connection ID | Driver Name | Connection URL: Protocol | Connection URL: Server | Connection URL: Port | Connection URL: Database | Connection URL: Schema | Username | Password |
+| DB接続ID | driver名 | 接続url : protocol | 接続url : サーバ | 接続url : port | 接続url : database | 接続url : schema | ユーザ名 | password |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | test-conn | org.mariadb.jdbc.Driver | mysql | localhost | 3306 | mydb | | myuser | mypassword |
 
-#### Housekeep DB Settings シート
+#### housekeep DB設定 シート
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Soft / Hard Delete (internal value) | Table Name | ID Column Name | ID Column Literal Symbol | （以降は空白） |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| task-1 | test-conn | Hard Delete | HARD_DELETE | test_table | num1 | (none) | |
+| 処理ID | DB接続ID | 論理廃止 / 削除 | テーブル名 | IDカラム名 | IDカラム型リテラル記号 | （以降は空白） |
+| --- | --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | 削除 | test_table | num1 | (none) | |
 
 **ポイント:**
-- `Soft / Hard Delete`: ドロップダウンから「Hard Delete」を選択（英語版 Excel の場合）
-- `Soft / Hard Delete (internal value)`: `HARD_DELETE`（ツールが読み取る内部値）
-- `ID Column Literal Symbol`: `num1` は integer 型なのでクォートは不要 → `(none)` を指定
+- `論理廃止 / 削除`: ドロップダウンから「削除」を選択
+- `IDカラム型リテラル記号`: `num1` は integer 型なのでクォートは不要 → `(none)` を指定
   - varchar 型の場合は `quotes(')` を指定します
 
-### 3. ツールを実行する
+### 3. application.properties の設定
+
+JAR と同じ場所に `application.properties` を作成（または編集）し、先ほど設定した Excel ファイルのパスを指定します。
+
+```properties
+jp.ecuacion.tool.housekeep-db.excel-path=/path/to/your-settings.xlsx
+```
+
+### 4. ツールを実行する
 
 ```bash
-java -jar ecuacion-tool-housekeep-db-x.x.x.jar excelPath=/path/to/your-settings.xlsx
+java -jar ecuacion-tool-housekeep-db-x.x.x.jar
 ```
 
 `test_table` から INSERT したレコードが削除されれば成功です。
-
----
-
-経過日数での[フィルタリング](page?id=housekeep-db/excel-settings&lang=ja#経過日数による絞り込み任意)や、[soft delete](page?id=housekeep-db/excel-settings&lang=ja#soft-delete論理削除用列soft-delete-時のみ)の実行方法など、他の設定項目については[Excel設定ファイル](page?id=housekeep-db/excel-settings&lang=ja)を参照してください。

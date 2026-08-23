@@ -61,7 +61,7 @@ externalized file, an environment variable, etc.). Use `hasApplication(key)` to 
 By default, `application.properties` is read once at startup and cached — both by
 `PropertiesFileUtil` and by Spring's own `Environment`. `ecuacion-splib` provides a REST endpoint
 to clear that cache without restarting the app: `POST /api/ecuacion-splib/key/clearPropertiesCache`
-— see [Operational Endpoints](page?id=rest/operational-endpoints&lang=en).
+— see [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en).
 
 This always clears `PropertiesFileUtil`'s cache. To *also* refresh Spring's own `Environment` (so
 `@Value` / `Environment.getProperty()` pick up the change), your app must add
@@ -93,4 +93,4 @@ changes to `application.properties` itself — verified working regardless of de
 (executable WAR, external Tomcat, flat classpath). If your app also uses an *additional*
 `spring.config.name` (e.g. `spring.config.name=application,my-app`), changes to that additional
 file are not picked up by this refresh — see
-[Operational Endpoints](page?id=rest/operational-endpoints&lang=en) for details.
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en) for details.

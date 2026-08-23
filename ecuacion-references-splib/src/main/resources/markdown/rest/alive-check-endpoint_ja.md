@@ -1,13 +1,15 @@
-`ecuacion-splib-rest` は、`/api/ecuacion-splib/public/aliveCheck` にマッピングされた組み込みコントローラー
-`AliveCheckController` を 1 つ提供しています。
+`/api/ecuacion-splib/public/**` プレフィックス配下で公開されています。これは `ecuacion-splib` 自身の組み込みエンドポイント用に予約されたパスで、アプリケーション側の
+[Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)（`/api/public/**`）とは区別されていますが、`/api/public/**` と同様に認証なしで到達可能です。
+
+`ecuacion-splib-rest` は、このプレフィックス配下に組み込みコントローラーを 1 つ提供しています。
+
+## AliveCheckController
 
 ```
 GET  /api/ecuacion-splib/public/aliveCheck
 POST /api/ecuacion-splib/public/aliveCheck
 ```
 
-`/api/ecuacion-splib/public/**` プレフィックス配下にあります。これは `ecuacion-splib` 自身の組み込みエンドポイント用に予約されたパスで、アプリケーション側の
-[Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)（`/api/public/**`）とは区別されていますが、`/api/public/**` と同様に認証なしで到達可能です。
 `GET`・`POST` の両方を受け付けます（`HEAD` は Spring MVC が `GET` に付随して自動的に処理します）。
 これにより、監視ツールやアップタイムチェックがメソッド制限で弾かれることがないようにしています。
 

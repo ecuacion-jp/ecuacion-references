@@ -31,6 +31,6 @@
 	<property name="loglevel-security" value="DEBUG" />
 	<property name="loglevel-sql" value="TRACE" />
 	<property name="loglevel-root" value="INFO" />
-	<include resource="logback-spring-loggers-for-server.xml" />
+	<include resource="logback-spring-loggers-web-to-files.xml" />
 
 </configuration>
