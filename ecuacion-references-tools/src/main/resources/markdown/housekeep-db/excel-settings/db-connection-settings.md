@@ -18,3 +18,7 @@ Defines database connections used by tasks. Multiple connections can be register
 | --- | --- | --- |
 | PostgreSQL | `org.postgresql.Driver` | `postgresql` |
 | MySQL / MariaDB | `org.mariadb.jdbc.Driver` | `mysql` |
+
+## Example
+
+See the [Quickstart](page?id=housekeep-db/quickstart&lang=en) for a concrete example.

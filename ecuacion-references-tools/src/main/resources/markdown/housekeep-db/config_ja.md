@@ -20,21 +20,22 @@ jp.ecuacion.tool.housekeep-db.max-select-lines=1000
 
 ## logback-spring.xml
 
-Logbackの設定ファイルです。配置方法は下記の[ファイルの配置](#ファイルの配置)を参照してください。
+Logback の設定ファイルです。もちろん自由に設定できますが、splib が appenders / loggers 用の
+built-in な include リソースを用意しているため、それを使うと以下のように端的に書けます。
 
 ### 設定例
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <include resource="logback-spring-app-common.xml" />
+
     <property name="log-dir" value="/path/to/logs/directory" />
-    <property name="loglevel-spring" value="INFO" />
-    <include resource="logback-spring-appenders.xml" />
-    <include resource="logback-spring-appenders-local.xml" />
+    <include resource="logback-spring-appenders-batch.xml" />
 
     <property name="loglevel-jp.ecuacion" value="INFO" />
     <property name="loglevel-root" value="INFO" />
-    <include resource="logback-spring-loggers-for-local.xml" />
+    <include resource="logback-spring-loggers-batch-to-console-and-files.xml" />
 </configuration>
 ```
 

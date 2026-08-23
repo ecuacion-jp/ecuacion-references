@@ -18,3 +18,7 @@
 | --- | --- | --- |
 | PostgreSQL | `org.postgresql.Driver` | `postgresql` |
 | MySQL / MariaDB | `org.mariadb.jdbc.Driver` | `mysql` |
+
+## 設定例
+
+具体的な設定例は[クイックスタート](page?id=housekeep-db/quickstart&lang=ja)を参照してください。

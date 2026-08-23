@@ -32,7 +32,7 @@
 
 ## soft delete（論理廃止）用列（論理廃止時のみ）
 
-`論理廃止 / 削除（内部値）` が `SOFT_DELETE` の場合のみ使用します。
+`論理廃止 / 削除` が「論理廃止」の場合のみ使用します。
 
 | 列名 | 必須 | 説明 |
 | --- | --- | --- |
@@ -45,11 +45,69 @@
 「論理廃止：更新用ユーザIDカラム名」「論理廃止：更新用ユーザIDカラム型リテラル記号」「論理廃止：更新用ユーザIDカラム値」の 3 列は、
 すべて同時に設定するか、すべて空白にする必要があります。
 
----
+## 物理削除時に削除フラグカラム名を指定した場合の挙動
 
-## トランザクション仕様
+`論理廃止 / 削除` が「削除」（物理削除）の場合でも、`削除フラグカラム名` を指定できます。この場合、削除フラグカラムの値が `true` のレコードのみが物理削除の対象になります（`false` のレコードは対象外）。論理廃止で `true` に更新済みのレコードだけをまとめて物理削除する、といった運用に使えます。
 
-- このシートの各タスク完了時にコミットされます
-- メインの SELECT は `jp.ecuacion.tool.housekeep-db.max-select-lines`（デフォルト `1000`）件ごとにループ・コミットされ、メモリ使用量と処理時間を抑えます。詳細は[設定ファイル](page?id=housekeep-db/config&lang=ja)を参照してください
-- 1 件ずつの soft / hard delete の SQL は件数が多くなるため "debug" ログレベルで出力されます
-- メインの SELECT で取得したレコードが 1 件だった場合、そのSQLのログが 2 回出力されます。取得件数が 0 件になった時点でループが終了するため、最後にもう一度 SELECT が実行されるためです
+## 設定例
+
+### 論理廃止の場合
+
+#### 1. テスト用テーブルとデータの準備
+
+```sql
+CREATE TABLE test_table (
+    num1 integer,
+    char1 varchar,
+    is_deleted boolean DEFAULT false,
+    updated_at timestamp,
+    updated_by varchar,
+    PRIMARY KEY (num1)
+);
+
+INSERT INTO test_table (num1, char1) VALUES (123, 'abc');
+```
+
+#### 2. Excel 設定ファイルの編集
+
+| 処理ID | DB接続ID | 論理廃止 / 削除 | テーブル名 | IDカラム名 | IDカラム型リテラル記号 |
+| --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | 論理廃止 | test_table | num1 | (none) |
+
+| 削除フラグカラム名 | 論理廃止：更新用timestampカラム名 | 論理廃止：更新用ユーザIDカラム名 | 論理廃止：更新用ユーザIDカラム型リテラル記号 | 論理廃止：更新用ユーザIDカラム値 |
+| --- | --- | --- | --- | --- |
+| is_deleted | updated_at | updated_by | quotes(') | batch-user |
+
+実行すると、`is_deleted` が `true` に、`updated_at` が実行時刻に、`updated_by` が `batch-user` に更新されます（レコード自体は削除されません）。
+
+### 経過日数による絞り込みの場合
+
+#### 1. テスト用テーブルとデータの準備
+
+```sql
+CREATE TABLE test_table (
+    num1 integer,
+    char1 varchar,
+    last_updated timestamp,
+    PRIMARY KEY (num1)
+);
+
+-- 5日前に更新されたことになっているレコード（削除対象）
+INSERT INTO test_table (num1, char1, last_updated) VALUES (123, 'abc', now() - interval '5 days');
+-- 1日前に更新されたことになっているレコード（削除対象外）
+INSERT INTO test_table (num1, char1, last_updated) VALUES (456, 'def', now() - interval '1 days');
+```
+
+#### 2. Excel 設定ファイルの編集
+
+| 処理ID | DB接続ID | 論理廃止 / 削除 | テーブル名 | IDカラム名 | IDカラム型リテラル記号 |
+| --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | 削除 | test_table | num1 | (none) |
+
+| 期間経過チェック用：timestampカラム名 | 期間経過チェック用：timestampカラム型 | 期間経過チェック用：timestamp要経過日数 |
+| --- | --- | --- |
+| last_updated | LocalDateTime | 3 |
+
+実行すると、`last_updated` が3日以上前の `num1=123` のレコードのみ削除され、`num1=456` のレコードは残ります。
+
+> **要経過日数の判定基準について:** ここでいう「3日」は**日付ベースではなく時間ベース**です。内部では現在時刻と `last_updated` の差分を計算し、`72時間`（3日分）を超えているかどうかで判定しています（日付が3回変わったかどうかではありません）。そのため、日をまたぐタイミングによっては「日付上は3日前」でも対象外になったり、逆に「日付上は2日前」でも72時間を超えていれば対象になったりする点に注意してください。

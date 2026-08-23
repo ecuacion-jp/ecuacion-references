@@ -1,0 +1,2 @@
+- A commit is issued after each task in the Housekeep DB Settings sheet completes.
+- The SELECT against the table named in the Housekeep DB Settings sheet's `Table Name` column is looped and committed every `jp.ecuacion.tool.housekeep-db.max-select-lines` rows (default `1000`), to limit memory usage and processing time. See [Configuration](page?id=housekeep-db/config&lang=en).

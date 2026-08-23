@@ -20,21 +20,23 @@ jp.ecuacion.tool.housekeep-db.max-select-lines=1000
 
 ## logback-spring.xml
 
-The Logback configuration file; placed as described in [File Placement](#file-placement) below.
+The Logback configuration file. You're of course free to configure it however you like, but
+splib ships built-in include resources for appenders/loggers, so using them lets you keep it
+this concise.
 
 ### Example
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <include resource="logback-spring-app-common.xml" />
+
     <property name="log-dir" value="/path/to/logs/directory" />
-    <property name="loglevel-spring" value="INFO" />
-    <include resource="logback-spring-appenders.xml" />
-    <include resource="logback-spring-appenders-local.xml" />
+    <include resource="logback-spring-appenders-batch.xml" />
 
     <property name="loglevel-jp.ecuacion" value="INFO" />
     <property name="loglevel-root" value="INFO" />
-    <include resource="logback-spring-loggers-for-local.xml" />
+    <include resource="logback-spring-loggers-batch-to-console-and-files.xml" />
 </configuration>
 ```
 

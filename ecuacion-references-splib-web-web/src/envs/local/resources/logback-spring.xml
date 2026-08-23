@@ -20,7 +20,7 @@
 <configuration>
 
 	<!-- profile-independent properties -->
-	<include resource="logback-spring-common.xml" />
+	<include resource="logback-spring-app-common.xml" />
 
 	<!-- appenders -->
 	<property name="log-dir" value="./target/logs" />

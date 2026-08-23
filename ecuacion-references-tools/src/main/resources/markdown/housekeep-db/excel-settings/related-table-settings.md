@@ -2,19 +2,17 @@ Configures processing of related tables. Leave the sheet empty if not needed.
 
 Two processing patterns are available:
 
-| Pattern | Internal Value | Behavior |
-| --- | --- | --- |
-| Delete | `DELETE` | Delete related table records first, then delete the target table record |
-| Check and Skip Delete | `CHECK_AND_SKIP_DELETE` | Skip deletion of the target record if a related record exists |
+| Pattern | Behavior |
+| --- | --- |
+| Delete | Delete related table records first, then delete the target table record |
+| Check and Skip Delete | Skip deletion of the target record if a related record exists |
 
 ## Column Reference
 
 | Column | Required | Description |
 | --- | --- | --- |
 | Task ID | ○ | Must match a Task ID in the Housekeep DB Settings sheet |
-| Soft / Hard Delete (internal value) | ○ | `SOFT_DELETE` or `HARD_DELETE`. Must match the corresponding task |
 | Related Table Process Pattern | ○ | Display pattern name (`Delete` or `Check and Skip Delete`) |
-| Related Table Process Pattern (internal value) | ○ | `DELETE` or `CHECK_AND_SKIP_DELETE` |
 | Target Table Column Name | ○ | Column in the target table used to join with the related table |
 | Related Table Name | ○ | Name of the related table |
 | Related Table ID Column Name | ○ | ID column (primary key or unique index) of the related table |
