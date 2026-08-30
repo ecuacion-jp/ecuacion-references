@@ -235,3 +235,10 @@ try (ExcelTableReader.IterableReader<String> iter =
 
 ファイルパス版は try-with-resources で Workbook を自動クローズします。
 既存の `Workbook` を渡す版（`getIterable(Workbook)`）では呼び出し元が Workbook を管理します。
+
+> **セキュリティ上の注意:** Apache POI は xlsx ファイルを開く際にファイル全体をメモリへ展開します。
+> `getIterable(String filePath)`（ファイルパス版）を使った場合も同様で、`IterableReader` が回避しているのは
+> 「返却する行を1つの巨大な `List` にまとめること」だけであり、ファイルを開く際の全件パース自体は回避できません。
+> 本ライブラリ内部ではファイルサイズの上限チェックを行っていないため、非常に大きなファイルを処理すると
+> メモリ不足になる可能性があります。ユーザーがアップロードしたファイルを処理する場合は、呼び出し元で
+> ファイルサイズを事前にチェックする（および/または JVM ヒープサイズを適切に設定する）ことを推奨します。

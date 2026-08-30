@@ -233,3 +233,10 @@ try (ExcelTableReader.IterableReader<String> iter =
 
 The file-path overload closes the Workbook automatically via try-with-resources.
 When passing an existing `Workbook` (`getIterable(Workbook)`), the caller owns it.
+
+> **Security note:** Apache POI parses the entire xlsx file into memory when opening it, even
+> when using `getIterable(String filePath)` — `IterableReader` only avoids materializing the
+> *returned rows* as one big `List`; it does not avoid the initial full-file parse. This library
+> enforces no file size limit internally, so processing very large files can still exhaust
+> available memory. When processing user-uploaded files, check the file size (and/or configure
+> the JVM heap) before calling this library.

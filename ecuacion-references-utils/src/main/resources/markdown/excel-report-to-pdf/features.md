@@ -28,6 +28,12 @@ The following features have been verified through automated tests, grouped by ar
 - `&I` (italic) is parsed but has no effect as the embedded font has no italic face
 - **Images in headers/footers (`&G`) are not supported.** Place images directly in sheet
   cells instead.
+- **Security note on `&Z`:** this code expands to the absolute path of the directory
+  containing the *source Excel file on the machine generating the PDF* (matching Excel's own
+  behavior). If a template still has `&Z` in its header/footer when used in production, that
+  server-side directory path (e.g. `/opt/app/templates`) ends up embedded in every PDF
+  handed to end users. Remove `&Z` from templates before deploying, unless exposing that
+  path is intentional.
 
 ### Cell Borders
 
