@@ -14,6 +14,8 @@ Additional settings should be written in `application.properties`. You only need
 | --- | --- | --- |
 | `work-dir` | Base directory for temporary working files | `./app-work` |
 
+> **Note:** The code generation endpoint (`/public/sourceDownload/action`) requires no authentication and can be invoked by anyone. The application itself has no request rate limiting or concurrency limiting, so if you expose it to the internet, configure rate limiting at your reverse proxy / WAF.
+
 #### Mail notification (on error)
 
 Uses `SplibMailUtil` to notify administrators by mail when a system error occurs. For the full list

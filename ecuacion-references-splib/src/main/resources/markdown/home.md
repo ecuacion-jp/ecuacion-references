@@ -27,12 +27,24 @@ ecuacion-splib consists of the following modules.
 `ecuacion-splib-dependencies` is a build-only module for ecuacion-splib itself (and other ecuacion
 projects); general application developers don't use it. See "Setup" below for details.
 
-This site currently covers **`ecuacion-splib-rest`** (see the **rest** menu above),
-**`ecuacion-splib-batch`** (see the **batch** menu above), and **`ecuacion-splib-cli`** (see the
-**cli** menu above). Articles for the other modules will be added over time.
+> **A note on `ecuacion-splib-web-markdown`:** it renders Markdown as raw, unescaped HTML
+> (Thymeleaf `th:utext`), with no sanitization step. This is safe as long as the only Markdown
+> rendered is what a developer bundles into the application at build time — never let
+> user-editable Markdown reach it, as that would be a stored-XSS hole with no layer in between to
+> stop it.
 
-`ecuacion-splib-web` has its own hands-on tutorial application (a separate site) that lets you interact
-with real screens built on the framework, rather than reading Markdown articles about it.
+This site currently covers **`ecuacion-splib-rest`** (see the **rest** menu above),
+**`ecuacion-splib-batch`** (see the **batch** menu above), **`ecuacion-splib-cli`** (see the
+**cli** menu above), and part of **`ecuacion-splib-web`** (see the **web** menu above). Articles
+for the other modules will be added over time.
+
+> **A note on the two `ecuacion-splib-web` documentation sources.** The **web** menu on this site
+> covers `ecuacion-splib-web`'s internal behavior and security mechanisms only — authentication,
+> CSRF, exception handling, and the like — the same kind of content this site already provides for
+> `rest`/`batch`/`cli`. For the UI side (controllers, forms, Thymeleaf/Bootstrap components),
+> `ecuacion-splib-web` instead has its own hands-on tutorial application (a separate site) that
+> lets you interact with real screens built on the framework, rather than reading Markdown
+> articles about it.
 
 ---
 
@@ -131,6 +143,12 @@ not recommended.
 ### Add the module(s) you need
 
 ```xml
+<!-- to build a server-rendered web application -->
+<dependency>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-web</artifactId>
+</dependency>
+
 <!-- to build a REST API -->
 <dependency>
     <groupId>jp.ecuacion.splib</groupId>
@@ -150,6 +168,7 @@ not recommended.
 </dependency>
 ```
 
-See [Setup](page?id=rest/setup&lang=en) under the **rest** menu,
+See [Setup](page?id=web/setup&lang=en) under the **web** menu,
+[Setup](page?id=rest/setup&lang=en) under the **rest** menu,
 [Setup](page?id=batch/setup&lang=en) under the **batch** menu, or
 [Setup](page?id=cli/setup&lang=en) under the **cli** menu, for module-specific details.

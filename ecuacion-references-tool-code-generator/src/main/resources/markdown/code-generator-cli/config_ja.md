@@ -39,3 +39,5 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 | --- | --- | --- |
 | `input-dir` | Excel ファイルを置くディレクトリ。カンマ区切りで複数指定可能（例: `./dir1,./dir2`） | `./excel-format` |
 | `output-dir` | 生成ソースの出力先 | `./products/` |
+
+> **Warning:** `output-dir` は生成開始前に**再帰的に全削除**されます。既存の重要なディレクトリ（ホームディレクトリ等）を誤って指定しないよう注意してください。

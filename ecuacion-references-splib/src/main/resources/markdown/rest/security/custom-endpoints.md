@@ -5,6 +5,12 @@ every request that reaches it — `anyRequest().denyAll()`. This is the catch-al
 `/api/**` that is not `/api/public/**`, `/api/ecuacion-splib/public/**`, `/api/key/**`, or
 `/api/ecuacion-splib/key/**`.
 
+> **Important:** every one of these four chains matches only paths under `/api/**`. An endpoint
+> mapped outside `/api/**` — including one where the `/api` prefix was simply forgotten — is not
+> seen by any of them, `ecuacion-splib-rest` provides no security for it at all, and it is left
+> wide open unless your application registers its own `SecurityFilterChain` for that path (see
+> below).
+
 ## Adding your own security policy
 
 To expose an endpoint under a path other than the built-in prefixes (e.g. anything not starting

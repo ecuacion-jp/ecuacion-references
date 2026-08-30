@@ -45,6 +45,55 @@
 		</div></th:block>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.web}, ~{::navbarWeb}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarWeb" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/overview',lang=${lang})},
+					#{navBar.web.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/setup',lang=${lang})},
+					#{navBar.web.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/quickstart',lang=${lang})},
+					#{navBar.web.quickstart}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.web.grp.security}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/form-login',lang=${lang})},
+					#{navBar.web.security.formLogin}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/builtin-admin',lang=${lang})},
+					#{navBar.web.security.builtinAdmin}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/csrf-and-transaction-token',lang=${lang})},
+					#{navBar.web.security.csrfTransactionToken}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/open-redirect-protection',lang=${lang})},
+					#{navBar.web.security.openRedirect}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.web.grp.other}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/exception-handling',lang=${lang})},
+					#{navBar.web.exceptionHandling}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/operational-endpoints',lang=${lang})},
+					#{navBar.web.operationalEndpoints}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/logging',lang=${lang})},
+					#{navBar.web.logging}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.rest}, ~{::navbarRest}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarRest" th:remove="tag">
 

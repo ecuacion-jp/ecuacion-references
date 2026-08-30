@@ -26,11 +26,15 @@ ecuacion-splib は以下のモジュールで構成されています。
 `ecuacion-splib-dependencies` は ecuacion-splib 自身（および他の ecuacion 系プロジェクト）のビルド用モジュールで、
 一般アプリケーション開発者は使いません。詳細は下記「セットアップ」を参照してください。
 
-現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **rest**）、
-**`ecuacion-splib-batch`**（上部メニューの **batch**）、**`ecuacion-splib-cli`**（上部メニューの
-**cli**）です。他モジュールの記事は順次追加予定です。
+> **`ecuacion-splib-web-markdown` についての注意:** このモジュールは Markdown をサニタイズせず、
+> 生の HTML としてそのまま出力します（Thymeleaf の `th:utext`）。レンダー対象がビルド時に
+> 開発者が同梱した Markdown のみである限り安全ですが、ユーザーが編集可能な Markdown を
+> 流し込むことは絶対に避けてください。間に挟まるサニタイズ層が一段もないため、即座に
+> 格納型 XSS になります。
 
-`ecuacion-splib-web` については、Markdown 記事ではなく、フレームワーク上に実装された実際の画面を操作しながら学べる専用のチュートリアルアプリ（別サイト）が用意されています。
+現時点で本サイトがカバーしているのは **`ecuacion-splib-rest`**（上部メニューの **rest**）、**`ecuacion-splib-batch`**（上部メニューの **batch**）、**`ecuacion-splib-cli`**（上部メニューの **cli**）、そして **`ecuacion-splib-web`** の一部（上部メニューの **web**）です。他モジュールの記事は順次追加予定です。
+
+> **`ecuacion-splib-web` に関する2つのドキュメントについて。** 本サイトの **web** メニューがカバーするのは、認証・CSRF・例外処理など、`ecuacion-splib-web` の内部挙動とセキュリティ機構のみです。これは本サイトが `rest`/`batch`/`cli` に対して既に提供しているのと同じ種類のコンテンツです。UI側（コントローラー・フォーム・Thymeleaf/Bootstrapコンポーネント）については、Markdown 記事ではなく、フレームワーク上に実装された実際の画面を操作しながら学べる専用のチュートリアルアプリ（別サイト）が `ecuacion-splib-web` 向けに用意されています。
 
 ---
 
@@ -116,6 +120,12 @@ Spring Boot のバージョンと手動で揃える必要があります。こ�
 ### 必要なモジュールを追加する
 
 ```xml
+<!-- サーバーサイドレンダリングのWebアプリケーションを構築する場合 -->
+<dependency>
+    <groupId>jp.ecuacion.splib</groupId>
+    <artifactId>ecuacion-splib-web</artifactId>
+</dependency>
+
 <!-- REST API を構築する場合 -->
 <dependency>
     <groupId>jp.ecuacion.splib</groupId>
@@ -135,7 +145,8 @@ Spring Boot のバージョンと手動で揃える必要があります。こ�
 </dependency>
 ```
 
-モジュールごとの詳細は、上部メニューの **rest** にある
+モジュールごとの詳細は、上部メニューの **web** にある
+[セットアップ](page?id=web/setup&lang=ja)、**rest** にある
 [セットアップ](page?id=rest/setup&lang=ja)、**batch** にある
 [セットアップ](page?id=batch/setup&lang=ja)、または **cli** にある
 [セットアップ](page?id=cli/setup&lang=ja) を参照してください。

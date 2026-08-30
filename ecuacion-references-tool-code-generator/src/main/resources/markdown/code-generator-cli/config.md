@@ -39,3 +39,5 @@ Additional settings should be written in `application.properties`.
 | --- | --- | --- |
 | `input-dir` | Directory containing the Excel specification files. Multiple directories can be specified as a comma-separated list (e.g. `./dir1,./dir2`) | `./excel-format` |
 | `output-dir` | Root directory for generated Java source files | `./products/` |
+
+> **Warning:** `output-dir` is **recursively deleted in full** before generation starts. Be careful not to point it at an existing important directory (e.g. your home directory) by mistake.

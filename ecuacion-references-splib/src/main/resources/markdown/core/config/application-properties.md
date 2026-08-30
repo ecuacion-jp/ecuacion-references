@@ -59,9 +59,14 @@ externalized file, an environment variable, etc.). Use `hasApplication(key)` to 
 ## Hot-reloading without a restart
 
 By default, `application.properties` is read once at startup and cached — both by
-`PropertiesFileUtil` and by Spring's own `Environment`. `ecuacion-splib` provides a REST endpoint
-to clear that cache without restarting the app: `POST /api/ecuacion-splib/key/clearPropertiesCache`
-— see [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en).
+`PropertiesFileUtil` and by Spring's own `Environment`. `ecuacion-splib` provides two equivalent
+built-in endpoints to clear that cache without restarting the app:
+`POST /api/ecuacion-splib/key/clearPropertiesCache` (see
+[Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en) under **rest**)
+and `POST /ecuacion-splib/admin/config/action?action=clearPropertiesCache` (see
+[Operational Endpoints](page?id=web/operational-endpoints&lang=en) under **web**). Both share the
+same underlying `SplibPropertiesCacheClearer`, so which one to use is purely a matter of which
+module the application already depends on and which built-in credential it has configured.
 
 This always clears `PropertiesFileUtil`'s cache. To *also* refresh Spring's own `Environment` (so
 `@Value` / `Environment.getProperty()` pick up the change), your app must add

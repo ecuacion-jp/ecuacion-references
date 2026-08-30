@@ -48,10 +48,7 @@ expression, there is still more data in the expression: 'colon(:)'
 
 ## 再起動せずにホットリロードする
 
-`application.properties`はデフォルトでは起動時に一度だけ読み込まれ、`PropertiesFileUtil`側と
-Spring自身の`Environment`側の両方でキャッシュされます。`ecuacion-splib`は、アプリを再起動せずにこのキャッシュをクリアするREST APIを用意しています：
-`POST /api/ecuacion-splib/key/clearPropertiesCache` —
-[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja) を参照してください。
+`application.properties`はデフォルトでは起動時に一度だけ読み込まれ、`PropertiesFileUtil`側とSpring自身の`Environment`側の両方でキャッシュされます。`ecuacion-splib`は、アプリを再起動せずにこのキャッシュをクリアする、同等の組み込みエンドポイントを2つ用意しています。`POST /api/ecuacion-splib/key/clearPropertiesCache`（**rest**メニュー配下の[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)を参照）と、`POST /ecuacion-splib/admin/config/action?action=clearPropertiesCache`（**web**メニュー配下の[運用エンドポイント](page?id=web/operational-endpoints&lang=ja)を参照）です。どちらも内部的に同じ`SplibPropertiesCacheClearer`を使っているため、どちらを使うかは単に、アプリが既に依存しているモジュールと、設定済みの組み込み資格情報がどちらかという話に過ぎません。
 
 これは`PropertiesFileUtil`のキャッシュを常にクリアします。Spring自身の`Environment`
 （`@Value` / `Environment.getProperty()`が参照する値）**も**リフレッシュしたい場合は、
