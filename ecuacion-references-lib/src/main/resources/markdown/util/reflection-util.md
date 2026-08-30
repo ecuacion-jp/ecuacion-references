@@ -17,6 +17,11 @@ boolean exists2 = ReflectionUtil.classExists("com.example.NonExistent");        
 Object instance = ReflectionUtil.newInstance("jp.ecuacion.example.MyClass");
 ```
 
+**`className` must not come from untrusted (e.g. end-user) input.** `classExists` triggers
+loading and static initialization of the named class, and `newInstance` additionally triggers
+no-argument construction of it — both let whoever controls `className` run arbitrary code that
+happens to be on the classpath.
+
 ---
 
 ## Getting Fields by Simple Field Name

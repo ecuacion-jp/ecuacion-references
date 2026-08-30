@@ -12,9 +12,13 @@ Excel 設定ファイルに基づいて自動実行するバッチツールで�
 
 ## ツールの仕組み
 
-設定は Excel ファイル 1 枚で管理します。ツール起動時にその Excel ファイルのパスを引数として渡すと、
-タスク設定シートに記載されたタスクが上から順番に実行されます。
+設定は Excel ファイル 1 枚で管理します。そのパスを JAR と同じ場所に置いた `application.properties` に設定してください。
+ツール起動時に、タスク設定シートに記載されたタスクが上から順番に実行されます。
+
+```properties
+jp.ecuacion.tool.housekeep-files.excel-path=/path/to/settings.xlsx
+```
 
 ```
-java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
+java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```

@@ -29,7 +29,13 @@ INSERT INTO test_table (num1, char1, exit_code) VALUES (456, 'def', 'FAILED');
 
 ### 2. Excel 設定ファイルの編集
 
-housekeep DB設定 シートで `task-1` が `test_table` を対象に定義済みであるとして、データ検索条件設定 シートに以下を追加します。
+#### housekeep DB設定 シート
+
+| 処理ID | DB接続ID | 論理廃止 / 削除 | テーブル名 | IDカラム名 | IDカラム型リテラル記号 |
+| --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | 削除 | test_table | num1 | (none) |
+
+#### データ検索条件設定 シート
 
 | 処理ID | 条件カラム名 | 条件カラム型リテラル記号 | 条件カラム値 |
 | --- | --- | --- | --- |

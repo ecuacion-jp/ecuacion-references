@@ -33,7 +33,9 @@ POST /api/key/execute      # X-Api-Key ヘッダによる認証が必須
 {
     "returnCode": "0",
     "stdout": "...",
-    "stderr": "..."
+    "stderr": "...",
+    "stdoutTruncated": "false",
+    "stderrTruncated": "false"
 }
 ```
 
@@ -41,6 +43,8 @@ POST /api/key/execute      # X-Api-Key ヘッダによる認証が必須
 
 スクリプト実行自体は成功したが、スクリプト内でエラーが発生した場合も HTTP 200 が返ります。
 終了コードの値でスクリプトの成否を確認してください。
+
+`stdoutTruncated` / `stderrTruncated` は、`jp.ecuacion.tool.command-api.script-max-output-bytes`（[設定ファイル](page?id=command-api/config&lang=ja)を参照、デフォルト1MiB）を超過して出力が打ち切られたかどうかを示します。打ち切られた場合、`stdout` / `stderr` にはこの上限までの内容のみが含まれ、以降の出力は破棄されます（スクリプト自体は最後まで実行されます）。
 
 ---
 
@@ -83,9 +87,13 @@ URL が正しくない場合に返ります。
 - スクリプトファイルパス中の `${...}` 形式の環境変数参照が不正（波括弧の対応が取れていない）、または参照先の環境変数が未設定の場合
 - OS がスクリプトの起動自体に失敗した場合（シバンの指定誤りなど、実行権限はあるのに起動できないケース）
 
+### HTTP 504
+
+スクリプトの実行が `jp.ecuacion.tool.command-api.script-timeout-seconds`（[設定ファイル](page?id=command-api/config&lang=ja)を参照、デフォルト60秒）を超えた場合に返ります。スクリプトは強制終了されます。
+
 ### エラーレスポンスボディの形式
 
-400 / 403 / 500 いずれの場合も、レスポンスボディは以下の形式（[RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) 形式の ProblemDetail）です。
+400 / 403 / 500 / 504 いずれの場合も、レスポンスボディは以下の形式（[RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) 形式の ProblemDetail）です。
 
 ```json
 {

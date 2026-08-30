@@ -39,6 +39,11 @@ public class RegistrationForm { ... }
 | `@ValueOfPropertyPathWhen` | 別フィールドと同値であること | `valuePropertyPath` |
 | `@NotValueOfPropertyPathWhen` | 別フィールドと異なること | `valuePropertyPath` |
 
+> **Note:** `@PatternWhen` / `@NotPatternWhen` の `regexp`、および `conditionValuePatternRegexp`
+> （下記 [conditionValue](#conditionvalue--条件の種類) を参照）は、エンドユーザー入力に由来しうる値に対して
+> マッチングされます。ネストした量指定子（例：`(a+)+`）のような、破滅的バックトラッキングを起こしやすい
+> パターンは避けてください。細工した入力に対してマッチングが指数時間かかることがあります。
+
 ---
 
 ## 主要属性

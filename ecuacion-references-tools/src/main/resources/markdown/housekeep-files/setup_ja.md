@@ -36,14 +36,14 @@ Logback の設定ファイルは以下の優先順位で読み込まれます。
 
 ```bash
 cd /your-work-dir
-java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
+java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
 **方法 2 — パスを明示:**
 
 ```bash
 java -Dlogging.config=file:/path/to/logback-spring.xml \
-     -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
+     -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
 `logback-spring.xml` の記述例:

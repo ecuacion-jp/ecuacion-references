@@ -39,10 +39,18 @@ Open the sample Excel file and fill in the following three sheets.
 
 Leave empty — no path variables are used in this example.
 
-### 3. Run the Tool
+### 3. Configure application.properties
+
+Next to the JAR, create (or edit) `application.properties` and point it at the excel file you just configured.
+
+```properties
+jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
+```
+
+### 4. Run the Tool
 
 ```bash
-java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/your-settings.xlsx
+java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
 If `/tmp/hkf-test/from/sample.txt` is moved to `/tmp/hkf-test/to/sample.txt`, the run was successful.

@@ -48,6 +48,7 @@ bcrypt は意図的に低速なアルゴリズムなので、複数の値と比�
 `SplibApiKeyAuthenticationFilter` は以下のいずれの場合も同じ汎用的な `401` を返すため、
 呼び出し側はどのケースに該当したかを区別できません。
 
+- 送信元IPが現在ロックアウト中(下記[レート制限](#レート制限ブルートフォース対策)を参照)。
 - `X-Api-Key` ヘッダーが欠落または空。
 - `SplibApiKeyExpectedValueProvider` の Bean が登録されていない。
 - Provider が `null` または空のコレクションを返した（例：`apiKeyId` が未知）。
@@ -55,6 +56,22 @@ bcrypt は意図的に低速なアルゴリズムなので、複数の値と比�
 
 詳細はサーバー側のログにのみ出力され、提示されたキーの値自体はログに出力されません。
 比較には `MessageDigest.isEqual`（定数時間比較）を用いており、タイミング攻撃を防いでいます。
+
+## レート制限（ブルートフォース対策）
+
+キー不一致1回ごとに、送信元IPごとの失敗回数としてカウントします。完全にインメモリ（JVMヒープ、DB不使用）です。ある送信元IPが `window-seconds` 秒以内に `max-failures` 回不一致を起こすと、その IP は `lockout-seconds` 秒間ロックアウトされ、以降は上記と同じ汎用 `401` で（キー照合自体を試みることなく）即座に拒否されます。これは `BCRYPT` モード時の CPU コストも同時に抑えます — bcrypt照合を毎回全登録キーに対して強制させる攻撃も、`max-failures` 回で打ち切られ無制限には繰り返せなくなります。照合に成功すると、その IP のカウントはクリアされます。
+
+| プロパティ | 型 | 説明 |
+| --- | --- | --- |
+| `jp.ecuacion.splib.rest.api-key.rate-limit.max-failures` | int | ロックアウトまでにウィンドウ内で許容する不一致回数。デフォルト: `10`。 |
+| `jp.ecuacion.splib.rest.api-key.rate-limit.window-seconds` | long | 上記カウントが適用される時間窓（秒）。デフォルト: `60`。 |
+| `jp.ecuacion.splib.rest.api-key.rate-limit.lockout-seconds` | long | ロックアウト発動後、送信元IPがロックアウトされ続ける秒数。デフォルト: `300`。 |
+
+インメモリであるため、再起動でカウントはリセットされ、ロードバランサ配下の複数インスタンス間でも共有されません（各インスタンスが送信元IPを個別に追跡します）。本モジュールの通常の想定デプロイ（単一インスタンス）であれば、DBを不要にする代わりのトレードオフとして許容範囲です。
+
+**リバースプロキシ配下の場合:** 送信元IPは `HttpServletRequest.getRemoteAddr()`（直接のTCP接続相手）です。追加設定なしにリバースプロキシ（nginx、ALB等）配下に置くと、すべてのリクエストでプロキシ自身のアドレスになり、配下の全トラフィックが1つのIPにまとめられてしまいます。これへの対処として `X-Forwarded-For` をここで信頼するのは避けてください — 直接の呼び出し元も自由に設定できるヘッダーなので、これを無条件に信頼すると攻撃者はリクエストごとに新しいIPを詐称してロックアウトを完全に回避できてしまいます。代わりに、プロキシが `X-Forwarded-For` を正しく設定（かつクライアント由来の値を上書き）することを信頼できるなら、Spring Boot 標準の
+[`server.forward-headers-strategy=native`](https://docs.spring.io/spring-boot/reference/web/servlet.html#web.servlet.embedded-container.customizing.programmatic)
+（または `framework`）を有効にしてください。これにより、このフィルターに到達する時点で `getRemoteAddr()` 自体が既に実クライアントIPを返すようになり、このフィルター自体はプロキシの存在を意識せずに済みます。
 
 ## 認証成功時
 

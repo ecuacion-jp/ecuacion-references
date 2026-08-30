@@ -11,8 +11,12 @@
 
 ## How It Works
 
-All configuration is managed in a single Excel file. When the tool starts, you pass the path of the Excel file as an argument, and the tasks listed in the task sheet are executed from top to bottom.
+All configuration is managed in a single Excel file. Set its path in `application.properties` placed next to the JAR; when the tool starts, the tasks listed in the task sheet are executed from top to bottom.
+
+```properties
+jp.ecuacion.tool.housekeep-files.excel-path=/path/to/settings.xlsx
+```
 
 ```
-java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
+java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```

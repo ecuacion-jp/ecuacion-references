@@ -76,6 +76,13 @@ public class ImportForm {
 }
 ```
 
+**Do not annotate a field fed by untrusted (e.g. end-user) input.** Since the pass/fail result is
+observable per request, an attacker could use it as an oracle to enumerate which paths exist on
+the server's file system (e.g. probing `/etc/passwd` or internal application paths). Use these
+only for trusted input such as configuration values or administrator-entered paths — the
+`ImportForm` example above is realistic only when `sourceFilePath` / `outputDir` come from an
+operator, not a public-facing upload form.
+
 ---
 
 ## FileExtension — File Extension Check

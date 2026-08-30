@@ -29,7 +29,13 @@ INSERT INTO test_table (num1, char1, exit_code) VALUES (456, 'def', 'FAILED');
 
 ### 2. Configure the Excel File
 
-Assuming `task-1` is already defined in the Housekeep DB Settings sheet targeting `test_table`, add the following to the Search Condition Settings sheet.
+#### Housekeep DB Settings Sheet
+
+| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol |
+| --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | Hard Delete | test_table | num1 | (none) |
+
+#### Search Condition Settings Sheet
 
 | Task ID | Search Condition Column Name | Search Condition Column Literal Symbol | Search Condition Column Value |
 | --- | --- | --- | --- |

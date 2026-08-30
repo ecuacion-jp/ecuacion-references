@@ -18,6 +18,15 @@
 
 各プロパティの詳細、およびapi-keyファイル自体の管理方法については[アクセス制御](page?id=command-api/access-control&lang=ja)を参照してください。
 
+#### スクリプト実行
+
+| プロパティ | 型 | 説明 |
+| --- | --- | --- |
+| `jp.ecuacion.tool.command-api.script-timeout-seconds` | long | スクリプトの実行を待つ最大秒数。超過すると強制終了され、`504 Gateway Timeout` を返します。デフォルト: `60`。 |
+| `jp.ecuacion.tool.command-api.script-max-output-bytes` | long | レスポンスに含める標準出力・標準エラー出力の上限バイト数（stdout・stderrそれぞれ独立に適用）。超過した時点以降の行は破棄され、レスポンスの `stdoutTruncated` / `stderrTruncated` が `true` になります。スクリプト自体は最後まで実行されます。デフォルト: `1048576`（1MiB）。 |
+
+ハングするスクリプト（またはハングさせるパラメータ）でワーカースレッドが専有され続けるのを防ぐための設定です。また、大量の出力（大きなファイルの `cat` や無限出力ループ等）でJVMヒープを圧迫するのも防ぎます。
+
 #### メール通知（エラー発生時）
 
 システムエラー発生時に `SplibMailUtil` で管理者へメール通知します。`spring.mail.*` / `jp.ecuacion.splib.mail.*` の各プロパティ・デフォルト値・設定例（Gmail含む）は

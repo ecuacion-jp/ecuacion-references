@@ -33,7 +33,9 @@ See [Access Control](page?id=command-api/access-control&lang=en) for details.
 {
     "returnCode": "0",
     "stdout": "...",
-    "stderr": "..."
+    "stderr": "...",
+    "stdoutTruncated": "false",
+    "stderrTruncated": "false"
 }
 ```
 
@@ -41,6 +43,8 @@ See [Access Control](page?id=command-api/access-control&lang=en) for details.
 
 HTTP 200 is returned even if the script itself exits with a non-zero code.
 Check `returnCode` to determine whether the script succeeded.
+
+`stdoutTruncated` / `stderrTruncated` indicate whether output was cut off after exceeding `jp.ecuacion.tool.command-api.script-max-output-bytes` (see [Configuration Files](page?id=command-api/config&lang=en); default 1 MiB). When truncated, `stdout` / `stderr` contain only the content up to that cap, and everything after it is discarded (the script itself still runs to completion).
 
 ---
 
@@ -83,9 +87,13 @@ Returned for the following server-side configuration causes.
 - A `${...}` environment variable reference in the script file path is malformed (unmatched braces), or the referenced environment variable isn't set
 - The OS itself failed to start the script (e.g. a bad shebang) even though it's executable
 
+### HTTP 504
+
+Returned when the script's execution exceeds `jp.ecuacion.tool.command-api.script-timeout-seconds` (see [Configuration Files](page?id=command-api/config&lang=en); default 60 seconds). The script is forcibly killed.
+
 ### Error Response Body Format
 
-For 400, 403, and 500, the response body is in the following format ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) ProblemDetail).
+For 400, 403, 500, and 504, the response body is in the following format ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457) ProblemDetail).
 
 ```json
 {

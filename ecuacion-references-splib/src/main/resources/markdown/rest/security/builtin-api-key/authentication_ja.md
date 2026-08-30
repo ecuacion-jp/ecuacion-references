@@ -27,8 +27,20 @@
 
 ## 拒否時の挙動・認証成功時
 
-ヘッダー欠落や誤った（あるいは存在しない）キーの場合は、`/api/key/**` と同様に汎用的な `401` を返します（比較には `MessageDigest.isEqual` による定数時間比較を使用）。「該当キーなし」と「キー相違」を呼び出し元が区別できないようにするためです。一方、
+ヘッダー欠落、送信元IPのロックアウト中（下記[レート制限](#レート制限)を参照）、誤った（あるいは存在しない）キーのいずれも、`/api/key/**` と同様に汎用的な `401` を返します（比較には `MessageDigest.isEqual` による定数時間比較を使用）。「該当キーなし」「キー相違」「レート制限中」を呼び出し元が区別できないようにするためです。一方、
 `jp.ecuacion.splib.rest.builtin-api-key.password-plain` と `...password-bcrypt` の**両方**が設定されている場合はこれとは異なり、該当する2つのプロパティキー名を明示した `500` を返します。
 この状態は `application.properties` を管理する側にしか起こりえないためです。
 
 認証に成功すると `ROLE_BUILTIN_API_KEY` 権限で認証されます（`/api/key/**` では `ROLE_API_KEY`）。
+
+## レート制限
+
+`/api/key/**` と同じ送信元IPごとのロックアウト機構を共有しています。仕組み（リバースプロキシに関する注意点含む）は
+[レート制限（ブルートフォース対策）](page?id=rest/security/api-key/authentication&lang=ja#レート制限ブルートフォース対策)
+を参照してください。ここではこのエンドポイント自身の `jp.ecuacion.splib.rest.builtin-api-key` プレフィックスを使うため、`/api/key/**` とは独立してロックアウトが管理されます。
+
+| プロパティ | 型 | 説明 |
+| --- | --- | --- |
+| `jp.ecuacion.splib.rest.builtin-api-key.rate-limit.max-failures` | int | ロックアウトまでにウィンドウ内で許容する不一致回数。デフォルト: `10`。 |
+| `jp.ecuacion.splib.rest.builtin-api-key.rate-limit.window-seconds` | long | 上記カウントが適用される時間窓（秒）。デフォルト: `60`。 |
+| `jp.ecuacion.splib.rest.builtin-api-key.rate-limit.lockout-seconds` | long | ロックアウト発動後、送信元IPがロックアウトされ続ける秒数。デフォルト: `300`。 |

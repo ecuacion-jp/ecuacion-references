@@ -39,10 +39,18 @@ touch /tmp/hkf-test/from/sample.txt
 
 今回はパス変数を使わないため、空のままで構いません。
 
-### 3. ツールを実行する
+### 3. application.properties の設定
+
+JAR と同じ場所に `application.properties` を作成（または編集）し、先ほど設定した Excel ファイルのパスを指定します。
+
+```properties
+jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
+```
+
+### 4. ツールを実行する
 
 ```bash
-java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/your-settings.xlsx
+java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
 `/tmp/hkf-test/from/sample.txt` が `/tmp/hkf-test/to/sample.txt` に移動されれば成功です。

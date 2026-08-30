@@ -53,6 +53,8 @@ more.
 `SplibApiKeyAuthenticationFilter` rejects with a generic `401` in every case below, so a caller cannot
 tell which one occurred:
 
+- The source IP is currently locked out (see [Rate Limiting](#rate-limiting-brute-force-protection)
+  below).
 - The `X-Api-Key` header is missing or empty.
 - No `SplibApiKeyExpectedValueProvider` bean is registered.
 - The provider returns `null` or an empty collection (e.g. unknown `apiKeyId`).
@@ -60,6 +62,37 @@ tell which one occurred:
 
 Details are logged server-side only; the presented key value itself is never logged. The comparison
 uses `MessageDigest.isEqual` (constant-time) to avoid a timing attack.
+
+## Rate Limiting (Brute-Force Protection)
+
+Each key mismatch counts against a per-source-IP failure count, entirely in-memory (JVM heap, no
+database). Once a source IP accumulates `max-failures` mismatches within `window-seconds`, it's
+locked out for `lockout-seconds` — rejected with the same generic `401` above, without even
+attempting a key comparison. This also bounds the CPU cost of `BCRYPT` mode: an attacker forcing a
+bcrypt comparison against every registered key on every guess gets cut off after `max-failures`
+guesses rather than being able to repeat indefinitely. A successful match clears the count for that
+IP.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `jp.ecuacion.splib.rest.api-key.rate-limit.max-failures` | int | Mismatches allowed within the window before lockout. Default: `10`. |
+| `jp.ecuacion.splib.rest.api-key.rate-limit.window-seconds` | long | The sliding window the count above applies to. Default: `60`. |
+| `jp.ecuacion.splib.rest.api-key.rate-limit.lockout-seconds` | long | How long a source IP stays locked out once triggered. Default: `300`. |
+
+Being in-memory, the count resets on restart and isn't shared across instances behind a load
+balancer — each instance tracks its own source IPs independently. For this module's usual
+single-instance deployment that's an acceptable trade-off for not requiring a database.
+
+**Behind a reverse proxy:** the source IP is `HttpServletRequest.getRemoteAddr()` — the immediate
+TCP peer. Behind a reverse proxy (nginx, an ALB, etc.) without further configuration, that's the
+proxy's own address for every request, which would bucket all traffic behind it under one IP. Don't
+address this by trusting `X-Forwarded-For` here — it's a header any direct caller can also set, so
+trusting it blindly would let an attacker spoof a fresh IP on every request and bypass the lockout
+entirely. Instead, if the proxy is trusted to set (and overwrite any client-supplied)
+`X-Forwarded-For` correctly, enable Spring Boot's own
+[`server.forward-headers-strategy=native`](https://docs.spring.io/spring-boot/reference/web/servlet.html#web.servlet.embedded-container.customizing.programmatic)
+(or `framework`) — `getRemoteAddr()` then already reflects the real client IP by the time it
+reaches this filter, and this filter itself stays unaware the proxy exists.
 
 ## On success
 

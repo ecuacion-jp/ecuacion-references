@@ -40,6 +40,11 @@ These annotations have their own parameters in addition to `conditionValue`.
 | `@ValueOfPropertyPathWhen` | Must have the same value as another field | `valuePropertyPath` |
 | `@NotValueOfPropertyPathWhen` | Must have a different value from another field | `valuePropertyPath` |
 
+> **Note:** `@PatternWhen` / `@NotPatternWhen`'s `regexp`, and `conditionValuePatternRegexp` (see
+> [conditionValue](#conditionvalue--type-of-condition) below), are matched against a value that
+> may come from end-user input. Avoid patterns prone to catastrophic backtracking (e.g. nested
+> quantifiers like `(a+)+`), which can make matching take exponential time on a crafted input.
+
 ---
 
 ## Key Attributes

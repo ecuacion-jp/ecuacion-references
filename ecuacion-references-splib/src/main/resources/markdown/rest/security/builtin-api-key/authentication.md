@@ -39,12 +39,27 @@ without a restart.
 
 ## Rejection behavior and on success
 
-A missing header or a wrong/absent key returns a generic `401` (`MessageDigest.isEqual` is used
-for a constant-time comparison), the same as `/api/key/**` — indistinguishable from each other so
-a caller can't tell "no such key" from "wrong key". Having *both*
+A missing header, a locked-out source IP (see [Rate Limiting](#rate-limiting) below), or a
+wrong/absent key all return a generic `401` (`MessageDigest.isEqual` is used for a constant-time
+comparison), the same as `/api/key/**` — indistinguishable from each other so a caller can't tell
+"no such key" from "wrong key" from "rate-limited". Having *both*
 `jp.ecuacion.splib.rest.builtin-api-key.password-plain` and `...password-bcrypt` set at once is
 different: it returns a `500` naming the two offending property keys, since that state can only
 be reached by whoever controls `application.properties`.
 
 A successful match authenticates the request with the `ROLE_BUILTIN_API_KEY` authority
 (`ROLE_API_KEY` is used for `/api/key/**`).
+
+## Rate Limiting
+
+Shares the same per-source-IP lockout mechanism as `/api/key/**` — see
+[Rate Limiting (Brute-Force Protection)](page?id=rest/security/api-key/authentication&lang=en#rate-limiting-brute-force-protection)
+for how it works, including the reverse-proxy caveat. The properties here use this endpoint's own
+`jp.ecuacion.splib.rest.builtin-api-key` prefix instead, so the lockout is tracked independently of
+`/api/key/**`'s:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `jp.ecuacion.splib.rest.builtin-api-key.rate-limit.max-failures` | int | Mismatches allowed within the window before lockout. Default: `10`. |
+| `jp.ecuacion.splib.rest.builtin-api-key.rate-limit.window-seconds` | long | The sliding window the count above applies to. Default: `60`. |
+| `jp.ecuacion.splib.rest.builtin-api-key.rate-limit.lockout-seconds` | long | How long a source IP stays locked out once triggered. Default: `300`. |

@@ -64,6 +64,17 @@ for undefined keys to be displayed on screen, so no exception is thrown.
 
 ---
 
+## JVM System Properties Take Precedence Over Every File
+
+For every file type, a JVM system property whose name equals the key being looked up takes
+precedence over the value in the properties files above — so if a system property happens to
+share a name with a message/config key, it silently overrides the file value. Only whoever can
+set JVM system properties (effectively the server administrator, via `-D` at startup) can trigger
+this, but it's worth being aware of if a key's resolved value is unexpectedly different from what
+its file defines.
+
+---
+
 ## Overriding Default Values with `.default` Suffix
 
 Keys provided by ecuacion modules have a `.default` suffix.

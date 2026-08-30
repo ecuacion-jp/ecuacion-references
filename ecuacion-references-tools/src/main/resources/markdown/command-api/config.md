@@ -18,6 +18,15 @@ Additional settings should be written in `application.properties`.
 
 See [Access Control](page?id=command-api/access-control&lang=en) for the full explanation of each property, plus how the api-key file itself is managed.
 
+#### Script Execution
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `jp.ecuacion.tool.command-api.script-timeout-seconds` | long | Maximum number of seconds to wait for a script to finish. On timeout, the script is forcibly killed and a `504 Gateway Timeout` is returned. Default: `60`. |
+| `jp.ecuacion.tool.command-api.script-max-output-bytes` | long | Maximum number of bytes of stdout / stderr included in the response (applied independently to each stream). Lines received after the cap is reached are discarded, and the response's `stdoutTruncated` / `stderrTruncated` is set to `true`; the script itself still runs to completion. Default: `1048576` (1 MiB). |
+
+Prevents a hanging script (or a script hung by a crafted parameter) from occupying a worker thread indefinitely, and prevents a script producing a large amount of output (e.g. `cat`-ing a large file, or an infinite-output loop) from exhausting the JVM heap.
+
 #### Mail Notification (on Error)
 
 Uses `SplibMailUtil` to notify administrators by mail when a system error occurs. For the full list

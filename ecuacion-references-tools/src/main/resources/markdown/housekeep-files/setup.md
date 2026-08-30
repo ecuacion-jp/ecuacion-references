@@ -37,14 +37,14 @@ The Logback configuration file is loaded in the following priority order.
 
 ```bash
 cd /your-work-dir
-java -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
+java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
 **Option 2 — Specify path explicitly:**
 
 ```bash
 java -Dlogging.config=file:/path/to/logback-spring.xml \
-     -jar ecuacion-tool-housekeep-files-x.x.x.jar excelPath=/path/to/settings.xlsx
+     -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
 Example `logback-spring.xml`:

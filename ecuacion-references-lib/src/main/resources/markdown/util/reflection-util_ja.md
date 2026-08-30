@@ -16,6 +16,8 @@ boolean exists2 = ReflectionUtil.classExists("com.example.NonExistent");        
 Object instance = ReflectionUtil.newInstance("jp.ecuacion.example.MyClass");
 ```
 
+**`className` に信頼できない（エンドユーザー由来の）値を渡さないでください。** `classExists` は指定したクラスのロードと static 初期化を発生させ、`newInstance` はさらに引数なしコンストラクタでのインスタンス化まで発生させます。`className` を制御できる者は、クラスパス上にある任意のコードを実行できてしまいます。
+
 ---
 
 ## 単純フィールド名でのフィールド取得
