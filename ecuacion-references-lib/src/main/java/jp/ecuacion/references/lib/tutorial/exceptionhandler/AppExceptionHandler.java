@@ -17,13 +17,13 @@ package jp.ecuacion.references.lib.tutorial.exceptionhandler;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jp.ecuacion.splib.core.exceptionhandler.SplibExceptionHandlerAction;
-import jp.ecuacion.splib.web.exceptionhandler.SplibExceptionHandler;
+import jp.ecuacion.splib.web.exceptionhandler.SplibWebExceptionHandler;
 import jp.ecuacion.splib.web.util.SplibLoginStateUtil;
 import org.jspecify.annotations.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice
-public class AppExceptionHandler extends SplibExceptionHandler {
+public class AppExceptionHandler extends SplibWebExceptionHandler {
 
   /**
    * Constructs a new instance.
