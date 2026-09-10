@@ -19,3 +19,10 @@ Script file paths (as registered in `ecuacion-tool-command-api-scripts.propertie
 ## Access Control
 
 `X-Api-Key` is a **shared secret** compared against a file placed on the server. See [Access Control](page?id=command-api/access-control&lang=en) for the full property reference (`api-key-required`, `api-key-comparison-mode`) and how the key file is managed.
+
+## Transport Security
+
+`X-Api-Key` is sent as a plain HTTP header — it is not hashed or otherwise protected in transit.
+**Only expose this application over HTTPS** (terminating TLS at a reverse proxy is fine), so the
+key isn't observable to anyone who can see the network traffic. This application does not enforce
+HTTPS itself; it's a deployment requirement.

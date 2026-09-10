@@ -4,7 +4,7 @@
 
 ## URLプレフィックス
 
-`SplibBuiltinAdminSecurityConfig` は `@Order(12)` で独自の `SecurityFilterChain` を登録し、`/ecuacion-splib/public/adminLogin/**`、`/ecuacion-splib/admin/**`、`/ecuacion-splib/adminLogout` のみにマッチします。`/ecuacion-splib/public/adminLogin/**`（ログインページ自体）は `permitAll` で、`/ecuacion-splib/admin/**` 配下のそれ以外はすべて認証が必要です。
+`SplibBuiltinAdminSecurityConfig` は `@Order(22)` で独自の `SecurityFilterChain` を登録し、`/ecuacion-splib/public/adminLogin/**`、`/ecuacion-splib/admin/**`、`/ecuacion-splib/adminLogout` のみにマッチします。`/ecuacion-splib/public/adminLogin/**`（ログインページ自体）は `permitAll` で、`/ecuacion-splib/admin/**` 配下のそれ以外はすべて認証が必要です。
 
 ## 資格情報プロパティ
 

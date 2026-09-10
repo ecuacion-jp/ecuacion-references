@@ -15,7 +15,7 @@ Creates a directory at the specified path.
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Prohibited (leave empty) |
+| Source path fields (4) | Prohibited (leave empty) |
 | Destination path fields (4) | Required |
 | Is Dest Dir | `true` |
 
@@ -28,7 +28,7 @@ Creates an empty file at the specified path.
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Prohibited (leave empty) |
+| Source path fields (4) | Prohibited (leave empty) |
 | Destination path fields (4) | Required |
 | Is Dest Dir | `false` |
 
@@ -41,7 +41,7 @@ Moves a file or directory to another location.
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Required |
 
 ---
@@ -53,7 +53,7 @@ Copies a file or directory to another location. The original is kept.
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Required |
 
 ---
@@ -65,7 +65,7 @@ Deletes a file or directory.
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Prohibited (leave empty) |
 
 ---
@@ -78,7 +78,7 @@ If the destination path is omitted, the ZIP is created in the same location as t
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Optional |
 
 ---
@@ -91,8 +91,15 @@ If the destination path is omitted, the ZIP is created in the same location as t
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Optional |
+
+---
+
+### About the ZIP Compression Implementation
+
+ZIP compression for `ZIP_DELETE_ORIG` / `ZIP_REMAIN_ORIG` is implemented using the OS's `zip` command rather than `java.util.zip`.
+This is because `java.util.zip` cannot compress symbolic links as-is, which caused problems when compressing directories containing many symbolic links, such as git repositories or Docker data.
 
 ---
 
@@ -104,7 +111,7 @@ If the destination path is omitted, the files are extracted to the same director
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Optional |
 
 ---
@@ -117,7 +124,7 @@ If the destination path is omitted, the files are extracted to the same director
 | Field | Input |
 | --- | --- |
 | Remote Server | Prohibited (leave empty) |
-| Source path fields (5) | Required |
+| Source path fields (4) | Required |
 | Destination path fields (4) | Optional |
 
 ---
@@ -134,7 +141,7 @@ Creates a directory at the specified path on the remote server.
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Prohibited (leave empty) |
+| Source path fields (4) | Prohibited (leave empty) |
 | Destination path fields (4) | Required (path on remote server) |
 
 ---
@@ -146,7 +153,7 @@ Creates an empty file at the specified path on the remote server.
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Prohibited (leave empty) |
+| Source path fields (4) | Prohibited (leave empty) |
 | Destination path fields (4) | Required (path on remote server) |
 
 ---
@@ -158,7 +165,7 @@ Moves a file from the remote server to local. The file on the remote server is d
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Required (path on remote server) |
+| Source path fields (4) | Required (path on remote server) |
 | Destination path fields (4) | Required (local path) |
 
 ---
@@ -170,7 +177,7 @@ Moves a local file to the remote server. The local file is deleted.
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Required (local path) |
+| Source path fields (4) | Required (local path) |
 | Destination path fields (4) | Required (path on remote server) |
 
 ---
@@ -182,7 +189,7 @@ Copies a file from the remote server to local. The file on the remote server rem
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Required (path on remote server) |
+| Source path fields (4) | Required (path on remote server) |
 | Destination path fields (4) | Required (local path) |
 
 ---
@@ -194,7 +201,7 @@ Copies a local file to the remote server. The local file remains.
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Required (local path) |
+| Source path fields (4) | Required (local path) |
 | Destination path fields (4) | Required (path on remote server) |
 
 ---
@@ -206,7 +213,7 @@ Deletes a file from the remote server.
 | Field | Input |
 | --- | --- |
 | Remote Server | Required |
-| Source path fields (5) | Required (path on remote server) |
+| Source path fields (4) | Required (path on remote server) |
 | Destination path fields (4) | Prohibited (leave empty) |
 
 ---

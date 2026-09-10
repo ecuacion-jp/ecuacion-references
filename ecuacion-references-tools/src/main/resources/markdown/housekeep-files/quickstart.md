@@ -8,36 +8,51 @@ This guide walks you through the simplest example: moving a local file to anothe
 
 ### 1. Create Test Files
 
+Move into the directory where you placed the JAR, and create these using paths relative to it.
+
+**Linux / macOS:**
+
 ```bash
-mkdir -p /tmp/hkf-test/from
-mkdir -p /tmp/hkf-test/to
-touch /tmp/hkf-test/from/sample.txt
+mkdir -p hkf-test/from hkf-test/to
+touch hkf-test/from/sample.txt
+```
+
+**Windows (PowerShell):**
+
+```powershell
+New-Item -ItemType Directory -Force hkf-test/from, hkf-test/to
+New-Item -ItemType File hkf-test/from/sample.txt
 ```
 
 ### 2. Configure the Excel File
 
-Open the sample Excel file and fill in the following three sheets.
-
-#### Basic Settings Sheet
-
-| Key | Value |
-| --- | --- |
-| env-name | my-system |
+Open the sample Excel file and fill in the Task Settings sheet (leave the Server Auth Settings sheet empty since this example doesn't use SFTP).
 
 #### Task Settings Sheet
 
-| Task ID | Task Name | Task Pattern (display) | Task Pattern | Remote Server | Source Path | Is Src Dir | Expiration Unit | Expiration Value | Action if No Src | Dest Path | Is Dest Dir | Overwrite Dest | Action if Dest Exists | options |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| task-1 | Sample Move | Move | MOVE | (empty) | /tmp/hkf-test/from/sample.txt | false | DAY | 0 | ERROR | /tmp/hkf-test/to/ | true | true | IGNORE | (empty) |
+Basic info:
+
+| Task ID | Task Name | Task Pattern (display) | Task Pattern | Remote Server |
+| --- | --- | --- | --- | --- |
+| task-1 | Sample Move | Move | MOVE | (empty) |
+
+Source path fields:
+
+| Source Path | Is Src Dir | Src Path Pending Days | Action if No Src |
+| --- | --- | --- | --- |
+| hkf-test/from/sample.txt | false | 0 | ERROR |
+
+Destination path fields:
+
+| Dest Path | Is Dest Dir | Overwrite Dest | Action if Dest Exists |
+| --- | --- | --- | --- |
+| hkf-test/to/ | true | true | IGNORE |
 
 **Points:**
 - `Task Pattern`: specify `MOVE`
-- `Expiration Value`: `0` means all files are processed regardless of age
+- `Src Path Pending Days`: `0` means all files are processed regardless of age
 - `Is Dest Dir`: when `true`, the destination is treated as a directory, and the source filename is preserved
-
-#### Path Settings Sheet
-
-Leave empty — no path variables are used in this example.
+- Relative source/destination paths are resolved against the current directory `java -jar` is run from (the directory where you created `hkf-test` in step 1)
 
 ### 3. Configure application.properties
 
@@ -53,25 +68,4 @@ jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
 java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
-If `/tmp/hkf-test/from/sample.txt` is moved to `/tmp/hkf-test/to/sample.txt`, the run was successful.
-
----
-
-## Using Path Variables
-
-When paths are long or you want to reuse a common prefix, register path variables in the **Path Settings Sheet** and reference them as `${VAR_NAME}` in the task's source/destination path fields.
-
-#### Path Settings Sheet
-
-| Variable Name | Value |
-| --- | --- |
-| BASE_DIR | /tmp/hkf-test |
-
-#### Source / Destination Path in Task Settings Sheet
-
-```
-${BASE_DIR}/from/sample.txt   # Source path
-${BASE_DIR}/to/               # Destination path
-```
-
-Variable names must consist of uppercase letters, digits, and underscores only (e.g., `BASE_DIR`, `LOG_PATH`).
+If `hkf-test/from/sample.txt` is moved to `hkf-test/to/sample.txt`, the run was successful.

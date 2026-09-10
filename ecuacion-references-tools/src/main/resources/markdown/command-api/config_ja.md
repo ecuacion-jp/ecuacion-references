@@ -75,9 +75,11 @@ script.legacy-job=/opt/scripts/legacyJob.sh
 
 > **Note:** このプレフィックスは `api/public/execute` と `api/key/execute` の両方に同じルールで適用されます。両エンドポイントの違いはこのメソッド制限ではなく、`X-Api-Key` ヘッダによる認証が必須かどうかだけです。
 
-#### 環境変数の使用
+#### 変数参照の使用
 
-スクリプトのパスに環境変数を使用できます（`${ENV_VAR}` 形式）。
+スクリプトのパスに `${VAR_NAME}` 形式の変数参照を使用できます。値は `application.properties`・
+OS 環境変数・JVM システムプロパティなど、Spring Boot の `Environment` が解決できるあらゆる設定源
+から取得されます。
 
 ```properties
 script.say-hello=${SCRIPT_DIR}/sayHello.sh

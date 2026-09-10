@@ -5,7 +5,7 @@ It can run as a standalone executable WAR, or be deployed to an existing applica
 
 - Execute server-side scripts with a single HTTP GET request
 - Only scripts pre-registered in `ecuacion-tool-command-api-scripts.properties` can be executed (security measure)
-- Supports environment variable references (`${ENV_VAR}`) in script paths
+- Supports variable references (`${VAR_NAME}`, resolved via application.properties, OS environment variables, JVM system properties, etc.) in script paths
 - Supports passing parameters to scripts
 - Returns the script's exit code in the response
 

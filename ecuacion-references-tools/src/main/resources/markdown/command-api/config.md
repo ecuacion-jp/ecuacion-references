@@ -77,9 +77,11 @@ script.legacy-job=/opt/scripts/legacyJob.sh
 
 > **Note:** This prefix applies identically to `api/public/execute` and `api/key/execute`. The only difference between the two endpoints is whether `X-Api-Key` header authentication is required, not this method restriction.
 
-#### Using Environment Variables
+#### Using Variable References
 
-Environment variables can be used in script paths using the `${ENV_VAR}` syntax.
+Script paths can use `${VAR_NAME}` variable references. Values are resolved from
+`application.properties`, OS environment variables, JVM system properties, or any other source
+Spring Boot's `Environment` can resolve.
 
 ```properties
 script.say-hello=${SCRIPT_DIR}/sayHello.sh

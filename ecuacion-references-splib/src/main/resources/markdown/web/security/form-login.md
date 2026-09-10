@@ -99,7 +99,7 @@ public class AppSecurityConfig extends SplibWebSecurityConfigForNoLogin {
 For an application that needs a second, independent login for its own admin area (distinct from
 the built-in `ecuacion-splib` admin login — see
 [Built-in Admin Authentication](page?id=web/security/builtin-admin&lang=en)). Registers its own
-`SecurityFilterChain` at `@Order(11)` (matching only `/public/admin*/**` and `/admin/**`), with
+`SecurityFilterChain` at `@Order(21)` (matching only `/public/admin*/**` and `/admin/**`), with
 form login at `POST /public/adminLogin/action` (`adminLogin.username` / `adminLogin.password`) and
 logout at `POST /public/adminLogout`. Like the reserved `ACCOUNT_FULL_ACCESS` role above,
 `/admin/**` is automatically granted to a reserved `ADMIN_FULL_ACCESS` role.

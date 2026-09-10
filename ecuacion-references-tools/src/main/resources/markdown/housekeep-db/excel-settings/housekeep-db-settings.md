@@ -23,6 +23,7 @@ Defines one deletion task per row. Tasks are executed from top to bottom.
 
 Configure these columns to target only records older than a specified number of days.
 All three columns must be set together or left empty together.
+If left empty and soft/hard delete is performed, the elapsed time since record creation/update is not considered.
 
 | Column | Description |
 | --- | --- |
@@ -37,7 +38,7 @@ Only used when `Soft / Hard Delete` is `Soft Delete`.
 | Column | Required | Description |
 | --- | --- | --- |
 | Soft Delete Column Name | ○ (soft delete) | Name of the boolean delete flag column. Set to `true` on soft delete |
-| Soft Delete: Update Timestamp Column Name | — | Timestamp column to update on soft delete |
+| Soft Delete: Update Timestamp Column Name | — | Timestamp column to update on soft delete. The value is automatically set to the current time |
 | Soft Delete: Update User ID Column Name | — | User ID column to update on soft delete |
 | Soft Delete: Update User ID Column Literal Symbol | △ | Whether the user ID column value needs quoting: `(none)` or `quotes(')` |
 | Soft Delete: Update User ID Column Value | △ | Value to set in the user ID column |

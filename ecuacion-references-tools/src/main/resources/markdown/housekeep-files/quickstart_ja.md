@@ -8,36 +8,51 @@
 
 ### 1. テスト用ファイルの作成
 
+JAR を配置したディレクトリに移動し、そのディレクトリからの相対パスで作成します。
+
+**Linux / macOS:**
+
 ```bash
-mkdir -p /tmp/hkf-test/from
-mkdir -p /tmp/hkf-test/to
-touch /tmp/hkf-test/from/sample.txt
+mkdir -p hkf-test/from hkf-test/to
+touch hkf-test/from/sample.txt
+```
+
+**Windows（PowerShell）:**
+
+```powershell
+New-Item -ItemType Directory -Force hkf-test/from, hkf-test/to
+New-Item -ItemType File hkf-test/from/sample.txt
 ```
 
 ### 2. Excel 設定ファイルの編集
 
-サンプルの Excel ファイルを開き、以下の 3 つのシートを設定します。
-
-#### 基礎情報設定シート
-
-| 項目 | 値 |
-| --- | --- |
-| env-name | my-system |
+サンプルの Excel ファイルを開き、タスク設定シートを設定します（サーバ認証設定シートは SFTP を使わないため空のままで構いません）。
 
 #### タスク設定シート
 
-| タスクID | タスク名 | 処理パターン日本語名 | 処理パターン | 接続先サーバ | 元パス | 元パスがディレクトリ | 元パス処理実施対象経過期間単位 | 元パス処理実施対象経過期間値 | 元パス存在なし時処理 | 先パス | 先パスがディレクトリ | 先パス存在時上書き | 先パス存在時処理 | options |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| task-1 | サンプル移動 | 移動 | MOVE | （空白） | /tmp/hkf-test/from/sample.txt | false | DAY | 0 | ERROR | /tmp/hkf-test/to/ | true | true | IGNORE | （空白） |
+基本情報:
+
+| タスクID | タスク名 | 処理パターン日本語名 | 処理パターン | 接続先サーバ |
+| --- | --- | --- | --- | --- |
+| task-1 | サンプル移動 | 移動 | MOVE | （空白） |
+
+元パス関連:
+
+| 元パス | 元パスディレクトリ | 元パス実施保留日数 | 元パス存在なし時処理 |
+| --- | --- | --- | --- |
+| hkf-test/from/sample.txt | false | 0 | ERROR |
+
+先パス関連:
+
+| 先パス | 先パスディレクトリ | 先パス存在時上書き | 先パス存在時処理 |
+| --- | --- | --- | --- |
+| hkf-test/to/ | true | true | IGNORE |
 
 **ポイント:**
 - `処理パターン`: `MOVE`（移動）を指定
-- `元パス処理実施対象経過期間値`: `0` にすると、経過日数に関わらず全ファイルが対象になります
-- `先パスがディレクトリ`: `true` にすると、先パスをディレクトリとして扱い、元ファイル名でそのまま配置します
-
-#### パス設定シート
-
-今回はパス変数を使わないため、空のままで構いません。
+- `元パス実施保留日数`: `0` にすると、経過日数に関わらず全ファイルが対象になります
+- `先パスディレクトリ`: `true` にすると、先パスをディレクトリとして扱い、元ファイル名でそのまま配置します
+- 元パス・先パスの相対パスは、`java -jar` を実行するカレントディレクトリ（手順 1 で `hkf-test` を作成したディレクトリ）が基準になります
 
 ### 3. application.properties の設定
 
@@ -53,26 +68,4 @@ jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
 java -jar ecuacion-tool-housekeep-files-x.x.x.jar
 ```
 
-`/tmp/hkf-test/from/sample.txt` が `/tmp/hkf-test/to/sample.txt` に移動されれば成功です。
-
----
-
-## パス変数を使う
-
-パスが長い場合や共通部分を再利用したい場合は、**パス設定シート**にパス変数を登録し、
-タスク設定シートの元パス・先パスで `${VAR_NAME}` 形式で参照できます。
-
-#### パス設定シート
-
-| パス変数名 | パス値 |
-| --- | --- |
-| BASE_DIR | /tmp/hkf-test |
-
-#### タスク設定シートの元パス・先パス
-
-```
-${BASE_DIR}/from/sample.txt   # 元パス
-${BASE_DIR}/to/               # 先パス
-```
-
-パス変数名は大文字・数字・アンダースコアのみ使用できます（例: `BASE_DIR`, `LOG_PATH`）。
+`hkf-test/from/sample.txt` が `hkf-test/to/sample.txt` に移動されれば成功です。

@@ -1,22 +1,10 @@
 housekeep-files is entirely controlled by a single Excel file.
-The Excel file contains the following four sheets:
+The Excel file contains the following two sheets (there is also a Basic Settings sheet holding `format-version` etc., but it's a hidden sheet you normally don't need to touch):
 
 | Sheet Name | Purpose |
 | --- | --- |
-| Basic Settings | Tool-wide settings (system name, etc.) |
 | Task Settings | List of file operation tasks to execute |
-| Path Settings | Path variable definitions |
 | Server Auth Settings | Authentication settings for SFTP servers |
-
----
-
-## Basic Settings Sheet
-
-Entries are written as key-value pairs.
-
-| Key | Description |
-| --- | --- |
-| `env-name` | Name to identify the system / environment. Used in log output and warning email subjects. Alphanumerics, hyphens, spaces, etc. (some symbols excluded), max 40 characters |
 
 ---
 
@@ -35,20 +23,18 @@ Each row defines one file operation task. Tasks are executed from top to bottom.
 | Remote Server | △ | Required for SFTP tasks. Must match the server name in the Server Auth Settings sheet |
 | Source Path | △ | Source file or directory path. Path variables (`${VAR_NAME}`) and wildcards (`*`, `?`) are supported |
 | Is Src Dir | △ | `true` / `false`. Set `true` when the source path is a directory |
-| Expiration Unit | △ | Currently only `DAY` is supported |
-| Expiration Value | △ | Number of days since last modification (0–1000). `0` targets all files regardless of age |
+| Src Path Pending Days | △ | Number of days since last modification to target (0–1000). `0` targets all files regardless of age |
 | Action if No Src | △ | Action when the source path does not exist: `IGNORE` / `WARN` / `ERROR` |
 | Dest Path | △ | Destination file or directory path. Path variables (`${VAR_NAME}`) are supported (wildcards not allowed) |
 | Is Dest Dir | △ | `true` / `false`. Set `true` to place the file inside the destination directory using the original filename |
 | Overwrite Dest | △ | `true` / `false`. Whether to overwrite if the destination already exists |
 | Action if Dest Exists | △ | Action when the destination already exists: `IGNORE` / `WARN` / `ERROR` |
-| options | — | Reserved for future use |
 
 △ = required, optional, or prohibited depending on the task pattern (see [Task Patterns](page?id=housekeep-files/task-patterns&lang=en)).
 
 ### Input Rule for Source Path Fields
 
-The five fields — Source Path, Is Src Dir, Expiration Unit, Expiration Value, Action if No Src — must be **all filled or all empty**. Filling in only some of them causes an error.
+The four fields — Source Path, Is Src Dir, Src Path Pending Days, Action if No Src — must be **all filled or all empty**. Filling in only some of them causes an error.
 
 ### Input Rule for Destination Path Fields
 
@@ -63,6 +49,21 @@ Wildcards (`*`, `?`) can be used in the Source Path. When a wildcard is included
 /data/backup/202?-*.zip  # zip files starting with 202x
 ```
 
+### Path Notation Rules
+
+Use `/` as the path separator so paths also work on Linux (`\` is automatically converted to `/` internally, so it will still work, but `/` is recommended).
+
+The Source Path and Dest Path fields can also embed the following built-in variables using `${VAR_NAME}` notation:
+
+| Variable | Value |
+| --- | --- |
+| `${TASK_NAME}` | The name of the task currently being executed |
+| `${HOSTNAME}` | The hostname of the machine running the tool |
+| `${YYYYMMDD}` | The current date (`YYYYMMDD` format, 8 digits) |
+| `${TIMESTAMP}` | The current timestamp (`YYYYMMDD-HHMMSS.sss` format) |
+
+For any other variable name, define it as a path variable in `application.properties` (or OS environment variables, JVM system properties, or any other source Spring Boot's Environment can resolve). See [Configuration](page?id=housekeep-files/config&lang=en) for details. If a property has the same name as a built-in variable, the built-in variable's value takes precedence.
+
 ### Task Pattern Display Name
 
 The "Task Pattern (display)" column is for readability only; it is ignored when the tool reads the file. The tool only uses the "Task Pattern" column. See [Task Patterns](page?id=housekeep-files/task-patterns&lang=en) for the list of valid values.
@@ -74,20 +75,6 @@ The "Task Pattern (display)" column is for readability only; it is ignored when 
 | `IGNORE` | Silently skip and move on to the next task |
 | `WARN` | Log a warning and move on to the next task |
 | `ERROR` | Throw an error and stop the batch |
-
----
-
-## Path Settings Sheet
-
-Defines path variables that can be referenced in the Task Settings sheet.
-
-| Column | Required | Description |
-| --- | --- | --- |
-| Variable Name | ○ | Uppercase letters, digits, and underscores only (e.g., `BASE_DIR`, `LOG_PATH`). Max 50 characters |
-| Value | ○ | The actual path. Max 300 characters |
-
-Reference a variable as `${BASE_DIR}` in task path fields.
-Nested variable references in path values are not supported.
 
 ---
 

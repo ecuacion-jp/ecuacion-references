@@ -14,12 +14,12 @@ http://localhost:8080/api/public/execute?scriptId=script.say-hello&parameters=pa
 
 ---
 
-## 環境変数をパスに使用する
+## パスに変数参照を使用する
 
-スクリプトのパスに環境変数を使用できます。
+スクリプトのパスに `${VAR_NAME}` 形式の変数参照を使用できます。
 
 ```properties
 script.say-hello=${USER_HOME}/script/directory/sayHello.sh
 ```
 
-アプリケーションの実行環境に `USER_HOME` 環境変数が設定されていれば、起動時に展開されます。
+`application.properties` や OS 環境変数などで `USER_HOME` が設定されていれば、実行時に展開されます。

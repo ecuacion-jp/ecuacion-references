@@ -10,7 +10,7 @@ below.
 
 ## URL prefixes
 
-`SplibBuiltinAdminSecurityConfig` registers its own `SecurityFilterChain` at `@Order(12)`, matching
+`SplibBuiltinAdminSecurityConfig` registers its own `SecurityFilterChain` at `@Order(22)`, matching
 only `/ecuacion-splib/public/adminLogin/**`, `/ecuacion-splib/admin/**`, and
 `/ecuacion-splib/adminLogout`. `/ecuacion-splib/public/adminLogin/**` is `permitAll` (it's the
 login page itself); everything else under `/ecuacion-splib/admin/**` requires authentication.

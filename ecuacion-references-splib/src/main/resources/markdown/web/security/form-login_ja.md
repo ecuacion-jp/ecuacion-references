@@ -72,7 +72,7 @@ public class AppSecurityConfig extends SplibWebSecurityConfigForNoLogin {
 
 ## `SplibWebSecurityConfigForAdmin`
 
-（前述の `ecuacion-splib` 組み込み管理者ログインとは別に、[組み込み管理者認証](page?id=web/security/builtin-admin&lang=ja)を参照）アプリ自身の管理画面向けに、独立した2つ目のログインが必要な場合に使います。`@Order(11)` で独自の `SecurityFilterChain` を登録し（`/public/admin*/**` と `/admin/**` のみにマッチ）、フォームログインは `POST /public/adminLogin/action`（`adminLogin.username`/`adminLogin.password`）、ログアウトは `POST /public/adminLogout` に紐づきます。前述の `ACCOUNT_FULL_ACCESS` と同様、`/admin/**` には予約ロール `ADMIN_FULL_ACCESS` が自動的に付与されます。
+（前述の `ecuacion-splib` 組み込み管理者ログインとは別に、[組み込み管理者認証](page?id=web/security/builtin-admin&lang=ja)を参照）アプリ自身の管理画面向けに、独立した2つ目のログインが必要な場合に使います。`@Order(21)` で独自の `SecurityFilterChain` を登録し（`/public/admin*/**` と `/admin/**` のみにマッチ）、フォームログインは `POST /public/adminLogin/action`（`adminLogin.username`/`adminLogin.password`）、ログアウトは `POST /public/adminLogout` に紐づきます。前述の `ACCOUNT_FULL_ACCESS` と同様、`/admin/**` には予約ロール `ADMIN_FULL_ACCESS` が自動的に付与されます。
 
 ## `SplibWebSecurityConfigForSwitchUser`
 

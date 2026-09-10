@@ -91,7 +91,7 @@ Returned for the following server-side configuration causes.
 - The script file path registered for the `scriptId` doesn't match the regular expression `^[a-zA-Z0-9.\-_/${}]*$` (a misconfiguration)
 - The registered script file doesn't actually exist
 - The registered script file isn't executable
-- A `${...}` environment variable reference in the script file path is malformed (unmatched braces), or the referenced environment variable isn't set
+- A `${...}` variable reference in the script file path is malformed (unmatched braces), or the referenced variable can't be resolved (via application.properties, OS environment variables, JVM system properties, etc.)
 - The OS itself failed to start the script (e.g. a bad shebang) even though it's executable
 
 ### HTTP 504

@@ -14,12 +14,12 @@ Multiple parameters are separated by commas. Passing a comma character as part o
 
 ---
 
-## Using Environment Variables in Script Paths
+## Using Variable References in Script Paths
 
-Environment variables can be used in script paths using the `${ENV_VAR}` syntax:
+Script paths can use `${VAR_NAME}` variable references:
 
 ```properties
 script.say-hello=${USER_HOME}/script/directory/sayHello.sh
 ```
 
-If the `USER_HOME` environment variable is set in the app's runtime environment, it will be resolved at startup.
+If `USER_HOME` is set in `application.properties`, as an OS environment variable, or the like, it will be resolved at request time.
