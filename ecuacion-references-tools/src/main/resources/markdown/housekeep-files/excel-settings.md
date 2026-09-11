@@ -59,7 +59,8 @@ The Source Path and Dest Path fields can also embed the following built-in varia
 | --- | --- |
 | `${TASK_NAME}` | The name of the task currently being executed |
 | `${HOSTNAME}` | The hostname of the machine running the tool |
-| `${YYYYMMDD}` | The current date (`YYYYMMDD` format, 8 digits) |
+| `${DATE}` | The current date (`YYYYMMDD` format, 8 digits) |
+| `${DATETIME}` | The current date and time (`YYYYMMDD-HHMMSS` format) |
 | `${TIMESTAMP}` | The current timestamp (`YYYYMMDD-HHMMSS.sss` format) |
 
 For any other variable name, define it as a path variable in `application.properties` (or OS environment variables, JVM system properties, or any other source Spring Boot's Environment can resolve). See [Configuration](page?id=housekeep-files/config&lang=en) for details. If a property has the same name as a built-in variable, the built-in variable's value takes precedence.
@@ -89,8 +90,20 @@ Only needed when using SFTP tasks. Leave the sheet empty if SFTP is not used.
 | port | ○ | Connection port number (0–99999) |
 | Auth Type | ○ | `PASSWORD` (password auth) / `KEY` (public key auth) / `KERBEROS` (Kerberos auth) |
 | Username | △ | Login username (max 40 characters) |
-| password / passphrase | △ | Password, or passphrase for the private key (max 30 characters) |
+| password / passphrase | △ | Password, or passphrase for the private key. No length limit - a `${VAR_NAME}` reference (see below) is recommended over writing the secret directly |
 | Key Path | △ | Path to the private key file for `KEY` auth (max 300 characters) |
+
+Writing the actual password/passphrase into the Excel file makes the file itself a secret (it becomes something you must never commit to a repository or share carelessly). To avoid that, write a `${VAR_NAME}` reference instead - the same notation used for Source Path/Dest Path in the Task Settings sheet - and define the variable as an OS environment variable, a JVM system property, or an `application.properties` entry (see [Configuration](page?id=housekeep-files/config&lang=en)):
+
+```properties
+password / passphrase column: ${SFTP_PASSWORD}
+```
+
+```bash
+export SFTP_PASSWORD=the-actual-secret
+```
+
+Unlike Source Path/Dest Path, the built-in variables (`${TASK_NAME}`, `${HOSTNAME}`, etc.) are not available here - only variables resolved through `application.properties`/environment/system properties.
 
 ### Input Requirements by Auth Type
 

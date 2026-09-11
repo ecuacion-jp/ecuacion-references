@@ -61,7 +61,8 @@ Excel ファイルには以下の 2 つのシートがあります（他に `for
 | --- | --- |
 | `${TASK_NAME}` | 実行中のタスクのタスク名 |
 | `${HOSTNAME}` | 実行環境のホスト名 |
-| `${YYYYMMDD}` | 実行時の日付（`YYYYMMDD` 形式、8 桁） |
+| `${DATE}` | 実行時の日付（`YYYYMMDD` 形式、8 桁） |
+| `${DATETIME}` | 実行時の日時（`YYYYMMDD-HHMMSS` 形式） |
 | `${TIMESTAMP}` | 実行時のタイムスタンプ（`YYYYMMDD-HHMMSS.sss` 形式） |
 
 上記以外の変数名を使いたい場合は、`application.properties`（または OS 環境変数・JVM システムプロパティなど、Spring Boot が解決できる設定源）でパス変数として定義できます。詳細は[設定ファイル](page?id=housekeep-files/config&lang=ja)を参照してください。組み込み変数と同名のプロパティを定義した場合は、組み込み変数の値が優先されます。
@@ -92,8 +93,20 @@ SFTP タスクを使用する場合にのみ設定が必要です。SFTP を使�
 | port | ○ | 接続ポート番号（0〜99999） |
 | 認証方式 | ○ | `PASSWORD`（パスワード認証）/ `KEY`（公開鍵認証）/ `KERBEROS`（Kerberos 認証） |
 | ユーザ名 | △ | ログインユーザ名（最大 40 文字） |
-| password / passphrase | △ | パスワード、または公開鍵の passphrase（最大 30 文字） |
+| password / passphrase | △ | パスワード、または公開鍵の passphrase。文字数制限なし。値を直接書く代わりに `${VAR_NAME}` 参照（下記参照）を使うことを推奨 |
 | 秘密鍵パス | △ | `KEY` 認証時の秘密鍵ファイルパス（最大 300 文字） |
+
+パスワード・passphrase を Excel ファイルに直接記載すると、その Excel ファイル自体が機密情報（リポジトリにコミットしたり不用意に共有してはいけないもの）になってしまいます。これを避けるため、タスク設定シートの「元パス」「先パス」と同じ `${VAR_NAME}` 形式の変数参照を使うことができます。変数は OS 環境変数・JVM システムプロパティ・`application.properties` のいずれかで定義してください（詳細は[設定ファイル](page?id=housekeep-files/config&lang=ja)を参照）。
+
+```properties
+password / passphrase 列: ${SFTP_PASSWORD}
+```
+
+```bash
+export SFTP_PASSWORD=実際のパスワード
+```
+
+「元パス」「先パス」と異なり、こちらでは組み込み変数（`${TASK_NAME}`、`${HOSTNAME}` 等）は使用できません。`application.properties`・環境変数・システムプロパティ経由で解決できる変数のみが対象です。
 
 ### 認証方式ごとの入力内容
 

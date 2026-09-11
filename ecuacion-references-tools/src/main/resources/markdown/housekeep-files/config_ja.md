@@ -11,6 +11,8 @@
 | `jp.ecuacion.tool.housekeep-files.excel-path` | ○ | — | 実行するExcel設定ファイルのパス |
 | `jp.ecuacion.tool.housekeep-files.system-name` | — | —<br>（未設定時は非表示） | ジョブ開始・終了ログ、警告メールの件名に表示するシステム名。<br>未設定の場合はその部分が省略されます |
 | `jp.ecuacion.tool.housekeep-files.sftp.strict-host-key-checking` | — | `true`<br>（チェック有効） | `false` にするとSFTP接続時のホスト鍵検証を無効化します。<br>中間者攻撃を検知できなくなるため、使い捨てのローカル検証など以外では<br>無効化しないでください |
+| `jp.ecuacion.tool.housekeep-files.sftp.connect-timeout-millis` | — | `30000`<br>（30秒） | SFTPセッション・チャネルの接続タイムアウト（ミリ秒）。応答しないサーバによってバッチが無期限にハングするのを防ぎます |
+| `jp.ecuacion.tool.housekeep-files.unzip.max-total-bytes` | — | `10737418240`<br>（10GiB） | `UNZIP_*` タスク1件が書き込む展開後合計サイズの上限（バイト）。小さいアーカイブが巨大なサイズに展開されてディスクを圧迫する「zip爆弾」対策です。上限を超える場合はタスクが失敗します |
 
 ```properties
 jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
@@ -28,7 +30,7 @@ BASE_DIR=/data/myapp
 
 タスク設定シートでは `${BASE_DIR}` のように参照します。
 
-> **Note:** `YYYYMMDD` / `TIMESTAMP` / `HOSTNAME` は組み込み変数として予約されており、
+> **Note:** `DATE` / `DATETIME` / `TIMESTAMP` / `HOSTNAME` は組み込み変数として予約されており、
 > 同名のプロパティを設定しても組み込み変数の値が優先されます。
 
 ---

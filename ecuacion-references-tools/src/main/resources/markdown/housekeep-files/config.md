@@ -11,6 +11,8 @@ Reading this file isn't a housekeep-files-specific mechanism — it's a Spring B
 | `jp.ecuacion.tool.housekeep-files.excel-path` | ○ | — | Path to the excel configuration file to run |
 | `jp.ecuacion.tool.housekeep-files.system-name` | — | —<br>(omitted if unset) | System name shown in job start/finish logs and the warning email subject.<br>If unset, that part is simply omitted |
 | `jp.ecuacion.tool.housekeep-files.sftp.strict-host-key-checking` | — | `true`<br>(checking enabled) | Set to `false` to disable SFTP host key verification.<br>This allows man-in-the-middle attacks to go undetected, so never use it other than for quick, throwaway local trials |
+| `jp.ecuacion.tool.housekeep-files.sftp.connect-timeout-millis` | — | `30000`<br>(30 seconds) | Connect timeout, in milliseconds, for the SFTP session/channel. Prevents a server that never responds from hanging the batch indefinitely |
+| `jp.ecuacion.tool.housekeep-files.unzip.max-total-bytes` | — | `10737418240`<br>(10 GiB) | Upper bound, in bytes, on the total uncompressed size a single `UNZIP_*` task will write. Guards against a "zip bomb" (a small archive that decompresses to an enormous size) filling the disk. The task fails if an archive would exceed this |
 
 ```properties
 jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
@@ -29,7 +31,7 @@ BASE_DIR=/data/myapp
 
 Reference it in the Task Settings sheet as `${BASE_DIR}`.
 
-> **Note:** `YYYYMMDD` / `TIMESTAMP` / `HOSTNAME` are reserved as built-in
+> **Note:** `DATE` / `DATETIME` / `TIMESTAMP` / `HOSTNAME` are reserved as built-in
 > variables — setting a property with the same name doesn't override the built-in value.
 
 ---
