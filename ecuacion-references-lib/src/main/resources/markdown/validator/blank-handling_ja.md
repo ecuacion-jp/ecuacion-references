@@ -10,7 +10,7 @@
 標準の `@Pattern` は `null` を valid とする一方、`""` は invalid 扱いです。
 
 | 値 | 標準 `@Pattern` | `@PatternWithDescription` |
-| -- | --------------- | ------------------------- |
+| ---- | --------------- | ------------------------- |
 | `"abc123"` | ✅ valid | ✅ valid |
 | `"ABC"` | ❌ invalid（正規表現不一致） | ❌ invalid（正規表現不一致） |
 | `null` | ✅ valid | ✅ valid |
@@ -46,7 +46,7 @@ public record UserProfile(
 ```
 
 | 値 | 結果 | 原因 |
-| -- | ---- | ---- |
+| ---- | ---- | ---- |
 | `"abc123"` | ✅ valid | — |
 | `"ABC"` | ❌ invalid | `@PatternWithDescription`（書式不一致） |
 | `null` | ❌ invalid | `@NotEmpty` |

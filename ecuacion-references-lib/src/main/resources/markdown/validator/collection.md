@@ -23,7 +23,7 @@ Validates the null/empty state of multiple fields specified in `propertyPath[]` 
 For `Empty` variants (`@AnyEmpty`, `@AnyNotEmpty`, `@AllEmptyOrAllNotEmpty`), the definition of "empty" differs by type.
 
 | Type | Condition Considered "Empty" |
-| -- | ----------------- |
+| ---- | ----------------- |
 | `String` | `null` or blank string (`""`) |
 | Other types | `null` only |
 
@@ -105,7 +105,7 @@ public class EventForm {
 ### Comparison with AssertTrueWithPropertyPath
 
 | | `@AssertTrueWithPropertyPath` | `@ReturnTrue` |
-| -- | -- | -- |
+| ---- | ---- | ---- |
 | Applied at | Method | Class |
 | Default `getPropertyPath()` | `isDateRangeValid.startDate` (method name is a prefix) | `startDate` (no prefix) |
 

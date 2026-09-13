@@ -13,3 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/* ecuacion-lib version, shown in the navbar right before the language switch item. Fixed
+   width (rather than shrink-to-fit) so a long product name (this template is reused, with
+   the name and title="..." hardcoded per app, across other reference sites too;
+   "ecuacion-tool-code-generator" is the longest) wraps within this box instead of ever
+   widening the navbar. */
+.navbar-version-badge {
+  display: inline-block;
+  width: 90px;
+  font-size: .7rem;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--bs-navbar-color);
+}

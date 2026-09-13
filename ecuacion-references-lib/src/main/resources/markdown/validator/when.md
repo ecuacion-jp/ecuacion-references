@@ -7,7 +7,7 @@ When annotations express conditional rules such as "when `conditionPropertyPath`
 @TrueWhen(
     propertyPath = "agreedToTerms",
     conditionPropertyPath = "accountType",
-    conditionValue = ConditionValue.NOT_EMPTY
+    conditionValueState = ConditionValueState.NOT_EMPTY
 )
 public class RegistrationForm { ... }
 ```
@@ -16,7 +16,7 @@ public class RegistrationForm { ... }
 
 ## List of Annotations
 
-### Basic Conditions (Specified Only by conditionValue)
+### Basic Conditions (No Value of Their Own)
 
 | Annotation | Condition that `propertyPath` Must Satisfy |
 | ------------- | ------------------------------- |
@@ -69,17 +69,30 @@ conditionPropertyPath = "address.country"
 
 Specifies the state of the `conditionPropertyPath` field that triggers validation.
 
-| `ConditionValue` | Meaning | Required Additional Attributes | Optional Additional Attributes |
-| ---------------- | ---- | --------------- | --------------- |
-| `NULL` | Is `null` | — | — |
-| `NOT_NULL` | Is not `null` | — | — |
-| `EMPTY` | Is empty (null or blank string) | — | — |
-| `NOT_EMPTY` | Is not empty | — | — |
-| `TRUE` | Is `true` | — | — |
-| `FALSE` | Is `false` | — | — |
-| `STRING` | Is one of the specified strings | `conditionValueString` | `conditionValueDisplayStringPropertyPath` |
-| `PATTERN` | Matches a regular expression | `conditionValuePatternRegexp` | `conditionValuePatternDescription`, `conditionValueDisplayStringPropertyPath` |
-| `VALUE_OF_PROPERTY_PATH` | Has the same value as another field | `conditionValuePropertyPath` | `conditionValueDisplayStringPropertyPath` |
+| `ConditionValue` | Meaning | Attribute That Determines It |
+| ---------------- | ---- | --------------- |
+| `NULL` | Is `null` | `conditionValueState = ConditionValueState.NULL` |
+| `NOT_NULL` | Is not `null` | `conditionValueState = ConditionValueState.NOT_NULL` |
+| `EMPTY` | Is empty (null or blank string) | `conditionValueState = ConditionValueState.EMPTY` |
+| `NOT_EMPTY` | Is not empty | `conditionValueState = ConditionValueState.NOT_EMPTY` |
+| `TRUE` | Is `true` | `conditionValueBoolean = true` |
+| `FALSE` | Is `false` | `conditionValueBoolean = false` |
+| `STRING` | Is one of the specified strings | `conditionValueString` |
+| `PATTERN` | Matches a regular expression | `conditionValuePatternRegexp` |
+| `VALUE_OF_PROPERTY_PATH` | Has the same value as another field | `conditionValuePropertyPath` |
+
+`STRING` / `PATTERN` / `VALUE_OF_PROPERTY_PATH` additionally accept
+`conditionValueDisplayStringPropertyPath` (see below), and `PATTERN` also accepts
+`conditionValuePatternDescription`.
+
+> **Note:** `conditionValue` itself can normally be omitted: setting exactly one of
+> `conditionValueString`, `conditionValuePatternRegexp`, `conditionValuePropertyPath`,
+> `conditionValueBoolean` or `conditionValueState` already determines it unambiguously, so in
+> practice you never need to write `conditionValue = ...` — just set whichever of those five
+> attributes matches the condition you mean. Setting more than one of them at the same time, or
+> setting none of them, is an error. Explicitly setting `conditionValue` on top of one of the
+> five is still allowed and is checked for consistency with it (e.g. `conditionValue = TRUE`
+> together with `conditionValueBoolean = false` is rejected).
 
 ### conditionOperator — Condition Operator
 
@@ -102,7 +115,6 @@ If omitted, the regular expression is displayed as-is.
 @TrueWhen(
     propertyPath = "smsConsentAgreed",
     conditionPropertyPath = "phone",
-    conditionValue = ConditionValue.PATTERN,
     conditionValuePatternRegexp = "^(070|080|090).*",
     conditionValuePatternDescription = "mobile phone number"  // Description used in message
 )
@@ -114,6 +126,20 @@ If omitted, the regular expression is displayed as-is.
 For `STRING` / `PATTERN` / `VALUE_OF_PROPERTY_PATH`, specifies another field's itemNameKey
 to resolve the "display name of the condition value" to show in error messages.
 If omitted, the actual value (string, regex, or field value) is displayed as-is.
+
+### conditionValueBoolean / conditionValueState
+
+For the 6 conditions that have no value of their own to distinguish them, these two attributes
+let you specify them without writing `conditionValue` explicitly:
+
+```java
+conditionValueBoolean = true                              // conditionValue = TRUE
+conditionValueBoolean = false                              // conditionValue = FALSE
+conditionValueState = ConditionValueState.NULL             // conditionValue = NULL
+conditionValueState = ConditionValueState.NOT_NULL         // conditionValue = NOT_NULL
+conditionValueState = ConditionValueState.EMPTY            // conditionValue = EMPTY
+conditionValueState = ConditionValueState.NOT_EMPTY        // conditionValue = NOT_EMPTY
+```
 
 ### falseWhenConditionNotSatisfied
 
@@ -128,10 +154,11 @@ When set to `true`, applies the reverse rule when the condition is not met
 
 ```java
 // When accountType is filled in, agreedToTerms must be true
+// conditionValue is inferred as NOT_EMPTY from conditionValueState, so it can be omitted
 @TrueWhen(
     propertyPath = "agreedToTerms",
     conditionPropertyPath = "accountType",
-    conditionValue = ConditionValue.NOT_EMPTY
+    conditionValueState = ConditionValueState.NOT_EMPTY
 )
 public class RegistrationForm { ... }
 ```
@@ -140,10 +167,10 @@ public class RegistrationForm { ... }
 
 ```java
 // When role is "ADMIN", adminCode must not be empty
+// conditionValue is inferred as STRING from conditionValueString, so it can be omitted
 @NotEmptyWhen(
     propertyPath = "adminCode",
     conditionPropertyPath = "role",
-    conditionValue = ConditionValue.STRING,
     conditionValueString = {"ADMIN"}
 )
 public class UserForm { ... }
@@ -153,10 +180,11 @@ public class UserForm { ... }
 
 ```java
 // When the submission confirmation flag is not true, reason must not be empty
+// conditionValue is inferred as TRUE from conditionValueBoolean, so it can be omitted
 @NotEmptyWhen(
     propertyPath = "reason",
     conditionPropertyPath = "confirmed",
-    conditionValue = ConditionValue.TRUE,
+    conditionValueBoolean = true,
     conditionOperator = ConditionOperator.NOT_EQUAL_TO
 )
 public class CancelForm { ... }
@@ -166,11 +194,11 @@ public class CancelForm { ... }
 
 ```java
 // When type is "POSTAL", code must be a 7-digit number
+// conditionValue is inferred as STRING from conditionValueString, so it can be omitted
 @PatternWhen(
     propertyPath = "code",
     regexp = "\\d{7}",
     conditionPropertyPath = "type",
-    conditionValue = ConditionValue.STRING,
     conditionValueString = {"POSTAL"}
 )
 public class AddressForm { ... }
@@ -184,7 +212,7 @@ public class AddressForm { ... }
     propertyPath = "accountType",
     string = {"ADMIN", "OPERATOR"},
     conditionPropertyPath = "role",
-    conditionValue = ConditionValue.NOT_EMPTY
+    conditionValueState = ConditionValueState.NOT_EMPTY
 )
 public class UserForm { ... }
 ```
@@ -197,7 +225,7 @@ public class UserForm { ... }
     propertyPath = "confirmPassword",
     valuePropertyPath = "password",
     conditionPropertyPath = "confirmed",
-    conditionValue = ConditionValue.TRUE
+    conditionValueBoolean = true
 )
 public class PasswordForm { ... }
 ```

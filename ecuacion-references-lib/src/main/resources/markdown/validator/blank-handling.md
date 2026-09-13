@@ -10,7 +10,7 @@ This is a different design from the Jakarta Validation standard.
 The standard `@Pattern` treats `null` as valid but `""` as invalid.
 
 | Value | Standard `@Pattern` | `@PatternWithDescription` |
-| -- | --------------- | ------------------------- |
+| ---- | --------------- | ------------------------- |
 | `"abc123"` | valid | valid |
 | `"ABC"` | invalid (regex mismatch) | invalid (regex mismatch) |
 | `null` | valid | valid |
@@ -46,7 +46,7 @@ public record UserProfile(
 ```
 
 | Value | Result | Reason |
-| -- | ---- | ---- |
+| ---- | ---- | ---- |
 | `"abc123"` | valid | — |
 | `"ABC"` | invalid | `@PatternWithDescription` (format mismatch) |
 | `null` | invalid | `@NotEmpty` |

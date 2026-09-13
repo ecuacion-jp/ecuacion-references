@@ -23,7 +23,7 @@
 `Empty` 系（`@AnyEmpty`, `@AnyNotEmpty`, `@AllEmptyOrAllNotEmpty`）では、型によって「空」の定義が異なります。
 
 | 型 | 「空」とみなす条件 |
-| -- | ----------------- |
+| ---- | ----------------- |
 | `String` | `null` または空文字（`""`） |
 | その他の型 | `null` のみ |
 
@@ -104,7 +104,7 @@ public class EventForm {
 ### AssertTrueWithPropertyPath との比較
 
 | | `@AssertTrueWithPropertyPath` | `@ReturnTrue` |
-| -- | -- | -- |
+| ---- | ---- | ---- |
 | 付与レベル | メソッド | クラス |
 | `getPropertyPath()` のデフォルト | `isDateRangeValid.startDate`（メソッド名が prefix に付く） | `startDate`（prefix なし） |
 

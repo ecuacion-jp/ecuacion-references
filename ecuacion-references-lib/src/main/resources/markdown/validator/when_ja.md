@@ -6,7 +6,7 @@ When系アノテーションは、「`conditionPropertyPath` が特定の状態�
 @TrueWhen(
     propertyPath = "agreedToTerms",
     conditionPropertyPath = "accountType",
-    conditionValue = ConditionValue.NOT_EMPTY
+    conditionValueState = ConditionValueState.NOT_EMPTY
 )
 public class RegistrationForm { ... }
 ```
@@ -15,7 +15,7 @@ public class RegistrationForm { ... }
 
 ## アノテーション一覧
 
-### 基本条件（conditionValue のみで指定）
+### 基本条件（値そのものを持たない条件）
 
 | アノテーション | `propertyPath` が満たすべき条件 |
 | ------------- | ------------------------------- |
@@ -68,17 +68,29 @@ conditionPropertyPath = "address.country"
 
 `conditionPropertyPath` のフィールドがどういう状態のときにバリデーションを実行するかを指定します。
 
-| `ConditionValue` | 意味 | 追加属性（必須） | 追加属性（任意） |
-| ---------------- | ---- | --------------- | --------------- |
-| `NULL` | `null` であること | — | — |
-| `NOT_NULL` | `null` でないこと | — | — |
-| `EMPTY` | 空（null または空文字）であること | — | — |
-| `NOT_EMPTY` | 空でないこと | — | — |
-| `TRUE` | `true` であること | — | — |
-| `FALSE` | `false` であること | — | — |
-| `STRING` | 指定文字列のいずれかであること | `conditionValueString` | `conditionValueDisplayStringPropertyPath` |
-| `PATTERN` | 正規表現にマッチすること | `conditionValuePatternRegexp` | `conditionValuePatternDescription`, `conditionValueDisplayStringPropertyPath` |
-| `VALUE_OF_PROPERTY_PATH` | 別フィールドと同値であること | `conditionValuePropertyPath` | `conditionValueDisplayStringPropertyPath` |
+| `ConditionValue` | 意味 | それを決める属性 |
+| ---------------- | ---- | --------------- |
+| `NULL` | `null` であること | `conditionValueState = ConditionValueState.NULL` |
+| `NOT_NULL` | `null` でないこと | `conditionValueState = ConditionValueState.NOT_NULL` |
+| `EMPTY` | 空（null または空文字）であること | `conditionValueState = ConditionValueState.EMPTY` |
+| `NOT_EMPTY` | 空でないこと | `conditionValueState = ConditionValueState.NOT_EMPTY` |
+| `TRUE` | `true` であること | `conditionValueBoolean = true` |
+| `FALSE` | `false` であること | `conditionValueBoolean = false` |
+| `STRING` | 指定文字列のいずれかであること | `conditionValueString` |
+| `PATTERN` | 正規表現にマッチすること | `conditionValuePatternRegexp` |
+| `VALUE_OF_PROPERTY_PATH` | 別フィールドと同値であること | `conditionValuePropertyPath` |
+
+`STRING` / `PATTERN` / `VALUE_OF_PROPERTY_PATH` は追加で `conditionValueDisplayStringPropertyPath`
+（下記参照）も指定でき、`PATTERN` はさらに `conditionValuePatternDescription` も指定できます。
+
+> **Note:** `conditionValue` 自体は基本的に省略できます。`conditionValueString`、
+> `conditionValuePatternRegexp`、`conditionValuePropertyPath`、`conditionValueBoolean`、
+> `conditionValueState` のうちどれか1つだけを設定すれば一意に決まるため、実際には
+> `conditionValue = ...` を書く必要はなく、意図する条件に対応する属性を1つ設定するだけで済みます。
+> これら5つの属性を複数同時に設定した場合や、いずれも設定しなかった場合はエラーになります。
+> これらの属性に加えて `conditionValue` を明示的に指定することも可能で、その場合は指定した属性の値と
+> 整合するかがチェックされます（例：`conditionValue = TRUE` と `conditionValueBoolean = false` を
+> 同時に指定するとエラーになります）。
 
 ### conditionOperator — 条件演算子
 
@@ -99,7 +111,6 @@ conditionPropertyPath = "address.country"
 @TrueWhen(
     propertyPath = "smsConsentAgreed",
     conditionPropertyPath = "phone",
-    conditionValue = ConditionValue.PATTERN,
     conditionValuePatternRegexp = "^(070|080|090).*",
     conditionValuePatternDescription = "携帯電話番号"  // メッセージに使う説明
 )
@@ -109,6 +120,20 @@ conditionPropertyPath = "address.country"
 ### conditionValueDisplayStringPropertyPath
 
 `STRING` / `PATTERN` / `VALUE_OF_PROPERTY_PATH` のとき、エラーメッセージに表示する「条件値の表示名」を別フィールドの itemNameKey から解決する際に指定します。省略すると条件値の実値（文字列・正規表現・フィールド値）がそのまま表示されます。
+
+### conditionValueBoolean / conditionValueState
+
+値そのものを持たない6つの条件（自明な区別材料がないもの）は、これら2つの属性を使うことで
+`conditionValue` を明示せずに指定できます。
+
+```java
+conditionValueBoolean = true                              // conditionValue = TRUE
+conditionValueBoolean = false                              // conditionValue = FALSE
+conditionValueState = ConditionValueState.NULL             // conditionValue = NULL
+conditionValueState = ConditionValueState.NOT_NULL         // conditionValue = NOT_NULL
+conditionValueState = ConditionValueState.EMPTY            // conditionValue = EMPTY
+conditionValueState = ConditionValueState.NOT_EMPTY        // conditionValue = NOT_EMPTY
+```
 
 ### falseWhenConditionNotSatisfied
 
@@ -122,10 +147,11 @@ conditionPropertyPath = "address.country"
 
 ```java
 // accountType が入力済みのとき、agreedToTerms は true でなければならない
+// conditionValue は conditionValueState から NOT_EMPTY と推論されるため省略可能
 @TrueWhen(
     propertyPath = "agreedToTerms",
     conditionPropertyPath = "accountType",
-    conditionValue = ConditionValue.NOT_EMPTY
+    conditionValueState = ConditionValueState.NOT_EMPTY
 )
 public class RegistrationForm { ... }
 ```
@@ -134,10 +160,10 @@ public class RegistrationForm { ... }
 
 ```java
 // role が "ADMIN" のとき、adminCode は空でないこと
+// conditionValue は conditionValueString から STRING と推論されるため省略可能
 @NotEmptyWhen(
     propertyPath = "adminCode",
     conditionPropertyPath = "role",
-    conditionValue = ConditionValue.STRING,
     conditionValueString = {"ADMIN"}
 )
 public class UserForm { ... }
@@ -147,10 +173,11 @@ public class UserForm { ... }
 
 ```java
 // 送信確認フラグが true でないとき、reason は空でないこと
+// conditionValue は conditionValueBoolean から TRUE と推論されるため省略可能
 @NotEmptyWhen(
     propertyPath = "reason",
     conditionPropertyPath = "confirmed",
-    conditionValue = ConditionValue.TRUE,
+    conditionValueBoolean = true,
     conditionOperator = ConditionOperator.NOT_EQUAL_TO
 )
 public class CancelForm { ... }
@@ -160,11 +187,11 @@ public class CancelForm { ... }
 
 ```java
 // type が "POSTAL" のとき、code は7桁の数字であること
+// conditionValue は conditionValueString から STRING と推論されるため省略可能
 @PatternWhen(
     propertyPath = "code",
     regexp = "\\d{7}",
     conditionPropertyPath = "type",
-    conditionValue = ConditionValue.STRING,
     conditionValueString = {"POSTAL"}
 )
 public class AddressForm { ... }
@@ -178,7 +205,7 @@ public class AddressForm { ... }
     propertyPath = "accountType",
     string = {"ADMIN", "OPERATOR"},
     conditionPropertyPath = "role",
-    conditionValue = ConditionValue.NOT_EMPTY
+    conditionValueState = ConditionValueState.NOT_EMPTY
 )
 public class UserForm { ... }
 ```
@@ -191,7 +218,7 @@ public class UserForm { ... }
     propertyPath = "confirmPassword",
     valuePropertyPath = "password",
     conditionPropertyPath = "confirmed",
-    conditionValue = ConditionValue.TRUE
+    conditionValueBoolean = true
 )
 public class PasswordForm { ... }
 ```

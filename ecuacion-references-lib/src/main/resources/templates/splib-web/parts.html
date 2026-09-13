@@ -233,6 +233,12 @@
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<!--/* ecuacion-lib version, placed right before the language switch item. Kept local
+			to this app (not in splib-web) so the shared navbar template stays untouched. */-->
+		<li class="nav-item" style="margin-left: 20px">
+			<span class="navbar-version-badge" title="ecuacion-lib version">ecuacion-lib<br/><span
+					th:text="${T(jp.ecuacion.lib.core.util.VersionUtil).getVersion('ecuacion-lib')}"></span></span>
+		</li>
 		<div th:replace="~{markdown/parts :: langSwitchNavItem}"></div>
 	</div>
 
