@@ -73,5 +73,11 @@
 			<artifactId>ecuacion-splib-rest</artifactId>
 		</dependency>
 
+		<!-- ecuacion-references -->
+		<dependency>
+			<groupId>jp.ecuacion.references</groupId>
+			<artifactId>ecuacion-references-internal-utilities</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>

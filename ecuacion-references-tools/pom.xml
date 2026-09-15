@@ -66,5 +66,20 @@
 			<artifactId>ecuacion-splib-web-markdown</artifactId>
 		</dependency>
 
+		<!-- ecuacion-tool: only to read version.properties for the navbar version badge.
+			ecuacion-tools has no single product-wide version, so housekeep-common's own
+			version stands in for it. -->
+		<dependency>
+			<groupId>jp.ecuacion.tool</groupId>
+			<artifactId>ecuacion-tool-housekeep-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- ecuacion-references -->
+		<dependency>
+			<groupId>jp.ecuacion.references</groupId>
+			<artifactId>ecuacion-references-internal-utilities</artifactId>
+		</dependency>
+
 	</dependencies>
 </project>

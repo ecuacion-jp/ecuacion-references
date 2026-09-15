@@ -77,6 +77,8 @@
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<!--/* ecuacion-utils version, placed right before the language switch item. */-->
+		<div th:replace="~{common/version-badge :: versionBadge('ecuacion-utils', 'ecuacion-utils')}"></div>
 		<div th:replace="~{markdown/parts :: langSwitchNavItem}"></div>
 	</div>
 

@@ -75,6 +75,12 @@
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<!--/* Version badge, placed right before the language switch item. Shown as
+			"code-generator" (shorter than the full artifact name); sourced from
+			ecuacion-tool-code-generator-core's own version.properties (read via
+			VersionUtil.getVersion("")), since this product has no version_ecuacion-tool-
+			code-generator.properties of its own. */-->
+		<div th:replace="~{common/version-badge :: versionBadge('code-generator', '')}"></div>
 		<div th:replace="~{markdown/parts :: langSwitchNavItem}"></div>
 	</div>
 
