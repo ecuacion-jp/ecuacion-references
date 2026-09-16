@@ -65,7 +65,7 @@
 		<!-- ecuacion-references -->
 		<dependency>
 			<groupId>jp.ecuacion.references</groupId>
-			<artifactId>ecuacion-references-internal-utilities</artifactId>
+			<artifactId>ecuacion-references-internal-utils</artifactId>
 		</dependency>
 
 	</dependencies>

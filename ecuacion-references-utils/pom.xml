@@ -72,13 +72,12 @@
 		<dependency>
 			<groupId>jp.ecuacion.util</groupId>
 			<artifactId>ecuacion-util-excel-table</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<!-- ecuacion-references -->
 		<dependency>
 			<groupId>jp.ecuacion.references</groupId>
-			<artifactId>ecuacion-references-internal-utilities</artifactId>
+			<artifactId>ecuacion-references-internal-utils</artifactId>
 		</dependency>
 
 	</dependencies>
