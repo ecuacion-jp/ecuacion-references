@@ -66,8 +66,8 @@
 			<artifactId>ecuacion-splib-web-markdown</artifactId>
 		</dependency>
 
-		<!-- ecuacion-tool-code-generator: only to read version.properties for the navbar
-			version badge -->
+		<!-- ecuacion-tool-code-generator: only to read
+			version_ecuacion-tool-code-generator.properties for the navbar version badge -->
 		<dependency>
 			<groupId>jp.ecuacion.tool.ecuacion-tool-code-generator</groupId>
 			<artifactId>ecuacion-tool-code-generator-core</artifactId>
