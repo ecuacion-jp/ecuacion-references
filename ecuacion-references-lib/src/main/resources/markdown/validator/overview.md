@@ -21,6 +21,9 @@ annotations (`@NotNull`, `@Size`, etc.).
 | Method level | Applied to methods, validates their return values | `@AssertTrueWithPropertyPath` |
 
 Class-level annotations specify which field to associate the violation with using the `propertyPath` attribute.
+Since these are plain strings resolved via reflection, a field rename is not caught by the compiler; see
+[Guarding propertyPath Against Renames](/public/showMarkdown/page?id=validator/property-path-safety) for
+how to catch it anyway.
 
 ---
 
@@ -58,7 +61,7 @@ Validates the format or type compatibility of field values. Used at the field le
 | `@IntegerString` | Must be an integer string |
 | `@EnumElement` | Must be a valid value of the specified Enum |
 | `@PatternWithDescription` | Regex match (with user-friendly message support) |
-| 7 more | ... |
+| 8 more | ... |
 
 ### Collection and Assertion Validators
 

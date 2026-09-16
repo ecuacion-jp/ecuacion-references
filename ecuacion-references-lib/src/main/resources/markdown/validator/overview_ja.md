@@ -20,6 +20,9 @@
 | メソッドレベル | メソッドに付与し、その戻り値を検証 | `@AssertTrueWithPropertyPath` |
 
 クラスレベルのアノテーションは `propertyPath` 属性でどのフィールドに違反を関連付けるかを指定します。
+これらは単なる文字列としてリフレクションで解決されるため、フィールド名を変更してもコンパイルでは検知
+できません。検知するための対策は [propertyPathのリネーム対策](/public/showMarkdown/page?id=validator/property-path-safety)
+を参照してください。
 
 ---
 
@@ -57,7 +60,7 @@
 | `@IntegerString` | 整数文字列であること |
 | `@EnumElement` | 指定 Enum の要素として有効な値であること |
 | `@PatternWithDescription` | 正規表現マッチ（説明付きメッセージ対応） |
-| ほか 7種類 | ... |
+| ほか 8種類 | ... |
 
 ### コレクション・アサーション系
 

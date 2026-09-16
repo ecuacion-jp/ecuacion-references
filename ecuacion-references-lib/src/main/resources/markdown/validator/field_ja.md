@@ -91,3 +91,16 @@ private String uploadedFileName;
 - 拡張子は先頭のドットありなしどちらでも指定可能です（`"xlsx"` と `".xlsx"` は同じ扱い）。
 - 大文字小文字は区別しません（`@FileExtension("xlsx")` に対して `"report.XLSX"` は一致扱い）。
 - 拡張子が存在しないファイル名（例：`"report"`）はNGです。
+
+---
+
+## ElementsNotEmpty — 配列・コレクションの非空チェック
+
+配列または `Collection` のフィールドが1件以上の要素を持つことを検証します。
+
+```java
+@ElementsNotEmpty
+private List<String> tags;
+```
+
+`null`、および要素数 `0` の配列・`Collection` は、いずれも NG です。

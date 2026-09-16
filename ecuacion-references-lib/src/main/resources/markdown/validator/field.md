@@ -99,3 +99,16 @@ private String uploadedFileName;
   treated the same).
 - The comparison is case-insensitive (`"report.XLSX"` matches `@FileExtension("xlsx")`).
 - A file name with no extension at all (e.g. `"report"`) is invalid.
+
+---
+
+## ElementsNotEmpty — Array / Collection Non-Emptiness Check
+
+Validates that an array or a `Collection` field has at least one element.
+
+```java
+@ElementsNotEmpty
+private List<String> tags;
+```
+
+`null` and an array / `Collection` of size `0` are both invalid.
