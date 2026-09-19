@@ -75,11 +75,21 @@
 
 		<!-- ecuacion-tool: only to read version_ecuacion-tools.properties for the navbar
 			version badge. ecuacion-tools has no single product-wide version, so
-			housekeep-common's own version stands in for it. -->
+			housekeep-common's own version stands in for it.
+			ecuacion-splib-batch is excluded: its spring-boot-starter-batch dependency
+			pulls in spring-boot-jdbc, which triggers Spring Boot's DataSourceAutoConfiguration
+			even though this module has no datasource configured, causing a deploy-time
+			BeanCreationException ("Failed to determine a suitable driver class"). -->
 		<dependency>
 			<groupId>jp.ecuacion.tool</groupId>
 			<artifactId>ecuacion-tool-housekeep-common</artifactId>
 			<version>${ecuacion-tool.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>jp.ecuacion.splib</groupId>
+					<artifactId>ecuacion-splib-batch</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- ecuacion-references -->
