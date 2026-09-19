@@ -27,6 +27,13 @@
 		<relativePath>..</relativePath>
 	</parent>
 
+	<properties>
+		<!-- Kept up to date automatically by "mvn versions:update-properties" (see
+		     build-moduled-project.sh's -Dincludes=...,jp.ecuacion.tool.ecuacion-tool-code-generator)
+		     during release builds, same mechanism used for ecuacion-lib.version / etc. -->
+		<ecuacion-tool-code-generator.version>0.0.1-SNAPSHOT</ecuacion-tool-code-generator.version>
+	</properties>
+
 	<build>
 		<resources>
 			<resource><directory>src/main/resources</directory><filtering>true</filtering></resource>
@@ -71,7 +78,7 @@
 		<dependency>
 			<groupId>jp.ecuacion.tool.ecuacion-tool-code-generator</groupId>
 			<artifactId>ecuacion-tool-code-generator-core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ecuacion-tool-code-generator.version}</version>
 		</dependency>
 
 		<!-- ecuacion-references -->

@@ -27,6 +27,13 @@
 		<relativePath>..</relativePath>
 	</parent>
 
+	<properties>
+		<!-- Kept up to date automatically by "mvn versions:update-properties" (see
+		     build-moduled-project.sh's -Dincludes=...,jp.ecuacion.tool) during release builds,
+		     same mechanism used for ecuacion-lib.version / ecuacion-util.version / etc. -->
+		<ecuacion-tool.version>0.0.1-SNAPSHOT</ecuacion-tool.version>
+	</properties>
+
 	<build>
 		<resources>
 			<resource><directory>src/main/resources</directory><filtering>true</filtering></resource>
@@ -72,7 +79,7 @@
 		<dependency>
 			<groupId>jp.ecuacion.tool</groupId>
 			<artifactId>ecuacion-tool-housekeep-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>${ecuacion-tool.version}</version>
 		</dependency>
 
 		<!-- ecuacion-references -->
