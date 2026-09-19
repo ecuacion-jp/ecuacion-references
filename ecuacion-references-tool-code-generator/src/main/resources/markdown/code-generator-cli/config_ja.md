@@ -33,11 +33,11 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 
 追加の設定は `application.properties` に記述してください。
 
-#### 入出力ディレクトリ
+#### 入出力ファイル・ディレクトリ
 
 | プロパティ | 説明 | デフォルト |
 | --- | --- | --- |
-| `input-dir` | Excel ファイルを置くディレクトリ。カンマ区切りで複数指定可能（例: `./dir1,./dir2`） | `./excel-format` |
+| `input-file` | 読み込む Excel 定義ファイル。カンマ区切りで複数指定可能（例: `./excel-format/foo.xlsx,./excel-format/bar.xlsx`） | なし（必須） |
 | `output-dir` | 生成ソースの出力先 | `./products/` |
 
 > **Warning:** `output-dir` は生成開始前に**再帰的に全削除**されます。既存の重要なディレクトリ（ホームディレクトリ等）を誤って指定しないよう注意してください。

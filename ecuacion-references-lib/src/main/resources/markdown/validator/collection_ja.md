@@ -15,12 +15,12 @@
 
 | アノテーション | 検証内容 |
 | ------------- | -------- |
-| `@AllNullOrAllNotNull` | 全フィールドが `null`、または全フィールドが `null` でないこと |
-| `@AllEmptyOrAllNotEmpty` | 全フィールドが空、または全フィールドが空でないこと |
+| `@AllOrNoneNull` | 全フィールドが `null`、または全フィールドが `null` でないこと |
+| `@AllOrNoneEmpty` | 全フィールドが空、または全フィールドが空でないこと |
 
 ### 型別の empty 判定
 
-`Empty` 系（`@AnyEmpty`, `@AnyNotEmpty`, `@AllEmptyOrAllNotEmpty`）では、型によって「空」の定義が異なります。
+`Empty` 系（`@AnyEmpty`, `@AnyNotEmpty`, `@AllOrNoneEmpty`）では、型によって「空」の定義が異なります。
 
 | 型 | 「空」とみなす条件 |
 | ---- | ----------------- |
@@ -33,7 +33,7 @@
 
 ```java
 // startDate と endDate はどちらも入力するか、どちらも入力しないかのどちらか
-@AllNullOrAllNotNull(propertyPath = {"startDate", "endDate"})
+@AllOrNoneNull(propertyPath = {"startDate", "endDate"})
 public class SearchForm { ... }
 ```
 

@@ -10,7 +10,7 @@ propertyPath と同じドット記法を用います。
 | `"name"` | 起点直下の `name` フィールド |
 | `"dept.name"` | 起点が保持する `dept` オブジェクトの `name` フィールド |
 | `"bookList[1].title"` | `bookList` の 2 番目の要素の `title` フィールド |
-| `"strList[0].<list element>"` | `strList`（`List<String>`）の要素そのもの |
+| `"strList[0].<list element>"` | `strList`（`List<String>`）の 1 番目の要素そのもの |
 
 ---
 

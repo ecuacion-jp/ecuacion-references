@@ -9,10 +9,12 @@
 
 ### 2. CLI を実行する
 
-JAR を配置したディレクトリで以下を実行します。
+JAR を配置したディレクトリで、`input-file` プロパティに読み込む Excel ファイルを指定して以下を実行します
+（複数ファイルを指定する場合はカンマ区切りで指定します）。
 
 ```bash
-java -jar ecuacion-tool-code-generator-cli-x.x.x.jar
+java -jar ecuacion-tool-code-generator-cli-x.x.x.jar \
+     --jp.ecuacion.tool.code-generator.input-file=excel-format/db-column-definitions_fmt-v5.0.0-ja_myproject.xlsx
 ```
 
 ### 3. 出力を確認する

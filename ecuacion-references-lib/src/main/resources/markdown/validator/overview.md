@@ -70,7 +70,7 @@ Validates the null/empty state of multiple fields in bulk, or validates the retu
 | Annotation | Validation Content |
 | ------------- | ---------------- |
 | `@AnyNotNull` | At least one of the specified fields must not be `null` |
-| `@AllNullOrAllNotNull` | All fields are `null`, or all fields are not `null` |
+| `@AllOrNoneNull` | All fields are `null`, or all fields are not `null` |
 | `@AssertTrueWithPropertyPath` | Field-associated equivalent of `@AssertTrue` |
 | `@ReturnTrue` | The specified method must return `true` |
 | 4 more | ... |

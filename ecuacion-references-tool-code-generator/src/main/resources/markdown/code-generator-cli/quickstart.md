@@ -9,10 +9,12 @@ before running the tool — this part is the same whether you use `code-generato
 
 ### 2. Run the CLI
 
-Run the following from the directory where the JAR is placed:
+Run the following from the directory where the JAR is placed, specifying the Excel file(s) to read
+via the `input-file` property (a comma-separated list, if you have multiple files):
 
 ```bash
-java -jar ecuacion-tool-code-generator-cli-x.x.x.jar
+java -jar ecuacion-tool-code-generator-cli-x.x.x.jar \
+     --jp.ecuacion.tool.code-generator.input-file=excel-format/db-column-definitions_fmt-v5.0.0-en_myproject.xlsx
 ```
 
 ### 3. Check the Output

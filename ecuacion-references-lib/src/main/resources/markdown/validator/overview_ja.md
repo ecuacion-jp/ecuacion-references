@@ -69,7 +69,7 @@
 | アノテーション | バリデーション内容 |
 | ------------- | ---------------- |
 | `@AnyNotNull` | 指定フィールドのうち少なくとも1つが `null` でないこと |
-| `@AllNullOrAllNotNull` | 全フィールドが `null`、または全フィールドが `null` でないこと |
+| `@AllOrNoneNull` | 全フィールドが `null`、または全フィールドが `null` でないこと |
 | `@AssertTrueWithPropertyPath` | フィールドに紐付けた `@AssertTrue` 相当 |
 | `@ReturnTrue` | 指定メソッドが `true` を返すこと |
 | ほか 4種類 | ... |

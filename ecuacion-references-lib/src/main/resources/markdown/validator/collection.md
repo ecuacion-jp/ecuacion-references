@@ -15,12 +15,12 @@ Validates the null/empty state of multiple fields specified in `propertyPath[]` 
 
 | Annotation | Validation Content |
 | ------------- | -------- |
-| `@AllNullOrAllNotNull` | All fields are `null`, or all fields are not `null` |
-| `@AllEmptyOrAllNotEmpty` | All fields are empty, or all fields are not empty |
+| `@AllOrNoneNull` | All fields are `null`, or all fields are not `null` |
+| `@AllOrNoneEmpty` | All fields are empty, or all fields are not empty |
 
 ### Empty Definition by Type
 
-For `Empty` variants (`@AnyEmpty`, `@AnyNotEmpty`, `@AllEmptyOrAllNotEmpty`), the definition of "empty" differs by type.
+For `Empty` variants (`@AnyEmpty`, `@AnyNotEmpty`, `@AllOrNoneEmpty`), the definition of "empty" differs by type.
 
 | Type | Condition Considered "Empty" |
 | ---- | ----------------- |
@@ -33,7 +33,7 @@ For `Empty` variants (`@AnyEmpty`, `@AnyNotEmpty`, `@AllEmptyOrAllNotEmpty`), th
 
 ```java
 // startDate and endDate must both be entered or both be empty
-@AllNullOrAllNotNull(propertyPath = {"startDate", "endDate"})
+@AllOrNoneNull(propertyPath = {"startDate", "endDate"})
 public class SearchForm { ... }
 ```
 

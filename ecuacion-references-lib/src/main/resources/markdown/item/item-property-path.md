@@ -10,7 +10,7 @@ It uses the same dot notation as propertyPath.
 | `"name"` | The `name` field directly under the root |
 | `"dept.name"` | The `name` field of the `dept` object held by the root |
 | `"bookList[1].title"` | The `title` field of the second element of `bookList` |
-| `"strList[0].<list element>"` | The element itself of `strList` (`List<String>`) |
+| `"strList[0].<list element>"` | The first element itself of `strList` (`List<String>`) |
 
 ---
 

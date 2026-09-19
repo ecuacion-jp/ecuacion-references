@@ -33,11 +33,11 @@ java -Dspring.config.location=file:/path/to/your/application.properties \
 
 Additional settings should be written in `application.properties`.
 
-#### Input / Output Directories
+#### Input / Output Files and Directories
 
 | Property | Description | Default |
 | --- | --- | --- |
-| `input-dir` | Directory containing the Excel specification files. Multiple directories can be specified as a comma-separated list (e.g. `./dir1,./dir2`) | `./excel-format` |
+| `input-file` | Excel specification file(s) to read. Multiple files can be specified as a comma-separated list (e.g. `./excel-format/foo.xlsx,./excel-format/bar.xlsx`) | None (required) |
 | `output-dir` | Root directory for generated Java source files | `./products/` |
 
 > **Warning:** `output-dir` is **recursively deleted in full** before generation starts. Be careful not to point it at an existing important directory (e.g. your home directory) by mistake.
