@@ -32,16 +32,11 @@ so you can read the explanation and browse the source that implements it side by
 
 - JDK 21 or above.
 
-## Build & Run
+## Viewing the Tutorials
 
-This is a Maven multi-module project.
+Each tutorial app is already deployed and browsable online — no build required. See the
+"Documentation" section of the corresponding library's own README (e.g.
+[ecuacion-lib](https://github.com/ecuacion-jp/ecuacion-lib#documentation)) for the link, or go
+directly to `https://references.ecuacion.jp/<module-name>/public/showMarkdown/page?id=home`.
 
-```bash
-# Build all modules
-mvn clean install
-
-# Run a specific tutorial app (e.g. the ecuacion-lib tutorial)
-cd ecuacion-references-lib && mvn spring-boot:run
-```
-
-See the `README` in each module for details.
+See the `README` in each module of this repository for details on what it contains.
