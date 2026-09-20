@@ -238,7 +238,7 @@
 	<div th:fragment="nav-bar-public-right" th:remove="tag">
 		<!--/* ecuacion-lib version, placed right before the language switch item. */-->
 		<div th:replace="~{common/version-badge :: versionBadge('ecuacion-lib', 'ecuacion-lib')}"></div>
-		<div th:replace="~{markdown/parts :: langSwitchNavItem}"></div>
+		<div th:replace="~{common/lang-switch :: langSwitchNavItem}"></div>
 	</div>
 
 	<!--/* footer */-->
