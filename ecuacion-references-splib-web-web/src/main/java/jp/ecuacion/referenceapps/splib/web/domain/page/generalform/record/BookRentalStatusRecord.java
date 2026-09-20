@@ -21,7 +21,8 @@ import jp.ecuacion.splib.core.container.DatetimeFormatParameters;
 import jp.ecuacion.splib.web.item.HtmlItem;
 import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
-public class BookRentalStatusRecord extends BookRentalStatusBaseRecord implements HtmlItemContainer {
+public class BookRentalStatusRecord extends BookRentalStatusBaseRecord
+    implements HtmlItemContainer {
 
   private String versions;
 
@@ -35,8 +36,7 @@ public class BookRentalStatusRecord extends BookRentalStatusBaseRecord implement
 
   @Override
   public HtmlItem[] customizedItems() {
-    return new HtmlItem[] {new HtmlItem("status").notEmpty(),
-        new HtmlItem("book.name").notEmpty()};
+    return new HtmlItem[] {new HtmlItem("status").notEmpty(), new HtmlItem("book.name").notEmpty()};
   }
 
   public String getVersions() {

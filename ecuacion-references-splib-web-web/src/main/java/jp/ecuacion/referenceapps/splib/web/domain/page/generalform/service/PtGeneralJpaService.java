@@ -16,13 +16,13 @@
 package jp.ecuacion.referenceapps.splib.web.domain.page.generalform.service;
 
 import java.util.List;
+import jp.ecuacion.lib.core.violation.BusinessViolation;
+import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.referenceapps.splib.web.base.entity.YourName;
 import jp.ecuacion.referenceapps.splib.web.bl.YourNameBl;
 import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.form.PtGeneralJpaForm;
 import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.record.YourNameRecord;
 import jp.ecuacion.referenceapps.splib.web.repository.YourNameRepository;
-import jp.ecuacion.lib.core.violation.BusinessViolation;
-import jp.ecuacion.lib.core.violation.Violations;
 import jp.ecuacion.splib.web.jpa.service.SplibGeneralJpaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

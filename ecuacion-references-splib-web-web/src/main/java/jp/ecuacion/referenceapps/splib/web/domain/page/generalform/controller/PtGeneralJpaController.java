@@ -31,7 +31,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PtGeneralJpaController extends SplibGeneralController<PtGeneralJpaService> {
 
   public PtGeneralJpaController() {
-    super("ptGeneralJpa", newContext().mainRootRecordName("yourName").functionKinds("02-page/general-form"));
+    super("ptGeneralJpa",
+        newContext().mainRootRecordName("yourName").functionKinds("02-page/general-form"));
   }
 
   @GetMapping("page")

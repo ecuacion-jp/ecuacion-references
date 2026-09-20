@@ -21,8 +21,8 @@ import java.util.Objects;
 import jp.ecuacion.lib.core.util.EnumUtil;
 import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.SeasonEnum;
 import jp.ecuacion.splib.web.item.HtmlItem;
-import jp.ecuacion.splib.web.item.HtmlItemString;
 import jp.ecuacion.splib.web.item.HtmlItemContainer;
+import jp.ecuacion.splib.web.item.HtmlItemString;
 
 public class MonthRecord extends RecordWithId
     implements HtmlItemContainer {
