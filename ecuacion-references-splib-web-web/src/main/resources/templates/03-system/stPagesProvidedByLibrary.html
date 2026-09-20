@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title='st.providedByLibrary.title'
+				, formMethod='get'
+		">
+<body>
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('st.providedByLibrary.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-systemError}, 'st.providedByLibrary.systemError.title', 'st.providedByLibrary.systemError.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-config}, 'st.providedByLibrary.config.title', 'st.providedByLibrary.config.paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-systemError" th:remove="tag">
+		<div th:replace="~{bootstrap/components-input :: submitButton('systemError', 'st.providedByLibrary.systemError.button', '')}"></div>
+	</div>
+
+	<div th:fragment="box-config" th:remove="tag">
+		<div th:replace="~{bootstrap/components-input :: submitButton('config', 'st.providedByLibrary.config.button', '')}"></div>
+	</div>
+</body>
+</html>

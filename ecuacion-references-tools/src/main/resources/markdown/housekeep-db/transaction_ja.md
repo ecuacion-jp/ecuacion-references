@@ -1,0 +1,2 @@
+- housekeep DB設定 シートの各タスク完了時にコミットされます
+- housekeep DB設定 シートの `テーブル名` 列に指定したテーブルへのSELECT は `jp.ecuacion.tool.housekeep-db.max-select-lines`（デフォルト `1000`）件ごとにループ・コミットされ、メモリ使用量と処理時間を抑えます。詳細は[設定ファイル](page?id=housekeep-db/config&lang=ja)を参照してください

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='page.loginState.title', titleDesc='page.loginState.titleDesc'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.loginState.urlPath.title', 'page.loginState.urlPath.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'loginState', 'URL path', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+				 		{'public', '/public/...', 'ログインなしで閲覧可能なURL'}, 
+			 			{'account', '/account/...', '一般ログイン状態で閲覧可能なURL'},
+			 			{'admin', '/admin/...', '管理者ログイン状態で閲覧可能なURL'},
+			 			{'ecuacion-public', '/ecuacion/public/...', '本 library が提供する、ログインなしで閲覧可能なURL'}
+				} }, '')}">
+ 			</tr>
+		</table>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.loginState.publicAdmin.title', 'page.loginState.publicAdmin.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.loginState.reference.title', 'page.loginState.reference.paragraph', '')}"></div>
+	</div>
+
+</body>
+</html>

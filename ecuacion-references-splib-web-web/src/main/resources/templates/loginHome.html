@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title=#{LOGIN_HOME_TITLE}
+				, titleDesc=#{LOGIN_HOME_TITLE_DESC}
+				">
+
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+	</div>
+</body>
+</html>

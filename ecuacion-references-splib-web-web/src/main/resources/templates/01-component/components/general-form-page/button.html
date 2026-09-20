@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title='component.general-form-page.button.title'
+				, multipart=true
+				, formMethod='post'">
+
+<body>
+
+	<div layout:fragment="top-space" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('component.general-form-page.button.paragraph', '')}"></div>
+	</div>
+	
+	<div layout:fragment="form-content" th:remove="tag" th:with="htmlFileName=input.html">
+		<div th:replace="~{bootstrap/components :: box(~{:: box-submitButton}, 'submitButton', 'component.general-form-page.button.submitButton.paragraph', '')}"></div>
+	</div>
+
+	<div th:fragment="box-submitButton" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.general-form-page.button.submitButton.code', '')}"></div>
+		<div class="mt-5"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('button', 'submit button', '')}"></div>
+	</div>
+
+</body>
+</html>

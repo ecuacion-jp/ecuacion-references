@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title=#{component.propertyPath.title}">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('propertyPath', 'component.propertyPath.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.propertyPath.subtitle-2', 'component.propertyPath.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('', 'component.itemAndHtmlItem.definitionOfHtmlItem', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.propertyPath.paragraph-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('firstGreeting.html', 'additionOfTextbox.definitionOfFirstName', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.propertyPath.paragraph-4', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.propertyPath.subtitle-6', 'component.propertyPath.paragraph-6', '')}"></div>
+	</div>
+	
+</body>
+</html>

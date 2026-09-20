@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title='page.base.introduction.title'">
+
+<body>
+
+	<div layout:fragment="base-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('introduction-sample.html', 'page.base.introduction.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('page.base.introduction.paragraph-2', 'mt=5')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('<html> Tag', 'page.base.introduction.htmlTag.paragraph', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('base-content fragment', 'page.base.introduction.baseContentFragment.paragraph', '')}"></div>
+	</div>
+
+</body>
+</html>

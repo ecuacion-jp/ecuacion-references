@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title='component.options.wayOfAddingOptions.title'">
+
+<body>
+
+	<div layout:fragment="top-space" th:remove="tag">
+	</div>
+	
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-1', 'component.options.wayOfAddingOptions.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-2', 'component.options.wayOfAddingOptions.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-3', 'component.options.wayOfAddingOptions.paragraph-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.options.wayOfAddingOptions.subtitle-4', 'component.options.wayOfAddingOptions.paragraph-4', '')}"></div>
+	</div>
+
+	<div th:fragment="box-readOnly" th:remove="tag">
+		<div th:replace="~{bootstrap/components-input :: text('firstName', 'readOnly,width=half')}"></div>
+	</div>
+</body>
+</html>

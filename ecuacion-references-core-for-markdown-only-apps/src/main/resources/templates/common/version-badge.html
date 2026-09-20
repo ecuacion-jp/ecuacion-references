@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* Navbar item showing an ecuacion product's version, e.g. "ecuacion-lib" / "16.0.0".
+		Self-contained (styles included) so any reference-xxx app can reuse it with a single
+		th:replace, without touching the shared splib-web navbar template or adding a
+		per-app <link> for extra CSS (app.css is the only per-app stylesheet slot splib-web's
+		page-base.html auto-includes).
+
+		displayName: the label shown above the version, e.g. "ecuacion-lib", "code-generator".
+		productName: the product name passed to VersionUtil.getVersion(), used to read
+			version_<productName>.properties off the classpath, e.g. "ecuacion-lib",
+			"ecuacion-tool-code-generator". Usually equal to displayName, but can differ when a
+			shorter display label than the artifact name is wanted (as with code-generator).
+
+		Fixed width (rather than shrink-to-fit) so the navbar never widens; sized to fit the
+		longest product name across reference sites on its own line ("ecuacion-splib" /
+		"ecuacion-tools", or "code-generator" for the code-generator site) and a
+		"16.xx.xx-SNAPSHOT"-length version on its own line, so the badge stays exactly 2 lines
+		instead of wrapping further. Verified against the pre-existing 1280px navbar-overflow
+		breakpoint (below it the navbar already overflows regardless of this badge). */-->
+	<div th:fragment="versionBadge(displayName, productName)" th:remove="tag">
+		<style>
+			.ecuacion-version-badge-item {
+				margin-left: 20px;
+				display: flex;
+				align-items: center;
+			}
+
+			.ecuacion-version-badge {
+				display: inline-block;
+				width: 130px;
+				line-height: 1.2;
+				text-align: right;
+				color: var(--bs-navbar-color);
+			}
+
+			.ecuacion-version-badge-name {
+				display: block;
+				font-size: .9rem;
+			}
+
+			.ecuacion-version-badge-version {
+				display: block;
+				font-size: .75rem;
+			}
+		</style>
+		<li class="nav-item ecuacion-version-badge-item">
+			<span class="ecuacion-version-badge" th:attr="title=${displayName + ' version'}"><span
+					class="ecuacion-version-badge-name" th:text="${displayName}"></span><span
+					class="ecuacion-version-badge-version"
+					th:text="${T(jp.ecuacion.lib.core.util.VersionUtil).getVersion(productName)}"></span></span>
+		</li>
+	</div>
+
+</body>
+</html>

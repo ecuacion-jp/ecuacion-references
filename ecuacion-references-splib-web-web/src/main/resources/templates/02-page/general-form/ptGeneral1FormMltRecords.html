@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{PT_GENERAL_1_FORM_MLT_RECORDS_TITLE}
+				, titleDesc=#{PT_GENERAL_1_FORM_MLT_RECORDS_TITLE_DESC}
+				">
+
+<body>
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, '繧ｵ繝ｼ繝先凾髢薙ｒ陦ｨ遉ｺ', '繧ｵ繝ｼ繝先凾髢薙ｒ蜿門ｾ励�ｻ竊薙↓陦ｨ遉ｺ縺励∪縺吶��', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-2}, #{PT_COMMON_GREETING_TITLE}, #{PT_COMMON_GREETING_TITLE_DESC}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag" th:with="rootRecordName='serverInfo'">
+		<div th:replace="~{bootstrap/components-input :: text('timestamp', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('serverInfoBtn', #{PT_GENERAL_1_FORM_MLT_RECORDS_SERVER_TIMESTAMP_BUTTON}, '')}"></div>
+	</div>
+
+	<div th:fragment="box-2" th:remove="tag" th:with="rootRecordName='greeting'">
+		<div th:replace="~{bootstrap/components-input :: text('name', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('greetingMessage', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: submitButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
+	</div>
+</body>
+</html>

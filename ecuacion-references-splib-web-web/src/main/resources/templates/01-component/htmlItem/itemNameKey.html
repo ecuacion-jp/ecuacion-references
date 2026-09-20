@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-general-wide}"
+		th:with="title=#{component.itemNameKey.title}">
+
+<body>
+
+	<div layout:fragment="top-space" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemNameKey.paragraph-1', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.itemNameKey.title-2', 'component.itemNameKey.paragraph-2', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('component.itemNameKey.title-3', 'component.itemNameKey.paragraph-3', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('ItemNameKeyController.java', 'component.itemNameKey.definitionOfHtmlItem', '')}"></div>
+		<div th:replace="~{bootstrap/components :: referenceBox('item_names_ja.properties', 'component.itemNameKey.itemNames.code', '')}"></div>
+		<div th:replace="~{bootstrap/components :: paragraph('component.itemNameKey.paragraph-4', '')}"></div>
+	</div>
+	
+	<div layout:fragment="form-content" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: box(~{::box-1}, '', '', '')}"></div>
+	</div>
+
+	<div th:fragment="box-1" th:remove="tag">
+		<div th:replace="~{bootstrap/components-input :: text('anotherFirstName1', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: text('anotherFirstName2', '')}"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+		xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+		layout:decorate="~{bootstrap/page-base-wide}"
+		data-show-page-login-state="public"
+		th:with="title=#{PT_SEARCH_LIST_TITLE}
+				, titleDesc=#{PT_SEARCH_LIST_TITLE_DESC}
+				">
+
+<body>
+	<div layout:fragment="base-content" th:remove="tag">
+		<h1 style="color:red">以下は要見直し！！</h1>
+		<div>
+	- title                   ：（必須）headのtitleタグ、画面のtitle文字列で使用。base layoutの「headTitle parameterにもこの値を渡している。
+	- titleDesc               ：（任意）titleの直下に配置され、画面の説明などを記載
+	- needsSearchPane：（必須）上部の検索条件欄を表示する場合はtrue、しない場合はfalse
+	- idFieldName             ：（必須）list上の編集/削除が押された際の対象レコードのIDを取得するために使用,
+	- versionFieldName        ：（必須）optimistic locking用のversionを持つfield名
+	- itemDisplayedOnDelete   ：（必須）削除ボタン押下時のポップアップで表示するレコードを特定する項目
+	- width                   ：（必須）（base layoutより）wideまたはnarrowを指定。それ以外はエラーとなるので注意。
+	- loginState              ：（必須(*)）（base layoutより）public, account, admin などの値を取る。値の詳細はjava側のLoginStateEnumを参照。
+	                          　 (*)controllerからparameterで渡されるためhtmlのth:withによる値渡しは不要。
+		</div>
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle(#{PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE}, 'PT_COMMON_CONTENTS_INSERT_POINT_SUBTITLE_DESC', '')}"></div>
+		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-contents-insert-points}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="free-space-contents-insert-points" th:remove="tag">
+			<div class="table-responsive">
+				<table class="table table-striped text-nowrap table-bordered">
+					<thead class="text-white bg-color-tbl-header bg-gradient  align-middle">
+						<tr>
+							<th scope="col" class="text-center">親page templateの<br>contents insert point</th>
+							<th scope="col" class="text-center">contents insert point</th>
+							<th scope="col" class="text-center">説明</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="4" colspan="1">
+								base-content
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								base-content
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								base-page templateにおいて、本来のcontentsを表示する場所はこれのみ。<br>
+								本templateを引き継ぐ子templateを使用する場合も本insert pointが使用される
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								navBarTitle
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								navBarの左に表示するwebappのtitle文字列。<br>
+								個別appのparts.htmlにて設定。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								nav-bar-public<br>
+								nav-bar-account<br>
+								nav-bar-admin
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								navBarに表示するメニューなどの情報。<br>
+								loginState毎に異なるメニューバーを表示できるよう、3種類の独立した設定が可能。<br>
+								個別appのparts.htmlにて設定。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								footer-string
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+								footerに表示する文字列。<br>
+								個別appのparts.htmlにて設定。
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('parameters', 'parametersは以下の通り。', '')}"></div>
+		<div th:replace="~{bootstrap/components :: freeSpace(~{::free-space-parameters}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="free-space-parameters" th:remove="tag">
+			<div class="table-responsive">
+				<table class="table table-striped text-nowrap table-bordered">
+					<thead class="text-white bg-color-tbl-header bg-gradient">
+						<tr>
+							<th scope="col" class="text-center">設定箇所分類</th>
+							<th scope="col" class="text-center">設定箇所</th>
+							<th scope="col" class="text-center">parameter名</th>
+							<th scope="col" class="text-center">必須／任意</th>
+							<th scope="col" class="text-center">説明</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="5" colspan="1">
+									個別app
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="3" colspan="1">
+									htmlファイルにて設定<br>
+									(htmlタグの"th:with"に記載)
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									multipleForms
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									任意
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									複数のhtml form / java formを使用するか否かを指定。<br>
+									指定がない場合は1 form
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									title
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									任意
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									画面のtitle文字列で使用。<br>
+									未指定の場合は非表示となる。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									titleDesc
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									任意
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									titleの直下に配置され、画面の説明などを記載。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="2" colspan="1">
+									SplibModelAttributes<br>
+									にて設定
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									bsBgGradient
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									任意
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									navBar、ボタンなどの色がついたobjectのグラデーションの有無を指定。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									bsDarkMode
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									任意
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									darkModeか否かを指定。<br>
+									現時点では値を渡しているものの、使用はしていない。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="2" colspan="1">
+								web template<br>
+								（自動設定）
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									子のpage templateにて設定
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									width
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									必須
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									wideまたはnarrowを指定。それ以外はエラーとなる。<br>
+									page-base-wide[narrow].html 等を使用することで、各appからのparameter渡しは不要。<br>
+									page-base.htmlを使用し各appから渡すこともできるがサポート対象外。
+							</td>
+						</tr>
+						<tr>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="3" colspan="1">
+									controllerにて設定
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									loginState
+							</td>
+							<td class="align-middle fs-6 text-center text-dark" rowspan="1" colspan="1">
+									必須
+							</td>
+							<td class="align-middle fs-6 text-start text-dark" rowspan="1" colspan="1">
+									public, account, admin などの値を取る。値の詳細はjava側のLoginStateEnumを参照。
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div></th:block>
+	</div>
+</body>
+</html>

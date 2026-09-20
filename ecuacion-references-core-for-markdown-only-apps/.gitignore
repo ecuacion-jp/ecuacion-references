@@ -132,21 +132,8 @@ buildNumber.properties
 
 ### ecuacion ###
 
-# ecuacion-tool-code-generator-cli
-products/
-
-# local env settings
-*/src/envs/
-
 # checkstyle
 .checkstyle
 
 # mac
 .DS_Store
-
-# sass
-.sass-cache/
-
-# allure test reports
-.allure/
-

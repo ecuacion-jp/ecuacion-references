@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navbar */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(
+				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.excelTables}, ~{::navbarExcelTables}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarExcelTables" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/overview',lang=${lang})},
+					#{navBar.et.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/setup',lang=${lang})},
+					#{navBar.et.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/quickstart',lang=${lang})},
+					#{navBar.et.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/data-types',lang=${lang})},
+					#{navBar.et.dataTypes}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/table-formats',lang=${lang})},
+					#{navBar.et.tableFormats}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/reader',lang=${lang})},
+					#{navBar.et.reader}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/writer',lang=${lang})},
+					#{navBar.et.writer}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/bean-mapping',lang=${lang})},
+					#{navBar.et.beanMapping}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/from-bean-writer',lang=${lang})},
+					#{navBar.et.fromBeanWriter}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-tables/exceptions',lang=${lang})},
+					#{navBar.et.exceptions}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.excelReportToPdf}, ~{::navbarExcelReportToPdf}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarExcelReportToPdf" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/overview',lang=${lang})},
+					#{navBar.ertp.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/setup',lang=${lang})},
+					#{navBar.ertp.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/quickstart',lang=${lang})},
+					#{navBar.ertp.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/options',lang=${lang})},
+					#{navBar.ertp.options}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/exceptions',lang=${lang})},
+					#{navBar.ertp.exceptions}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/features',lang=${lang})},
+					#{navBar.ertp.features}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='excel-report-to-pdf/notes',lang=${lang})},
+					#{navBar.ertp.notes}, '')}"></div>
+
+		</div></th:block>
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<!--/* ecuacion-utils version, placed right before the language switch item. */-->
+		<div th:replace="~{common/version-badge :: versionBadge('ecuacion-utils', 'ecuacion-utils')}"></div>
+		<div th:replace="~{common/lang-switch :: langSwitchNavItem}"></div>
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
+	</div>
+
+</body>
+</html>

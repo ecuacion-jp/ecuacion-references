@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navbar */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(
+				@{/public/showMarkdown/page(id='home',lang=${lang})}, #{navBar.home}, '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.core}, ~{::navbarCore}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarCore" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.core.util}, ~{::navbarCoreUtil}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarCoreUtil" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/util/mail-util',lang=${lang})},
+						#{navBar.core.util.mailUtil}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/util/app-conf-dir-listener',lang=${lang})},
+						#{navBar.core.util.appConfDirListener}, '')}"></div>
+			</div></th:block>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.core.config}, ~{::navbarCoreConfig}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarCoreConfig" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/overview',lang=${lang})},
+						#{navBar.core.config.overview}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/application-properties',lang=${lang})},
+						#{navBar.core.config.applicationProperties}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/messages',lang=${lang})},
+						#{navBar.core.config.messages}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/config/validation-messages',lang=${lang})},
+						#{navBar.core.config.validationMessages}, '')}"></div>
+			</div></th:block>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.web}, ~{::navbarWeb}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarWeb" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/overview',lang=${lang})},
+					#{navBar.web.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/setup',lang=${lang})},
+					#{navBar.web.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/quickstart',lang=${lang})},
+					#{navBar.web.quickstart}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.web.grp.security}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/form-login',lang=${lang})},
+					#{navBar.web.security.formLogin}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/builtin-admin',lang=${lang})},
+					#{navBar.web.security.builtinAdmin}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/csrf-and-transaction-token',lang=${lang})},
+					#{navBar.web.security.csrfTransactionToken}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/security/open-redirect-protection',lang=${lang})},
+					#{navBar.web.security.openRedirect}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.web.grp.other}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/exception-handling',lang=${lang})},
+					#{navBar.web.exceptionHandling}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/operational-endpoints',lang=${lang})},
+					#{navBar.web.operationalEndpoints}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/logging',lang=${lang})},
+					#{navBar.web.logging}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.rest}, ~{::navbarRest}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarRest" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/overview',lang=${lang})},
+					#{navBar.rest.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/setup',lang=${lang})},
+					#{navBar.rest.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/quickstart',lang=${lang})},
+					#{navBar.rest.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/exception-handling',lang=${lang})},
+					#{navBar.rest.exceptionHandling}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.rest.grp.security}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/security/public-endpoints',lang=${lang})},
+					#{navBar.rest.security.publicEndpoints}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.rest.security.apiKey}, ~{::navbarRestApiKey}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarRestApiKey" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/api-key/overview',lang=${lang})},
+						#{navBar.rest.apiKey.overview}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/api-key/quickstart',lang=${lang})},
+						#{navBar.rest.apiKey.quickstart}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/api-key/authentication',lang=${lang})},
+						#{navBar.rest.apiKey.authentication}, '')}"></div>
+			</div></th:block>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/security/custom-endpoints',lang=${lang})},
+					#{navBar.rest.security.customEndpoints}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.rest.grp.other}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='rest/alive-check-endpoint',lang=${lang})},
+					#{navBar.rest.aliveCheckEndpoint}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.rest.security.builtinApiKey}, ~{::navbarRestBuiltinApiKey}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarRestBuiltinApiKey" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/builtin-api-key/overview',lang=${lang})},
+						#{navBar.rest.builtinApiKey.overview}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/builtin-api-key/quickstart',lang=${lang})},
+						#{navBar.rest.builtinApiKey.quickstart}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='rest/security/builtin-api-key/authentication',lang=${lang})},
+						#{navBar.rest.builtinApiKey.authentication}, '')}"></div>
+			</div></th:block>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.batch}, ~{::navbarBatch}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarBatch" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/overview',lang=${lang})},
+					#{navBar.batch.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/setup',lang=${lang})},
+					#{navBar.batch.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/quickstart',lang=${lang})},
+					#{navBar.batch.quickstart}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.batch.grp.jobStep}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/job-and-step-builders',lang=${lang})},
+					#{navBar.batch.jobAndStepBuilders}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.batch.grp.crossCutting}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/logging',lang=${lang})},
+					#{navBar.batch.logging}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/exception-handling',lang=${lang})},
+					#{navBar.batch.exceptionHandling}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/current-execution-context',lang=${lang})},
+					#{navBar.batch.currentExecutionContext}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.batch.grp.other}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='batch/system-error-job',lang=${lang})},
+					#{navBar.batch.systemErrorJob}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.cli}, ~{::navbarCli}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarCli" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/overview',lang=${lang})},
+					#{navBar.cli.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/setup',lang=${lang})},
+					#{navBar.cli.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/quickstart',lang=${lang})},
+					#{navBar.cli.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/banner',lang=${lang})},
+					#{navBar.cli.banner}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/console-output',lang=${lang})},
+					#{navBar.cli.consoleOutput}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='cli/exception-handling',lang=${lang})},
+					#{navBar.cli.exceptionHandling}, '')}"></div>
+
+		</div></th:block>
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+		<!--/* ecuacion-splib version, placed right before the language switch item. */-->
+		<div th:replace="~{common/version-badge :: versionBadge('ecuacion-splib', 'ecuacion-splib')}"></div>
+		<div th:replace="~{common/lang-switch :: langSwitchNavItem}"></div>
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
+	</div>
+
+</body>
+</html>

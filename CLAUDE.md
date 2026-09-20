@@ -1,0 +1,43 @@
+# ecuacion-references - Claude Code ガイドライン
+
+## 内部ドキュメント
+
+作業前に `ecuacion-internal-docs` リポジトリの `CLAUDE.md` を読むこと。
+共通ガイドライン・プロジェクト SPEC.md・ローカルセットアップ確認事項をカバーしている。
+
+## プロジェクト概要
+
+`ecuacion-lib` / `ecuacion-splib` の利用者向けチュートリアル・リファレンスアプリ群。
+Maven マルチモジュールプロジェクト。
+
+- **言語**: Java 21
+- **ビルドツール**: Maven
+- **主要モジュール**: `ecuacion-references-lib-tutorial`, `ecuacion-references-splib-web-tutorial`,
+  `ecuacion-references-splib-web-project-template`, `ecuacion-references-util`
+
+## 記事間リンクの書き方
+
+他記事へのリンクを貼る場合の URL 形式（`/public/showMarkdown/page?id=...&lang=...`）や
+`id`/`lang` パラメータの仕様は、都度ソースコードを調べ直さず
+`ecuacion-internal-docs` の `claude-knowledge/projects/ecuacion-references/SPEC.md`
+「4. マルチ言語対応設計」を参照すること。
+
+## 記事メンテナンス時の確認ルール
+
+メニュー名・用語・表記を変更したときは、変更した記事だけでなく **全記事** を対象に
+以下を確認して違和感があれば合わせて修正すること。
+
+- 変更前の文言が他記事の本文・見出し・リンクテキストに残っていないか
+- 見出し語句がサイト全体の表記と統一されているか（例：「概念」→「概要」など）
+- メニューパスを参照しているテキスト（例：`**violation > Violation**` 形式）が
+  ナビゲーション構造の変更と一致しているか
+
+## マルチ言語記事の同期ルール
+
+記事が複数言語（`ja/`・`en/` など）で管理されているモジュールでは、
+**一つの言語で記事の修正を依頼されたときは、必ず全言語の同一記事も同様に修正すること。**
+
+- 内容の追加・削除・修正はすべての言語版に反映する
+- 用語・説明の変更も全言語で統一する
+- リンク先（記事 ID）の変更も全言語で揃える
+- 一つの言語版だけを修正して完了としない

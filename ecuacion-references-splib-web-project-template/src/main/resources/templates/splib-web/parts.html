@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navBarPublic */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(@{/public/show/page?id=home}, #{navBar.home}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(@{/public/greeting/page}, #{navBar.sample}, '')}"></div>
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] your company  All rights reserved.
+	</div>
+	
+</body>
+</html>
