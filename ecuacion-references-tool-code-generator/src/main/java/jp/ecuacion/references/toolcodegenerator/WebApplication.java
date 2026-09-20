@@ -25,7 +25,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 /** Spring Boot application entry point. */
 @SpringBootApplication
-@ComponentScan(basePackages = "jp.ecuacion.referenceapps.util.config")
+@ComponentScan(basePackages = "jp.ecuacion.references.coreformarkdownonlyapps.config")
 public class WebApplication extends SpringBootServletInitializer {
 
   /** Main method. */
