@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package jp.ecuacion.references.lib;
 
 import org.jspecify.annotations.NonNull;
@@ -20,9 +21,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
+/** Spring Boot application entry point. */
 @SpringBootApplication
+@ComponentScan(basePackages = "jp.ecuacion.references.coreformarkdownonlyapps.config")
 public class WebApplication extends SpringBootServletInitializer {
+
+  /** Main method. */
   public static void main(String[] args) {
     SpringApplication.run(WebApplication.class, args);
   }

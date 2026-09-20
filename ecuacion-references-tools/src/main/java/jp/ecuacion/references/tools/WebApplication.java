@@ -21,9 +21,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
 /** Spring Boot application entry point. */
 @SpringBootApplication
+@ComponentScan(basePackages = "jp.ecuacion.referenceapps.util.config")
 public class WebApplication extends SpringBootServletInitializer {
 
   /** Main method. */

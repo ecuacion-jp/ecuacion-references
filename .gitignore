@@ -135,6 +135,9 @@ buildNumber.properties
 # ecuacion-tool-code-generator-cli
 products/
 
+# local env settings
+*/src/envs/
+
 # checkstyle
 .checkstyle
 

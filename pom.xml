@@ -62,7 +62,12 @@
 			<!-- dependent modules in the same project -->
 			<dependency>
 				<groupId>jp.ecuacion.references</groupId>
-				<artifactId>${app.name}-internal-utils</artifactId>
+				<artifactId>ecuacion-references-core</artifactId>
+				<version>${app.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>jp.ecuacion.references</groupId>
+				<artifactId>ecuacion-references-core-for-markdown-only-apps</artifactId>
 				<version>${app.version}</version>
 			</dependency>
 
@@ -71,7 +76,8 @@
 	
 	<!-- mvn versions plugin can't understand parameterized module name like ${app.name}-core... -->
 	<modules>
-		<module>ecuacion-references-internal-utils</module>
+		<module>ecuacion-references-core</module>
+		<module>ecuacion-references-core-for-markdown-only-apps</module>
 		<module>ecuacion-references-lib</module>
 		<module>ecuacion-references-splib</module>
 		<module>ecuacion-references-utils</module>
