@@ -68,10 +68,22 @@
 		</dependency>
 
 		<!-- ecuacion-util: only to read version_ecuacion-utils.properties for the navbar
-			version badge (both ecuacion-util-* modules carry the same file) -->
+			version badge (both ecuacion-util-* modules carry the same file).
+			poi / poi-ooxml (and their transitive dependencies) are excluded since they're
+			unused here and would otherwise end up in the war. -->
 		<dependency>
 			<groupId>jp.ecuacion.util</groupId>
 			<artifactId>ecuacion-util-excel-table</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.poi</groupId>
+					<artifactId>poi-ooxml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- ecuacion-references -->

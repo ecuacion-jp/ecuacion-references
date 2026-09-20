@@ -79,7 +79,10 @@
 			ecuacion-splib-batch is excluded: its spring-boot-starter-batch dependency
 			pulls in spring-boot-jdbc, which triggers Spring Boot's DataSourceAutoConfiguration
 			even though this module has no datasource configured, causing a deploy-time
-			BeanCreationException ("Failed to determine a suitable driver class"). -->
+			BeanCreationException ("Failed to determine a suitable driver class").
+			spring-boot-starter-mail / ecuacion-util-excel-table (and its poi / poi-ooxml
+			transitive dependencies) / ecuacion-lib-validation-business-messages are excluded
+			since they're unused here and would otherwise end up in the war. -->
 		<dependency>
 			<groupId>jp.ecuacion.tool</groupId>
 			<artifactId>ecuacion-tool-housekeep-common</artifactId>
@@ -88,6 +91,18 @@
 				<exclusion>
 					<groupId>jp.ecuacion.splib</groupId>
 					<artifactId>ecuacion-splib-batch</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jp.ecuacion.util</groupId>
+					<artifactId>ecuacion-util-excel-table</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jp.ecuacion.lib</groupId>
+					<artifactId>ecuacion-lib-validation-business-messages</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

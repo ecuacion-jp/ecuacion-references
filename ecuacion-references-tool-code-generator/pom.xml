@@ -74,11 +74,34 @@
 		</dependency>
 
 		<!-- ecuacion-tool-code-generator: only to read
-			version_ecuacion-tool-code-generator.properties for the navbar version badge -->
+			version_ecuacion-tool-code-generator.properties for the navbar version badge.
+			spring-boot-starter-mail / ecuacion-lib-validation-business-messages /
+			ecuacion-util-excel-table (and its poi / poi-ooxml transitive dependencies) /
+			commons-io are excluded since they're unused here and would otherwise end up
+			in the war. ecuacion-splib-core is kept unexcluded since ecuacion-splib-web
+			already brings it in. -->
 		<dependency>
 			<groupId>jp.ecuacion.tool.ecuacion-tool-code-generator</groupId>
 			<artifactId>ecuacion-tool-code-generator-core</artifactId>
 			<version>${ecuacion-tool-code-generator.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jp.ecuacion.lib</groupId>
+					<artifactId>ecuacion-lib-validation-business-messages</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jp.ecuacion.util</groupId>
+					<artifactId>ecuacion-util-excel-table</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- ecuacion-references -->
