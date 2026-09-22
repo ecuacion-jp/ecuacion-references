@@ -29,7 +29,7 @@ Table name: `Table7`, range: `A5:AK{last row}`
 | T | Relation: Target Column | Referenced column name (usually `ID`) |
 | U | Relation: Target Var Name | Reverse reference field name (bidirectional only) |
 | V | Relation: Eager | blank = lazy (default) / `○` = eager |
-| W–AF | index1–10 | Assign sequential integers to define columns in an index in that order |
+| W–AF | index1–10 | Assign sequential integers (optionally prefixed with `U`, e.g. `U1`, for a unique index) to define columns in an index in that order |
 | AG | Notes | Comments (not used in generation) |
 | AH | Column Display Name (Default Lang) | Display name, default language |
 | AI–AK | Column Display Name (Additional Lang 1–3) | Language-specific display names |
@@ -225,6 +225,22 @@ Example: creating a composite index `(COL_A, COL_B)` on `MY_TABLE`:
 | COL_B | 2 | |
 
 To define multiple indexes, use index2 (column X) onward in the same way.
+
+### Unique Index
+
+Prefix every number in the same index1–10 column with `U` (e.g. `U1`, `U2`, ...) to generate that
+index as a unique index (`@Index(unique = true)`) instead of a normal one.
+
+Example: creating a unique index on `CODE` on `MY_TABLE`:
+
+| Column | W (index1) |
+| --- | --- |
+| CODE | U1 |
+
+Within the same index column, either all participating rows must be `U`-prefixed or none may be —
+mixing `1` and `U1` within the same index (e.g. index1) is an error. A unique index is independent
+of the natural key (columns F/G); use it when a column or column combination must be unique but is
+not the table's natural key.
 
 ---
 
