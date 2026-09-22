@@ -12,8 +12,8 @@ Maven マルチモジュールプロジェクト。
 
 - **言語**: Java 21
 - **ビルドツール**: Maven
-- **主要モジュール**: `ecuacion-references-lib-tutorial`, `ecuacion-references-splib-web-tutorial`,
-  `ecuacion-references-splib-web-project-template`, `ecuacion-references-util`
+- **主要モジュール**: `ecuacion-references-lib`, `ecuacion-references-splib`,
+  `ecuacion-references-splib-web`, `ecuacion-references-splib-jpa`, `ecuacion-references-utils`
 
 ## 記事間リンクの書き方
 

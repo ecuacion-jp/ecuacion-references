@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<!--/* navbar */-->
+	<div th:fragment="nav-bar-public" th:remove="tag">
+
+		<div th:replace="~{bootstrap/components :: navbarMenuItem(@{/public/home/page}, 'navBar.home', '')}"></div>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu('navBar.jpaFeatures', ~{::navbarSubMenuJpaFeatures}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarSubMenuJpaFeatures" th:remove="tag">
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneralJpa/page}, #{PT_GENERAL_JPA_TITLE}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneralMultipleTablesAndLock/page}, #{PT_GENERAL_MULTIPLE_TABLES_AND_LOCK_TITLE}, '')}"></div>
+		</div></th:block>
+
+	</div>
+
+	<div th:fragment="nav-bar-public-right" th:remove="tag">
+	</div>
+
+	<!--/* footer */-->
+	<div th:fragment="footer-string" th:remove="tag">
+			© [[${#temporals.year(#temporals.createNow())}]] ecuacion consulting  All rights reserved.
+	</div>
+
+</body>
+</html>

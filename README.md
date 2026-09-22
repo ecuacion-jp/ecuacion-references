@@ -20,11 +20,10 @@ so you can read the explanation and browse the source that implements it side by
 - **ecuacion-references-utils** — Tutorial for `ecuacion-utils` (Markdown article site).
 - **ecuacion-references-tools** — Tutorial for `ecuacion-tools` (Markdown article site).
 - **ecuacion-references-tool-code-generator** — Tutorial for `ecuacion-tool-code-generator` (Markdown article site).
-- **ecuacion-references-splib-web-web** — Hands-on tutorial app for the `ecuacion-splib` web framework, where you
-  operate real screens built with the framework to learn its behavior.
-- **ecuacion-references-splib-web-base** — Shared entity / record / repository / business-logic classes used by
-  `ecuacion-references-splib-web-web`.
-- **ecuacion-references-splib-web-project-template** — Starter template for new `ecuacion-splib` web projects.
+- **ecuacion-references-splib-web** — Hands-on tutorial app for the `ecuacion-splib` web framework, where you
+  operate real screens built with the framework to learn its behavior. Does not connect to a database.
+- **ecuacion-references-splib-jpa** — Hands-on tutorial app for the JPA (DB-backed) features of the
+  `ecuacion-splib` web framework, connected to a PostgreSQL database.
 - **ecuacion-references-core** / **ecuacion-references-core-for-markdown-only-apps** — Shared base modules used
   internally by the tutorial apps above.
 
