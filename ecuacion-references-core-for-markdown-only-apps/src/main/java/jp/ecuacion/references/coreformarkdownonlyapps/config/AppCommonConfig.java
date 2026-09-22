@@ -25,7 +25,8 @@ import org.springframework.context.annotation.PropertySources;
 @ComponentScan(basePackages = "jp.ecuacion.splib.web.markdown.config"
     + ", jp.ecuacion.references.coreformarkdownonlyapps.exceptionhandler")
 @PropertySources({
-  @PropertySource(value = "classpath:application-builtin.properties")
+  @PropertySource("classpath:application-builtin_core.properties"),
+  @PropertySource("classpath:application-builtin.properties")
 })
 public class AppCommonConfig {
 
