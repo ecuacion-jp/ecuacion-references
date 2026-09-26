@@ -15,14 +15,20 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import jp.ecuacion.referenceapps.splib.jpa.entity.YourName;
-import org.springframework.data.jpa.repository.*;
+import org.jspecify.annotations.NonNull;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface YourNameBaseRepository extends SystemCommonBaseRepository<YourName, Long>, JpaSpecificationExecutor<YourName> {
+public interface YourNameBaseRepository
+    extends SystemCommonBaseRepository<YourName, Long>, JpaSpecificationExecutor<YourName> {
 
   @Query(value = "from YourName where id = :id")
+  @NonNull
   Optional<YourName> findById(Long id);
 
   Optional<YourName> findByName(String name);
@@ -32,15 +38,19 @@ public interface YourNameBaseRepository extends SystemCommonBaseRepository<YourN
 
   @Query(nativeQuery = true,
       value = "select * from YOUR_NAME where ID = :#{#entity.id} and is_deleted = true")
-  Optional<YourName> findByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") YourName entity);
+  @NonNull
+  Optional<YourName> findByIdAndSoftDeleteFieldTrueFromAllGroups(
+      @Param("entity") @NonNull YourName entity);
 
   @Query(nativeQuery = true,
       value = "select * from YOUR_NAME where name = :#{#entity.name} and is_deleted = true")
-  Optional<YourName> findByNaturalKeyAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") YourName entity);
+  @NonNull
+  Optional<YourName> findByNaturalKeyAndSoftDeleteFieldTrueFromAllGroups(
+      @Param("entity") @NonNull YourName entity);
 
   @Modifying
   @Query(nativeQuery = true,
       value = "delete from YOUR_NAME where ID = :#{#entity.id} and is_deleted = true")
-  void deleteByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") YourName entity);
+  void deleteByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") @NonNull YourName entity);
 
 }

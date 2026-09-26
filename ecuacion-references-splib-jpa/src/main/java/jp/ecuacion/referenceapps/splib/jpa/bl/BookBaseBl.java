@@ -17,27 +17,34 @@ package jp.ecuacion.referenceapps.splib.jpa.bl;
 
 import java.util.Arrays;
 import java.util.List;
-import jp.ecuacion.referenceapps.splib.jpa.entity.*;
-import jp.ecuacion.referenceapps.splib.jpa.record.*;
-import jp.ecuacion.referenceapps.splib.jpa.repository.*;
+import jp.ecuacion.referenceapps.splib.jpa.entity.Book;
+import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
+import jp.ecuacion.referenceapps.splib.jpa.record.BookBaseRecord;
+import jp.ecuacion.referenceapps.splib.jpa.repository.BookBaseRepository;
+import jp.ecuacion.referenceapps.splib.jpa.repository.BookRentalStatusBaseRepository;
 import jp.ecuacion.splib.jpa.repository.SplibRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BookBaseBl extends SystemCommonBaseBl<Book, Long> {
+public abstract class BookBaseBl extends AppCommonBaseBl<Book, Long> {
 
-  @Autowired
   protected BookBaseRepository repo;
 
   @Autowired
   protected BookRentalStatusBaseRepository bookRentalStatusRepo;
 
+  public BookBaseBl(BookBaseRepository bookBaseRepository) {
+    this.repo = bookBaseRepository;
+  }
+
   @Override
-  public SplibRepository<Book, Long> getRepositoryForOptimisticLocking() {
+  public @NonNull SplibRepository<Book, Long> getRepositoryForOptimisticLocking() {
     return repo;
   }
 
   public Book findAndOptimisticLockingCheck(BookBaseRecord rec) {
-    return findAndOptimisticLockingCheck(rec.getIdOfEntityDataType(), rec.getVersionOfEntityDataType());
+    return findAndOptimisticLockingCheck(rec.getIdOfEntityDataType(),
+        rec.getVersionOfEntityDataType());
   }
 
   public Book insertOrUpdate(BookBaseRecord rec, String... skipUpdateFields) {
@@ -55,11 +62,14 @@ public abstract class BookBaseBl extends SystemCommonBaseBl<Book, Long> {
     return repo.save(e);
   }
 
-  private void duplicateCheck(boolean isCheckFromAllGroups, List<Book> entityList, BookBaseRecord rec, String... targetItemPropertyPaths) {
-    internalDuplicateCheck(isCheckFromAllGroups, entityList, rec, "book", "id", targetItemPropertyPaths);
+  private void duplicateCheck(boolean isCheckFromAllGroups, List<Book> entityList,
+      BookBaseRecord rec, String... targetItemPropertyPaths) {
+    internalDuplicateCheck(isCheckFromAllGroups, entityList, rec, "book", "id",
+        targetItemPropertyPaths);
   }
 
-  public void duplicateCheck(List<Book> entityList, BookBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheck(List<Book> entityList, BookBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheck(false, entityList, rec, targetItemPropertyPaths);
   }
 
@@ -67,7 +77,8 @@ public abstract class BookBaseBl extends SystemCommonBaseBl<Book, Long> {
     duplicateCheck(repo.findAll(), rec, targetItemPropertyPaths);
   }
 
-  public void duplicateCheckFromAllGroups(List<Book> entityList, BookBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheckFromAllGroups(List<Book> entityList, BookBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheck(true, entityList, rec, targetItemPropertyPaths);
   }
 
@@ -84,14 +95,19 @@ public abstract class BookBaseBl extends SystemCommonBaseBl<Book, Long> {
     internalChildExistenceCheck(bookRentalStatusRepo.findByBook_Id(id), messageId, entityMsgIdPart);
   }
 
-  public void childExistenceCheckBookRentalStatus(Long id, ChildExistenceCheckConditionBean... conditions) {
+  public void childExistenceCheckBookRentalStatus(Long id,
+      ChildExistenceCheckConditionBean... conditions) {
     String entityMsgIdPart = "jp.ecuacion.splib.core.entity.bookRentalStatus";
-    internalChildExistenceCheck(bookRentalStatusRepo.findByBook_Id(id), entityMsgIdPart, conditions);
+    internalChildExistenceCheck(bookRentalStatusRepo.findByBook_Id(id), entityMsgIdPart,
+        conditions);
   }
 
-  public void childExistenceCheckBookRentalStatus(BookBaseRecord rec, ChildExistenceCheckConditionBean[] conditions, String referingRecordDataLabel, String recordSpecifyingFieldName) {
+  public void childExistenceCheckBookRentalStatus(BookBaseRecord rec,
+      ChildExistenceCheckConditionBean[] conditions, String referingRecordDataLabel,
+      String recordSpecifyingFieldName) {
     String entityMsgIdPart = "jp.ecuacion.splib.core.entity.bookRentalStatus";
-    internalChildExistenceCheck(bookRentalStatusRepo.findByBook_Id(rec.getIdOfEntityDataType()), null, entityMsgIdPart, conditions, referingRecordDataLabel, recordSpecifyingFieldName);
+    internalChildExistenceCheck(bookRentalStatusRepo.findByBook_Id(rec.getIdOfEntityDataType()),
+        null, entityMsgIdPart, conditions, referingRecordDataLabel, recordSpecifyingFieldName);
   }
 
   public void allChildrenExistenceChecks(Long id) {
@@ -101,6 +117,8 @@ public abstract class BookBaseBl extends SystemCommonBaseBl<Book, Long> {
   public void allChildrenExistenceChecks(Long id, String messageId, Class<?>... clses) {
     List<Class<?>> skipList = Arrays.asList(clses);
 
-    if (!skipList.contains(BookRentalStatus.class)) childExistenceCheckBookRentalStatus(id, messageId);
+    if (!skipList.contains(BookRentalStatus.class)) {
+      childExistenceCheckBookRentalStatus(id, messageId);
+    }
   }
 }

@@ -17,7 +17,7 @@ package jp.ecuacion.referenceapps.splib.jpa.advice;
 
 import jp.ecuacion.splib.jpa.advice.SplibSoftDeleteAdvice;
 import jp.ecuacion.splib.jpa.util.SplibJpaFilterUtil;
-import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 @Aspect

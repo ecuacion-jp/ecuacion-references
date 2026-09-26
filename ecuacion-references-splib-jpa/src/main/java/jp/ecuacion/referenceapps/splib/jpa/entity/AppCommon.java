@@ -15,10 +15,15 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Version;
 import java.io.Serializable;
-import java.time.*;
-import jp.ecuacion.referenceapps.splib.jpa.record.SystemCommonBaseRecord;
+import java.time.OffsetDateTime;
+import jp.ecuacion.referenceapps.splib.jpa.record.AppCommonBaseRecord;
 import jp.ecuacion.splib.jpa.entity.SplibEntity;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
@@ -26,13 +31,13 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @FilterDef(name = "softDeleteFilter", defaultCondition = "IS_DELETED = false")
 @Filter(name = "softDeleteFilter")
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class SystemCommon extends SplibEntity implements Serializable {
+public abstract class AppCommon extends SplibEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -66,17 +71,29 @@ public abstract class SystemCommon extends SplibEntity implements Serializable {
   public static final String FIELD_IS_DELETED = "isDeleted";
   public static final String FIELD_VERSION = "version";
 
-  public SystemCommon() {}
+  public AppCommon() {}
 
-  public SystemCommon(SystemCommonBaseRecord rec) {
+  public AppCommon(AppCommonBaseRecord rec) {
     super();
 
-    if (rec.getCreateAccId() != null) setCreateAccId(rec.getCreateAccIdOfEntityDataType());
-    if (createTime != null) setCreateTime(createTime);
-    if (rec.getLstUpdAccId() != null) setLstUpdAccId(rec.getLstUpdAccIdOfEntityDataType());
-    if (lstUpdTime != null) setLstUpdTime(lstUpdTime);
-    if (rec.getIsDeleted() != null) setIsDeleted(rec.getIsDeleted());
-    if (rec.getVersion() != null) setVersion(rec.getVersionOfEntityDataType());
+    if (rec.getCreateAccId() != null) {
+      setCreateAccId(rec.getCreateAccIdOfEntityDataType());
+    }
+    if (createTime != null) {
+      setCreateTime(createTime);
+    }
+    if (rec.getLstUpdAccId() != null) {
+      setLstUpdAccId(rec.getLstUpdAccIdOfEntityDataType());
+    }
+    if (lstUpdTime != null) {
+      setLstUpdTime(lstUpdTime);
+    }
+    if (rec.getIsDeleted() != null) {
+      setIsDeleted(rec.getIsDeleted());
+    }
+    if (rec.getVersion() != null) {
+      setVersion(rec.getVersionOfEntityDataType());
+    }
   }
 
   public Long getCreateAccId() {
@@ -131,8 +148,12 @@ public abstract class SystemCommon extends SplibEntity implements Serializable {
   public void preInsert() {
     createTime = OffsetDateTime.now();
     lstUpdTime = OffsetDateTime.now();
-    if (isDeleted == null) isDeleted = false;
-    if (version == null) version = 1L;
+    if (isDeleted == null) {
+      isDeleted = false;
+    }
+    if (version == null) {
+      version = 1L;
+    }
   }
 
   @PreUpdate

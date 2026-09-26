@@ -18,6 +18,7 @@ package jp.ecuacion.referenceapps.splib.jpa.config;
 import java.util.List;
 import jp.ecuacion.splib.core.bean.AuthorizationBean;
 import jp.ecuacion.splib.web.config.SplibWebSecurityConfig;
+import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -26,11 +27,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 public class AppSecurityConfig extends SplibWebSecurityConfig {
 
   protected AppSecurityConfig() {
-    super(null, null, null);
+    super();
   }
 
   @Override
-  protected String getDefaultSuccessUrl() {
+  protected @NonNull String getDefaultSuccessUrl() {
     return "/public/home/page";
   }
 
@@ -45,12 +46,12 @@ public class AppSecurityConfig extends SplibWebSecurityConfig {
   }
 
   @Override
-  protected String getLoginNeededPage() {
+  protected @NonNull String getLoginNeededPage() {
     return "/public/home/page";
   }
 
   @Override
-  protected String getAccessDeniedPage() {
+  protected @NonNull String getAccessDeniedPage() {
     return "/public/home/page";
   }
 }

@@ -18,6 +18,7 @@ package jp.ecuacion.referenceapps.splib.jpa.record;
 import jp.ecuacion.splib.web.item.HtmlItem;
 import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
+@SuppressWarnings("null")
 public class BookRecord extends BookBaseRecord implements HtmlItemContainer {
 
   @Override

@@ -16,20 +16,26 @@
 package jp.ecuacion.referenceapps.splib.jpa.record;
 
 import jakarta.validation.Valid;
-import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
 import jp.ecuacion.lib.core.annotation.ItemNameKeyClass;
-import jp.ecuacion.lib.core.item.*;
+import jp.ecuacion.lib.core.item.Item;
+import jp.ecuacion.lib.core.item.ItemContainer;
 import jp.ecuacion.lib.core.util.StringUtil;
-import jp.ecuacion.lib.validation.constraints.*;
-import jp.ecuacion.splib.core.container.*;
+import jp.ecuacion.lib.validation.constraints.PatternWithDescription;
+import jp.ecuacion.lib.validation.constraints.SizeString;
+import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
+import jp.ecuacion.splib.core.container.DatetimeFormatParameters;
+import org.jspecify.annotations.NonNull;
 
 @ItemNameKeyClass("bookRentalStatus")
-public abstract class BookRentalStatusBaseRecord extends SystemCommonBaseRecord implements ItemContainer {
+public abstract class BookRentalStatusBaseRecord extends AppCommonBaseRecord
+    implements ItemContainer {
 
   @Valid
   protected BookBaseRecord book;
   @SizeString(min = 1, max = 30)
-  @PatternWithDescription(regexp = "^[^!\"#\\$%&\\(\\)=\\^~\\\\\\|`\\[\\{;\\+:\\\\*\\]\\},<>/\\?]*$", description = "prohibitedChars")
+  @PatternWithDescription(
+      regexp = "^[^!\"#\\$%&\\(\\)=\\^~\\\\\\|`\\[\\{;\\+:\\\\*\\]\\},<>/\\?]*$",
+      description = "prohibitedChars")
   protected String status;
 
   static {
@@ -47,7 +53,11 @@ public abstract class BookRentalStatusBaseRecord extends SystemCommonBaseRecord 
     count--;
 
     if (count > 0) {
-      book = new BookBaseRecord() {public Item[] customizedItems() {return null;}};
+      book = new BookBaseRecord() {
+        public Item @NonNull [] customizedItems() {
+          return new Item[] {};
+        }
+      };
     }
   }
 
@@ -55,13 +65,18 @@ public abstract class BookRentalStatusBaseRecord extends SystemCommonBaseRecord 
     this(e, params, 3);
   }
 
-  public BookRentalStatusBaseRecord(BookRentalStatus e, DatetimeFormatParameters params, int count) {
+  public BookRentalStatusBaseRecord(BookRentalStatus e, DatetimeFormatParameters params,
+      int count) {
     super(e, params);
 
     count--;
 
     if (count > 0) {
-      this.book = new BookBaseRecord(e.getBook(), params) {public Item[] customizedItems() {return null;}};
+      this.book = new BookBaseRecord(e.getBook(), params) {
+        public Item @NonNull [] customizedItems() {
+          return new Item[] {};
+        }
+      };
     }
     this.status = e.getStatus();
   }
@@ -76,7 +91,11 @@ public abstract class BookRentalStatusBaseRecord extends SystemCommonBaseRecord 
     count--;
 
     if (count > 0) {
-      this.book = new BookBaseRecord() {public Item[] customizedItems() {return null;}};
+      this.book = new BookBaseRecord() {
+        public Item @NonNull [] customizedItems() {
+          return new Item[] {};
+        }
+      };
       this.setBookId(rec.getBookId());
     }
     this.status = rec.getStatus();
@@ -91,7 +110,8 @@ public abstract class BookRentalStatusBaseRecord extends SystemCommonBaseRecord 
   }
 
   public Long getBookIdOfEntityDataType() {
-    return (getBookId() == null || getBookId().equals("")) ? null : getBook().getIdOfEntityDataType();
+    return (getBookId() == null || getBookId().equals("")) ? null
+        : getBook().getIdOfEntityDataType();
   }
 
   public BookBaseRecord getBook() {
@@ -110,25 +130,34 @@ public abstract class BookRentalStatusBaseRecord extends SystemCommonBaseRecord 
     this.status = status;
   }
 
-  public String getIds() {
-    return StringUtil.getSeparatedValuesString(new String[] {getBook().getId() == null ? "" : getBook().getId(), getBook() == null || getBook().getId() == null? "" : getBook().getId()}, "-");
+  public @NonNull String getIds() {
+    return StringUtil
+        .getSeparatedValuesString(new String[] {getBook().getId() == null ? "" : getBook().getId(),
+            getBook() == null || getBook().getId() == null ? "" : getBook().getId()}, "-");
   }
 
-  public void setIds(String idCsv) {
+  public void setIds(@NonNull String idCsv) {
     String[] ids = idCsv.split("-");
-    if (ids.length < 2) return;
+    if (ids.length < 2) {
+      return;
+    }
 
     getBook().setId(ids[0]);
     getBook().setId(ids[1]);
   }
 
-  public String getOptimisticLockVersions() {
-    return StringUtil.getSeparatedValuesString(new String[] {getVersion() == null ? "" : getVersion(), getBook() == null || getBook().getVersion() == null ? "" : getBook().getVersion()}, "-");
+  public @NonNull String getOptimisticLockVersions() {
+    return StringUtil.getSeparatedValuesString(
+        new String[] {getVersion() == null ? "" : getVersion(),
+            getBook() == null || getBook().getVersion() == null ? "" : getBook().getVersion()},
+        "-");
   }
 
-  public void setOptimisticLockVersions(String versionCsv) {
+  public void setOptimisticLockVersions(@NonNull String versionCsv) {
     String[] versions = versionCsv.split("-");
-    if (versions.length < 2) return;
+    if (versions.length < 2) {
+      return;
+    }
 
     setVersion(versions[0]);
     getBook().setVersion(versions[1]);

@@ -17,10 +17,10 @@ package jp.ecuacion.referenceapps.splib.jpa.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import jp.ecuacion.referenceapps.splib.jpa.entity.Book;
-import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
 import jp.ecuacion.referenceapps.splib.jpa.bl.BookBl;
 import jp.ecuacion.referenceapps.splib.jpa.bl.BookRentalStatusBl;
+import jp.ecuacion.referenceapps.splib.jpa.entity.Book;
+import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
 import jp.ecuacion.referenceapps.splib.jpa.form.PtGeneralMultipleTablesAndLockForm;
 import jp.ecuacion.referenceapps.splib.jpa.record.BookRentalStatusRecord;
 import jp.ecuacion.referenceapps.splib.jpa.repository.BookRentalStatusRepository;

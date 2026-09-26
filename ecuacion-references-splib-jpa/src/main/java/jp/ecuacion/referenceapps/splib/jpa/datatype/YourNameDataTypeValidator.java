@@ -15,9 +15,15 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.datatype;
 
-import jakarta.validation.*;
-import java.lang.annotation.*;
-import jp.ecuacion.lib.validation.constraints.*;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import jp.ecuacion.lib.validation.constraints.PatternWithDescription;
+import jp.ecuacion.lib.validation.constraints.SizeString;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

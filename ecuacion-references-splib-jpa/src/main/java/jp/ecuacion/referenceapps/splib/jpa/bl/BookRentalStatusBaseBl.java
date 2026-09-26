@@ -16,27 +16,31 @@
 package jp.ecuacion.referenceapps.splib.jpa.bl;
 
 import java.util.List;
-import jp.ecuacion.referenceapps.splib.jpa.entity.*;
-import jp.ecuacion.referenceapps.splib.jpa.record.*;
-import jp.ecuacion.referenceapps.splib.jpa.repository.*;
+import jp.ecuacion.referenceapps.splib.jpa.entity.Book;
+import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
+import jp.ecuacion.referenceapps.splib.jpa.record.BookRentalStatusBaseRecord;
+import jp.ecuacion.referenceapps.splib.jpa.repository.BookRentalStatusBaseRepository;
 import jp.ecuacion.splib.jpa.repository.SplibRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BookRentalStatusBaseBl extends SystemCommonBaseBl<BookRentalStatus, Long> {
+public abstract class BookRentalStatusBaseBl extends AppCommonBaseBl<BookRentalStatus, Long> {
 
   @Autowired
   protected BookRentalStatusBaseRepository repo;
 
   @Override
-  public SplibRepository<BookRentalStatus, Long> getRepositoryForOptimisticLocking() {
+  public @NonNull SplibRepository<BookRentalStatus, Long> getRepositoryForOptimisticLocking() {
     return repo;
   }
 
   public BookRentalStatus findAndOptimisticLockingCheck(BookRentalStatusBaseRecord rec) {
-    return findAndOptimisticLockingCheck(rec.getBookIdOfEntityDataType(), rec.getVersionOfEntityDataType());
+    return findAndOptimisticLockingCheck(rec.getBookIdOfEntityDataType(),
+        rec.getVersionOfEntityDataType());
   }
 
-  public BookRentalStatus insertOrUpdate(BookRentalStatusBaseRecord rec, Book book, String... skipUpdateFields) {
+  public BookRentalStatus insertOrUpdate(BookRentalStatusBaseRecord rec, Book book,
+      String... skipUpdateFields) {
     BookRentalStatus e = null;
     boolean isInsert = rec.getBookId() == null || rec.getBookId().equals("");
 
@@ -51,11 +55,14 @@ public abstract class BookRentalStatusBaseBl extends SystemCommonBaseBl<BookRent
     return repo.save(e);
   }
 
-  private void duplicateCheck(boolean isCheckFromAllGroups, List<BookRentalStatus> entityList, BookRentalStatusBaseRecord rec, String... targetItemPropertyPaths) {
-    internalDuplicateCheck(isCheckFromAllGroups, entityList, rec, "bookRentalStatus", "id", targetItemPropertyPaths);
+  private void duplicateCheck(boolean isCheckFromAllGroups, List<BookRentalStatus> entityList,
+      BookRentalStatusBaseRecord rec, String... targetItemPropertyPaths) {
+    internalDuplicateCheck(isCheckFromAllGroups, entityList, rec, "bookRentalStatus", "id",
+        targetItemPropertyPaths);
   }
 
-  public void duplicateCheck(List<BookRentalStatus> entityList, BookRentalStatusBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheck(List<BookRentalStatus> entityList, BookRentalStatusBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheck(false, entityList, rec, targetItemPropertyPaths);
   }
 
@@ -63,11 +70,13 @@ public abstract class BookRentalStatusBaseBl extends SystemCommonBaseBl<BookRent
     duplicateCheck(repo.findAll(), rec, targetItemPropertyPaths);
   }
 
-  public void duplicateCheckFromAllGroups(List<BookRentalStatus> entityList, BookRentalStatusBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheckFromAllGroups(List<BookRentalStatus> entityList,
+      BookRentalStatusBaseRecord rec, String... targetItemPropertyPaths) {
     duplicateCheck(true, entityList, rec, targetItemPropertyPaths);
   }
 
-  public void duplicateCheckFromAllGroups(BookRentalStatusBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheckFromAllGroups(BookRentalStatusBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheckFromAllGroups(repo.findAllFromAllGroups(), rec, targetItemPropertyPaths);
   }
 

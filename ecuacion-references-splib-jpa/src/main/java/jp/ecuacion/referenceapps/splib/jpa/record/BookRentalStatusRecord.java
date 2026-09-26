@@ -20,6 +20,7 @@ import jp.ecuacion.splib.core.container.DatetimeFormatParameters;
 import jp.ecuacion.splib.web.item.HtmlItem;
 import jp.ecuacion.splib.web.item.HtmlItemContainer;
 
+@SuppressWarnings("null")
 public class BookRentalStatusRecord extends BookRentalStatusBaseRecord
     implements HtmlItemContainer {
 

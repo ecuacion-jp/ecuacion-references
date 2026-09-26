@@ -15,20 +15,33 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.entity;
 
-import org.jspecify.annotations.NonNull;
-import jakarta.persistence.*;
-import jakarta.validation.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import jp.ecuacion.lib.validation.constraints.PatternWithDescription;
+import jp.ecuacion.lib.validation.constraints.SizeString;
 import jp.ecuacion.referenceapps.splib.jpa.record.BookRentalStatusBaseRecord;
-import jp.ecuacion.lib.validation.constraints.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jspecify.annotations.NonNull;
 
 @Entity
 @Table(name = "BOOK_RENTAL_STATUS")
-public final class BookRentalStatus extends SystemCommon implements Serializable {
+public final class BookRentalStatus extends AppCommon implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
@@ -36,7 +49,8 @@ public final class BookRentalStatus extends SystemCommon implements Serializable
   @Valid
   @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH})
   @OnDelete(action = OnDeleteAction.CASCADE)
-  @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID", nullable = false, columnDefinition = "bigint")
+  @JoinColumn(name = "BOOK_ID", referencedColumnName = "ID", nullable = false,
+      columnDefinition = "bigint")
   @MapsId
   private Book book = new Book();
 
@@ -47,32 +61,37 @@ public final class BookRentalStatus extends SystemCommon implements Serializable
 
   @NotEmpty
   @SizeString(min = 1, max = 30)
-  @PatternWithDescription(regexp = "^[^!\"#\\$%&\\(\\)=\\^~\\\\\\|`\\[\\{;\\+:\\\\*\\]\\},<>/\\?]*$", description = "prohibitedChars")
+  @PatternWithDescription(
+      regexp = "^[^!\"#\\$%&\\(\\)=\\^~\\\\\\|`\\[\\{;\\+:\\\\*\\]\\},<>/\\?]*$",
+      description = "prohibitedChars")
   @Column(name = "STATUS", nullable = false, length = 30)
   protected String status;
 
   public static final String FIELD_BOOK_ID = "bookId";
   public static final String FIELD_STATUS = "status";
 
-  @Override
-  public String[] getFieldNameArr() {
-    return new String[] {"bookId", "status", "createAccId", "createTime", "lstUpdAccId", "lstUpdTime", "isDeleted", "version"};
-  }
-
   public BookRentalStatus() {}
 
   public BookRentalStatus(BookRentalStatusBaseRecord rec, Book book) {
     super(rec);
 
-    if (book != null) setBook(book);
-    if (rec.getStatus() != null) setStatus(rec.getStatus());
+    if (book != null) {
+      setBook(book);
+    }
+    if (rec.getStatus() != null) {
+      setStatus(rec.getStatus());
+    }
   }
 
   public void update(BookRentalStatusBaseRecord rec, Book book, String... skipUpdateFields) {
     List<String> skipUpdateFieldList = Arrays.asList(skipUpdateFields);
 
-    if (book != null) setBook(book);
-    if (rec.getStatus() != null && !skipUpdateFieldList.contains(FIELD_STATUS)) setStatus(rec.getStatus());
+    if (book != null) {
+      setBook(book);
+    }
+    if (rec.getStatus() != null && !skipUpdateFieldList.contains(FIELD_STATUS)) {
+      setStatus(rec.getStatus());
+    }
   }
 
   public Long getBookId() {
@@ -103,6 +122,7 @@ public final class BookRentalStatus extends SystemCommon implements Serializable
     return null;
   }
 
+  @SuppressWarnings("null")
   @NonNull
   public Set<List<String>> getSetOfUniqueConstraintFieldList() {
     Set<List<String>> rtnSet = new HashSet<>();

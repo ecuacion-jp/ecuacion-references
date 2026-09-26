@@ -15,15 +15,18 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.record;
 
-import jp.ecuacion.referenceapps.splib.jpa.entity.YourName;
 import jp.ecuacion.lib.core.annotation.ItemNameKeyClass;
-import jp.ecuacion.lib.core.item.*;
+import jp.ecuacion.lib.core.item.ItemContainer;
 import jp.ecuacion.lib.core.util.StringUtil;
-import jp.ecuacion.lib.validation.constraints.*;
-import jp.ecuacion.splib.core.container.*;
+import jp.ecuacion.lib.validation.constraints.LongString;
+import jp.ecuacion.lib.validation.constraints.PatternWithDescription;
+import jp.ecuacion.lib.validation.constraints.SizeString;
+import jp.ecuacion.referenceapps.splib.jpa.entity.YourName;
+import jp.ecuacion.splib.core.container.DatetimeFormatParameters;
+import org.jspecify.annotations.NonNull;
 
 @ItemNameKeyClass("yourName")
-public abstract class YourNameBaseRecord extends SystemCommonBaseRecord implements ItemContainer {
+public abstract class YourNameBaseRecord extends AppCommonBaseRecord implements ItemContainer {
 
   @LongString
   protected String id;
@@ -70,24 +73,29 @@ public abstract class YourNameBaseRecord extends SystemCommonBaseRecord implemen
     this.name = name;
   }
 
-  public String getIds() {
+  public @NonNull String getIds() {
     return StringUtil.getSeparatedValuesString(new String[] {getId() == null ? "" : getId()}, "-");
   }
 
-  public void setIds(String idCsv) {
+  public void setIds(@NonNull String idCsv) {
     String[] ids = idCsv.split("-");
-    if (ids.length < 1) return;
+    if (ids.length < 1) {
+      return;
+    }
 
     setId(ids[0]);
   }
 
-  public String getOptimisticLockVersions() {
-    return StringUtil.getSeparatedValuesString(new String[] {getVersion() == null ? "" : getVersion()}, "-");
+  public @NonNull String getOptimisticLockVersions() {
+    return StringUtil
+        .getSeparatedValuesString(new String[] {getVersion() == null ? "" : getVersion()}, "-");
   }
 
-  public void setOptimisticLockVersions(String versionCsv) {
+  public void setOptimisticLockVersions(@NonNull String versionCsv) {
     String[] versions = versionCsv.split("-");
-    if (versions.length < 1) return;
+    if (versions.length < 1) {
+      return;
+    }
 
     setVersion(versions[0]);
   }

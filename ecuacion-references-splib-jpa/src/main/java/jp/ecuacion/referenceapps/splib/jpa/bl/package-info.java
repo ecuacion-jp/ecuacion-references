@@ -13,16 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * Provides annotations.
+ * 
+ * <p>{@code @NullUnmarked} is added 
+ *     because annotations do not need {@code @NullMarked}.</p>
+ */
+@NullUnmarked
 package jp.ecuacion.referenceapps.splib.jpa.bl;
 
-import jp.ecuacion.referenceapps.splib.jpa.repository.BookBaseRepository;
-import org.springframework.stereotype.Component;
-
-@Component
-public class BookBl extends BookBaseBl {
-
-  public BookBl(BookBaseRepository bookBaseRepository) {
-    super(bookBaseRepository);
-  }
-
-}
+import org.jspecify.annotations.NullUnmarked;

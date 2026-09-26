@@ -15,17 +15,17 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.record;
 
-import java.time.*;
+import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
-import jp.ecuacion.referenceapps.splib.jpa.entity.SystemCommon;
 import jp.ecuacion.lib.core.util.PropertiesFileUtil;
-import jp.ecuacion.lib.validation.constraints.*;
-import jp.ecuacion.splib.core.container.*;
+import jp.ecuacion.lib.validation.constraints.LongString;
+import jp.ecuacion.referenceapps.splib.jpa.entity.AppCommon;
+import jp.ecuacion.splib.core.container.DatetimeFormatParameters;
 import jp.ecuacion.splib.core.record.SplibRecord;
 
-public abstract class SystemCommonBaseRecord extends SplibRecord {
+public abstract class AppCommonBaseRecord extends SplibRecord {
 
   @LongString
   protected String createAccId;
@@ -45,21 +45,25 @@ public abstract class SystemCommonBaseRecord extends SplibRecord {
     getStringLengthMap().put("version", null);
   }
 
-  public SystemCommonBaseRecord() {
+  public AppCommonBaseRecord() {
     super();
   }
 
-  public SystemCommonBaseRecord(SystemCommon e, DatetimeFormatParameters params) {
+  public AppCommonBaseRecord(AppCommon e, DatetimeFormatParameters params) {
     super(params);
     this.createAccId = (e.getCreateAccId() == null) ? "" : Long.toString(e.getCreateAccId());
-    this.createTime = e.getCreateTime() == null ? "" : e.getCreateTime().withOffsetSameInstant(params.getZoneOffset()).format(DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
+    this.createTime = e.getCreateTime() == null ? ""
+        : e.getCreateTime().withOffsetSameInstant(params.getZoneOffset())
+            .format(DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
     this.lstUpdAccId = (e.getLstUpdAccId() == null) ? "" : Long.toString(e.getLstUpdAccId());
-    this.lstUpdTime = e.getLstUpdTime() == null ? "" : e.getLstUpdTime().withOffsetSameInstant(params.getZoneOffset()).format(DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
+    this.lstUpdTime = e.getLstUpdTime() == null ? ""
+        : e.getLstUpdTime().withOffsetSameInstant(params.getZoneOffset())
+            .format(DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
     this.isDeleted = e.getIsDeleted();
     this.version = (e.getVersion() == null) ? "" : Long.toString(e.getVersion());
   }
 
-  public SystemCommonBaseRecord(SystemCommonBaseRecord rec) {
+  public AppCommonBaseRecord(AppCommonBaseRecord rec) {
     super(rec.getDateTimeFormatParams());
   }
 
@@ -72,7 +76,8 @@ public abstract class SystemCommonBaseRecord extends SplibRecord {
   }
 
   public Long getCreateAccIdOfEntityDataType() {
-    return (getCreateAccId() == null || getCreateAccId().equals("")) ? null : Long.valueOf(createAccId.replaceAll(",", ""));
+    return (getCreateAccId() == null || getCreateAccId().equals("")) ? null
+        : Long.valueOf(createAccId.replaceAll(",", ""));
   }
 
   public String getCreateTime() {
@@ -84,7 +89,9 @@ public abstract class SystemCommonBaseRecord extends SplibRecord {
   }
 
   public OffsetDateTime getCreateTimeOfEntityDataType() {
-    return (getCreateTime() == null || getCreateTime().equals("")) ? null : OffsetDateTime.parse(createTime, DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
+    return (getCreateTime() == null || getCreateTime().equals("")) ? null
+        : OffsetDateTime.parse(createTime,
+            DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
   }
 
   public String getLstUpdAccId() {
@@ -96,7 +103,8 @@ public abstract class SystemCommonBaseRecord extends SplibRecord {
   }
 
   public Long getLstUpdAccIdOfEntityDataType() {
-    return (getLstUpdAccId() == null || getLstUpdAccId().equals("")) ? null : Long.valueOf(lstUpdAccId.replaceAll(",", ""));
+    return (getLstUpdAccId() == null || getLstUpdAccId().equals("")) ? null
+        : Long.valueOf(lstUpdAccId.replaceAll(",", ""));
   }
 
   public String getLstUpdTime() {
@@ -108,7 +116,9 @@ public abstract class SystemCommonBaseRecord extends SplibRecord {
   }
 
   public OffsetDateTime getLstUpdTimeOfEntityDataType() {
-    return (getLstUpdTime() == null || getLstUpdTime().equals("")) ? null : OffsetDateTime.parse(lstUpdTime, DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
+    return (getLstUpdTime() == null || getLstUpdTime().equals("")) ? null
+        : OffsetDateTime.parse(lstUpdTime,
+            DateTimeFormatter.ofPattern(dateTimeFormatParams.getDateTimeFormat()));
   }
 
   public Boolean getIsDeleted() {
@@ -128,7 +138,8 @@ public abstract class SystemCommonBaseRecord extends SplibRecord {
   }
 
   public Long getVersionOfEntityDataType() {
-    return (getVersion() == null || getVersion().equals("")) ? null : Long.valueOf(version.replaceAll(",", ""));
+    return (getVersion() == null || getVersion().equals("")) ? null
+        : Long.valueOf(version.replaceAll(",", ""));
   }
 
   public List<String[]> getIsDeletedList(Locale locale, String options) {

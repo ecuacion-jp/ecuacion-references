@@ -15,14 +15,20 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.repository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import jp.ecuacion.referenceapps.splib.jpa.entity.Book;
-import org.springframework.data.jpa.repository.*;
+import org.jspecify.annotations.NonNull;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface BookBaseRepository extends SystemCommonBaseRepository<Book, Long>, JpaSpecificationExecutor<Book> {
+public interface BookBaseRepository
+    extends SystemCommonBaseRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
   @Query(value = "from Book where id = :id")
+  @NonNull
   Optional<Book> findById(Long id);
 
   @Query(nativeQuery = true, value = "select * from Instance where del_flg = false")
@@ -30,15 +36,17 @@ public interface BookBaseRepository extends SystemCommonBaseRepository<Book, Lon
 
   @Query(nativeQuery = true,
       value = "select * from BOOK where ID = :#{#entity.id} and is_deleted = true")
-  Optional<Book> findByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") Book entity);
+  @NonNull
+  Optional<Book> findByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") @NonNull Book entity);
 
-  @Query(nativeQuery = true,
-      value = "select * from BOOK where 1 = 2 and is_deleted = true")
-  Optional<Book> findByNaturalKeyAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") Book entity);
+  @Query(nativeQuery = true, value = "select * from BOOK where 1 = 2 and is_deleted = true")
+  @NonNull
+  Optional<Book> findByNaturalKeyAndSoftDeleteFieldTrueFromAllGroups(
+      @Param("entity") @NonNull Book entity);
 
   @Modifying
   @Query(nativeQuery = true,
       value = "delete from BOOK where ID = :#{#entity.id} and is_deleted = true")
-  void deleteByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") Book entity);
+  void deleteByIdAndSoftDeleteFieldTrueFromAllGroups(@Param("entity") @NonNull Book entity);
 
 }

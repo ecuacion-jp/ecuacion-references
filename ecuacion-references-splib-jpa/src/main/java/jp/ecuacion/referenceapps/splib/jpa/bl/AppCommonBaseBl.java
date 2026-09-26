@@ -15,13 +15,14 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.bl;
 
-import jp.ecuacion.referenceapps.splib.jpa.entity.*;
-import jp.ecuacion.splib.jpa.bl.*;
+import jp.ecuacion.referenceapps.splib.jpa.entity.AppCommon;
+import jp.ecuacion.splib.jpa.bl.SplibJpaBl;
+import org.jspecify.annotations.NonNull;
 
-public abstract class SystemCommonBaseBl<E extends SystemCommon, I> extends SplibJpaBl<E, I, Long> {
+public abstract class AppCommonBaseBl<E extends AppCommon, I> extends SplibJpaBl<E, I, Long> {
 
   @Override
-  public Long getVersionForOptimisticLocking(SystemCommon e) {
+  public @NonNull Long getVersionForOptimisticLocking(@NonNull AppCommon e) {
     return e.getVersion();
   }
 

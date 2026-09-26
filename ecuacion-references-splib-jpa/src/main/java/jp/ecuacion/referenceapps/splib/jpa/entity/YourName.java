@@ -15,24 +15,37 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.entity;
 
-import org.jspecify.annotations.NonNull;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import jp.ecuacion.lib.validation.constraints.PatternWithDescription;
+import jp.ecuacion.lib.validation.constraints.SizeString;
 import jp.ecuacion.referenceapps.splib.jpa.record.YourNameBaseRecord;
-import jp.ecuacion.lib.validation.constraints.*;
+import org.jspecify.annotations.NonNull;
 
 @Entity
 @Table(name = "YOUR_NAME", uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})})
-public final class YourName extends SystemCommon implements Serializable {
+public final class YourName extends AppCommon implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   @Id
   @Column(name = "ID", nullable = false, columnDefinition = "bigserial")
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "YOUR_NAME_ID_SEQ_GEN")
-  @SequenceGenerator(name = "YOUR_NAME_ID_SEQ_GEN", sequenceName = "YOUR_NAME_ID_SEQ", allocationSize = 1)
+  @SequenceGenerator(name = "YOUR_NAME_ID_SEQ_GEN", sequenceName = "YOUR_NAME_ID_SEQ",
+      allocationSize = 1)
   protected Long id;
 
   @NotEmpty
@@ -44,18 +57,17 @@ public final class YourName extends SystemCommon implements Serializable {
   public static final String FIELD_ID = "id";
   public static final String FIELD_NAME = "name";
 
-  @Override
-  public String[] getFieldNameArr() {
-    return new String[] {"id", "name", "createAccId", "createTime", "lstUpdAccId", "lstUpdTime", "isDeleted", "version"};
-  }
-
   public YourName() {}
 
   public YourName(YourNameBaseRecord rec) {
     super(rec);
 
-    if (rec.getId() != null) setId(rec.getIdOfEntityDataType());
-    if (rec.getName() != null) setName(rec.getName());
+    if (rec.getId() != null) {
+      setId(rec.getIdOfEntityDataType());
+    }
+    if (rec.getName() != null) {
+      setName(rec.getName());
+    }
   }
 
   public YourName(String name) {
@@ -66,8 +78,12 @@ public final class YourName extends SystemCommon implements Serializable {
   public void update(YourNameBaseRecord rec, String... skipUpdateFields) {
     List<String> skipUpdateFieldList = Arrays.asList(skipUpdateFields);
 
-    if (rec.getId() != null && !skipUpdateFieldList.contains(FIELD_ID)) setId(rec.getIdOfEntityDataType());
-    if (rec.getName() != null && !skipUpdateFieldList.contains(FIELD_NAME)) setName(rec.getName());
+    if (rec.getId() != null && !skipUpdateFieldList.contains(FIELD_ID)) {
+      setId(rec.getIdOfEntityDataType());
+    }
+    if (rec.getName() != null && !skipUpdateFieldList.contains(FIELD_NAME)) {
+      setName(rec.getName());
+    }
   }
 
   public Long getId() {
@@ -92,8 +108,8 @@ public final class YourName extends SystemCommon implements Serializable {
     return rtnList;
   }
 
-  @NonNull
-  public Set<List<String>> getSetOfUniqueConstraintFieldList() {
+
+  public @NonNull Set<List<@NonNull String>> getSetOfUniqueConstraintFieldList() {
     Set<List<String>> rtnSet = new HashSet<>();
     List<String> list = getNaturalKeyFieldList();
     if (list != null) {

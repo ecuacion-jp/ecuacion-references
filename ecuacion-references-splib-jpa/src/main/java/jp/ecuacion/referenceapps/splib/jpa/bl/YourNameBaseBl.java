@@ -17,24 +17,26 @@ package jp.ecuacion.referenceapps.splib.jpa.bl;
 
 import java.util.List;
 import java.util.Optional;
-import jp.ecuacion.referenceapps.splib.jpa.entity.*;
-import jp.ecuacion.referenceapps.splib.jpa.record.*;
-import jp.ecuacion.referenceapps.splib.jpa.repository.*;
+import jp.ecuacion.referenceapps.splib.jpa.entity.YourName;
+import jp.ecuacion.referenceapps.splib.jpa.record.YourNameBaseRecord;
+import jp.ecuacion.referenceapps.splib.jpa.repository.YourNameBaseRepository;
 import jp.ecuacion.splib.jpa.repository.SplibRepository;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class YourNameBaseBl extends SystemCommonBaseBl<YourName, Long> {
+public abstract class YourNameBaseBl extends AppCommonBaseBl<YourName, Long> {
 
   @Autowired
   protected YourNameBaseRepository repo;
 
   @Override
-  public SplibRepository<YourName, Long> getRepositoryForOptimisticLocking() {
+  public @NonNull SplibRepository<YourName, Long> getRepositoryForOptimisticLocking() {
     return repo;
   }
 
   public YourName findAndOptimisticLockingCheck(YourNameBaseRecord rec) {
-    return findAndOptimisticLockingCheck(rec.getIdOfEntityDataType(), rec.getVersionOfEntityDataType());
+    return findAndOptimisticLockingCheck(rec.getIdOfEntityDataType(),
+        rec.getVersionOfEntityDataType());
   }
 
   public YourName insertOrUpdate(YourNameBaseRecord rec, String... skipUpdateFields) {
@@ -52,11 +54,14 @@ public abstract class YourNameBaseBl extends SystemCommonBaseBl<YourName, Long> 
     return repo.save(e);
   }
 
-  private void duplicateCheck(boolean isCheckFromAllGroups, List<YourName> entityList, YourNameBaseRecord rec, String... targetItemPropertyPaths) {
-    internalDuplicateCheck(isCheckFromAllGroups, entityList, rec, "yourName", "id", targetItemPropertyPaths);
+  private void duplicateCheck(boolean isCheckFromAllGroups, List<YourName> entityList,
+      YourNameBaseRecord rec, String... targetItemPropertyPaths) {
+    internalDuplicateCheck(isCheckFromAllGroups, entityList, rec, "yourName", "id",
+        targetItemPropertyPaths);
   }
 
-  public void duplicateCheck(List<YourName> entityList, YourNameBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheck(List<YourName> entityList, YourNameBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheck(false, entityList, rec, targetItemPropertyPaths);
   }
 
@@ -64,17 +69,21 @@ public abstract class YourNameBaseBl extends SystemCommonBaseBl<YourName, Long> 
     duplicateCheck(repo.findAll(), rec, targetItemPropertyPaths);
   }
 
-  public void duplicateCheckFromAllGroups(List<YourName> entityList, YourNameBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheckFromAllGroups(List<YourName> entityList, YourNameBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheck(true, entityList, rec, targetItemPropertyPaths);
   }
 
-  public void duplicateCheckFromAllGroups(YourNameBaseRecord rec, String... targetItemPropertyPaths) {
+  public void duplicateCheckFromAllGroups(YourNameBaseRecord rec,
+      String... targetItemPropertyPaths) {
     duplicateCheckFromAllGroups(repo.findAllFromAllGroups(), rec, targetItemPropertyPaths);
   }
 
   public void naturalKeyDuplicateCheck(YourNameBaseRecord rec) {
     Optional<YourName> optional = repo.findByName(rec.getName());
-    throwExceptionWhenDuplicated(optional.isPresent() && !optional.get().getId().equals(rec.getIdOfEntityDataType()), false, new String[] {"name"}, new String[] {rec.getItem("name").getItemNameKey()});
+    throwExceptionWhenDuplicated(
+        optional.isPresent() && !optional.get().getId().equals(rec.getIdOfEntityDataType()), false,
+        new String[] {"name"}, new String[] {rec.getItem("name").getItemNameKey()});
   }
 
 }

@@ -18,9 +18,11 @@ package jp.ecuacion.referenceapps.splib.jpa.record;
 import jp.ecuacion.referenceapps.splib.jpa.entity.YourName;
 import jp.ecuacion.splib.core.container.DatetimeFormatParameters;
 import jp.ecuacion.splib.web.item.HtmlItem;
-import jp.ecuacion.splib.web.item.HtmlItemString;
 import jp.ecuacion.splib.web.item.HtmlItemContainer;
+import jp.ecuacion.splib.web.item.HtmlItemString;
+import org.jspecify.annotations.NonNull;
 
+@SuppressWarnings("null")
 public class YourNameRecord extends YourNameBaseRecord implements HtmlItemContainer {
 
   public YourNameRecord() {
@@ -32,7 +34,7 @@ public class YourNameRecord extends YourNameBaseRecord implements HtmlItemContai
   }
 
   @Override
-  public HtmlItem[] customizedItems() {
+  public HtmlItem @NonNull [] customizedItems() {
     return new HtmlItem[] {new HtmlItemString("validationTest").notEmpty()};
   }
 }

@@ -19,6 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.time.OffsetDateTime;
 import java.time.temporal.TemporalAccessor;
 import java.util.Optional;
+import org.jspecify.annotations.NonNull;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -44,8 +45,9 @@ public class AppConfig {
   @Bean
   AuditorAware<Long> auditorAware(HttpServletRequest request) {
     return new AuditorAware<Long>() {
+      @SuppressWarnings("null")
       @Override
-      public Optional<Long> getCurrentAuditor() {
+      public @NonNull Optional<Long> getCurrentAuditor() {
 
         Long accId = (Long) request.getSession().getAttribute(SESSION_KEY_LOGIN_USER_ID);
 
@@ -62,8 +64,9 @@ public class AppConfig {
   @Bean
   DateTimeProvider dateTimeProvider() {
     return new DateTimeProvider() {
+      @SuppressWarnings("null")
       @Override
-      public Optional<TemporalAccessor> getNow() {
+      public @NonNull Optional<TemporalAccessor> getNow() {
         OffsetDateTime time = OffsetDateTime.now();
         return Optional.of(time);
       }
