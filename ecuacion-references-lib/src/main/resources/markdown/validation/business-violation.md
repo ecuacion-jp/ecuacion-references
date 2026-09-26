@@ -23,11 +23,11 @@ violations.add(new BusinessViolation(
 
 ## Embedding Item Names in Messages (itemNameKeys)
 
-Define a message containing the `{item_name}` placeholder in `messages_with_item_names.properties`,
+Define a message containing the `{item_name}` placeholder in `messages.properties`,
 and specify `itemNameKeys` to have the item name resolved from `item_names.properties` when the message is generated.
 
 ```properties
-# messages_with_item_names.properties
+# messages.properties
 error.already-registered={item_name} is already registered
 ```
 

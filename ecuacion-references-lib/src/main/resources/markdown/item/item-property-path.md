@@ -1,24 +1,79 @@
-## Overview
+## item
 
-`itemPropertyPath` is a string path that represents the location of a field within an object.
-It is used to identify "which item caused the error" in validation error messages and similar contexts.
+An `item` is a concept defined by this library, representing a single "item" on screen, such as an input field or a display field.
+Its value itself is held as a field on an object, but displaying it also requires attributes beyond the value, such as the label text or whether it is required.
+An `Item` is an object that holds these attribute values for a single field (see [Item](?id=item/item) for details).
+
+In this library (ecuacion-lib), `Item` and its related classes are used solely to generate error messages for Jakarta Validation
+and `BusinessViolation` (for details, see [Overview of Violations and Exceptions](?id=concepts/violations-overview)).
+In other libraries that build on this library, such as ecuacion-splib, they are also used for on-screen display, such as display labels.
+
+---
+
+## itemPropertyPath
+
+`itemPropertyPath` is a string path that represents the location of an item.
+It plays the same role as propertyPath, but adds features for working with items, such as a simplified notation and use with itemNameKey (described later).
 
 It uses the same dot notation as propertyPath.
+If you don't use `ItemContainer` (described later), it is exactly the same as propertyPath.
 
 | itemPropertyPath | Meaning |
 | --- | --- |
 | `"name"` | The `name` field directly under the root |
 | `"dept.name"` | The `name` field of the `dept` object held by the root |
 | `"bookList[1].title"` | The `title` field of the second element of `bookList` |
-| `"strList[0].<list element>"` | The first element itself of `strList` (`List<String>`) |
 
 ---
 
-## Base Object
+## ItemContainer
 
-`ItemContainer` (`jp.ecuacion.lib.core.item.ItemContainer`) is an interface that holds `Item` instances
-with customized display attributes for fields. It is implemented on classes such as Records or Forms
-(for details, see [ItemContainer](?id=item/item-container)).
+`ItemContainer` (`jp.ecuacion.lib.core.item.ItemContainer`) is an interface implemented by an object that holds items.
+It is implemented on classes such as a Form or the DTO directly beneath it (for details, see [ItemContainer](?id=item/item-container)).
+
+To customize an item, the object holding that item must implement `ItemContainer`.
+Here's an example of setting an attribute on an item using `ItemContainer`.
+
+Jakarta Validation has a feature that displays the value that caused the error by including the placeholder
+`{invalidValue}` in a message. For sensitive items, specifying `Item`'s `hideValue()` lets you suppress the value
+from appearing in that `{invalidValue}` part. Here, we implement `ItemContainer`'s abstract method
+`customizedItems()` and specify `hideValue()` on the `password` field.
+
+```java
+public class UserDto implements ItemContainer {
+
+    @Size(min = 8, max = 20)
+    private String password;
+
+    @Override
+    public Item[] customizedItems() {
+        return new Item[] {
+            new Item("password").hideValue()
+        };
+    }
+}
+```
+
+---
+
+## Base Object of itemPropertyPath
+
+For example, if the rootBean is `UserForm` and it has a direct child `UserDto` (with `name` and `address` fields), the standard
+Jakarta Validation propertyPath (hereafter called fullPropertyPath) would be `"userDto.name"`.
+
+In other words, `customizedItems()` would need to be defined like this.
+
+```java
+// Written with fullPropertyPath (from UserForm's perspective, verbose)
+new Item("userDto.name"), new Item("userDto.address"), ...
+```
+
+Since that's verbose, the `itemPropertyPath` you specify on `Item` is written as a path based on `ItemContainer`.
+
+```java
+// Written with itemPropertyPath (from UserDto's perspective)
+new Item("name"), new Item("address"), ...
+```
 
 The base object for `itemPropertyPath` is determined by the following rules depending on whether an `ItemContainer` is present.
 
@@ -29,101 +84,27 @@ The base object for `itemPropertyPath` is determined by the following rules depe
 | A direct child of rootBean is an `ItemContainer` | That child ItemContainer |
 
 The search for `ItemContainer` is **up to 1 level deep**.
-An `ItemContainer` nested more than 2 levels deep, such as `rootBean.dept.record`, is not automatically discovered.
+An `ItemContainer` nested more than 2 levels deep, such as `rootBean.dept.record`, is not discovered.
 
-For example, if the rootBean is `SomeForm` and it has a direct child `UserRecord` (ItemContainer),
-for a fullPropertyPath of `"userRecord.name"`,
-`"name"` is passed as the `itemPropertyPath` to `UserRecord#getItem()`.
-
----
-
-## Reason for Existence
-
-In web UIs, field-by-field attributes (item name key, value display control, etc.) are defined in `ItemContainer.customizedItems()`.
-In a configuration where a form holds a DTO (`UserForm` holds `UserDto`, and `UserDto` holds `name` and `address`),
-writing paths from the `UserForm` perspective becomes verbose.
-
-```java
-// Written from UserForm perspective (verbose)
-new Item("userDto.name"), new Item("userDto.address"), ...
-```
-
-Since `itemPropertyPath` uses `ItemContainer` (in this case `UserDto`) as the base, it can be written concisely.
-
-```java
-// Written from UserDto perspective (itemPropertyPath)
-new Item("name"), new Item("address"), ...
-```
+In the example above, if `UserDto` is an `ItemContainer` (i.e., `UserDto` implements `ItemContainer`),
+then for a fullPropertyPath of `"userDto.name"`, `"name"` becomes the itemPropertyPath.
 
 By sharing the same base between the template side (Thymeleaf, etc.) and the backend, both the amount of code and readability improve.
 
----
-
-## Writing itemPropertyPath and Shorthand Forms
-
-The `itemPropertyPath` passed to `new Item()` can be specified either in the format matching Jakarta Validation's `propertyPath` (with indices)
-or in the shorthand form with indices omitted.
-Both are normalized internally, so either form produces the same result.
-
-```java
-// Both have the same meaning
-new Item("bookList[1].title")   // propertyPath-compliant form (with index)
-new Item("bookList[].title")    // shorthand form
-```
-
-The table below summarizes the propertyPath-compliant and shorthand forms by collection type.
-All field names are for illustration purposes. `User` is a class with a `name` field.
-
-### List
-
-| Field Type | Target | propertyPath-compliant Form | Shorthand Form |
-| --- | --- | --- | --- |
-| `List<String> strList` | Element itself | `strList[0].<list element>` | `strList[]` |
-| `List<User> userList` | `User.name` | `userList[0].name` | `userList[].name` |
-| `List<List<String>> nestedList` | Inner String element | `nestedList[0].<list element>[1].<list element>` | `nestedList[][]` |
-| `List<List<User>> nestedList` | Inner `User.name` | `nestedList[0].<list element>[1].name` | `nestedList[][].name` |
-
-### Set
-
-Since sets do not have ordering, indices do not appear in runtime paths.
-There are many cases where the form does not change between before and after normalization.
-
-| Field Type | Target | propertyPath-compliant Form | Shorthand Form |
-| --- | --- | --- | --- |
-| `Set<String> strSet` | Element itself | `strSet[].<iterable element>` | `strSet[]` |
-| `Set<User> userSet` | `User.name` | `userSet[].name` | `userSet[].name` (same) |
-
-### Map
-
-The propertyPath for map key constraints contains a qualifier indicating key access,
-which is not removed after normalization. Therefore, the `itemPropertyPath` for keys and values are distinguished.
-
-| Field Type | Target | propertyPath-compliant Form | Shorthand Form |
-| --- | --- | --- | --- |
-| `Map<String, ?> strMap` | Key itself | `strMap<K>[].<map key>` | `strMap<K>[]` |
-| `Map<?, String> strMap` | Value itself | `strMap[key1].<map value>` | `strMap[]` |
-| `Map<?, User> strMap` | Value's `User.name` | `strMap[key1].name` | `strMap[].name` |
-
-### Duplicate Registration
-
-Paths with different indices become the same key after normalization, so registering duplicates
-within the same `customizedItems()` will cause a runtime exception.
-
-```java
-// NG: Both become "userList[].name" after normalization, causing duplicates
-new Item("userList[1].name"),
-new Item("userList[2].name")
-```
+For how to write `itemPropertyPath` (including shorthand forms) for collection fields such as List, Set, and Map,
+see [propertyPath in Collections](?id=item/collection-property-path).
 
 ---
 
-## Collection Element Keywords
+## Note: Why Sibling ItemContainers Don't Cause Ambiguity
 
-These are the keywords that appear when referring to the element of a collection itself.
+For example, if `UserForm` has two direct children, `UserDto` and `DeptDto`, both `ItemContainer`s and both with a `name` field,
+you might wonder whether writing `itemPropertyPath` as simply `"name"` would leave it unclear which `ItemContainer` is meant.
+In practice, this ambiguity does not arise, for two reasons corresponding to the two ways `itemPropertyPath` is used:
 
-| Type | Keyword |
-| --- | --- |
-| `List<T>` | `<list element>` |
-| `Set<T>` | `<iterable element>` |
-| Key of `Map<K, V>` | `<map key>` |
-| Value of `Map<K, V>` | `<map value>` |
+1. **When displaying validation messages** (starting from the field where the violation occurred): Jakarta Validation itself has already
+   identified the field where the violation occurred by walking from the rootBean. The search for an `ItemContainer` starts from that
+   already-identified fullPropertyPath (e.g., `"userDto.name"`), so it is never reduced to an ambiguous bare `"name"`.
+2. **When displaying item names via Thymeleaf in splib** (walking from the rootBean toward the target item in order): even though the
+   `itemPropertyPath` written on each component may be in shorthand form (e.g., `"name"`), the part that was shortened (i.e., which
+   `ItemContainer`'s scope it belongs to) is specified separately elsewhere, so the component as a whole can still uniquely identify its target.

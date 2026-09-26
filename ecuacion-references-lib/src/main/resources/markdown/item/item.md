@@ -3,11 +3,9 @@
 `Item` (`jp.ecuacion.lib.core.item.Item`) is a class that holds the attributes of a single field.
 It is primarily used to control how item names and field values are displayed in validation error messages.
 
-Normally, `Item` instances are not created directly by application developers;
-they are obtained via `ItemUtil.resolveItem()` or `ItemContainer.getItem()`.
-
-You create instances directly only when implementing `customizedItems()` in an [ItemContainer](?id=item/item-container)
-to customize the display behavior of fields.
+You do not need to set an `Item` for every field subject to validation; if none is specified, the default
+settings are applied. Only when you want to customize how a field is displayed in error messages do you
+implement `customizedItems()` in [ItemContainer](?id=item/item-container) to create `Item` instances.
 
 ```java
 @Override
@@ -21,26 +19,7 @@ public Item[] customizedItems() {
 
 ---
 
-## Explicitly Specifying itemNameKey
-
-`itemNameKey` is the key used to look up the item name in error messages from `item_names.properties` and similar files
-(for details, see [itemNameKey Resolution Rules](?id=item/item-name-key)).
-
-It is normally resolved automatically, but can also be specified explicitly.
-
-```java
-// Specifying both class part + field part
-new Item("mobilePhoneNumber.value").itemNameKey("mobilePhone.number")
-
-// Specifying only the field part (class part is resolved automatically)
-new Item("name").itemNameKey("fullName")
-```
-
-If it contains `"."`, it is interpreted as `"classPart.fieldPart"`; otherwise it is interpreted as field part only.
-
----
-
-## Hiding Values
+## hideValue()
 
 Use `hideValue()` for fields such as passwords where you do not want to include the value in error messages.
 
@@ -48,7 +27,31 @@ Use `hideValue()` for fields such as passwords where you do not want to include 
 new Item("password").hideValue()
 ```
 
+For example, given the following message definition:
+
+```properties
+jakarta.validation.constraints.Size.message.base = {0}'s size must be between {min} and {max}. (input: {invalidValue})
+```
+
+Without `hideValue()`, the actual input value is shown in the message as is:
+
+```
+password's size must be between 8 and 20. (input: abc)
+```
+
+With `hideValue()`, the `{invalidValue}` part is replaced with a hidden-value marker:
+
+```
+password's size must be between 8 and 20. (input: (hidden))
+```
+
 The default is to show the value (`showsValue = true`).
+
+---
+
+## itemNameKey
+
+For details, see [ItemNameKey](?id=item/item-name-key).
 
 ---
 
@@ -61,12 +64,3 @@ Item item = new Item("password")
     .itemNameKey("account.password")
     .hideValue();
 ```
-
----
-
-## Summary
-
-| Method | Description |
-| --- | --- |
-| `.itemNameKey(key)` | Explicitly specifies the itemNameKey (auto-resolved when omitted) |
-| `.hideValue()` | Hides the value in error messages |

@@ -27,10 +27,10 @@ public class UserRecord implements ItemContainer {
 ```
 
 カスタマイズが不要なフィールドは `customizedItems()` に含めなくて構いません。
-`getItem()` がカスタマイズ済み `Item` を見つけられなかった場合は、
-自動生成された `Item` を返します。
+カスタマイズ済み `Item` が存在しなかった場合は、
+デフォルト設定を使用して自動生成された `Item` が使用されます。
 
-カスタマイズが一切不要な場合は空配列を返します。
+カスタマイズが一切不要な場合は空配列を返します（その場合は `ItemContainer` を実装しないのと同一挙動です）。
 
 ```java
 @Override
@@ -41,30 +41,10 @@ public Item[] customizedItems() {
 
 ---
 
-## getItem()
-
-`getItem(itemPropertyPath)` は指定パスに対応する `Item` を返します。
-
-```java
-Item item = userRecord.getItem("password");
-```
-
-内部動作：
-
-1. `itemPropertyPath` のコレクションインデックスを除去した形式に変換する（`toIndexlessPath`）
-2. クラス階層を上に辿りながら、各レベルの `customizedItems()` から `propertyPath` が一致する `Item` を収集・マージする（詳細は後述）
-3. 見つからなければ `new Item(propertyPath)` を生成して返す
-4. `@ItemNameKeyClass` アノテーションの情報をフィールドが属するクラスから読み取り、`Item` に設定する
-
-[itemPropertyPath とは](?id=item/item-property-path) で説明したとおり、
-`getItem()` に渡す `itemPropertyPath` は **ItemContainer 自身からの相対パス** です。
-
----
-
 ## 親クラスからの設定継承
 
 `ItemContainer` を実装したクラスが `customizedItems()` をオーバーライドした場合、
-`getItem()` はクラス階層を上に辿りながら同じ `propertyPath` を持つ `Item` をマージします。
+`getItem()`（内部的に使用される、Item 取得用のメソッド）はクラス階層を上に辿りながら同じ `propertyPath` を持つ `Item` をマージします。
 子クラスで明示的に設定されたプロパティが優先され、未設定のプロパティは親クラスの設定を引き継ぎます。
 
 ```java

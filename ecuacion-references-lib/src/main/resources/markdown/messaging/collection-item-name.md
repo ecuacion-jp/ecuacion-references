@@ -111,6 +111,6 @@ jp.ecuacion.lib.core.common.itemName.order=item #{0}
 
 ## Detailed Reference
 
-- Collection notation for itemPropertyPath → **[What is itemPropertyPath](?id=item/item-property-path)**
+- Collection notation for itemPropertyPath → **[propertyPath in Collections](?id=item/collection-property-path)**
 - Customizing prefix, postfix, and separator → **prefix, postfix, separator**
 - For nested objects → **[itemNamePath](?id=messaging/item-name-path)**

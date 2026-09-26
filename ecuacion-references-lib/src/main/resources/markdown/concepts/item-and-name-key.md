@@ -14,7 +14,7 @@ user.email=Email Address
 ```
 
 `itemNameKey` is normally resolved automatically, but can also be specified explicitly on an `Item`.
-For details on the automatic resolution rules, see [itemNameKey Resolution Rules](?id=item/item-name-key).
+For details on the automatic resolution rules, see [ItemNameKey](?id=item/item-name-key).
 
 ---
 
@@ -22,7 +22,7 @@ For details on the automatic resolution rules, see [itemNameKey Resolution Rules
 
 An annotation that specifies the default value of the class part of `itemNameKey` in bulk.
 
-For details, see [@ItemNameKeyClass](?id=messaging/item-name-key-class).
+For details, see [ItemNameKey](?id=item/item-name-key).
 
 ---
 

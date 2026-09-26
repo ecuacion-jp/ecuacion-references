@@ -28,9 +28,9 @@ public class UserRecord implements ItemContainer {
 ```
 
 Fields that do not require customization do not need to be included in `customizedItems()`.
-If `getItem()` cannot find a customized `Item`, it returns an auto-generated `Item`.
+If no customized `Item` exists, an auto-generated `Item` with the default settings is used.
 
-If no customization is needed at all, return an empty array.
+If no customization is needed at all, return an empty array (this behaves the same as not implementing `ItemContainer`).
 
 ```java
 @Override
@@ -41,30 +41,10 @@ public Item[] customizedItems() {
 
 ---
 
-## getItem()
-
-`getItem(itemPropertyPath)` returns the `Item` corresponding to the specified path.
-
-```java
-Item item = userRecord.getItem("password");
-```
-
-Internal behavior:
-
-1. Converts `itemPropertyPath` to a form with collection indices removed (`toIndexlessPath`)
-2. Traverses up the class hierarchy, collecting and merging `Item` instances whose `propertyPath` matches from each level's `customizedItems()` (details below)
-3. If not found, generates and returns `new Item(propertyPath)`
-4. Reads `@ItemNameKeyClass` annotation information from the class the field belongs to, and sets it on the `Item`
-
-As described in [What is itemPropertyPath](?id=item/item-property-path),
-the `itemPropertyPath` passed to `getItem()` is a **relative path from the ItemContainer itself**.
-
----
-
 ## Inheriting Settings from Parent Classes
 
 When a class implementing `ItemContainer` overrides `customizedItems()`,
-`getItem()` traverses up the class hierarchy and merges `Item` instances with the same `propertyPath`.
+`getItem()` (a method used internally to retrieve an `Item`) traverses up the class hierarchy and merges `Item` instances with the same `propertyPath`.
 Properties explicitly set in the child class take priority, and unset properties inherit the parent class's settings.
 
 ```java

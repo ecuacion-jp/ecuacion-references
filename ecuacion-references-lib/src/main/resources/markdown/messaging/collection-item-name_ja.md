@@ -110,6 +110,6 @@ jp.ecuacion.lib.core.common.itemName.order=第{0}項目
 
 ## 詳細リファレンス
 
-- itemPropertyPath のコレクション記法 → **[itemPropertyPath とは](?id=item/item-property-path)**
+- itemPropertyPath のコレクション記法 → **[collectionにおけるpropertyPath](?id=item/collection-property-path)**
 - prefix・postfix・separator のカスタマイズ → **prefix・postfix・separator**
 - ネストしたオブジェクトの場合 → **[itemNamePath](?id=messaging/item-name-path)**

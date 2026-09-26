@@ -23,11 +23,11 @@ violations.add(new BusinessViolation(
 
 ## 項目名をメッセージに埋め込む（itemNameKeys）
 
-`messages_with_item_names.properties` に `{item_name}` プレースホルダーを含むメッセージを定義し、
+`messages.properties` に `{item_name}` プレースホルダーを含むメッセージを定義し、
 `itemNameKeys` を指定すると、メッセージ生成時に `item_names.properties` から項目名が解決されます。
 
 ```properties
-# messages_with_item_names.properties
+# messages.properties
 error.already-registered={item_name}はすでに登録されています
 ```
 

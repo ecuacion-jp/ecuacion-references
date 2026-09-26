@@ -154,6 +154,6 @@ the plain key takes priority over ecuacion-lib-core's `.base` default.
 
 ## Detailed Reference
 
-- Automatic resolution rules for itemNameKey → **[itemNameKey Resolution Rules](?id=item/item-name-key)**
+- Automatic resolution rules for itemNameKey → **[ItemNameKey](?id=item/item-name-key)**
 - Details on ItemContainer → **[ItemContainer](?id=item/item-container)**
 - For collection elements → **[Item Names for List, Set, and Map](?id=messaging/collection-item-name)**

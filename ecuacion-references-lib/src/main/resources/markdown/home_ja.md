@@ -31,9 +31,7 @@ ecuacion-lib 全モジュールの親 POM です。dependencyManagement に ecua
 
 ## ecuacion-lib-bom
 
-ecuacion-lib-core・ecuacion-lib-validation などが直接依存する外部ライブラリ（`jakarta.validation-api`・
-`hibernate-validator`・`jakarta.el`・`jakarta.servlet-api`・`jakarta.mail-api`・`angus-mail`・
-`slf4j-api`・`jackson-databind`・`commons-lang3`）のバージョンを一元管理する Maven BOM です。dependencyManagement にインポートすることで、これらのライブラリのバージョンを指定せずに使えます。
+ecuacion-lib-core・ecuacion-lib-validation などが直接依存する外部ライブラリ（`jakarta.validation-api`・`hibernate-validator`など）のバージョンを一元管理する Maven BOM です。dependencyManagement にインポートすることで、これらのライブラリのバージョンを指定せずに使えます。
 
 `ecuacion-lib-parent` にこれらのバージョン管理を含めていないのは、`ecuacion-lib-parent` を継承する
 `ecuacion-splib-parent`（Spring Boot ベース）を親 POM とする Spring Boot アプリケーションで、
@@ -135,8 +133,8 @@ Jakarta Validation 標準アノテーションと ecuacion-lib-validation 独自
 </dependencies>
 ```
 
-`ecuacion-lib-validation` は `ecuacion-lib-core` に依存しているため、
-`ecuacion-lib-validation` を追加すれば `ecuacion-lib-core` も自動的に含まれます（他のパターンでも同様です）。
+パターン1と異なり、`ecuacion-lib-parent` が `ecuacion-lib-validation` 自身のバージョンを管理しているため、
+`ecuacion-lib-validation` のバージョン指定が不要になります。
 
 ### パターン3: `ecuacion-lib-bom` を BOM としてインポートする
 
@@ -177,5 +175,4 @@ dependencyManagement も引き継ぐため、`ecuacion-lib-bom` だけをイン�
 
 ### ビジネス向けバリデーションメッセージを使う場合
 
-上記のいずれのパターンでも、`ecuacion-lib-validation-business-messages` を追加する場合のバージョン要否は `ecuacion-lib-validation` と同様です（詳細は
-[ecuacion-lib-validation-business-messages](#ecuacion-lib-validation-business-messages) を参照）。
+上記のいずれのパターンでも、`ecuacion-lib-validation-business-messages` を追加する場合のバージョン要否は `ecuacion-lib-validation` と同様です。

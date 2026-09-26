@@ -14,7 +14,7 @@ user.email=メールアドレス
 ```
 
 `itemNameKey` は通常は自動で解決されますが、`Item` に明示指定することもできます。
-自動解決のルール詳細は [itemNameKey の解決ルール](?id=item/item-name-key) を参照してください。
+自動解決のルール詳細は [ItemNameKey](?id=item/item-name-key) を参照してください。
 
 ---
 
@@ -22,7 +22,7 @@ user.email=メールアドレス
 
 `itemNameKey` のクラス部のデフォルト値を一括指定するアノテーションです。
 
-詳細は [@ItemNameKeyClass](?id=messaging/item-name-key-class) を参照してください。
+詳細は [ItemNameKey](?id=item/item-name-key) を参照してください。
 
 ---
 

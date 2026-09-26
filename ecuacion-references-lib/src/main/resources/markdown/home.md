@@ -37,8 +37,7 @@ versions individually. See "Setup" below for how to import it.
 
 This is a Maven BOM that centrally manages versions of external libraries that ecuacion-lib-core,
 ecuacion-lib-validation, and others depend on directly (`jakarta.validation-api`, `hibernate-validator`,
-`jakarta.el`, `jakarta.servlet-api`, `jakarta.mail-api`, `angus-mail`, `slf4j-api`, `jackson-databind`,
-`commons-lang3`). Importing it into `dependencyManagement` lets these dependencies be declared without
+etc.). Importing it into `dependencyManagement` lets these dependencies be declared without
 specifying a version.
 
 These version pins are not included in `ecuacion-lib-parent` so that, in a Spring Boot application whose
@@ -147,8 +146,8 @@ versions above yourself.
 </dependencies>
 ```
 
-Since `ecuacion-lib-validation` depends on `ecuacion-lib-core`, adding `ecuacion-lib-validation` also
-automatically includes `ecuacion-lib-core` (the same applies to the other patterns).
+Unlike Pattern 1, `ecuacion-lib-parent` manages the version of `ecuacion-lib-validation` itself,
+so its version no longer needs to be specified.
 
 ### Pattern 3: Import `ecuacion-lib-bom` as a BOM
 
@@ -191,5 +190,4 @@ no need to separately import `ecuacion-lib-parent` as well.
 ### If you use business-oriented validation messages
 
 Regardless of which pattern above you use, whether a version needs to be specified for
-`ecuacion-lib-validation-business-messages` follows the same rule as for `ecuacion-lib-validation`
-(for details, see [ecuacion-lib-validation-business-messages](#ecuacion-lib-validation-business-messages)).
+`ecuacion-lib-validation-business-messages` follows the same rule as for `ecuacion-lib-validation`.

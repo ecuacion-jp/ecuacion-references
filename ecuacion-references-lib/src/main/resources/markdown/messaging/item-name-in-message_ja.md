@@ -154,6 +154,6 @@ jakarta.validation.constraints.NotNull.message = {0}は必須入力です
 
 ## 詳細リファレンス
 
-- itemNameKey の自動解決ルール → **[itemNameKey の解決ルール](?id=item/item-name-key)**
+- itemNameKey の自動解決ルール → **[ItemNameKey](?id=item/item-name-key)**
 - ItemContainer の詳細 → **[ItemContainer](?id=item/item-container)**
 - コレクション要素の場合 → **[List・Set・Map の項目名](?id=messaging/collection-item-name)**

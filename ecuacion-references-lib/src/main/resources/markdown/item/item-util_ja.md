@@ -50,7 +50,7 @@ Item item = ItemUtil.resolveItem(
 
 | | `ItemContainer#getItem()` | `ItemUtil#resolveItem()` |
 | --- | --- | --- |
-| 入力の基点 | ItemContainer 自身 | RootBean |
+| 入力の起点 | ItemContainer 自身 | RootBean |
 | ItemContainer の発見 | しない（自分がそれ） | する（1 階層まで） |
 | itemNameKey の確定 | しない | する |
 | 返り値 | 中間オブジェクト | 完成品 |

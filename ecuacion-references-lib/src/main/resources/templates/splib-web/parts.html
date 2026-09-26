@@ -40,6 +40,99 @@
 		</div></th:block>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.itemClasses}, ~{::navbarItemClasses}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarItemClasses" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='item/item')},
+					#{navBar.itemClasses.item}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='item/item-container')},
+					#{navBar.itemClasses.itemContainer}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='item/item-name-key')},
+					#{navBar.mf.itemNameKeyResolution}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-in-message')},
+					#{navBar.mf.itemNameInMessageArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='item/collection-property-path')},
+					#{navBar.itemClasses.collectionPropertyPath}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='messaging/collection-item-name')},
+					#{navBar.mf.collectionItemNameArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-path')},
+					#{navBar.mf.itemNamePath}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-display')},
+					#{navBar.mf.itemNameDisplayArticle}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.violation}, ~{::navbarViolation}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarViolation" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validation/violation')},
+					#{navBar.violation.violation}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validation/business-violation')},
+					#{navBar.violation.businessViolation}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validation/jakarta-validation')},
+					#{navBar.violation.jakartaValidation}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validation/message-parameters')},
+					#{navBar.violation.messageParameters}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.validator}, ~{::navbarValidator}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarValidator" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/blank-handling')},
+					#{navBar.validator.blankHandling}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/standard-annotation-messages')},
+					#{navBar.validator.standardAnnotationMessages}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.validator.customValidator}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/overview')},
+					#{navBar.cv.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/property-path-safety')},
+					#{navBar.cv.propertyPathSafety}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/when')},
+					#{navBar.cv.whenArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/comparison')},
+					#{navBar.cv.comparisonArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/pattern-with-description')},
+					#{navBar.cv.patternWithDescription}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/field')},
+					#{navBar.cv.fieldArticle}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='validator/collection')},
+					#{navBar.cv.collectionArticle}, '')}"></div>
+
+		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
 				#{navBar.util}, ~{::navbarUtil}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarUtil" th:remove="tag">
 
@@ -122,99 +215,6 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(lang=${lang}, id='util/exception-util')},
 					#{navBar.util.exceptionUtil}, '')}"></div>
-
-		</div></th:block>
-
-		<div th:replace="~{bootstrap/components :: navbarSubMenu(
-				#{navBar.violation}, ~{::navbarViolation}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="navbarViolation" th:remove="tag">
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validation/violation')},
-					#{navBar.violation.violation}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validation/business-violation')},
-					#{navBar.violation.businessViolation}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validation/jakarta-validation')},
-					#{navBar.violation.jakartaValidation}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validation/message-parameters')},
-					#{navBar.violation.messageParameters}, '')}"></div>
-
-		</div></th:block>
-
-		<div th:replace="~{bootstrap/components :: navbarSubMenu(
-				#{navBar.itemClasses}, ~{::navbarItemClasses}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="navbarItemClasses" th:remove="tag">
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='item/item')},
-					#{navBar.itemClasses.item}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='item/item-container')},
-					#{navBar.itemClasses.itemContainer}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-key-class')},
-					#{navBar.itemClasses.itemNameKeyClass}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='item/item-name-key')},
-					#{navBar.mf.itemNameKeyResolution}, '')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-in-message')},
-					#{navBar.mf.itemNameInMessageArticle}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='messaging/collection-item-name')},
-					#{navBar.mf.collectionItemNameArticle}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-path')},
-					#{navBar.mf.itemNamePath}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='messaging/item-name-display')},
-					#{navBar.mf.itemNameDisplayArticle}, '')}"></div>
-
-		</div></th:block>
-
-		<div th:replace="~{bootstrap/components :: navbarSubMenu(
-				#{navBar.validator}, ~{::navbarValidator}, '')}"></div>
-		<th:block th:if="false"><div th:fragment="navbarValidator" th:remove="tag">
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/blank-handling')},
-					#{navBar.validator.blankHandling}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/standard-annotation-messages')},
-					#{navBar.validator.standardAnnotationMessages}, '')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
-					#{navBar.validator.customValidator}, '')}"></div>
-
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/overview')},
-					#{navBar.cv.overview}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/property-path-safety')},
-					#{navBar.cv.propertyPathSafety}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/when')},
-					#{navBar.cv.whenArticle}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/comparison')},
-					#{navBar.cv.comparisonArticle}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/pattern-with-description')},
-					#{navBar.cv.patternWithDescription}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/field')},
-					#{navBar.cv.fieldArticle}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/collection')},
-					#{navBar.cv.collectionArticle}, '')}"></div>
 
 		</div></th:block>
 

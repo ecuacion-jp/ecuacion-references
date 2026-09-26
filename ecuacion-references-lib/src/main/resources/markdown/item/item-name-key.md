@@ -7,62 +7,63 @@ Unless explicitly specified on an `Item`, it is automatically determined based o
 
 ---
 
-## Field Part Resolution Rules
+## How to Specify It
 
-The field part is determined by the following priority order.
-
-| Priority | Condition | Field Part Value |
-| :---: | --- | --- |
-| 1 | Field part explicitly specified with `itemNameKey()` | Specified value |
-| 2 | Otherwise | Rightmost node of `itemPropertyPath` (excluding collection part) |
-
-Examples of rightmost node:
-
-| itemPropertyPath | Rightmost Node → Field Part |
-| --- | --- |
-| `"name"` | `"name"` |
-| `"dept.name"` | `"name"` |
-| `"item.property.path"` | `"path"` |
-| `"strList[0].<list element>"` | `"strList"` |
-
----
-
-## Class Part Resolution Rules
-
-The class part is determined by the following priority order.
-
-| Priority | Condition | Class Part Value |
-| :---: | --- | --- |
-| 1 | Class part explicitly specified with `itemNameKey("cls.field")` | Specified value |
-| 2 | The class the field belongs to has a `@ItemNameKeyClass` annotation | The annotation's value (first letter lowercased) |
-| 3 | Otherwise | Class name set by `ItemContainer#getItem()` (first letter lowercased) |
-
----
-
-## Concrete Example
-
-Using the following class structure as an example:
+`itemNameKey` is normally resolved automatically, but it can also be specified explicitly using `Item`'s `itemNameKey()`.
 
 ```java
-public class UserRecord implements ItemContainer {
-    private String name;
-    private String email;
-    // ...
-}
+// Specifying both class part + field part
+new Item("mobilePhoneNumber.value").itemNameKey("mobilePhone.number")
+
+// Specifying only the field part (class part is resolved automatically)
+new Item("name").itemNameKey("fullName")
 ```
 
-| Configuration | itemNameKey |
-| --- | --- |
-| No configuration (`"name"` as itemPropertyPath) | `"userRecord.name"` |
-| `.itemNameKey("fullName")` | `"userRecord.fullName"` |
-| `.itemNameKey("person.fullName")` | `"person.fullName"` |
+If it contains `"."`, it is interpreted as `"classPart.fieldPart"`; otherwise it is interpreted as field part only.
+
+---
+
+## itemNameKey Resolution Rules
+
+`itemNameKey` is resolved in the following priority order (if 1 is unavailable, 2 is used; if 2 is unavailable, 3 is used).
+
+1. The value specified via `itemNameKey()`
+2. The `itemPropertyPath`
+3. (Class part only) The `ItemContainer` class's class name
+
+Since `itemNameKey` and `itemPropertyPath` each have patterns with and without a class part specified, the class part and field part are determined independently of each other.
+
+The concrete patterns are as follows.
+Assume the object implementing ItemContainer is UserDto, and UserDto holds a DeptDto as a field (field name `dept`).
+
+| itemNameKey() specification | itemPropertyPath | Resulting itemNameKey |
+| --- | --- | --- |
+| `"user.name"`<br>(class part + field part) | Any | `"user.name"`<br>(used as-is regardless of the itemPropertyPath) |
+| `"fullName"`<br>(field part only) | `"dept.name"` | `"dept.fullName"`<br>(class part is the `dept` node's name, used as-is) |
+| `"fullName"`<br>(field part only) | `"name"` | `"userDto.fullName"`<br>(class part resolved from the `ItemContainer`'s class name) |
+| Not specified | `"name"` | `"userDto.name"`<br>(field part is the rightmost node, class part is the `ItemContainer`'s class name) |
+| Not specified | `"dept.name"` | `"dept.name"`<br>(class part is the `dept` node's name, used as-is; field part is the rightmost node) |
+
+When the itemPropertyPath has multiple levels, such as `dept.manager.name`, the field part is the rightmost node (`name`), and the class part is the node immediately to its left (`manager`).
 
 ---
 
 ## `@ItemNameKeyClass` Annotation
 
-Used when you want to specify a class part that differs from the class name in bulk.
-For details, see [@ItemNameKeyClass](?id=messaging/item-name-key-class).
+The previous section showed that when no class part is specified via `itemNameKey()` or `itemPropertyPath`, `userDto` is used by default as the class part of the itemNameKey.
+In practice, though, `item_names.properties` is usually defined with a more generic form such as `user.name` rather than `userDto.name`.
+This default class part `userDto` can be changed to `user` using `@ItemNameKeyClass` (`jp.ecuacion.lib.core.annotation.ItemNameKeyClass`).
+
+`@ItemNameKeyClass` is an annotation that specifies the class part of `itemNameKey` in bulk for a class.
+Without it, the class part defaults to the class name with the first letter lowercased, as described above.
+
+```java
+@ItemNameKeyClass("user")
+public class UserDto implements ItemContainer {
+    private String name;    // itemNameKey: "user.name"
+    private String email;   // itemNameKey: "user.email"
+}
+```
 
 ---
 
@@ -72,7 +73,7 @@ The resolved `itemNameKey` is used to look up the item name from `item_names.pro
 
 ```properties
 # item_names.properties
-userRecord.name=Full Name
-userRecord.email=Email Address
+userDto.name=Full Name
+userDto.email=Email Address
 user.name=Full Name
 ```
