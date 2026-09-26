@@ -3,7 +3,7 @@ This sheet drives the generation of Entity, Repository, BL, and related classes.
 
 ## Column Layout
 
-Table name: `Table7`, range: `A5:AK{last row}`
+Table name: `Table7`, range: `A5:AJ{last row}`
 
 | Column | Field | Description |
 | --- | --- | --- |
@@ -24,15 +24,14 @@ Table name: `Table7`, range: `A5:AK{last row}`
 | O | Relation: Type | `@ManyToOne` or `@OneToOne` (see [Defining Relationships](#defining-relationships)) |
 | P | Relation: Direction | `unidirectional` / `bidirectional` |
 | Q | Relation: Source Var Name | Java field name for the relation, on the owning (source) side (camelCase) |
-| R | Relation: Source Object Var Name | Optional override for the object variable name used in generated code; falls back to column Q when blank |
-| S | Relation: Target Table | Referenced table name |
-| T | Relation: Target Column | Referenced column name (usually `ID`) |
-| U | Relation: Target Var Name | Reverse reference field name (bidirectional only) |
-| V | Relation: Eager | blank = lazy (default) / `○` = eager |
-| W–AF | index1–10 | Assign sequential integers (optionally prefixed with `U`, e.g. `U1`, for a unique index) to define columns in an index in that order |
-| AG | Notes | Comments (not used in generation) |
-| AH | Column Display Name (Default Lang) | Display name, default language |
-| AI–AK | Column Display Name (Additional Lang 1–3) | Language-specific display names |
+| R | Relation: Target Table | Referenced table name |
+| S | Relation: Target Column | Referenced column name (usually `ID`) |
+| T | Relation: Target Var Name | Reverse reference field name (bidirectional only) |
+| U | Relation: Eager | blank = lazy (default) / `○` = eager |
+| V–AE | index1–10 | Assign sequential integers (optionally prefixed with `U`, e.g. `U1`, for a unique index) to define columns in an index in that order |
+| AF | Notes | Comments (not used in generation) |
+| AG | Column Display Name (Default Lang) | Display name, default language |
+| AH–AJ | Column Display Name (Additional Lang 1–3) | Language-specific display names |
 
 Table-level (rather than column-level) display names are set separately, in the **Table List** sheet.
 
@@ -147,11 +146,28 @@ Attaches Spring Data audit annotations to the field.
 | `LB` | `@LastModifiedBy` | Last modified by |
 | `LD` | `@LastModifiedDate` | Last modified date |
 
+### A CB/LB column cannot have a relation
+
+A column marked `CB` (`@CreatedBy`) or `LB` (`@LastModifiedBy`) cannot have a relation (`@ManyToOne` / `@OneToOne`),
+whether it's defined in DB Item Definition or DB Common Item Definition. This is detected as an error when
+code-generator runs.
+
+The reason: if a CB/LB column has a relation to a type (e.g. the user entity itself), Spring Data's
+`AuditorAware` must return an instance of that type. If that `AuditorAware` implementation fetches the auditor via
+a JPA repository call (e.g. `findById`), that call can trigger Hibernate's auto-flush during an update, which in
+turn re-resolves the CB/LB value on the entity currently being flushed and calls the same `AuditorAware` again —
+DB access → auto-flush → `AuditorAware` call → ... — recursing into a `StackOverflowError` that fails the update.
+
+If the `AuditorAware` implementation can be written without any DB access (e.g. by holding the object itself in
+the session, or fetching only a proxy via `EntityManager.getReference()`), it may in principle be possible to give
+a CB/LB column a relation without hitting this issue — but code-generator cannot verify that implementation
+detail, so it enforces a blanket ban on relations for CB/LB columns.
+
 ---
 
 ## Defining Relationships
 
-Relationships between tables are defined in columns O through V.
+Relationships between tables are defined in columns O through U.
 
 Column O (Relation: Type) only accepts `@ManyToOne` or `@OneToOne` as input. `@OneToMany` is never entered
 directly — it is generated automatically on the referenced table's side of a `bidirectional` `@ManyToOne`
@@ -161,9 +177,9 @@ one-to-many and many-to-many relations from the "many" side are not supported by
 ### @ManyToOne (Most Common)
 
 ```
-Table     | Column   | dataType  | ... | O            | P               | Q        | R   | S           | T   | U            | V |
-----------|----------|-----------|-----|--------------|-----------------|----------|-----|-------------|-----|--------------|---|
-MY_TABLE  | GROUP_ID | DT_SERIAL | ... | @ManyToOne   | unidirectional  | groupVar |     | GROUP_TABLE | ID  |              |   |
+Table     | Column   | dataType  | ... | O            | P               | Q        | R           | S   | T            | U |
+----------|----------|-----------|-----|--------------|-----------------|----------|-------------|-----|--------------|---|
+MY_TABLE  | GROUP_ID | DT_SERIAL | ... | @ManyToOne   | unidirectional  | groupVar | GROUP_TABLE | ID  |              |   |
 ```
 
 - `@ManyToOne`: Many-to-one (defined on the table that owns the foreign key)
@@ -180,10 +196,10 @@ private GroupEntity groupVar;
 ### @ManyToOne (Bidirectional)
 
 To navigate the association in both directions, set the direction to `bidirectional`
-and provide the reverse reference field name in column U:
+and provide the reverse reference field name in column T:
 
 ```
-... | @ManyToOne | bidirectional | parentVar | | PARENT_TABLE | ID | childListVar | |
+... | @ManyToOne | bidirectional | parentVar | PARENT_TABLE | ID | childListVar | |
 ```
 
 The referenced Entity (PARENT_TABLE) gets:
@@ -193,18 +209,13 @@ The referenced Entity (PARENT_TABLE) gets:
 private List<ChildEntity> childListVar;
 ```
 
-### Relation: Source Object Var Name (Column R)
-
-Optional. When set, this overrides the object variable name used for the relation in generated code; when
-left blank, the value from column Q (Relation: Source Var Name) is used instead.
-
 ### @OneToOne
 
 One-to-one relationship. Specified the same way as `@ManyToOne`.
 
-### Relation: Eager (Column V)
+### Relation: Eager (Column U)
 
-Column V is blank for lazy (default) fetch; set `○` for eager fetch.
+Column U is blank for lazy (default) fetch; set `○` for eager fetch.
 
 Eager is acceptable when the relation clearly points to a parent entity in the DB structure and is
 `unidirectional`. Use lazy when self-referencing or when a circular reference through other entities
@@ -212,19 +223,19 @@ is possible.
 
 ---
 
-## Index (Columns W–AF)
+## Index (Columns V–AE)
 
-Assign integers starting from 1 in columns W–AF (index1–10) to create an index with the columns
+Assign integers starting from 1 in columns V–AE (index1–10) to create an index with the columns
 ordered by those numbers.
 
 Example: creating a composite index `(COL_A, COL_B)` on `MY_TABLE`:
 
-| Column | W (index1) | X (index2) |
+| Column | V (index1) | W (index2) |
 | --- | --- | --- |
 | COL_A | 1 | |
 | COL_B | 2 | |
 
-To define multiple indexes, use index2 (column X) onward in the same way.
+To define multiple indexes, use index2 (column W) onward in the same way.
 
 ### Unique Index
 
@@ -233,7 +244,7 @@ index as a unique index (`@Index(unique = true)`) instead of a normal one.
 
 Example: creating a unique index on `CODE` on `MY_TABLE`:
 
-| Column | W (index1) |
+| Column | V (index1) |
 | --- | --- |
 | CODE | U1 |
 
@@ -267,7 +278,7 @@ For rows outside the named table range, use a cell reference instead:
 
 The **DB Common Item Definition** sheet defines columns that are applied to **every** table automatically, instead
 of repeating the same columns on each table in DB Definition. It has the exact same column layout described above
-(columns A–AK), with one difference: column A (Table Name) is left blank, since the row applies to all tables
+(columns A–AJ), with one difference: column A (Table Name) is left blank, since the row applies to all tables
 rather than one specific table.
 
 This is the conventional place to define cross-cutting columns such as audit columns (created/last-modified by and
