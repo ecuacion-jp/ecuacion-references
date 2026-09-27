@@ -135,63 +135,56 @@ Logbackの設定ファイルです。配置方法は下記の[ファイルの配
 
 ### 単独で起動する場合
 
-2つの`.properties`ファイルの配置ルールは、command-api独自ではなく素のSpring Bootの外部設定機能です。`logback-spring.xml`も*ほぼ*同じですが、こちらはSpring Boot自体には同等の探索機能が無いため、`ecuacion-splib-core`が拡張として提供しています。いずれも配置ルールの考え方は共通で、システムプロパティによるパス指定・`config`サブディレクトリ・デフォルトの配置場所の3段階です（後者2つはいずれもアプリの起動元のカレントディレクトリ基準で解決されます）。
+#### オプションを指定しない場合
 
-<table>
-<thead>
-<tr><th>ファイル</th><th>優先度1（高）</th><th>優先度2</th><th>優先度3（低）</th></tr>
-</thead>
-<tbody>
-<tr><td><code>application.properties</code></td><td rowspan="2"><code>-Dspring.config.location=...</code> で指定したパス</td><td rowspan="3"><code>config</code> サブディレクトリ</td><td rowspan="3">同じディレクトリ</td></tr>
-<tr><td><code>ecuacion-tool-command-api-scripts.properties</code></td></tr>
-<tr><td><code>logback-spring.xml</code></td><td><code>-Dlogging.config=...</code> で指定したパス</td></tr>
-</tbody>
-</table>
-
-例として `application.properties` の場合（他の2つも同じ考え方で、ファイル名を読み替えるだけです）:
+3つのファイルを、アプリを起動したカレントディレクトリの直下、またはその `config` サブディレクトリに置いてください。オプションの指定は不要です。
 
 ```
 /your-work-dir/
 ├── ecuacion-tool-command-api-x.x.x.war
-├── application.properties   ← 優先度3
 └── config/
-    └── application.properties   ← 優先度2（こちらが優先）
+    ├── application.properties
+    ├── ecuacion-tool-command-api-scripts.properties
+    └── logback-spring.xml
 ```
 
-特定のパスを明示したい場合はシステムプロパティで指定します。
+> **Note:** 「カレントディレクトリ」は、`java -jar` を実行した際のカレントディレクトリ（`user.dir`）です。WAR と同じディレクトリに `cd` してから起動する運用であれば、実質的に「WAR と同じディレクトリ」基準になります。
+
+両方の場所にファイルがある場合、2つの `.properties` ファイルはキー単位でマージされ（重複したキーは `config` サブディレクトリ側が優先）、`logback-spring.xml` は `config` サブディレクトリ側だけが使われます。
+
+#### 任意のディレクトリに置く場合
+
+`jp.ecuacion.tool.command-api.app-conf-dir` システムプロパティを指定してください（[既存の Tomcat 等にデプロイする場合](#既存の-tomcat-等にデプロイする場合)と同じプロパティです）。指定したディレクトリに置いた3つのファイルがすべて読み込まれます。
 
 ```bash
-java -Dspring.config.location=file:/path/to/your/config/ \
+java -Djp.ecuacion.tool.command-api.app-conf-dir=/path/to/config/dir \
      -jar ecuacion-tool-command-api-x.x.x.war
 ```
 
-> **Note:** `-Dspring.config.location` は2つの `.properties` ファイル両方に効きます。単一ファイルを指定するとそのファイルだけが読み込まれるので、`application.properties` と `ecuacion-tool-command-api-scripts.properties` を両方外部化したい場合は**ディレクトリ**を指定してください。`logback-spring.xml` は専用のシステムプロパティ（上の表の `-Dlogging.config`）を使い、`-Dspring.config.location` の影響は受けません。
+上記の配置場所は、どれか1つだけを使ってください。混在させると、どのファイルの値が有効になっているか分かりにくくなります。
+
+> **Note:** Spring Boot 標準の `-Dspring.config.location` も使えますが、推奨しません。Spring Boot のデフォルトの探索場所を丸ごと置き換えるため `jp.ecuacion.tool.command-api.app-conf-dir` が効かなくなり、また `logback-spring.xml` は対象外なので `-Dlogging.config` でファイルを別途指定する必要があります。使う場合は**ディレクトリ**（末尾 `/`）を指定してください。単一ファイルを指定するとそのファイルだけが読み込まれ、`ecuacion-tool-command-api-scripts.properties` は読み込まれません。
 
 ### 既存の Tomcat 等にデプロイする場合
 
-WAR と同じディレクトリという概念がないため、代わりに Spring Boot の `classpath:` 探索に乗せる形で外部ディレクトリを認識させます。方法は2つあります。
+`${catalina.base}/app-conf/ecuacion-tool-command-api/` に置いた `application.properties`・`ecuacion-tool-command-api-scripts.properties`・`logback-spring.xml` は、すべて自動的に読み込まれます。前者2つはWAR自身が Spring Boot の `spring.config.import` でこの場所を宣言しており、`logback-spring.xml` は `ecuacion-splib-core` の `SplibEnvironmentPostProcessor` が同じディレクトリを見に行きます。Tomcat側での設定（`setenv.sh`、`context.xml` など）は一切不要です。
 
-#### 方法1 — `jp.ecuacion.tool.command-api.app-conf-dir` によるアプリ個別のディレクトリ指定
+```
+${CATALINA_HOME}/
+└── app-conf/
+    └── ecuacion-tool-command-api/
+        ├── application.properties
+        ├── ecuacion-tool-command-api-scripts.properties
+        └── logback-spring.xml
+```
 
-`jp.ecuacion.tool.command-api.app-conf-dir` システムプロパティで指定したディレクトリがclasspathとして設定されます。未指定の場合は `${catalina.base}/app-conf/ecuacion-tool-command-api` が使われます。
-個別アプリごとにclasspathのディレクトリを設定できるため、複数のアプリを同じ Tomcat に同居させても設定ファイルが混ざりません。
+このディレクトリは事前に用意しておく必要はありません。存在しない場合は何も読み込まれず、WAR に埋め込まれた設定がそのまま使われます。デフォルトのパスにアプリ名が含まれているため、複数の ecuacion 製アプリを同じ Tomcat に同居させてもデフォルトのままでは設定ファイルが混ざりません。
 
-`${CATALINA_HOME}/bin/setenv.sh` で `CATALINA_OPTS` として指定するのが一般的です。
+`jp.ecuacion.tool.command-api.app-conf-dir` システムプロパティにより、WAR を作り直さずにデプロイごとにこのディレクトリを差し替えることもできます（3ファイルまとめて差し替わります）。`${CATALINA_HOME}/bin/setenv.sh` で `CATALINA_OPTS` として指定するのが一般的です。
 
 ```bash
 CATALINA_OPTS="$CATALINA_OPTS -Djp.ecuacion.tool.command-api.app-conf-dir=/path/to/config/dir"
 export CATALINA_OPTS
 ```
 
-#### 方法2 — `setenv.sh` で `CLASSPATH` を指定
-
-Tomcat の場合は `${CATALINA_HOME}/bin/setenv.sh` を作成（または編集）します。
-
-```bash
-CLASSPATH=/path/to/classpath/directory
-export CLASSPATH
-```
-
-このディレクトリに置いた `application.properties` / `ecuacion-tool-command-api-scripts.properties` は、Spring Boot の `classpath:` 探索により自動的にマージされます。`logback-spring.xml` を差し替えたい場合は、この場合も引き続き `-Dlogging.config` でパスを明示してください。
-
-> **Note:** `CLASSPATH` は Tomcat プロセス全体で共有されます。同じ Tomcat に複数の ecuacion 製アプリ（例: `ecuacion-tool-command-api` と `ecuacion-tool-code-generator`）を同居させる場合、設定ファイルを置くディレクトリが共用されてしまい扱いにくくなります。アプリごとに設定を分けたい場合は方法1を使ってください。
+> **Note:** `logging.config` が別の方法（`setenv.sh` で指定した、Tomcatプロセス全体に効く `-Dlogging.config` など）で既に設定されている場合はそちらが優先され、このディレクトリの `logback-spring.xml` は無視されます。

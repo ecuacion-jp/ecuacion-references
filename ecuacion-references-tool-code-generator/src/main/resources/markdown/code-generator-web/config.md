@@ -71,68 +71,54 @@ Where these two files go depends on how you're running `ecuacion-tool-code-gener
 
 ### Standalone
 
-Placement for `application.properties` is standard Spring Boot externalized-configuration behavior — nothing code-generator-web-specific. `logback-spring.xml` is *almost* the same, except Spring Boot doesn't provide the equivalent lookup on its own, so `ecuacion-splib-core` adds it. Both follow the same three-tier lookup: an explicit path via a system property, a `config` subdirectory, or a default fallback location — the latter two resolved relative to the current directory the app is launched from.
+#### Without any options
 
-<table>
-<thead>
-<tr><th>File</th><th>1 (highest)</th><th>2</th><th>3 (lowest)</th></tr>
-</thead>
-<tbody>
-<tr><td><code>application.properties</code></td><td><code>-Dspring.config.location=...</code></td><td rowspan="2"><code>config</code> subdirectory</td><td rowspan="2">Same directory</td></tr>
-<tr><td><code>logback-spring.xml</code></td><td><code>-Dlogging.config=...</code></td></tr>
-</tbody>
-</table>
-
-For example, with `application.properties` (`logback-spring.xml` works identically — just swap the filename):
+Place both files either directly in the current directory the app is launched from, or in a `config` subdirectory of it. No options are needed.
 
 ```
 /your-work-dir/
 ├── ecuacion-tool-code-generator-web-x.x.x.war
-├── application.properties   ← priority 3
 └── config/
-    └── application.properties   ← priority 2, higher
+    ├── application.properties
+    └── logback-spring.xml
 ```
 
-To specify an explicit path instead:
+> **Note:** "Current directory" means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the WAR before starting it, this is effectively the same as "next to the WAR."
+
+If files exist in both locations, `application.properties` is merged key by key (the `config` subdirectory wins on conflicts), while for `logback-spring.xml` only the one in the `config` subdirectory is used.
+
+#### Placing the files in a directory of your choosing
+
+Set the `jp.ecuacion.tool.code-generator.app-conf-dir` system property — the same one used when [deploying to an existing Tomcat](#deploying-to-an-existing-tomcat). Both files placed in that directory are picked up.
 
 ```bash
-java -Dspring.config.location=file:/path/to/your/application.properties \
-     -jar ecuacion-tool-code-generator-web-x.x.x.war
-
-java -Dlogging.config=file:/path/to/logback-spring.xml \
+java -Djp.ecuacion.tool.code-generator.app-conf-dir=/path/to/config/dir \
      -jar ecuacion-tool-code-generator-web-x.x.x.war
 ```
 
-> **Note:** "Current directory" for priorities 2 and 3 means the working directory (`user.dir`) `java -jar` was run from. If you `cd` into the same directory as the WAR before starting it, this is effectively the same as "next to the WAR." If you launch from elsewhere, the search is relative to that directory instead.
+Use only one of the locations above at a time — mixing them makes it hard to tell which file's values end up in effect.
+
+> **Note:** Spring Boot's own `-Dspring.config.location` also works, but it's not the recommended way. It replaces Spring Boot's default lookup locations entirely, so `jp.ecuacion.tool.code-generator.app-conf-dir` stops taking effect, and `logback-spring.xml` isn't covered by it — you'd have to point `-Dlogging.config` at the file separately.
 
 ### Deploying to an Existing Tomcat
 
-Since there's no "next to the WAR" location in this case, an external directory is instead surfaced through Spring Boot's `classpath:` search. There are two ways to do this.
+`application.properties` and `logback-spring.xml` placed at `${catalina.base}/app-conf/ecuacion-tool-code-generator/` are picked up automatically — the WAR itself declares this location via Spring Boot's `spring.config.import` for the former, and `ecuacion-splib-core`'s `SplibEnvironmentPostProcessor` checks the same directory for the latter. No Tomcat-side configuration (`setenv.sh`, `context.xml`, etc.) is needed at all.
 
-#### Option 1 — App-Specific Directory via `jp.ecuacion.tool.code-generator.app-conf-dir`
+```
+${CATALINA_HOME}/
+└── app-conf/
+    └── ecuacion-tool-code-generator/
+        ├── application.properties
+        └── logback-spring.xml
+```
 
-The directory set via the `jp.ecuacion.tool.code-generator.app-conf-dir` system property is added to the classpath. It's created automatically if it doesn't already exist, so there's no need to prepare it in advance. If left unset, nothing is mounted, and the WAR's own embedded configuration is used as-is.
+This directory doesn't need to exist beforehand — if it's missing, nothing is imported and the WAR's own embedded configuration is used as-is. Because the app name is baked into the default path, co-locating multiple ecuacion apps on the same Tomcat doesn't cause them to collide on config files by default.
 
-An app-specific classpath directory keeps multiple apps co-located on the same Tomcat from colliding on config files.
-
-The usual way to set it is as `CATALINA_OPTS` in `${CATALINA_HOME}/bin/setenv.sh`.
+The directory can still be redirected per deployment, without repackaging the WAR, via the `jp.ecuacion.tool.code-generator.app-conf-dir` system property — the usual way to set it is as `CATALINA_OPTS` in `${CATALINA_HOME}/bin/setenv.sh`. This redirects both files at once.
 
 ```bash
 CATALINA_OPTS="$CATALINA_OPTS -Djp.ecuacion.tool.code-generator.app-conf-dir=/path/to/config/dir"
 export CATALINA_OPTS
 ```
 
-Placing `application.properties` / `logback-spring.xml` in this directory gets them both picked up automatically (with this option, `logback-spring.xml` is picked up without needing `-Dlogging.config` either).
-
-#### Option 2 — Point `CLASSPATH` via `setenv.sh`
-
-For Tomcat, create (or edit) `${CATALINA_HOME}/bin/setenv.sh`.
-
-```bash
-CLASSPATH=/path/to/classpath/directory
-export CLASSPATH
-```
-
-`application.properties` placed in this directory is automatically merged in via Spring Boot's `classpath:` search. If you want to replace `logback-spring.xml`, you still need to specify the path with `-Dlogging.config` in this case too.
-
-> **Note:** `CLASSPATH` is shared by the entire Tomcat process. If you co-locate multiple ecuacion apps (e.g. `ecuacion-tool-code-generator` and `ecuacion-tool-command-api`) on the same Tomcat, they'd end up sharing the same config directory, which gets unwieldy. Use Option 1 if you want each app to have its own config.
+> **Note:** If `logging.config` is already set some other way (e.g. `-Dlogging.config` in `setenv.sh`, which applies to the entire Tomcat process), that takes precedence and the `logback-spring.xml` in this directory is ignored.
