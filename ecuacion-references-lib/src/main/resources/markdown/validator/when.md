@@ -59,6 +59,7 @@ propertyPath = {"startDate", "endDate"}   // Multiple fields validated with the 
 ### conditionPropertyPath — Condition Field
 
 The field name used for evaluating the condition. Nested fields can also be specified.
+To specify multiple conditions, use `conditions` (see below) instead.
 
 ```java
 conditionPropertyPath = "accountType"
@@ -145,6 +146,31 @@ conditionValueState = ConditionValueState.NOT_EMPTY        // conditionValue = N
 
 When set to `true`, applies the reverse rule when the condition is not met
 (for `@TrueWhen`, validates that it is `false` when the condition is not met). Default is `false`.
+
+### conditions — Multiple Conditions (AND)
+
+To specify two or more conditions, list `@Condition` annotations in `conditions` instead of using
+`conditionPropertyPath` and the other `condition*` attributes. Validation is executed
+**when all the conditions are met** (AND).
+
+```java
+@NotEmptyWhen(propertyPath = "otherTypeDetail", conditions = {
+    @Condition(propertyPath = "type", valueString = "OTHER"),
+    @Condition(propertyPath = "status", valueState = ConditionValueState.NOT_EMPTY)})
+// → needs to be not empty when 'type' is 'OTHER' and 'status' is not empty
+```
+
+Each attribute of `@Condition` has the same meaning as the When annotation's attribute of the same
+name with the `condition` prefix (`propertyPath`, `operator`, `valueString`, `valuePatternRegexp`,
+`valuePatternDescription`, `valuePropertyPath`, `valueBoolean`, `valueState`,
+`valueDisplayStringPropertyPath`).
+
+- Setting `conditions` together with `conditionPropertyPath` or the other `condition*` attributes
+  is an error. Setting neither of them is also an error.
+- OR conditions are not supported (Java annotations cannot nest themselves, so arbitrary logical
+  expressions cannot be expressed). For OR, put multiple When annotations instead.
+- When `falseWhenConditionNotSatisfied` or its counterpart is `true`, the reverse rule is applied
+  unless all the conditions are met (that is, when at least one of them is not met).
 
 ---
 

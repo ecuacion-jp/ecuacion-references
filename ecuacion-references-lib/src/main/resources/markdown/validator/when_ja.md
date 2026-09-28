@@ -58,6 +58,7 @@ propertyPath = {"startDate", "endDate"}   // 複数フィールドを同じル�
 ### conditionPropertyPath — 条件フィールド
 
 条件の判定に使うフィールド名です。ネストしたフィールドも指定できます。
+条件を複数指定したい場合は、代わりに `conditions`（下記参照）を使います。
 
 ```java
 conditionPropertyPath = "accountType"
@@ -138,6 +139,29 @@ conditionValueState = ConditionValueState.NOT_EMPTY        // conditionValue = N
 ### falseWhenConditionNotSatisfied
 
 `true` にすると、条件が成立しないときに逆のルールを適用します（`@TrueWhen` なら、条件不成立のとき `false` であることを検証）。デフォルトは `false`。
+
+### conditions — 複数条件（AND）
+
+条件を2つ以上指定したい場合は、`conditionPropertyPath` などの `condition*` 属性の代わりに
+`conditions` に `@Condition` を並べて指定します。**すべての条件が成立したとき**（AND）にバリデーションが実行されます。
+
+```java
+@NotEmptyWhen(propertyPath = "otherTypeDetail", conditions = {
+    @Condition(propertyPath = "type", valueString = "OTHER"),
+    @Condition(propertyPath = "status", valueState = ConditionValueState.NOT_EMPTY)})
+// → 「種別」が「OTHER」で、かつ「ステータス」が空欄以外の場合は空欄以外にしてください
+```
+
+`@Condition` の属性は、`condition` 接頭辞を外した名前で When系アノテーションの同名属性と同じ意味を持ちます
+（`propertyPath`、`operator`、`valueString`、`valuePatternRegexp`、`valuePatternDescription`、
+`valuePropertyPath`、`valueBoolean`、`valueState`、`valueDisplayStringPropertyPath`）。
+
+- `conditions` と `conditionPropertyPath` などの `condition*` 属性を同時に指定するとエラーになります。
+  いずれも指定しなかった場合もエラーです。
+- OR 条件は指定できません（Java のアノテーションは自分自身を入れ子にできないため、任意の論理式は表現できません）。
+  OR にしたい場合は、When系アノテーションを複数付けてください。
+- `falseWhenConditionNotSatisfied` などを `true` にした場合、「すべての条件が成立した」以外のとき
+  （いずれか1つでも不成立のとき）に逆のルールが適用されます。
 
 ---
 
