@@ -28,8 +28,8 @@ new Item("name").itemNameKey("fullName")
 itemNameKey は、以下の優先順位で決定されます（1がない場合は2を使用、2がない場合は3を使用）。
 
 1. `itemNameKey()` に指定された値を使用
-2. `itemPropertyPath` を使用
-3. （クラス部のみ）`ItemContainer` クラスのクラス名を使用
+2. `itemPropertyPath` を使用（クラス部について、対応するフィールドに `@ItemNameKeyClass` が指定されている場合はその値）
+3. （クラス部のみ）`ItemContainer` クラスのクラス名を使用（クラスに `@ItemNameKeyClass` が指定されている場合はその値）
 
 itemNameKey 及び itemPropertyPath は、クラス部の指定有無のパターンがあるため、クラス部とフィールド部はそれぞれ独立で決定されます。
 
@@ -64,6 +64,25 @@ public class UserDto implements ItemContainer {
     private String email;   // itemNameKey: "user.email"
 }
 ```
+
+### フィールドへの指定
+
+`@ItemNameKeyClass` はフィールドにも指定できます。
+itemPropertyPath がネストしている場合、クラス部にはフィールド名がそのまま使われますが、
+`List<DeptDto> deptList` のようなフィールドでは、クラス部が `deptList` となり `deptList.name` を `item_names.properties` に定義する必要が出てしまいます。
+このような場合、フィールドに `@ItemNameKeyClass` を指定すると、そのフィールド配下の項目のクラス部を一括で変更できます。
+
+```java
+public class UserDto implements ItemContainer {
+    @ItemNameKeyClass("dept")
+    private List<DeptDto> deptList;   // deptList[0].name の itemNameKey: "dept.name"
+
+    private DeptDto belongingDept;    // belongingDept.name の itemNameKey: "belongingDept.name"
+}
+```
+
+フィールドへの指定は、itemPropertyPath のクラス部（右端から2番目のノード）に対応するフィールドに対してのみ有効です。
+また、`itemNameKey()` でクラス部を明示的に指定した場合はそちらが優先されます。
 
 ---
 

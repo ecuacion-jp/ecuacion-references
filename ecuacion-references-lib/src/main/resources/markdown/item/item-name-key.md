@@ -28,8 +28,8 @@ If it contains `"."`, it is interpreted as `"classPart.fieldPart"`; otherwise it
 `itemNameKey` is resolved in the following priority order (if 1 is unavailable, 2 is used; if 2 is unavailable, 3 is used).
 
 1. The value specified via `itemNameKey()`
-2. The `itemPropertyPath`
-3. (Class part only) The `ItemContainer` class's class name
+2. The `itemPropertyPath` (for the class part, if `@ItemNameKeyClass` is placed on the corresponding field, its value)
+3. (Class part only) The `ItemContainer` class's class name (if `@ItemNameKeyClass` is placed on the class, its value)
 
 Since `itemNameKey` and `itemPropertyPath` each have patterns with and without a class part specified, the class part and field part are determined independently of each other.
 
@@ -64,6 +64,25 @@ public class UserDto implements ItemContainer {
     private String email;   // itemNameKey: "user.email"
 }
 ```
+
+### Placing It on a Field
+
+`@ItemNameKeyClass` can also be placed on a field.
+When the itemPropertyPath is nested, the field name is used as the class part as-is,
+but for a field such as `List<DeptDto> deptList`, the class part becomes `deptList`, which forces you to define `deptList.name` in `item_names.properties`.
+In such cases, placing `@ItemNameKeyClass` on the field changes the class part of all items under that field at once.
+
+```java
+public class UserDto implements ItemContainer {
+    @ItemNameKeyClass("dept")
+    private List<DeptDto> deptList;   // itemNameKey of deptList[0].name: "dept.name"
+
+    private DeptDto belongingDept;    // itemNameKey of belongingDept.name: "belongingDept.name"
+}
+```
+
+Placing it on a field takes effect only for the field corresponding to the class part of the itemPropertyPath (the second node from the right).
+Also, if the class part is explicitly specified via `itemNameKey()`, that takes priority.
 
 ---
 
