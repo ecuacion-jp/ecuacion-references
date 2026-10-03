@@ -32,7 +32,7 @@ public class UserRecord implements ItemContainer {
 カスタマイズ済み `Item` が存在しなかった場合は、
 デフォルト値で自動生成された `Item` が内部的に使用されます。
 
-カスタマイズが一切不要な場合は空配列を返します（その場合は `ItemContainer` を実装しないのと同一挙動です）。
+カスタマイズが一切不要な場合は空配列を返します。
 
 ```java
 @Override
@@ -89,16 +89,8 @@ public class EditUserRecord extends UserRecord {
 単純に親クラスの設定がそのまま使われます。
 
 > **モジュール制約**：この機能は Java の `MethodHandles` を用いて各クラス階層の
-> `customizedItems()` を個別に呼び出します。
-> Spring Boot の fat JAR などの unnamed module 環境では自動的に動作しますが、
-> named module 環境では `module-info.java` に以下のように `opens` を追加する必要があります。
->
-> ```java
-> module com.example.myapp {
->     requires jp.ecuacion.lib.core;
->     opens com.example.myapp.record to jp.ecuacion.lib.core;
-> }
-> ```
+> `customizedItems()` を個別に呼び出すため、named module 環境では `opens` の設定が必要です。
+> 詳細は [named module 環境での利用](/public/showMarkdown/page?id=other/named-module) を参照してください。
 
 ---
 

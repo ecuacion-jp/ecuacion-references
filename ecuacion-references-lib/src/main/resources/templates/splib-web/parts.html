@@ -50,6 +50,9 @@
 					@{/public/showMarkdown/page(lang=${lang}, id='item/item-container')},
 					#{navBar.itemClasses.itemContainer}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='item/item-container-search')},
+					#{navBar.itemClasses.itemContainerSearch}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(lang=${lang}, id='item/item-name-key')},
 					#{navBar.mf.itemNameKeyResolution}, '')}"></div>
 
@@ -96,15 +99,15 @@
 				#{navBar.validator}, ~{::navbarValidator}, '')}"></div>
 		<th:block th:if="false"><div th:fragment="navbarValidator" th:remove="tag">
 
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.validator.common}, '')}"></div>
+
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(lang=${lang}, id='validator/blank-handling')},
 					#{navBar.validator.blankHandling}, '')}"></div>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(lang=${lang}, id='validator/standard-annotation-messages')},
 					#{navBar.validator.standardAnnotationMessages}, '')}"></div>
-			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
-					@{/public/showMarkdown/page(lang=${lang}, id='validator/item-container-search')},
-					#{navBar.validator.itemContainerSearch}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 
@@ -234,6 +237,9 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(lang=${lang}, id='other/spi')},
 					#{navBar.other.spi}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(lang=${lang}, id='other/named-module')},
+					#{navBar.other.namedModule}, '')}"></div>
 
 		</div></th:block>
 	</div>

@@ -87,6 +87,9 @@ open module your.app.module {
 
 Note that without `opens` or `open module`, the library cannot load resource files.
 
+For `opens` settings required by features that access application classes via reflection,
+see [Using in Named Module Environments](/public/showMarkdown/page?id=other/named-module).
+
 ---
 
 ## Impact on Regular Application Development

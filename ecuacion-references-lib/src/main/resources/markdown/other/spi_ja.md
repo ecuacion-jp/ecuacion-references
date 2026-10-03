@@ -89,6 +89,9 @@ open module your.app.module {
 
 `opens` または `open module` の宣言がないと、ライブラリがリソースファイルを読み込めないため注意してください。
 
+なお、リフレクションでアプリ側のクラスにアクセスする機能のための `opens` の設定については、
+[named module 環境での利用](/public/showMarkdown/page?id=other/named-module) を参照してください。
+
 ---
 
 ## 通常のアプリ開発への影響

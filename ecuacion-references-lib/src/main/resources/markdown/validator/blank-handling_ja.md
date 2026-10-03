@@ -1,6 +1,6 @@
 ## 概要
 
-`ecuacion-lib-validation` のバリデータは、ブランク（空文字 `""`）を **valid** として扱います。
+`ecuacion-lib-validation` のバリデータは、空文字（`""`）を **valid** として扱います（＝validation エラーにならない）。
 これは Jakarta Validation 標準とは異なる設計です。
 
 ---
@@ -8,17 +8,18 @@
 ## 標準の @Pattern との違い
 
 標準の `@Pattern` は `null` を valid とする一方、`""` は invalid 扱いです。
+一方で、ecuacion-lib の独自バリデータである `@PatternWithDescription` は、`null` に加えて `""` も valid 扱いです。
 
-| 値 | 標準 `@Pattern` | `@PatternWithDescription` |
+| 値 | 標準 `@Pattern` | ecuacion-lib `@PatternWithDescription` |
 | ---- | --------------- | ------------------------- |
-| `"abc123"` | ✅ valid | ✅ valid |
-| `"ABC"` | ❌ invalid（正規表現不一致） | ❌ invalid（正規表現不一致） |
+| `"abc123"`<br>（正規表現一致） | ✅ valid | ✅ valid |
+| `"ABC"`<br>（正規表現不一致） | ❌ invalid | ❌ invalid |
 | `null` | ✅ valid | ✅ valid |
 | `""` | ❌ **invalid** | ✅ **valid** |
 
 ---
 
-## なぜブランクを valid にするのか
+## 空文字を valid にする理由
 
 Web アプリケーションでは `null` と `""` には意味の違いがあります。
 
@@ -27,39 +28,20 @@ Web アプリケーションでは `null` と `""` には意味の違いがあ�
 
 ユーザーが未入力で送信した場合に `@Pattern` が invalid を返すと、
 「形式が不正です」というエラーが表示されます。
-しかし本来あるべきエラーは「入力必須です」（`@NotEmpty` によるもの）であって、
-書式チェック系のバリデータは未入力（`""`）に反応すべきではありません。
+しかし、必須項目であれば本来あるべきエラーは「入力必須です」（`@NotEmpty` によるもの）ですし、
+必須項目でない場合はエラーは発生しないのが正しい挙動です。
+
+空文字で submit されてきた文字列を一括で `null` に変換することもできますが、
+それでは画面に項目があっての未入力と、そもそも項目がない場合の区別がつけられません。
+
+そのため、書式チェック系のバリデータは未入力（`""`）に反応すべきではありません。
 
 ---
 
-## ecuacion-lib-validation の設計
+## 空文字を valid として扱うバリデータ
 
-書式チェック系バリデータはブランクを valid として扱い、必須チェックは `@NotEmpty` に任せます。
-
-```java
-// 必須 + 書式チェックを明確に役割分担
-public record UserProfile(
-    @NotEmpty
-    @PatternWithDescription(regexp = "^[a-z0-9]+$", description = "半角英数字")
-    String username
-) {}
-```
-
-| 値 | 結果 | 原因 |
-| ---- | ---- | ---- |
-| `"abc123"` | ✅ valid | — |
-| `"ABC"` | ❌ invalid | `@PatternWithDescription`（書式不一致） |
-| `null` | ❌ invalid | `@NotEmpty` |
-| `""` | ❌ invalid | `@NotEmpty` |
-
-`@NotEmpty` と書式チェック系が明確に役割分担できます。
-
----
-
-## ブランクを valid として扱うバリデータ
-
-`ecuacion-lib-validation` でブランクを invalid とするのは `@NotEmpty` / `@NotBlank` のみです。
-それ以外の書式チェック系バリデータはすべてブランクを valid として扱います。
+`ecuacion-lib-validation` で空文字を invalid とするのは `@NotEmpty` / `@NotBlank` のみです。
+それ以外の書式チェック系バリデータはすべて空文字を valid として扱います。
 
 | カテゴリ | 代表的なバリデータ |
 | -------- | ----------------- |

@@ -32,7 +32,7 @@ public class UserRecord implements ItemContainer {
 Fields that do not require customization do not need to be included in `customizedItems()`.
 If no customized `Item` exists, an `Item` auto-generated with default values is used internally.
 
-If no customization is needed at all, return an empty array (this behaves the same as not implementing `ItemContainer`).
+If no customization is needed at all, return an empty array.
 
 ```java
 @Override
@@ -89,16 +89,8 @@ If the child class does not override `customizedItems()` at all,
 the parent class settings are simply used as-is.
 
 > **Module Constraint**: This feature uses Java's `MethodHandles` to call each class hierarchy's
-> `customizedItems()` individually.
-> In unnamed module environments such as Spring Boot fat JARs, it works automatically,
-> but in named module environments, you need to add `opens` to `module-info.java` as follows:
->
-> ```java
-> module com.example.myapp {
->     requires jp.ecuacion.lib.core;
->     opens com.example.myapp.record to jp.ecuacion.lib.core;
-> }
-> ```
+> `customizedItems()` individually, so `opens` settings are required in named module environments.
+> See [Using in Named Module Environments](/public/showMarkdown/page?id=other/named-module) for details.
 
 ---
 
