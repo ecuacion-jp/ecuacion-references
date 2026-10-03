@@ -50,6 +50,29 @@ Object value = ReflectionUtil.getFieldValue(bean, field);
 
 ---
 
+## Getting Properties (a Field, or a Getter)
+
+`getBeanProperty` first searches for the field of the given name (including superclasses), and searches for a getter when no such field exists.
+Getters follow the JavaBeans naming convention: a non-static, no-argument `getXxx()` with a return value, or `isXxx()` returning primitive `boolean`.
+Note that `isXxx()` returning `Boolean` (the wrapper type) is not treated as a getter, following the JavaBeans naming convention; name it `getXxx()` instead.
+Getters are also searched including superclasses, regardless of access modifiers.
+When neither is found, a `RuntimeException` with `NoSuchFieldException` as its cause is thrown.
+
+The returned `BeanProperty` hides the difference between a field and a getter, so its type, annotations and value can be obtained in the same way.
+
+```java
+BeanProperty property = ReflectionUtil.getBeanProperty(MyBean.class, "name");
+
+Class<?> type = property.getType();             // the field type, or the getter's return type
+Type genericType = property.getGenericType();   // the type including generics
+MyAnnotation ann = property.getAnnotation(MyAnnotation.class); // the annotation on the field or the getter
+Object value = property.getValue(bean);         // the field value, or the getter's return value
+```
+
+When the getter throws an exception, it is wrapped in a `RuntimeException` whose message tells which getter threw it (its cause is the original exception).
+
+---
+
 ## Searching for Annotations in the Class Hierarchy
 
 Searches for annotations by traversing from the class itself up through superclasses.

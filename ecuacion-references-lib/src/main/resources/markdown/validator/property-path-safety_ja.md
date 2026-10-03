@@ -2,7 +2,7 @@
 
 クラスレベルバリデータ（`@XxxWhen`、`@GreaterThan`/`@LessThan`、`@AnyNotNull` など）は、
 `propertyPath`・`conditionPropertyPath`・`conditionValuePropertyPath`・`baselinePropertyPath` といった
-文字列属性でフィールドを参照します。これらの文字列はバリデーション実行時にリフレクションで解決されるため、
+文字列属性でフィールド（またはフィールドが存在しない場合は getter）を参照します。これらの文字列はバリデーション実行時にリフレクションで解決されるため、
 参照先のフィールド名が変更されてもコンパイラは検知できません。Java のアノテーション属性はコンパイル時定数
 でなければならず、メソッド参照や `KProperty` のような型安全なフィールド参照をここで使うことはできません。
 
@@ -21,7 +21,7 @@ throw します。
 
 つまり、対象クラスのインスタンスに対して `Validator#validate` を1回呼ぶだけのテストを書いておけば、
 リネームを検知できます。テストが通り続けている限り、そのクラスのアノテーションが参照する全ての
-`propertyPath` は実在するフィールドに解決できている、ということになります。
+`propertyPath` は実在するフィールド（または getter）に解決できている、ということになります。
 
 ```java
 class UserProfileValidationTest {

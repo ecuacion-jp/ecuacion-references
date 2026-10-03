@@ -25,6 +25,24 @@ Since these are plain strings resolved via reflection, a field rename is not cau
 [Guarding propertyPath Against Renames](/public/showMarkdown/page?id=validator/property-path-safety) for
 how to catch it anyway.
 
+A name specified in `propertyPath`, `conditionPropertyPath`, `baselinePropertyPath` and so on (each node, for a nested path like `"dept.name"`)
+is resolved to the field of that name first, and to a getter (`getName()`, or `isName()` returning primitive `boolean`; `isName()` returning `Boolean` is not treated as a getter) when no such field exists.
+Just as with standard Jakarta Validation constraints placed on a getter, the return value of the getter becomes the validated value, so a property without a field can also be specified.
+
+```java
+@LessThan(propertyPath = "startDate", baselinePropertyPath = "endDate")
+public class Period {
+    private LocalDate startDate;
+    private LocalDate base;
+    private int days;
+
+    // There is no endDate field; the getter's return value is used as the value of baselinePropertyPath
+    public LocalDate getEndDate() {
+        return base.plusDays(days);
+    }
+}
+```
+
 ---
 
 ## Classification by Feature

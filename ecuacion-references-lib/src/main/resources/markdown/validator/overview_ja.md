@@ -24,6 +24,24 @@
 できません。検知するための対策は [propertyPathのリネーム対策](/public/showMarkdown/page?id=validator/property-path-safety)
 を参照してください。
 
+`propertyPath`・`conditionPropertyPath`・`baselinePropertyPath` などで指定した名前（`"dept.name"` のようなネストしたパスでは各ノード）は、
+まず同名のフィールドとして解決され、フィールドが存在しない場合は getter（`getName()`、またはプリミティブの `boolean` を返す `isName()`。`Boolean` を返す `isName()` は対象外）として解決されます。
+Jakarta Validation 標準の制約を getter に付与した場合と同様に、getter の戻り値が検証対象の値になるため、フィールドを持たないプロパティも指定できます。
+
+```java
+@LessThan(propertyPath = "startDate", baselinePropertyPath = "endDate")
+public class Period {
+    private LocalDate startDate;
+    private LocalDate base;
+    private int days;
+
+    // フィールド endDate はなく、getter の戻り値が baselinePropertyPath の値として使われる
+    public LocalDate getEndDate() {
+        return base.plusDays(days);
+    }
+}
+```
+
 ---
 
 ## 機能による分類

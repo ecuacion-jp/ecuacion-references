@@ -84,6 +84,16 @@ public class UserDto implements ItemContainer {
 フィールドへの指定は、itemPropertyPath のクラス部（右端から2番目のノード）に対応するフィールドに対してのみ有効です。
 また、`itemNameKey()` でクラス部を明示的に指定した場合はそちらが優先されます。
 
+itemPropertyPath のノードがフィールドではなく getter に解決される場合（同名のフィールドが存在しない場合）は、getter に `@ItemNameKeyClass` を指定できます。
+同名のフィールドが存在する場合はフィールドが使われるため、getter に指定した `@ItemNameKeyClass` は無視されます。
+
+```java
+public class UserDto implements ItemContainer {
+    @ItemNameKeyClass("dept")
+    public List<DeptDto> getDeptList() { ... }   // deptList[0].name の itemNameKey: "dept.name"
+}
+```
+
 ---
 
 ## item_names.properties との対応

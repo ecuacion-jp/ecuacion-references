@@ -1,7 +1,7 @@
 ## Overview
 
 Class-level validators (`@XxxWhen`, `@GreaterThan`/`@LessThan`, `@AnyNotNull`, etc.) reference fields
-through string attributes such as `propertyPath`, `conditionPropertyPath`, `conditionValuePropertyPath`,
+(or getters, when no such field exists) through string attributes such as `propertyPath`, `conditionPropertyPath`, `conditionValuePropertyPath`,
 and `baselinePropertyPath`. These strings are resolved via reflection when validation runs, so if a
 referenced field is renamed, the compiler cannot catch the mismatch — Java annotation elements must be
 compile-time constants, so a type-safe field reference (a method reference, a `KProperty`-like handle)
@@ -17,7 +17,7 @@ Every field-reference string above is resolved unconditionally, on every `valida
 of the field's value. `ClassValidator.internalIsValid` resolves all `propertyPath` values before
 delegating to the validator's own logic, and `ValidateWhenValidator.getSatisfiesCondition` resolves
 `conditionPropertyPath` (and `conditionValuePropertyPath`, when `VALUE_OF_PROPERTY_PATH` is used) the
-same way. If any of these strings no longer names a real field, resolution throws a `RuntimeException`
+same way. If any of these strings no longer names a real field (or getter), resolution throws a `RuntimeException`
 — independent of what the test data actually contains.
 
 This means a single test that calls `Validator#validate` once against an instance of the annotated

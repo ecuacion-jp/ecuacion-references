@@ -84,6 +84,16 @@ public class UserDto implements ItemContainer {
 Placing it on a field takes effect only for the field corresponding to the class part of the itemPropertyPath (the second node from the right).
 Also, if the class part is explicitly specified via `itemNameKey()`, that takes priority.
 
+When a node of the itemPropertyPath is resolved to a getter rather than a field (that is, when no field of the same name exists), `@ItemNameKeyClass` can be placed on the getter.
+When a field of the same name exists, the field is used, so `@ItemNameKeyClass` placed on the getter is ignored.
+
+```java
+public class UserDto implements ItemContainer {
+    @ItemNameKeyClass("dept")
+    public List<DeptDto> getDeptList() { ... }   // itemNameKey of deptList[0].name: "dept.name"
+}
+```
+
 ---
 
 ## Correspondence with item_names.properties

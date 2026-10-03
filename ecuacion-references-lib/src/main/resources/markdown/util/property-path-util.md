@@ -46,9 +46,22 @@ Field name = PropertyPathUtil.getField(MyBean.class, "name");
 
 ---
 
+## Getting Properties by propertyPath (a Field, or a Getter)
+
+Traverses a dot-separated path like `getField`, but each node is also resolved to a getter when no field of the name exists
+(see `ReflectionUtil.getBeanProperty`).
+
+```java
+BeanProperty city = PropertyPathUtil.getBeanProperty(MyBean.class, "address.city");
+Class<?> type = city.getType();
+```
+
+---
+
 ## Getting Classes by propertyPath
 
-Traverses the property path and returns the type of the target field.
+Traverses the property path and returns the type of the target property.
+Each node is resolved to a getter when no field of the name exists.
 Also supports generic type parameters for collections (`List`, `Set`, `Map`).
 
 ```java
@@ -64,7 +77,10 @@ Class<?> self = PropertyPathUtil.getClass(MyBean.class, "");
 
 ---
 
-## Getting Field Values
+## Getting Property Values
+
+Each node is resolved to the field of that name first, and to a getter (`getXxx()`, or `isXxx()` returning primitive `boolean`; `isXxx()` returning `Boolean` is not treated as a getter) when no such field exists.
+When resolved to a getter, its return value is used.
 
 ```java
 MyBean bean = new MyBean();

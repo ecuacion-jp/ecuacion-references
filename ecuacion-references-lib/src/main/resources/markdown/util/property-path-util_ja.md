@@ -46,9 +46,22 @@ Field name = PropertyPathUtil.getField(MyBean.class, "name");
 
 ---
 
+## propertyPath によるプロパティ取得（フィールド、またはgetter）
+
+`getField` と同様にドット区切りのパスを辿りますが、各ノードはフィールドが存在しない場合に getter としても解決されます
+（`ReflectionUtil.getBeanProperty` を参照）。
+
+```java
+BeanProperty city = PropertyPathUtil.getBeanProperty(MyBean.class, "address.city");
+Class<?> type = city.getType();
+```
+
+---
+
 ## propertyPath によるクラス取得
 
-プロパティパスを辿って、対象フィールドの型を返します。
+プロパティパスを辿って、対象プロパティの型を返します。
+各ノードは、フィールドが存在しない場合は getter として解決されます。
 コレクション（`List`, `Set`, `Map`）のジェネリック型パラメータにも対応しています。
 
 ```java
@@ -64,7 +77,10 @@ Class<?> self = PropertyPathUtil.getClass(MyBean.class, "");
 
 ---
 
-## フィールド値の取得
+## プロパティ値の取得
+
+各ノードは、まず同名のフィールドとして解決され、フィールドが存在しない場合は getter（`getXxx()`、またはプリミティブの `boolean` を返す `isXxx()`。`Boolean` を返す `isXxx()` は対象外）として解決されます。
+getter として解決された場合は、その戻り値が使われます。
 
 ```java
 MyBean bean = new MyBean();

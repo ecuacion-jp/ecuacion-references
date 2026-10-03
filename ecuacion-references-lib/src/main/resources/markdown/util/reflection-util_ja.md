@@ -46,6 +46,29 @@ Object value = ReflectionUtil.getFieldValue(bean, field);
 
 ---
 
+## プロパティの取得（フィールド、またはgetter）
+
+`getBeanProperty` は、まず同名のフィールドを（スーパークラスを含めて）検索し、存在しない場合は getter を検索します。
+getter は JavaBeans の命名規則に従い、引数なし・非 static で戻り値のある `getXxx()`、またはプリミティブの `boolean` を返す `isXxx()` が対象です。
+`Boolean`（ラッパー型）を返す `isXxx()` は、JavaBeans の命名規則に従い getter として扱われないため注意してください（`getXxx()` という名前にしてください）。
+getter もアクセス修飾子に関わらず、スーパークラスを含めて検索します。
+どちらも見つからない場合は、`NoSuchFieldException` を cause に持つ `RuntimeException` をスローします。
+
+戻り値の `BeanProperty` は、フィールドと getter の違いを吸収し、型・アノテーション・値を同じ方法で取得できます。
+
+```java
+BeanProperty property = ReflectionUtil.getBeanProperty(MyBean.class, "name");
+
+Class<?> type = property.getType();             // フィールドの型、または getter の戻り値の型
+Type genericType = property.getGenericType();   // ジェネリクスを含む型
+MyAnnotation ann = property.getAnnotation(MyAnnotation.class); // フィールド、または getter に付与されたアノテーション
+Object value = property.getValue(bean);         // フィールドの値、または getter の戻り値
+```
+
+getter が例外をスローした場合は、どの getter かをメッセージに含めた `RuntimeException` でラップされます（cause は元の例外）。
+
+---
+
 ## クラス階層からアノテーションを検索
 
 クラス自身からスーパークラスへと順にさかのぼってアノテーションを検索します。
