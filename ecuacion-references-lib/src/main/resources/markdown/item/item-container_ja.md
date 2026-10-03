@@ -1,5 +1,7 @@
 ## 概要
 
+概要説明は [共通事項など > itemとItemContainer・itemPropertyPath](?id=item/item-property-path) もご確認ください。
+
 `ItemContainer`（`jp.ecuacion.lib.core.item.ItemContainer`）は、
 フィールドの表示属性をカスタマイズした `Item` を保持するインターフェースです。
 
@@ -28,7 +30,7 @@ public class UserRecord implements ItemContainer {
 
 カスタマイズが不要なフィールドは `customizedItems()` に含めなくて構いません。
 カスタマイズ済み `Item` が存在しなかった場合は、
-デフォルト設定を使用して自動生成された `Item` が使用されます。
+デフォルト値で自動生成された `Item` が内部的に使用されます。
 
 カスタマイズが一切不要な場合は空配列を返します（その場合は `ItemContainer` を実装しないのと同一挙動です）。
 
@@ -44,7 +46,7 @@ public Item[] customizedItems() {
 ## 親クラスからの設定継承
 
 `ItemContainer` を実装したクラスが `customizedItems()` をオーバーライドした場合、
-`getItem()`（内部的に使用される、Item 取得用のメソッド）はクラス階層を上に辿りながら同じ `propertyPath` を持つ `Item` をマージします。
+`getItem()`（内部的に使用される、Item 取得用のメソッド）はクラス階層を上に辿りながら同じ `itemPropertyPath` を持つ `Item` をマージします。
 子クラスで明示的に設定されたプロパティが優先され、未設定のプロパティは親クラスの設定を引き継ぎます。
 
 ```java
@@ -121,13 +123,5 @@ public class UserRecord implements ItemContainer {
 }
 ```
 
-同じ `propertyPath` を持つ `Item` が両方の配列に含まれると `RuntimeException` がスローされます。
+同じ `itemPropertyPath` を持つ `Item` が両方の配列に含まれると `RuntimeException` がスローされます。
 
----
-
-## ItemContainer の検索範囲
-
-`ItemUtil.resolveItem()` は、rootBean と propertyPath をもとに ItemContainer を探して
-`Item` を解決するメソッドです。バリデーションエラーメッセージを生成する際などにフレームワーク内部から呼ばれます（詳細は [ItemUtil](?id=item/item-util) を参照）。
-
-この検索範囲は **rootBean から 1 階層まで** です。

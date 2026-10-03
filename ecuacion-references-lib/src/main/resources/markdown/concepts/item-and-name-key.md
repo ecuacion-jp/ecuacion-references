@@ -23,16 +23,3 @@ For details on the automatic resolution rules, see [ItemNameKey](?id=item/item-n
 An annotation that specifies the default value of the class part of `itemNameKey` in bulk.
 
 For details, see [ItemNameKey](?id=item/item-name-key).
-
----
-
-## itemNamePath
-
-A feature that appends information about which nesting level a validation error occurred at
-to the item name when an error occurs in a nested object.
-
-```text
-null is not allowed for 'zipCode' of 'Address'
-```
-
-For details, see [itemNamePath](?id=messaging/item-name-path).

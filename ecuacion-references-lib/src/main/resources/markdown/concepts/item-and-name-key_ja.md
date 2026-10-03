@@ -23,16 +23,3 @@ user.email=メールアドレス
 `itemNameKey` のクラス部のデフォルト値を一括指定するアノテーションです。
 
 詳細は [ItemNameKey](?id=item/item-name-key) を参照してください。
-
----
-
-## itemNamePath
-
-ネストしたオブジェクトでバリデーションエラーが発生した場合に、
-どのネスト階層で起きたかを項目名に付加する機能です。
-
-```text
-「住所」の「郵便番号」にnullは許可されていません
-```
-
-詳細は [itemNamePath](?id=messaging/item-name-path) を参照してください。

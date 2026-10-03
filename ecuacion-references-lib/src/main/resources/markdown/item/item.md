@@ -1,5 +1,7 @@
 ## Overview
 
+For an overview, see also [Common Topics > item, ItemContainer and itemPropertyPath](?id=item/item-property-path).
+
 `Item` (`jp.ecuacion.lib.core.item.Item`) is a class that holds the attributes of a single field.
 It is primarily used to control how item names and field values are displayed in validation error messages.
 
@@ -19,7 +21,9 @@ public Item[] customizedItems() {
 
 ---
 
-## hideValue()
+## Available Methods
+
+### hideValue()
 
 Use `hideValue()` for fields such as passwords where you do not want to include the value in error messages.
 
@@ -47,9 +51,7 @@ password's size must be between 8 and 20. (input: (hidden))
 
 The default is to show the value (`showsValue = true`).
 
----
-
-## itemNameKey
+### itemNameKey()
 
 For details, see [ItemNameKey](?id=item/item-name-key).
 

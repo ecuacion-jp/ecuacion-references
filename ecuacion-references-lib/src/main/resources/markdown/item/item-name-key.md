@@ -1,5 +1,7 @@
 ## Overview
 
+For an overview, see also [Common Topics > ItemNameKey](?id=concepts/item-and-name-key).
+
 `itemNameKey` is a key used to look up the display name of an item from `item_names.properties` and similar files.
 The format is `"classPart.fieldPart"` (e.g., `"user.name"`).
 
@@ -7,34 +9,60 @@ Unless explicitly specified on an `Item`, it is automatically determined based o
 
 ---
 
-## How to Specify It
+## Automatic Resolution from itemPropertyPath
 
-`itemNameKey` is normally resolved automatically, but it can also be specified explicitly using `Item`'s `itemNameKey()`.
+When `itemNameKey()` is not specified, `itemNameKey` is determined from the `itemPropertyPath` as follows.
+
+- **Field part**: the rightmost node of the `itemPropertyPath`
+- **Class part**: the second node from the right of the `itemPropertyPath`. If the `itemPropertyPath` is just a field name (there is no node for the class part), the `ItemContainer`'s class name with the first letter lowercased is used
+
+Below, assume the object implementing `ItemContainer` is `UserDto`, and `UserDto` holds a `DeptDto` as a field (field name `dept`).
 
 ```java
-// Specifying both class part + field part
-new Item("mobilePhoneNumber.value").itemNameKey("mobilePhone.number")
+public class UserDto implements ItemContainer {
+    private String name;
+    private DeptDto dept;   // DeptDto has a name field
+}
+```
 
+| itemPropertyPath | Resulting itemNameKey |
+| --- | --- |
+| `"name"` | `"userDto.name"`<br>(there is no node for the class part, so the `ItemContainer`'s class name is used) |
+| `"dept.name"` | `"dept.name"`<br>(class part is the `dept` node's name, used as-is) |
+
+When the itemPropertyPath has multiple levels, such as `dept.manager.name`, the field part is the rightmost node (`name`), and the class part is the node immediately to its left (`manager`).
+
+---
+
+## Specifying itemNameKey Explicitly
+
+You can also specify `itemNameKey` explicitly using `Item`'s `itemNameKey()`.
+When specified explicitly, the specified value takes top priority regardless of the `itemPropertyPath`.
+
+```java
+new Item("mobilePhoneNumber.value").itemNameKey("mobilePhone.number")
+// -> itemNameKey is "mobilePhone.number"
+```
+
+---
+
+## itemNameKey Resolution Rules (Details)
+
+`itemNameKey()` can also be given only the field part, omitting the class part.
+If it contains `"."`, it is interpreted as `"classPart.fieldPart"`; otherwise it is interpreted as field part only.
+
+```java
 // Specifying only the field part (class part is resolved automatically)
 new Item("name").itemNameKey("fullName")
 ```
 
-If it contains `"."`, it is interpreted as `"classPart.fieldPart"`; otherwise it is interpreted as field part only.
-
----
-
-## itemNameKey Resolution Rules
-
-`itemNameKey` is resolved in the following priority order (if 1 is unavailable, 2 is used; if 2 is unavailable, 3 is used).
+Since `itemNameKey` and `itemPropertyPath` each have patterns with and without a class part specified, the class part and field part are determined independently of each other, in the following priority order (if 1 is unavailable, 2 is used; if 2 is unavailable, 3 is used).
 
 1. The value specified via `itemNameKey()`
-2. The `itemPropertyPath` (for the class part, if `@ItemNameKeyClass` is placed on the corresponding field, its value)
-3. (Class part only) The `ItemContainer` class's class name (if `@ItemNameKeyClass` is placed on the class, its value)
+2. The `itemPropertyPath`
+3. (Class part only) The `ItemContainer` class's class name
 
-Since `itemNameKey` and `itemPropertyPath` each have patterns with and without a class part specified, the class part and field part are determined independently of each other.
-
-The concrete patterns are as follows.
-Assume the object implementing ItemContainer is UserDto, and UserDto holds a DeptDto as a field (field name `dept`).
+The concrete patterns, including the examples in the previous sections, are as follows (same `UserDto` / `DeptDto` assumptions as above).
 
 | itemNameKey() specification | itemPropertyPath | Resulting itemNameKey |
 | --- | --- | --- |
@@ -44,13 +72,11 @@ Assume the object implementing ItemContainer is UserDto, and UserDto holds a Dep
 | Not specified | `"name"` | `"userDto.name"`<br>(field part is the rightmost node, class part is the `ItemContainer`'s class name) |
 | Not specified | `"dept.name"` | `"dept.name"`<br>(class part is the `dept` node's name, used as-is; field part is the rightmost node) |
 
-When the itemPropertyPath has multiple levels, such as `dept.manager.name`, the field part is the rightmost node (`name`), and the class part is the node immediately to its left (`manager`).
-
 ---
 
 ## `@ItemNameKeyClass` Annotation
 
-The previous section showed that when no class part is specified via `itemNameKey()` or `itemPropertyPath`, `userDto` is used by default as the class part of the itemNameKey.
+As described above, when no class part is specified via `itemNameKey()` or `itemPropertyPath`, `userDto` is used by default as the class part of the itemNameKey.
 In practice, though, `item_names.properties` is usually defined with a more generic form such as `user.name` rather than `userDto.name`.
 This default class part `userDto` can be changed to `user` using `@ItemNameKeyClass` (`jp.ecuacion.lib.core.annotation.ItemNameKeyClass`).
 

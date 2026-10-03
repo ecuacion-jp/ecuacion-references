@@ -1,5 +1,7 @@
 ## 概要
 
+概要説明は [共通事項など > ItemNameKey](?id=concepts/item-and-name-key) もご確認ください。
+
 `itemNameKey` は、項目の表示名を `item_names.properties` などから引くためのキーです。
 形式は `"クラス部.フィールド部"` （例：`"user.name"`）です。
 
@@ -7,34 +9,60 @@
 
 ---
 
-## 設定方法
+## itemPropertyPath からの自動決定
 
-`itemNameKey` は通常自動で決まりますが、`Item` の `itemNameKey()` を使って明示的に指定することもできます。
+`itemNameKey()` を指定しない場合、`itemNameKey` は `itemPropertyPath` から以下のように決まります。
+
+- **フィールド部**：`itemPropertyPath` の右端のノード
+- **クラス部**：`itemPropertyPath` の右端から 2 番目のノード。`itemPropertyPath` がフィールド名のみ（クラス部にあたるノードがない）の場合は、`ItemContainer` のクラス名の先頭を小文字化したもの
+
+以下、`ItemContainer` を実装するオブジェクトを `UserDto` とし、`UserDto` がフィールドとして `DeptDto`（フィールド名 `dept`）を保持しているものとします。
 
 ```java
-// クラス部 + フィールド部の両方を指定
-new Item("mobilePhoneNumber.value").itemNameKey("mobilePhone.number")
+public class UserDto implements ItemContainer {
+    private String name;
+    private DeptDto dept;   // DeptDto は name フィールドを持つ
+}
+```
 
+| itemPropertyPath | 結果の itemNameKey |
+| --- | --- |
+| `"name"` | `"userDto.name"`<br>（クラス部にあたるノードがないため、`ItemContainer` のクラス名を使用） |
+| `"dept.name"` | `"dept.name"`<br>（クラス部は `dept` ノードの名前をそのまま使用） |
+
+itemPropertyPath が `dept.manager.name` のように複数階層になる場合、フィールド部には一番右のノード（`name`）、クラス部にはその一つ左のノード（`manager`）が使われます。
+
+---
+
+## itemNameKey の明示指定
+
+`Item` の `itemNameKey()` を使って `itemNameKey` を明示的に指定することもできます。
+明示的に指定した場合は、`itemPropertyPath` の内容によらず、指定した値が最優先で使われます。
+
+```java
+new Item("mobilePhoneNumber.value").itemNameKey("mobilePhone.number")
+// → itemNameKey は "mobilePhone.number"
+```
+
+---
+
+## itemNameKey の決定ルール（詳細）
+
+`itemNameKey()` には、クラス部を省略してフィールド部のみを指定することもできます。
+`"."` を含む場合は `"クラス部.フィールド部"` と解釈され、含まない場合はフィールド部のみと解釈されます。
+
+```java
 // フィールド部のみ指定（クラス部は自動解決）
 new Item("name").itemNameKey("fullName")
 ```
 
-`"."` を含む場合は `"クラス部.フィールド部"` と解釈され、含まない場合はフィールド部のみと解釈されます。
-
----
-
-## itemNameKeyの決定ルール
-
-itemNameKey は、以下の優先順位で決定されます（1がない場合は2を使用、2がない場合は3を使用）。
+このように、itemNameKey 及び itemPropertyPath にはクラス部の指定有無のパターンがあるため、クラス部とフィールド部はそれぞれ独立に、以下の優先順位で決定されます（1がない場合は2を使用、2がない場合は3を使用）。
 
 1. `itemNameKey()` に指定された値を使用
-2. `itemPropertyPath` を使用（クラス部について、対応するフィールドに `@ItemNameKeyClass` が指定されている場合はその値）
-3. （クラス部のみ）`ItemContainer` クラスのクラス名を使用（クラスに `@ItemNameKeyClass` が指定されている場合はその値）
+2. `itemPropertyPath` を使用
+3. （クラス部のみ）`ItemContainer` クラスのクラス名を使用
 
-itemNameKey 及び itemPropertyPath は、クラス部の指定有無のパターンがあるため、クラス部とフィールド部はそれぞれ独立で決定されます。
-
-具体的なパターンは以下のとおりです。
-尚、ItemContainerを実装するオブジェクトはUserDtoとし、UserDtoのフィールドとしてDeptDto（フィールド名dept）を保持しているものとします。
+前項までの例も含めた具体的なパターンは以下のとおりです（`UserDto`・`DeptDto` の前提は前述と同じ）。
 
 | itemNameKey() の指定 | itemPropertyPath | 結果の itemNameKey |
 | --- | --- | --- |
@@ -44,13 +72,11 @@ itemNameKey 及び itemPropertyPath は、クラス部の指定有無のパタ�
 | 未指定 | `"name"` | `"userDto.name"`<br>（フィールド部は右端ノード、クラス部は `ItemContainer` のクラス名） |
 | 未指定 | `"dept.name"` | `"dept.name"`<br>（クラス部は `dept` ノードの名前をそのまま使用、フィールド部は右端ノード） |
 
-itemPropertyPath が `dept.manager.name` のように複数階層になる場合、フィールド部には一番右のノード（`name`）、クラス部にはその一つ左のノード（`manager`）が使われます。
-
 ---
 
 ## `@ItemNameKeyClass` アノテーション
 
-前項では、`itemNameKey()` や `itemPropertyPath` でクラス部が指定されなかった場合、デフォルトで `userDto` が itemNameKey のクラス部として使われることを説明しました。
+前述のとおり、`itemNameKey()` や `itemPropertyPath` でクラス部が指定されなかった場合、デフォルトで `userDto` が itemNameKey のクラス部として使われることを説明しました。
 しかし `item_names.properties` には、通常 `userDto.name` ではなく `user.name` のような一般的な形で定義することが多いはずです。
 このデフォルトのクラス部 `userDto` は、`@ItemNameKeyClass`（`jp.ecuacion.lib.core.annotation.ItemNameKeyClass`）を使うことで `user` に変更できます。
 

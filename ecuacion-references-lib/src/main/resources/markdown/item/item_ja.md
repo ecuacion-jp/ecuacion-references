@@ -1,5 +1,7 @@
 ## 概要
 
+概要説明は [共通事項など > itemとItemContainer・itemPropertyPath](?id=item/item-property-path) もご確認ください。
+
 `Item`（`jp.ecuacion.lib.core.item.Item`）は、フィールド 1 つ分の属性を保持するクラスです。
 主にバリデーションエラーメッセージ中での項目名や値の表示方法を制御するために使われます。
 
@@ -19,7 +21,9 @@ public Item[] customizedItems() {
 
 ---
 
-## hideValue()
+## 使用可能なメソッド
+
+### hideValue()
 
 パスワードなど、エラーメッセージに値を含めたくないフィールドには `hideValue()` を使います。
 
@@ -47,9 +51,7 @@ passwordは8から20の間のサイズにしてください（入力値：（非
 
 デフォルトは値を表示する設定（`showsValue = true`）です。
 
----
-
-## itemNameKey
+### itemNameKey()
 
 詳細は [ItemNameKey](?id=item/item-name-key) を参照。
 

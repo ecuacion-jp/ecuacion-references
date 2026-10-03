@@ -1,5 +1,7 @@
 ## Overview
 
+For an overview, see also [Common Topics > item, ItemContainer and itemPropertyPath](?id=item/item-property-path).
+
 `ItemContainer` (`jp.ecuacion.lib.core.item.ItemContainer`) is an interface that holds `Item` instances
 with customized display attributes for fields.
 
@@ -28,7 +30,7 @@ public class UserRecord implements ItemContainer {
 ```
 
 Fields that do not require customization do not need to be included in `customizedItems()`.
-If no customized `Item` exists, an auto-generated `Item` with the default settings is used.
+If no customized `Item` exists, an `Item` auto-generated with default values is used internally.
 
 If no customization is needed at all, return an empty array (this behaves the same as not implementing `ItemContainer`).
 
@@ -44,7 +46,7 @@ public Item[] customizedItems() {
 ## Inheriting Settings from Parent Classes
 
 When a class implementing `ItemContainer` overrides `customizedItems()`,
-`getItem()` (a method used internally to retrieve an `Item`) traverses up the class hierarchy and merges `Item` instances with the same `propertyPath`.
+`getItem()` (a method used internally to retrieve an `Item`) traverses up the class hierarchy and merges `Item` instances with the same `itemPropertyPath`.
 Properties explicitly set in the child class take priority, and unset properties inherit the parent class's settings.
 
 ```java
@@ -121,14 +123,5 @@ public class UserRecord implements ItemContainer {
 }
 ```
 
-If both arrays contain an `Item` with the same `propertyPath`, a `RuntimeException` is thrown.
+If both arrays contain an `Item` with the same `itemPropertyPath`, a `RuntimeException` is thrown.
 
----
-
-## ItemContainer Search Scope
-
-`ItemUtil.resolveItem()` is a method that finds the ItemContainer based on the rootBean and propertyPath
-and resolves the `Item`. It is called internally by the framework when generating validation error messages
-(for details, see [ItemUtil](?id=item/item-util)).
-
-The search scope is **up to 1 level from the rootBean**.

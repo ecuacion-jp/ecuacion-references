@@ -1,7 +1,7 @@
 ## 概要
 
 このページでは、List・Set・Map といったコレクション型のフィールドに対する `itemPropertyPath` の書き方（省略形を含む）について説明します。
-`itemPropertyPath` そのものの基本的な考え方は [itemとitemPropertyPath](?id=item/item-property-path) を参照してください。
+`itemPropertyPath` そのものの基本的な考え方は [itemとItemContainer・itemPropertyPath](?id=item/item-property-path) を参照してください。
 
 ---
 

@@ -1,7 +1,7 @@
 ## Overview
 
 This page explains how to write `itemPropertyPath` (including shorthand forms) for collection fields such as List, Set, and Map.
-For the basic idea of `itemPropertyPath` itself, see [item and itemPropertyPath](?id=item/item-property-path).
+For the basic idea of `itemPropertyPath` itself, see [item, ItemContainer and itemPropertyPath](?id=item/item-property-path).
 
 ---
 
