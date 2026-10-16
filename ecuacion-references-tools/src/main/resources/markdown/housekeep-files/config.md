@@ -9,7 +9,7 @@ Reading this file isn't a housekeep-files-specific mechanism — it's a Spring B
 | Property | Required | Default | Description |
 | --- | --- | --- | --- |
 | `jp.ecuacion.tool.housekeep-files.excel-path` | ○ | — | Path to the excel configuration file to run |
-| `jp.ecuacion.tool.housekeep-files.system-name` | — | —<br>(omitted if unset) | System name shown in job start/finish logs and the warning email subject.<br>If unset, that part is simply omitted |
+| `jp.ecuacion.tool.housekeep-files.target-system-name` | — | —<br>(omitted if unset) | System name shown in the job start log and the warning email subject.<br>If unset, that part is simply omitted |
 | `jp.ecuacion.tool.housekeep-files.sftp.strict-host-key-checking` | — | `true`<br>(checking enabled) | Set to `false` to disable SFTP host key verification.<br>This allows man-in-the-middle attacks to go undetected, so never use it other than for quick, throwaway local trials |
 | `jp.ecuacion.tool.housekeep-files.sftp.connect-timeout-millis` | — | `30000`<br>(30 seconds) | Connect timeout, in milliseconds, for the SFTP session/channel. Prevents a server that never responds from hanging the batch indefinitely |
 | `jp.ecuacion.tool.housekeep-files.unzip.max-total-bytes` | — | `10737418240`<br>(10 GiB) | Upper bound, in bytes, on the total uncompressed size a single `UNZIP_*` task will write. Guards against a "zip bomb" (a small archive that decompresses to an enormous size) filling the disk. The task fails if an archive would exceed this |
@@ -17,6 +17,25 @@ Reading this file isn't a housekeep-files-specific mechanism — it's a Spring B
 ```properties
 jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
 ```
+
+### Mail Settings
+
+Used to send the error email when an error occurs, and the warning email when warnings (incidents a task treats as warnings) occur. The warning email goes to the same recipients as the error email.
+
+| Property | Required | Default | Description |
+| --- | --- | --- | --- |
+| `spring.mail.host` | △ | — | SMTP server host name |
+| `spring.mail.port` | — | `587` | SMTP server port |
+| `spring.mail.username` | △ | — | SMTP authentication username (also used as the sender address) |
+| `spring.mail.password` | △ | — | SMTP authentication password |
+| `jp.ecuacion.splib.mail.address-csv-on-system-error` | △ | — | Recipients of the error / warning emails (comma-separated for multiple) |
+| `jp.ecuacion.splib.mail.title-prefix` | — | (none) | String prepended to the email subject |
+
+△: Required to send emails. If unset, no email is sent; that fact is logged at `WARN` level and processing continues.
+
+The warning email subject has the form `<title-prefix>[WARN] HousekeepFiles:<target-system-name>`.
+
+> **Note:** Spring Boot reads `application.properties` as ISO-8859-1, so if `title-prefix` contains non-ASCII characters (e.g. Japanese), write it in `application.yml` (read as UTF-8) instead.
 
 ### Using Path Variables
 

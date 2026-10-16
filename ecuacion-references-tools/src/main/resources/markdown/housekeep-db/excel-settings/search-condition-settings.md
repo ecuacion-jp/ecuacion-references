@@ -31,7 +31,7 @@ INSERT INTO test_table (num1, char1, exit_code) VALUES (456, 'def', 'FAILED');
 
 #### Housekeep DB Settings Sheet
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol |
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol |
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Hard Delete | test_table | num1 | (none) |
 

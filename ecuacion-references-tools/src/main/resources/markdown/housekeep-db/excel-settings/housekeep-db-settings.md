@@ -1,4 +1,4 @@
-Defines one deletion task per row. Tasks are executed from top to bottom.
+Defines one housekeeping task (soft / hard delete, or abnormal data check) per row. Tasks are executed from top to bottom.
 
 ## Basic Columns
 
@@ -6,8 +6,8 @@ Defines one deletion task per row. Tasks are executed from top to bottom.
 | --- | --- | --- |
 | Task ID | ○ | Identifies the task |
 | DB Connection ID | ○ | Must match an ID in the DB Connection Settings sheet |
-| Soft / Hard Delete | ○ | Display value (`Soft Delete` or `Hard Delete`) |
-| Soft / Hard Delete (internal value) | ○ | Value read by the tool: `SOFT_DELETE` or `HARD_DELETE` |
+| Process Type | ○ | Display value (`Soft Delete`, `Hard Delete` or `Abnormal Data Check`) |
+| Process Type (internal value) | ○ | Value read by the tool: `SOFT_DELETE`, `HARD_DELETE` or `ABNORMAL_DATA_CHECK` |
 | Table Name | ○ | Name of the table to housekeep |
 | ID Column Name | ○ | Name of the single-column primary key or unique index column |
 | ID Column Literal Symbol | ○ | Whether the ID column value needs SQL quoting: `(none)` or `quotes(')` |
@@ -33,7 +33,7 @@ If left empty and soft/hard delete is performed, the elapsed time since record c
 
 ## Soft Delete Columns (Soft Delete Only)
 
-Only used when `Soft / Hard Delete` is `Soft Delete`.
+Only used when `Process Type` is `Soft Delete` (`Soft Delete Column Name` can also optionally be specified for `Hard Delete` and `Abnormal Data Check` - see below).
 
 | Column | Required | Description |
 | --- | --- | --- |
@@ -47,7 +47,30 @@ The three "Update User ID Column" fields must all be set together or all left em
 
 ## Specifying a Soft Delete Column Name for Hard Delete
 
-Even when `Soft / Hard Delete` is `Hard Delete`, `Soft Delete Column Name` can still be specified. In that case, only records where the soft delete column is `true` are targeted for hard deletion (records with `false` are excluded). This is useful for permanently deleting records that have already been soft-deleted.
+Even when `Process Type` is `Hard Delete`, `Soft Delete Column Name` can still be specified. In that case, only records where the soft delete column is `true` are targeted for hard deletion (records with `false` are excluded). This is useful for permanently deleting records that have already been soft-deleted.
+
+## Abnormal Data Check
+
+When `Process Type` is `Abnormal Data Check`, the records matching the conditions are not deleted; instead, **their very existence is treated as something gone wrong and reported as a warning**. Use it to detect records that should never exist, such as "records still not marked as processed 90 days later".
+
+- The conditions are specified the same way as for soft / hard delete: records matching the [Search Condition Settings](page?id=housekeep-db/excel-settings/search-condition-settings&lang=en) sheet and the (optional) expiration-based filtering are targeted
+- When `Soft Delete Column Name` is specified, records already soft-deleted (delete flag = `true`) are excluded from the check
+- The "Soft Delete: Update ..." columns are not used and must be left empty
+- The [Related Table Settings](page?id=housekeep-db/excel-settings/related-table-settings&lang=en) sheet cannot be used (a row linked to an abnormal data check task is an error)
+- No record is ever updated or deleted
+
+When matching records are found, the count and IDs are logged at `WARN` level per task, and after all tasks have run, the findings are sent together in **one warning email** (per task: the count and the first 10 IDs in ID order, noting when there are more). See [Configuration](page?id=housekeep-db/config&lang=en) for the email recipients, subject, and other settings.
+
+> **Note:** Even when records are found, the tool ends normally (exit code `0`). Check the findings through the warning email or the `WARN` level log.
+
+### Combining with Delete Tasks
+
+The term and conditions of an abnormal data check are set independently from delete tasks. For example, if you want to soft-delete records soon after they're processed, but how long it takes for them to be processed varies, put two tasks side by side:
+
+| Task ID | Process Type | Expiration Check: Validity Days | Condition in the Search Condition Settings sheet |
+| --- | --- | --- | --- |
+| task-1 | Soft Delete | 7 | `processed = true` |
+| task-2 | Abnormal Data Check | 90 | `processed = false` |
 
 ## Examples
 
@@ -70,7 +93,7 @@ INSERT INTO test_table (num1, char1) VALUES (123, 'abc');
 
 #### 2. Configure the Excel File
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol |
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol |
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Soft Delete | test_table | num1 | (none) |
 
@@ -100,7 +123,7 @@ INSERT INTO test_table (num1, char1, last_updated) VALUES (456, 'def', now() - i
 
 #### 2. Configure the Excel File
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol |
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol |
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Hard Delete | test_table | num1 | (none) |
 
@@ -111,3 +134,54 @@ INSERT INTO test_table (num1, char1, last_updated) VALUES (456, 'def', now() - i
 Running the tool deletes only the `num1=123` record, whose `last_updated` is more than 3 days old; the `num1=456` record is left alone.
 
 > **How "Validity Days" is evaluated:** this is **time-based, not calendar-date-based**. Internally, the tool compares the current timestamp against `last_updated` and checks whether the difference exceeds `72 hours` (3 days), not whether the calendar date has changed 3 times. So depending on exactly when a day boundary falls, a record that's "3 calendar days old" may not yet qualify, while one that's only "2 calendar days old" may already qualify if more than 72 hours have actually elapsed.
+
+### Abnormal Data Check
+
+#### 1. Prepare the Test Table and Data
+
+```sql
+CREATE TABLE test_table (
+    num1 integer,
+    processed boolean,
+    last_updated timestamp,
+    PRIMARY KEY (num1)
+);
+
+-- Left unprocessed since 100 days ago (detected)
+INSERT INTO test_table (num1, processed, last_updated) VALUES (123, false, now() - interval '100 days');
+-- Processed 100 days ago (not detected)
+INSERT INTO test_table (num1, processed, last_updated) VALUES (456, true, now() - interval '100 days');
+-- Registered 1 day ago, not processed yet (not detected)
+INSERT INTO test_table (num1, processed, last_updated) VALUES (789, false, now() - interval '1 days');
+```
+
+#### 2. Configure the Excel File
+
+##### Housekeep DB Settings Sheet
+
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol |
+| --- | --- | --- | --- | --- | --- |
+| task-1 | test-conn | Abnormal Data Check | test_table | num1 | (none) |
+
+| Expiration Check: Timestamp Column Name | Expiration Check: Timestamp Column Data Type | Expiration Check: Validity Days |
+| --- | --- | --- |
+| last_updated | LocalDateTime | 90 |
+
+##### Search Condition Settings Sheet
+
+| Task ID | Search Condition Column Name | Search Condition Column Literal Symbol | Search Condition Column Value |
+| --- | --- | --- | --- |
+| task-1 | processed | (none) | false |
+
+Running the tool detects only the `num1=123` record and sends a warning email like the following (no record is updated or deleted):
+
+```
+hostname: your-server
+
+Record(s) that should not exist were found by the abnormal data check task(s) below:
+
+- Task ID: task-1
+  Table  : test_table
+  Count  : 1
+  num1: 123
+```

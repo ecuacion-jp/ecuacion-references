@@ -41,7 +41,7 @@ Configure one of the following, depending on which database you're using.
 
 #### Housekeep DB Settings Sheet
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol | (remaining columns empty) |
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol | (remaining columns empty) |
 | --- | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Hard Delete | test_table | num1 | (none) | |
 

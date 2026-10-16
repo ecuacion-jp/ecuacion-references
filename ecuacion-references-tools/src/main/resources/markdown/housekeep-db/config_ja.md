@@ -10,11 +10,32 @@
 | --- | --- | --- | --- |
 | `jp.ecuacion.tool.housekeep-db.excel-path` | ○ | — | 実行するExcel設定ファイルのパス |
 | `jp.ecuacion.tool.housekeep-db.max-select-lines` | — | `1000` | メインのSELECTが1ループあたりに取得・コミットする行数 |
+| `jp.ecuacion.tool.housekeep-db.target-system-name` | — | —<br>（未設定時は非表示） | ジョブ開始ログ、異常データ存在チェックの警告メールの件名に表示するシステム名。<br>未設定の場合はその部分が省略されます |
 
 ```properties
 jp.ecuacion.tool.housekeep-db.excel-path=/path/to/your-settings.xlsx
 jp.ecuacion.tool.housekeep-db.max-select-lines=1000
+jp.ecuacion.tool.housekeep-db.target-system-name=my-system
 ```
+
+### メール送信の設定
+
+エラー発生時のエラーメール、および[異常データ存在チェック](page?id=housekeep-db/excel-settings/housekeep-db-settings&lang=ja)でレコードが見つかった場合の警告メールの送信に使用します。警告メールの宛先はエラーメールと同じです。
+
+| プロパティ | 必須 | デフォルト | 説明 |
+| --- | --- | --- | --- |
+| `spring.mail.host` | △ | — | SMTPサーバのホスト名 |
+| `spring.mail.port` | — | `587` | SMTPサーバのポート |
+| `spring.mail.username` | △ | — | SMTP認証のユーザ名（送信元アドレスとしても使用） |
+| `spring.mail.password` | △ | — | SMTP認証のパスワード |
+| `jp.ecuacion.splib.mail.address-csv-on-system-error` | △ | — | エラーメール・警告メールの宛先（カンマ区切りで複数指定可） |
+| `jp.ecuacion.splib.mail.title-prefix` | — | （なし） | メール件名の先頭に付与する文字列 |
+
+△：メールを送信する場合は必須です。未設定の場合はメールを送信せず、その旨を `WARN` レベルでログ出力して処理を継続します。
+
+警告メールの件名は `<title-prefix>[WARN] HousekeepDb:<target-system-name>` の形式です。
+
+> **Note:** Spring Boot は `application.properties` を ISO-8859-1 として読み込むため、`title-prefix` に日本語などの非ASCII文字を含める場合は `application.yml`（UTF-8 として読み込まれる）に記載してください。
 
 ---
 

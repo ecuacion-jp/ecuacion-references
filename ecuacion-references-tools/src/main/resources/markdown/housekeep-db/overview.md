@@ -1,5 +1,5 @@
 `ecuacion-tool-housekeep-db` is a batch tool that automatically housekeeps (cleans up) records in a database.
-It performs soft delete or hard delete based on an Excel configuration file.
+It performs soft delete or hard delete based on an Excel configuration file. It can also detect records that should never exist and send a warning email.
 
 ## Key Features
 
@@ -8,6 +8,7 @@ It performs soft delete or hard delete based on an Excel configuration file.
 - **Expiration-based filtering**: Targets only records where a timestamp column exceeds a specified number of days
 - **Related table handling**: Delete related table records together, or skip deletion when related records exist
 - **Additional WHERE conditions**: Filter records by column values
+- **Abnormal data check**: Instead of deleting the records matching the conditions, treats their very existence as something gone wrong and reports it in a warning email ([details](page?id=housekeep-db/excel-settings/housekeep-db-settings&lang=en))
 
 ## Constraints
 

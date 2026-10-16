@@ -9,7 +9,7 @@
 | プロパティ | 必須 | デフォルト | 説明 |
 | --- | --- | --- | --- |
 | `jp.ecuacion.tool.housekeep-files.excel-path` | ○ | — | 実行するExcel設定ファイルのパス |
-| `jp.ecuacion.tool.housekeep-files.system-name` | — | —<br>（未設定時は非表示） | ジョブ開始・終了ログ、警告メールの件名に表示するシステム名。<br>未設定の場合はその部分が省略されます |
+| `jp.ecuacion.tool.housekeep-files.target-system-name` | — | —<br>（未設定時は非表示） | ジョブ開始ログ、警告メールの件名に表示するシステム名。<br>未設定の場合はその部分が省略されます |
 | `jp.ecuacion.tool.housekeep-files.sftp.strict-host-key-checking` | — | `true`<br>（チェック有効） | `false` にするとSFTP接続時のホスト鍵検証を無効化します。<br>中間者攻撃を検知できなくなるため、使い捨てのローカル検証など以外では<br>無効化しないでください |
 | `jp.ecuacion.tool.housekeep-files.sftp.connect-timeout-millis` | — | `30000`<br>（30秒） | SFTPセッション・チャネルの接続タイムアウト（ミリ秒）。応答しないサーバによってバッチが無期限にハングするのを防ぎます |
 | `jp.ecuacion.tool.housekeep-files.unzip.max-total-bytes` | — | `10737418240`<br>（10GiB） | `UNZIP_*` タスク1件が書き込む展開後合計サイズの上限（バイト）。小さいアーカイブが巨大なサイズに展開されてディスクを圧迫する「zip爆弾」対策です。上限を超える場合はタスクが失敗します |
@@ -17,6 +17,25 @@
 ```properties
 jp.ecuacion.tool.housekeep-files.excel-path=/path/to/your-settings.xlsx
 ```
+
+### メール送信の設定
+
+エラー発生時のエラーメール、および警告（タスクで警告扱いとされた事象）が発生した場合の警告メールの送信に使用します。警告メールの宛先はエラーメールと同じです。
+
+| プロパティ | 必須 | デフォルト | 説明 |
+| --- | --- | --- | --- |
+| `spring.mail.host` | △ | — | SMTPサーバのホスト名 |
+| `spring.mail.port` | — | `587` | SMTPサーバのポート |
+| `spring.mail.username` | △ | — | SMTP認証のユーザ名（送信元アドレスとしても使用） |
+| `spring.mail.password` | △ | — | SMTP認証のパスワード |
+| `jp.ecuacion.splib.mail.address-csv-on-system-error` | △ | — | エラーメール・警告メールの宛先（カンマ区切りで複数指定可） |
+| `jp.ecuacion.splib.mail.title-prefix` | — | （なし） | メール件名の先頭に付与する文字列 |
+
+△：メールを送信する場合は必須です。未設定の場合はメールを送信せず、その旨を `WARN` レベルでログ出力して処理を継続します。
+
+警告メールの件名は `<title-prefix>[WARN] HousekeepFiles:<target-system-name>` の形式です。
+
+> **Note:** Spring Boot は `application.properties` を ISO-8859-1 として読み込むため、`title-prefix` に日本語などの非ASCII文字を含める場合は `application.yml`（UTF-8 として読み込まれる）に記載してください。
 
 ### パス変数の使用
 

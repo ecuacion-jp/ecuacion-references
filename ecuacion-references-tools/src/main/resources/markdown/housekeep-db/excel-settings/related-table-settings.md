@@ -1,5 +1,7 @@
 Configures processing of related tables. Leave the sheet empty if not needed.
 
+This sheet cannot be used for tasks whose `Process Type` in the Housekeep DB Settings sheet is `Abnormal Data Check` (a row linked to such a task is an error).
+
 Two processing patterns are available:
 
 | Pattern | Behavior |
@@ -13,13 +15,13 @@ Two processing patterns are available:
 
 Soft-deleting or deleting records should ideally be handled per table on its own. However, the related table sometimes has no timestamp or similar column to determine whether its own records should be deleted, so the related table alone provides no basis for that decision. This pattern exists for that case: it deletes the related table's records in step with the deletion of the target table, which does have a basis for its own delete decision. Because of this, there is no way to specify delete conditions (such as a timestamp column) on the related table side.
 
-Whether the related table is soft-deleted or hard-deleted cannot be set independently on this sheet - it always follows the task-wide "Soft / Hard Delete" column in the Housekeep DB Settings sheet. That is, when the task is Hard Delete, the related table is deleted (DELETE) just like the target table; when the task is Soft Delete, the related table is soft-deleted too (its Soft Delete Column is updated to true).
+Whether the related table is soft-deleted or hard-deleted cannot be set independently on this sheet - it always follows the task-wide "Process Type" column in the Housekeep DB Settings sheet. That is, when the task is Hard Delete, the related table is deleted (DELETE) just like the target table; when the task is Soft Delete, the related table is soft-deleted too (its Soft Delete Column is updated to true).
 
 ### Check and Skip Delete
 
 Check and Skip Delete assumes that the related table has already been soft-deleted or deleted under appropriate conditions beforehand.
 
-When the task is Soft Delete (that is, `Soft Delete` is selected in the "Soft / Hard Delete" column of the Housekeep DB Settings sheet), related records that are already soft-deleted are not counted as "existing": the soft delete of the target record is skipped only when a not-yet-soft-deleted related record exists. For this check, the Soft Delete Column Name is required when the task is Soft Delete. When the task is Hard Delete, plain record existence is checked.
+When the task is Soft Delete (that is, `Soft Delete` is selected in the "Process Type" column of the Housekeep DB Settings sheet), related records that are already soft-deleted are not counted as "existing": the soft delete of the target record is skipped only when a not-yet-soft-deleted related record exists. For this check, the Soft Delete Column Name is required when the task is Soft Delete. When the task is Hard Delete, plain record existence is checked.
 
 ## Column Reference
 
@@ -76,7 +78,7 @@ INSERT INTO related_table (id, parent_id) VALUES (1, 123);
 
 ##### Housekeep DB Settings Sheet
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol |
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol |
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Hard Delete | test_table | num1 | (none) |
 
@@ -115,7 +117,7 @@ INSERT INTO related_table (id, parent_id) VALUES (1, 123);
 
 ##### Housekeep DB Settings Sheet
 
-| Task ID | DB Connection ID | Soft / Hard Delete | Table Name | ID Column Name | ID Column Literal Symbol |
+| Task ID | DB Connection ID | Process Type | Table Name | ID Column Name | ID Column Literal Symbol |
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Hard Delete | test_table | num1 | (none) |
 

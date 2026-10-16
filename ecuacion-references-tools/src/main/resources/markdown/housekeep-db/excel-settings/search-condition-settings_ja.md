@@ -31,7 +31,7 @@ INSERT INTO test_table (num1, char1, exit_code) VALUES (456, 'def', 'FAILED');
 
 #### housekeep DB設定 シート
 
-| 処理ID | DB接続ID | 論理廃止 / 削除 | テーブル名 | IDカラム名 | IDカラム型リテラル記号 |
+| 処理ID | DB接続ID | 処理種別 | テーブル名 | IDカラム名 | IDカラム型リテラル記号 |
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | 削除 | test_table | num1 | (none) |
 
