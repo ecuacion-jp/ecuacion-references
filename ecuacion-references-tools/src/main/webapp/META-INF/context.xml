@@ -20,8 +20,8 @@
   PREREQUISITE: The following directory must exist on the server before deployment.
   If it does not exist, Tomcat will fail to deploy with an IllegalArgumentException.
 
-    ${catalina.base}/app-conf/ecuacion-tool-code-generator/
-      (e.g. /usr/local/tomcat/app-conf/ecuacion-tool-code-generator/)
+    ${catalina.base}/app-conf/ecuacion-references-tools/
+      (e.g. /usr/local/tomcat/app-conf/ecuacion-references-tools/)
 
   Place environment-specific config files (application.properties, logback-spring.xml, etc.) there.
 -->
