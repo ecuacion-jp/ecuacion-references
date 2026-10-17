@@ -4,8 +4,8 @@ this page wires up the required configuration classes and adds one endpoint that
 ## 1. Enable `SplibRestConfig`
 
 `SplibRestConfig` (in the `jp.ecuacion.splib.rest.config` package) component-scans the packages that
-make `ecuacion-splib-rest` work (`jp.ecuacion.splib.core.config`, `jp.ecuacion.splib.rest.advice`,
-`jp.ecuacion.splib.rest.controller`). Import it from your application configuration:
+make `ecuacion-splib-rest` work (`jp.ecuacion.splib.core.config`, `jp.ecuacion.splib.rest.exceptionhandler`,
+`jp.ecuacion.splib.rest.controller`). Component-scan its package from your application configuration:
 
 ```java
 @Configuration
@@ -64,5 +64,5 @@ curl http://localhost:8080/api/public/hello
 ```
 
 This reference site itself uses `ecuacion-splib-rest` and exposes the exact same controller at
-[`/api/public/hello`](../../api/public/hello). See `jp.ecuacion.references.splib.tutorial.rest.HelloController`
+[`/api/public/hello`](../../api/public/hello). See `jp.ecuacion.references.splib.rest.HelloController`
 in the site's own source for the implementation.

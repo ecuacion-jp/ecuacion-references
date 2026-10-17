@@ -3,8 +3,8 @@
 
 ## 1. `SplibRestConfig` を有効化する
 
-`SplibRestConfig`（`jp.ecuacion.splib.rest.config` パッケージに存在）は `ecuacion-splib-rest` の動作に必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.rest.advice`・
-`jp.ecuacion.splib.rest.controller`）をコンポーネントスキャンします。アプリケーションの設定クラスからインポートしてください。
+`SplibRestConfig`（`jp.ecuacion.splib.rest.config` パッケージに存在）は `ecuacion-splib-rest` の動作に必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.rest.exceptionhandler`・
+`jp.ecuacion.splib.rest.controller`）をコンポーネントスキャンします。アプリケーションの設定クラスで、このパッケージをコンポーネントスキャンしてください。
 
 ```java
 @Configuration

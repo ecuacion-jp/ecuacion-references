@@ -25,7 +25,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 /** Spring Boot application entry point. */
 @SpringBootApplication
-@ComponentScan(basePackages = "jp.ecuacion.references.coreformarkdownonlyapps.config")
+// jp.ecuacion.splib.rest.config: registers SplibRestExceptionHandler and splib's own REST
+// endpoints (aliveCheck, etc.) for the /api/public/hello quickstart endpoint.
+@ComponentScan(basePackages = "jp.ecuacion.references.coreformarkdownonlyapps.config"
+    + ",jp.ecuacion.splib.rest.config")
 public class WebApplication extends SpringBootServletInitializer {
 
   /** Main method. */

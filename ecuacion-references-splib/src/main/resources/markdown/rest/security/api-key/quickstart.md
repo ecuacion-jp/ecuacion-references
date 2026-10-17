@@ -4,8 +4,8 @@ adds one minimal, actually-working endpoint under `/api/key/**`.
 ## 1. Enable `SplibRestConfig`
 
 `SplibRestConfig` (in the `jp.ecuacion.splib.rest.config` package) component-scans the packages
-`ecuacion-splib-rest` needs to work (`jp.ecuacion.splib.core.config`, `jp.ecuacion.splib.rest.advice`,
-`jp.ecuacion.splib.rest.controller`). Import it from your application's configuration class:
+`ecuacion-splib-rest` needs to work (`jp.ecuacion.splib.core.config`, `jp.ecuacion.splib.rest.exceptionhandler`,
+`jp.ecuacion.splib.rest.controller`). Component-scan its package from your application's configuration class:
 
 ```java
 @Configuration

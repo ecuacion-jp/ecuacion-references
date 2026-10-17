@@ -3,8 +3,8 @@
 
 ## 1. `SplibRestConfig` を有効化する
 
-`SplibRestConfig`（`jp.ecuacion.splib.rest.config` パッケージに存在）は `ecuacion-splib-rest` の動作に必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.rest.advice`・
-`jp.ecuacion.splib.rest.controller`）をコンポーネントスキャンします。アプリケーションの設定クラスからインポートしてください。
+`SplibRestConfig`（`jp.ecuacion.splib.rest.config` パッケージに存在）は `ecuacion-splib-rest` の動作に必要なパッケージ（`jp.ecuacion.splib.core.config`・`jp.ecuacion.splib.rest.exceptionhandler`・
+`jp.ecuacion.splib.rest.controller`）をコンポーネントスキャンします。アプリケーションの設定クラスで、このパッケージをコンポーネントスキャンしてください。
 
 ```java
 @Configuration
@@ -62,4 +62,4 @@ curl http://localhost:8080/api/public/hello
 
 このリファレンスサイト自身も `ecuacion-splib-rest` を使っており、上のコントローラーとまったく同じものを
 [`/api/public/hello`](../../api/public/hello) として公開しています。実装はサイトのソースにある
-`jp.ecuacion.references.splib.tutorial.rest.HelloController` を参照してください。
+`jp.ecuacion.references.splib.rest.HelloController` を参照してください。
