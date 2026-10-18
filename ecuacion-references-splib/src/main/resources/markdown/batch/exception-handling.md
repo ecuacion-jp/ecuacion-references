@@ -1,4 +1,4 @@
-`SplibExceptionHandler` implements Spring Batch's `ExceptionHandler` and is attached to every step
+`SplibBatchExceptionHandler` implements Spring Batch's `ExceptionHandler` and is attached to every step
 built through
 [`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=en) — no extra
 wiring is needed once your job configuration extends `SplibAppParentBatchConfig`.

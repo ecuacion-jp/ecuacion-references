@@ -57,7 +57,7 @@ public class HelloTasklet implements Tasklet {
 public class AppBatchConfig extends SplibAppParentBatchConfig {
 
   public AppBatchConfig(SplibJobExecutionListener jobExecutionListener,
-      SplibStepExecutionListener stepExecutionListener, SplibExceptionHandler exceptionHandler) {
+      SplibStepExecutionListener stepExecutionListener, SplibBatchExceptionHandler exceptionHandler) {
     super(jobExecutionListener, stepExecutionListener, exceptionHandler);
   }
 

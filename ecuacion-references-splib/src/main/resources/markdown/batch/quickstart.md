@@ -60,7 +60,7 @@ A job configuration that builds a one-step job around it, using `preparedJobBuil
 public class AppBatchConfig extends SplibAppParentBatchConfig {
 
   public AppBatchConfig(SplibJobExecutionListener jobExecutionListener,
-      SplibStepExecutionListener stepExecutionListener, SplibExceptionHandler exceptionHandler) {
+      SplibStepExecutionListener stepExecutionListener, SplibBatchExceptionHandler exceptionHandler) {
     super(jobExecutionListener, stepExecutionListener, exceptionHandler);
   }
 

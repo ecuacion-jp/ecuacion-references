@@ -1,4 +1,4 @@
-`SplibExceptionHandler` は Spring Batch の `ExceptionHandler` を実装しており、
+`SplibBatchExceptionHandler` は Spring Batch の `ExceptionHandler` を実装しており、
 [`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=ja)
 で構築されたすべてのステップにアタッチされます。ジョブ設定クラスが `SplibAppParentBatchConfig` を継承していれば、追加の配線は不要です。
 

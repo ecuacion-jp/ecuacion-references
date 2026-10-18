@@ -1,8 +1,8 @@
-`SplibExceptionHandler` は、アプリケーション側で継承する抽象 `@ControllerAdvice` です。`SplibExceptionHandler` のBeanが一つも登録されていない場合、[概要](page?id=web/overview&lang=ja)で説明した `SplibWebExceptionHandlerAutoConfiguration` が `ViolationException` のみを処理する最小限のフォールバックを提供します。以下の一式が必要になった時点で `SplibExceptionHandler` を継承してください。
+`SplibWebExceptionHandler` は、アプリケーション側で継承する抽象 `@ControllerAdvice` です。`SplibWebExceptionHandler` のBeanが一つも登録されていない場合、[概要](page?id=web/overview&lang=ja)で説明した `SplibWebExceptionHandlerAutoConfiguration` が `ViolationException` のみを処理する最小限のフォールバックを提供します。以下の一式が必要になった時点で `SplibWebExceptionHandler` を継承してください。
 
 ```java
 @ControllerAdvice
-public class AppExceptionHandler extends SplibExceptionHandler {
+public class AppExceptionHandler extends SplibWebExceptionHandler {
 
   public AppExceptionHandler(HttpServletRequest request,
       @Nullable SplibExceptionHandlerAction actionOnThrowable, SplibLoginStateUtil loginStateUtil) {

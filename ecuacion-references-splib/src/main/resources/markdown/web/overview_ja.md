@@ -19,7 +19,7 @@
 `ecuacion-splib-web` は `spring-boot-starter-security` に無条件で依存しているため、これを取り込むアプリケーションはクラスパス上にSpring Securityを持つことになり、起動には何らかの `SecurityFilterChain` が必要です。2つの自動設定は、各アプリに明示的な選択を強いる代わりに、安全な挙動をデフォルトにしています。
 
 - `SplibWebSecurityConfig` を継承したBeanが1つも登録されていない場合、`SplibWebSecurityAutoConfiguration` がすべてのリクエストを拒否する（`denyAll`）フォールバックのフィルタチェーンを提供し、INFOレベルでログに記録します。これが置き換わる本来の設定については [フォームログイン・アクセス制御](page?id=web/security/form-login&lang=ja) を参照してください。
-- `SplibExceptionHandler` のBeanが登録されていない場合、`SplibWebExceptionHandlerAutoConfiguration` が `ViolationException` のみを処理する最小限のハンドラを提供します。これが置き換わる完全なハンドラについては [例外処理](page?id=web/exception-handling&lang=ja) を参照してください。
+- `SplibWebExceptionHandler` のBeanが登録されていない場合、`SplibWebExceptionHandlerAutoConfiguration` が `ViolationException` のみを処理する最小限のハンドラを提供します。これが置き換わる完全なハンドラについては [例外処理](page?id=web/exception-handling&lang=ja) を参照してください。
 
 どちらも、何も起きない形で黙って通過させるのではなく、安全側・制限側の挙動にフォールバックします。そのため、設定が中途半端なアプリケーションは、無防備なページを黙って配信するのではなく、すべてのページがアクセス拒否になるという分かりやすい形で失敗します。
 

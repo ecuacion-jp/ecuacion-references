@@ -1,12 +1,12 @@
-`SplibExceptionHandler` is an abstract `@ControllerAdvice` your application extends. If no
-`SplibExceptionHandler` bean is registered at all,
+`SplibWebExceptionHandler` is an abstract `@ControllerAdvice` your application extends. If no
+`SplibWebExceptionHandler` bean is registered at all,
 [Overview](page?id=web/overview&lang=en)'s `SplibWebExceptionHandlerAutoConfiguration` provides a
-minimal fallback that handles only `ViolationException`; extend `SplibExceptionHandler` once the
+minimal fallback that handles only `ViolationException`; extend `SplibWebExceptionHandler` once the
 application needs the full set below.
 
 ```java
 @ControllerAdvice
-public class AppExceptionHandler extends SplibExceptionHandler {
+public class AppExceptionHandler extends SplibWebExceptionHandler {
 
   public AppExceptionHandler(HttpServletRequest request,
       @Nullable SplibExceptionHandlerAction actionOnThrowable, SplibLoginStateUtil loginStateUtil) {

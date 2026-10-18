@@ -25,7 +25,7 @@ protected TaskletStepBuilder preparedStepBuilder(String stepName, JobRepository 
 以下が設定された `TaskletStepBuilder` を返します。
 
 - `.listener(stepExecutionListener)` — コンストラクターに渡された `SplibStepExecutionListener`。
-- `.exceptionHandler(exceptionHandler)` — 共有の `SplibExceptionHandler`。
+- `.exceptionHandler(exceptionHandler)` — 共有の `SplibBatchExceptionHandler`。
   [例外処理](page?id=batch/exception-handling&lang=ja) を参照してください。
 
 1 つ以上の `Tasklet` を受け取り、同じステップビルダーにチェーンして適用するため、

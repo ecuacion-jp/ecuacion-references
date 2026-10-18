@@ -3,7 +3,7 @@
 
 このJobの唯一のStepは、無条件に `RuntimeException` をスローするタスクレットを実行するだけです。
 そのため、[`preparedJobBuilder`/`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=ja)
-で構築した他のJobと同様に、`SplibExceptionHandler` / `SplibJobExecutionListener` という同じ経路で失敗が処理されます。
+で構築した他のJobと同様に、`SplibBatchExceptionHandler` / `SplibJobExecutionListener` という同じ経路で失敗が処理されます。
 
 ## 実行方法
 

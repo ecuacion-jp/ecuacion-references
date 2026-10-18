@@ -3,7 +3,7 @@
 `SplibExceptionHandlerAction`, and so on) without requiring an actual bug.
 
 Its single step runs a tasklet that unconditionally throws a `RuntimeException`, so the failure
-goes through the same `SplibExceptionHandler` / `SplibJobExecutionListener` path as any other job
+goes through the same `SplibBatchExceptionHandler` / `SplibJobExecutionListener` path as any other job
 built with [`preparedJobBuilder`/`preparedStepBuilder`](page?id=batch/job-and-step-builders&lang=en).
 
 ## Running it

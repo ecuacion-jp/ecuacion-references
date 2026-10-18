@@ -25,7 +25,7 @@ protected TaskletStepBuilder preparedStepBuilder(String stepName, JobRepository 
 Returns a `TaskletStepBuilder` with:
 
 - `.listener(stepExecutionListener)` — the `SplibStepExecutionListener` passed to the constructor.
-- `.exceptionHandler(exceptionHandler)` — the shared `SplibExceptionHandler`. See
+- `.exceptionHandler(exceptionHandler)` — the shared `SplibBatchExceptionHandler`. See
   [Exception Handling](page?id=batch/exception-handling&lang=en).
 
 It accepts one or more `Tasklet`s and chains them onto the same step builder, so a step made of

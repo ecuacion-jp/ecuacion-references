@@ -31,7 +31,7 @@ See [Access Control](page?id=command-api/access-control&lang=en) for details.
 
 ```json
 {
-    "returnCode": "0",
+    "returnCode": 0,
     "stdout": "...",
     "stderr": "..."
 }
@@ -42,14 +42,14 @@ See [Access Control](page?id=command-api/access-control&lang=en) for details.
 HTTP 200 is returned even if the script itself exits with a non-zero code.
 Check `returnCode` to determine whether the script succeeded.
 
-**When output is truncated:** if `stdout` / `stderr` exceeds `jp.ecuacion.tool.command-api.script-max-output-bytes` (see [Configuration Files](page?id=command-api/config&lang=en); default 1 MiB), the corresponding field contains only the content up to that cap (everything after it is discarded, though the script itself still runs to completion), and a `stdoutTruncated: "true"` / `stderrTruncated: "true"` field is added to the response. These two fields are present only when their side was actually truncated — absent (not `"false"`) otherwise.
+**When output is truncated:** if `stdout` / `stderr` exceeds `jp.ecuacion.tool.command-api.script-max-output-bytes` (see [Configuration Files](page?id=command-api/config&lang=en); default 1 MiB), the corresponding field contains only the content up to that cap (everything after it is discarded, though the script itself still runs to completion), and a `stdoutTruncated: true` / `stderrTruncated: true` field is added to the response. These two fields are present only when their side was actually truncated — absent (not `false`) otherwise.
 
 ```json
 {
-    "returnCode": "0",
+    "returnCode": 0,
     "stdout": "... (truncated)",
     "stderr": "...",
-    "stdoutTruncated": "true"
+    "stdoutTruncated": true
 }
 ```
 

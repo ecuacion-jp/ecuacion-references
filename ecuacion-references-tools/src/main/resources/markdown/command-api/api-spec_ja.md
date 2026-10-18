@@ -31,7 +31,7 @@ POST /api/key/execute      # X-Api-Key ヘッダによる認証が必須
 
 ```json
 {
-    "returnCode": "0",
+    "returnCode": 0,
     "stdout": "...",
     "stderr": "..."
 }
@@ -42,14 +42,14 @@ POST /api/key/execute      # X-Api-Key ヘッダによる認証が必須
 スクリプト実行自体は成功したが、スクリプト内でエラーが発生した場合も HTTP 200 が返ります。
 終了コードの値でスクリプトの成否を確認してください。
 
-**出力が打ち切られた場合:** `stdout` / `stderr` が `jp.ecuacion.tool.command-api.script-max-output-bytes`（[設定ファイル](page?id=command-api/config&lang=ja)を参照、デフォルト1MiB）を超過すると、該当フィールドにはこの上限までの内容のみが含まれ（以降の出力は破棄されますが、スクリプト自体は最後まで実行されます）、レスポンスに `stdoutTruncated: "true"` / `stderrTruncated: "true"` フィールドが追加されます。この2つのフィールドは実際に打ち切られた側にのみ含まれ、打ち切られなかった場合は（`"false"` にはならず）フィールド自体が存在しません。
+**出力が打ち切られた場合:** `stdout` / `stderr` が `jp.ecuacion.tool.command-api.script-max-output-bytes`（[設定ファイル](page?id=command-api/config&lang=ja)を参照、デフォルト1MiB）を超過すると、該当フィールドにはこの上限までの内容のみが含まれ（以降の出力は破棄されますが、スクリプト自体は最後まで実行されます）、レスポンスに `stdoutTruncated: true` / `stderrTruncated: true` フィールドが追加されます。この2つのフィールドは実際に打ち切られた側にのみ含まれ、打ち切られなかった場合は（`false` にはならず）フィールド自体が存在しません。
 
 ```json
 {
-    "returnCode": "0",
+    "returnCode": 0,
     "stdout": "...（打ち切り済み）",
     "stderr": "...",
-    "stdoutTruncated": "true"
+    "stdoutTruncated": true
 }
 ```
 

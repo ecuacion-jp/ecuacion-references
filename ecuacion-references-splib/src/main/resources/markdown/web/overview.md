@@ -32,7 +32,7 @@ application to opt into it explicitly:
   provides a fallback chain that denies every request (`denyAll`), logged at INFO. See
   [Form Login & Access Control](page?id=web/security/form-login&lang=en) for the real
   configuration this replaces.
-- If no `SplibExceptionHandler` bean is registered, `SplibWebExceptionHandlerAutoConfiguration`
+- If no `SplibWebExceptionHandler` bean is registered, `SplibWebExceptionHandlerAutoConfiguration`
   provides a minimal handler for `ViolationException` only. See
   [Exception Handling](page?id=web/exception-handling&lang=en) for the full handler this replaces.
 
