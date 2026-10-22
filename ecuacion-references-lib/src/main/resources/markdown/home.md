@@ -68,7 +68,8 @@ Add the following to your `pom.xml` (see the "Setup" patterns below for whether 
 ### Provided Messages
 
 Covers both Jakarta Validation standard annotations and ecuacion-lib-validation custom annotations,
-providing messages in English (default) and Japanese (`_ja` locale).
+providing messages in English (default), Japanese and the other languages supported by ecuacion-lib
+(see "Supported Languages" in the [README](https://github.com/ecuacion-jp/ecuacion-lib#supported-languages)).
 
 The message keys provided by this module can be overridden on the application side using the
 `.default` suffix mechanism shared across ecuacion modules. See "Overriding Default Values with

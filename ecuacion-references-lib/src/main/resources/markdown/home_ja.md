@@ -59,7 +59,8 @@ dependency に追加するだけで有効になります。
 ### 提供するメッセージ
 
 Jakarta Validation 標準アノテーションと ecuacion-lib-validation 独自アノテーションの両方を対象に、
-英語（デフォルト）と日本語（`_ja` ロケール）のメッセージを提供します。
+英語（デフォルト）・日本語をはじめ、ecuacion-lib が対応する全言語のメッセージを提供します
+（対応言語は [README](https://github.com/ecuacion-jp/ecuacion-lib#supported-languages) の「Supported Languages」を参照）。
 
 このモジュールが提供するメッセージキーは、ecuacion モジュール共通の `.default` サフィックスの仕組みでアプリ側から上書きできます。詳細は [PropertiesFileUtil](/public/showMarkdown/page?id=properties-file-util/loading-rules)
 の「`.default` サフィックスによるデフォルト値の上書き」を参照してください。

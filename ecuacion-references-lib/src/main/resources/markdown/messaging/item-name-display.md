@@ -16,6 +16,7 @@ The default (English) wraps item names in single quotes like `'name'`.
 | separator (delimiter) | `...itemName.separator` | `、` | `, ` |
 
 The property key prefix is `jp.ecuacion.lib.core.common`.
+The other supported languages also have their own defaults that follow each language's conventions (e.g. `« »` for French, `„ “` for German).
 
 ---
 
