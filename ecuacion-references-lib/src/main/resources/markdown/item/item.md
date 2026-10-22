@@ -34,19 +34,19 @@ new Item("password").hideValue()
 For example, given the following message definition:
 
 ```properties
-jakarta.validation.constraints.Size.message.base = {0}'s size must be between {min} and {max}. (input: {invalidValue})
+jakarta.validation.constraints.Size.message.base = {0} must have a size between {min} and {max}. (input: {invalidValue})
 ```
 
 Without `hideValue()`, the actual input value is shown in the message as is:
 
 ```
-password's size must be between 8 and 20. (input: abc)
+password must have a size between 8 and 20. (input: abc)
 ```
 
 With `hideValue()`, the `{invalidValue}` part is replaced with a hidden-value marker:
 
 ```
-password's size must be between 8 and 20. (input: (hidden))
+password must have a size between 8 and 20. (input: (hidden))
 ```
 
 The default is to show the value (`showsValue = true`).
