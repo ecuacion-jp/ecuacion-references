@@ -6,10 +6,23 @@ For example, use this to delete only records where `exit_code` is `COMPLETED`.
 | --- | --- | --- |
 | Task ID | ○ | ID of the task the condition applies to |
 | Search Condition Column Name | ○ | Column name used in the WHERE condition |
+| Search Condition Operator | ○ | `equal` or `not equal` (see below) |
 | Search Condition Column Literal Symbol | ○ | Whether the column value needs quoting: `(none)` or `quotes(')` |
-| Search Condition Column Value | ○ | Value used in the WHERE condition |
+| Search Condition Column Value | ○ | Value used in the WHERE condition. Write `(null)` to compare with null |
 
 To set multiple conditions on one task, add multiple rows with the same Task ID (combined with AND).
+
+The condition is built from the operator and the value as follows:
+
+| Search Condition Operator | Search Condition Column Value | Generated condition |
+| --- | --- | --- |
+| equal | a value | `column = value` |
+| not equal | a value | `(column <> value OR column IS NULL)` |
+| equal | `(null)` | `column IS NULL` |
+| not equal | `(null)` | `column IS NOT NULL` |
+
+- `not equal` with a value also targets records whose column is null. In SQL, `NULL <> value` is not true, so `column <> value` alone would leave those records out. To exclude them, add another row with `not equal` and `(null)` for the same column.
+- `(null)` means null regardless of the Search Condition Column Literal Symbol.
 
 ## Example
 
@@ -37,8 +50,8 @@ INSERT INTO test_table (num1, char1, exit_code) VALUES (456, 'def', 'FAILED');
 
 #### Search Condition Settings Sheet
 
-| Task ID | Search Condition Column Name | Search Condition Column Literal Symbol | Search Condition Column Value |
-| --- | --- | --- | --- |
-| task-1 | exit_code | quotes(') | COMPLETED |
+| Task ID | Search Condition Column Name | Search Condition Operator | Search Condition Column Literal Symbol | Search Condition Column Value |
+| --- | --- | --- | --- | --- |
+| task-1 | exit_code | equal | quotes(') | COMPLETED |
 
 Running the tool targets only `num1=123`, whose `exit_code` is `COMPLETED`; `num1=456`, with `FAILED`, is excluded.

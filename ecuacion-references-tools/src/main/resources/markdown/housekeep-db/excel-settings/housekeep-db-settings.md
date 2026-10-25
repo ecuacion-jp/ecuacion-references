@@ -169,9 +169,9 @@ INSERT INTO test_table (num1, processed, last_updated) VALUES (789, false, now()
 
 ##### Search Condition Settings Sheet
 
-| Task ID | Search Condition Column Name | Search Condition Column Literal Symbol | Search Condition Column Value |
-| --- | --- | --- | --- |
-| task-1 | processed | (none) | false |
+| Task ID | Search Condition Column Name | Search Condition Operator | Search Condition Column Literal Symbol | Search Condition Column Value |
+| --- | --- | --- | --- | --- |
+| task-1 | processed | equal | (none) | false |
 
 Running the tool detects only the `num1=123` record and sends a warning email like the following (no record is updated or deleted):
 

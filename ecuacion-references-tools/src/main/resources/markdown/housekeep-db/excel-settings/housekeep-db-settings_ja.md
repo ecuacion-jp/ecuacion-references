@@ -170,9 +170,9 @@ INSERT INTO test_table (num1, processed, last_updated) VALUES (789, false, now()
 
 ##### データ検索条件設定 シート
 
-| 処理ID | 条件カラム名 | 条件カラム型リテラル記号 | 条件カラム値 |
-| --- | --- | --- | --- |
-| task-1 | processed | (none) | false |
+| 処理ID | 条件カラム名 | 条件演算子 | 条件カラム型リテラル記号 | 条件カラム値 |
+| --- | --- | --- | --- | --- |
+| task-1 | processed | equal | (none) | false |
 
 実行すると、`num1=123` のレコードのみが検知され、以下のような警告メールが送信されます（レコードは更新・削除されません）。
 
