@@ -39,14 +39,14 @@ When the task is Soft Delete (that is, `Soft Delete` is selected in the "Process
 Configure these columns as follows:
 
 - Soft Delete Column Name: required whenever the task is Soft Delete, regardless of the process pattern. The Delete pattern uses it to soft-delete related table records; the Check and Skip Delete pattern uses it to exclude already-soft-deleted records from the existence check. When the task is Hard Delete it is optional: specifying it with the Delete pattern deletes only related records already soft-deleted (the column = true); the Check and Skip Delete pattern does not use it
-- The other "Soft Delete: ..." columns: optional when the task is Soft Delete (set them when a timestamp/user ID column needs to be updated on soft delete). They must be left empty when the task is Hard Delete. The value of Soft Delete: Update Timestamp Column Name is automatically set to the current time. The three "Update User ID Column" fields must all be set together or all left empty
+- The other "Soft Delete: ..." columns: optional when the task is Soft Delete (set them when a date/timestamp/user ID column needs to be updated on soft delete). They must be left empty when the task is Hard Delete. The value of Soft Delete: Update Date / Timestamp Column Name is automatically set to the current time. The three "Update User ID Column" fields must all be set together or all left empty
 
 For details on these columns, see the "Soft Delete" example in [Housekeep DB Settings](page?id=housekeep-db/excel-settings/housekeep-db-settings&lang=en) (the columns work the same way there).
 
 | Column | Description |
 | --- | --- |
 | Soft Delete Column Name | Delete flag column of the related table |
-| Soft Delete: Update Timestamp Column Name | Timestamp column to update on soft delete |
+| Soft Delete: Update Date / Timestamp Column Name | Date or timestamp column to update on soft delete |
 | Soft Delete: Update User ID Column Name | User ID column to update on soft delete |
 | Soft Delete: Update User ID Column Literal Symbol | Whether the user ID column value needs quoting |
 | Soft Delete: Update User ID Column Value | Value to set in the user ID column |

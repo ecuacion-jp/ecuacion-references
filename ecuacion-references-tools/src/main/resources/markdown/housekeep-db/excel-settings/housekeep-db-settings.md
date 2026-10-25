@@ -22,13 +22,12 @@ Defines one housekeeping task (soft / hard delete, or abnormal data check) per r
 ## Expiration-Based Filtering (Optional)
 
 Configure these columns to target only records older than a specified number of days.
-All three columns must be set together or left empty together.
+Both columns must be set together or left empty together.
 If left empty and soft/hard delete is performed, the elapsed time since record creation/update is not considered.
 
 | Column | Description |
 | --- | --- |
-| Expiration Check: Timestamp Column Name | Name of the timestamp column (e.g., `last_updated`) |
-| Expiration Check: Timestamp Column Data Type | Column data type: `LocalDateTime` (timestamp without time zone) or `OffsetDateTime` (timestamp with time zone) |
+| Expiration Check: Date / Timestamp Column Name | Name of the date or timestamp column (e.g., `last_updated`). Any of date, timestamp (without time zone) and timestamp with time zone can be used |
 | Expiration Check: Validity Days | Records older than this many days are targeted |
 
 ## Soft Delete Columns (Soft Delete Only)
@@ -38,7 +37,7 @@ Only used when `Process Type` is `Soft Delete` (`Soft Delete Column Name` can al
 | Column | Required | Description |
 | --- | --- | --- |
 | Soft Delete Column Name | ○ (soft delete) | Name of the boolean delete flag column. Set to `true` on soft delete |
-| Soft Delete: Update Timestamp Column Name | — | Timestamp column to update on soft delete. The value is automatically set to the current time |
+| Soft Delete: Update Date / Timestamp Column Name | — | Date or timestamp column to update on soft delete. The value is automatically set to the current time (only the date part for a date column) |
 | Soft Delete: Update User ID Column Name | — | User ID column to update on soft delete |
 | Soft Delete: Update User ID Column Literal Symbol | △ | Whether the user ID column value needs quoting: `(none)` or `quotes(')` |
 | Soft Delete: Update User ID Column Value | △ | Value to set in the user ID column |
@@ -97,7 +96,7 @@ INSERT INTO test_table (num1, char1) VALUES (123, 'abc');
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Soft Delete | test_table | num1 | (none) |
 
-| Soft Delete Column Name | Soft Delete: Update Timestamp Column Name | Soft Delete: Update User ID Column Name | Soft Delete: Update User ID Column Literal Symbol | Soft Delete: Update User ID Column Value |
+| Soft Delete Column Name | Soft Delete: Update Date / Timestamp Column Name | Soft Delete: Update User ID Column Name | Soft Delete: Update User ID Column Literal Symbol | Soft Delete: Update User ID Column Value |
 | --- | --- | --- | --- | --- |
 | is_deleted | updated_at | updated_by | quotes(') | batch-user |
 
@@ -127,9 +126,9 @@ INSERT INTO test_table (num1, char1, last_updated) VALUES (456, 'def', now() - i
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Hard Delete | test_table | num1 | (none) |
 
-| Expiration Check: Timestamp Column Name | Expiration Check: Timestamp Column Data Type | Expiration Check: Validity Days |
-| --- | --- | --- |
-| last_updated | LocalDateTime | 3 |
+| Expiration Check: Date / Timestamp Column Name | Expiration Check: Validity Days |
+| --- | --- |
+| last_updated | 3 |
 
 Running the tool deletes only the `num1=123` record, whose `last_updated` is more than 3 days old; the `num1=456` record is left alone.
 
@@ -163,9 +162,9 @@ INSERT INTO test_table (num1, processed, last_updated) VALUES (789, false, now()
 | --- | --- | --- | --- | --- | --- |
 | task-1 | test-conn | Abnormal Data Check | test_table | num1 | (none) |
 
-| Expiration Check: Timestamp Column Name | Expiration Check: Timestamp Column Data Type | Expiration Check: Validity Days |
-| --- | --- | --- |
-| last_updated | LocalDateTime | 90 |
+| Expiration Check: Date / Timestamp Column Name | Expiration Check: Validity Days |
+| --- | --- |
+| last_updated | 90 |
 
 ##### Search Condition Settings Sheet
 
