@@ -84,6 +84,9 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 					@{/public/showMarkdown/page(id='housekeep-db/excel-settings/related-table-settings',lang=${lang})},
 					#{navBar.hd.excelSettings.relatedTableSettings}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='housekeep-db/excel-settings/update-column-settings',lang=${lang})},
+					#{navBar.hd.excelSettings.updateColumnSettings}, '')}"></div>
 
 		</div></th:block>
 

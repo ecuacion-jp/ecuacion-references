@@ -1,4 +1,4 @@
-Defines one housekeeping task (soft / hard delete, or abnormal data check) per row. Tasks are executed from top to bottom.
+Defines one housekeeping task (soft / hard delete, update, or abnormal data check) per row. Tasks are executed from top to bottom.
 
 ## Basic Columns
 
@@ -6,8 +6,8 @@ Defines one housekeeping task (soft / hard delete, or abnormal data check) per r
 | --- | --- | --- |
 | Task ID | ○ | Identifies the task |
 | DB Connection ID | ○ | Must match an ID in the DB Connection Settings sheet |
-| Process Type | ○ | Display value (`Soft Delete`, `Hard Delete` or `Abnormal Data Check`) |
-| Process Type (internal value) | ○ | Value read by the tool: `SOFT_DELETE`, `HARD_DELETE` or `ABNORMAL_DATA_CHECK` |
+| Process Type | ○ | Display value (`Soft Delete`, `Hard Delete`, `Update` or `Abnormal Data Check`) |
+| Process Type (internal value) | ○ | Value read by the tool: `SOFT_DELETE`, `HARD_DELETE`, `UPDATE` or `ABNORMAL_DATA_CHECK` |
 | Table Name | ○ | Name of the table to housekeep |
 | ID Column Name | ○ | Name of the single-column primary key or unique index column |
 | ID Column Literal Symbol | ○ | Whether the ID column value needs SQL quoting: `(none)` or `quotes(')` |
@@ -32,7 +32,7 @@ If left empty and soft/hard delete is performed, the elapsed time since record c
 
 ## Soft Delete Columns (Soft Delete Only)
 
-Only used when `Process Type` is `Soft Delete` (`Soft Delete Column Name` can also optionally be specified for `Hard Delete` and `Abnormal Data Check` - see below).
+Only used when `Process Type` is `Soft Delete` (`Soft Delete Column Name` can also optionally be specified for `Hard Delete` and `Abnormal Data Check` - see below). For `Update`, all the columns in this section must be left empty.
 
 | Column | Required | Description |
 | --- | --- | --- |
@@ -47,6 +47,16 @@ The three "Update User ID Column" fields must all be set together or all left em
 ## Specifying a Soft Delete Column Name for Hard Delete
 
 Even when `Process Type` is `Hard Delete`, `Soft Delete Column Name` can still be specified. In that case, only records where the soft delete column is `true` are targeted for hard deletion (records with `false` are excluded). This is useful for permanently deleting records that have already been soft-deleted.
+
+## Update
+
+When `Process Type` is `Update`, the records matching the conditions are kept rather than deleted, and the columns specified in the [Update Column Settings](page?id=housekeep-db/excel-settings/update-column-settings&lang=en) sheet are rewritten. Use it, for example, to empty the personal information columns of records older than a certain period (anonymization).
+
+- The conditions are specified the same way as for soft / hard delete: records matching the [Search Condition Settings](page?id=housekeep-db/excel-settings/search-condition-settings&lang=en) sheet and the (optional) expiration-based filtering are targeted
+- The columns and values to rewrite are written in the Update Column Settings sheet (at least one row is required)
+- `Soft Delete Column Name` and the "Soft Delete: Update ..." columns are not used and must be left empty
+- The [Related Table Settings](page?id=housekeep-db/excel-settings/related-table-settings&lang=en) sheet can be used. Related table records of the Delete pattern are always hard-deleted
+- Records already rewritten are not excluded automatically. Write a condition excluding them in the Search Condition Settings sheet (see [Update Column Settings](page?id=housekeep-db/excel-settings/update-column-settings&lang=en))
 
 ## Abnormal Data Check
 

@@ -15,13 +15,13 @@ Two processing patterns are available:
 
 Soft-deleting or deleting records should ideally be handled per table on its own. However, the related table sometimes has no timestamp or similar column to determine whether its own records should be deleted, so the related table alone provides no basis for that decision. This pattern exists for that case: it deletes the related table's records in step with the deletion of the target table, which does have a basis for its own delete decision. Because of this, there is no way to specify delete conditions (such as a timestamp column) on the related table side.
 
-Whether the related table is soft-deleted or hard-deleted cannot be set independently on this sheet - it always follows the task-wide "Process Type" column in the Housekeep DB Settings sheet. That is, when the task is Hard Delete, the related table is deleted (DELETE) just like the target table; when the task is Soft Delete, the related table is soft-deleted too (its Soft Delete Column is updated to true).
+Whether the related table is soft-deleted or hard-deleted cannot be set independently on this sheet - it always follows the task-wide "Process Type" column in the Housekeep DB Settings sheet. That is, when the task is Hard Delete, the related table is deleted (DELETE) just like the target table; when the task is Soft Delete, the related table is soft-deleted too (its Soft Delete Column is updated to true). When the task is Update, the target table record is rewritten and the related table records are always deleted (DELETE).
 
 ### Check and Skip Delete
 
 Check and Skip Delete assumes that the related table has already been soft-deleted or deleted under appropriate conditions beforehand.
 
-When the task is Soft Delete (that is, `Soft Delete` is selected in the "Process Type" column of the Housekeep DB Settings sheet), related records that are already soft-deleted are not counted as "existing": the soft delete of the target record is skipped only when a not-yet-soft-deleted related record exists. For this check, the Soft Delete Column Name is required when the task is Soft Delete. When the task is Hard Delete, plain record existence is checked.
+When the task is Soft Delete (that is, `Soft Delete` is selected in the "Process Type" column of the Housekeep DB Settings sheet), related records that are already soft-deleted are not counted as "existing": the soft delete of the target record is skipped only when a not-yet-soft-deleted related record exists. For this check, the Soft Delete Column Name is required when the task is Soft Delete. When the task is Hard Delete or Update, plain record existence is checked (for Update, the rewrite of the target record is skipped when one exists).
 
 ## Column Reference
 
@@ -31,15 +31,15 @@ When the task is Soft Delete (that is, `Soft Delete` is selected in the "Process
 | Related Table Process Pattern | ○ | Display pattern name (`Delete` or `Check and Skip Delete`) |
 | Target Table Column Name | ○ | Column in the target table used to join with the related table |
 | Related Table Name | ○ | Name of the related table |
-| Related Table ID Column Name | ○ | ID column (primary key or unique index) of the related table |
+| Related Table ID Column Name | ○ | Column of the related table matched against the value of Target Table Column Name. Besides a primary key or unique index, a column referencing the target table (a foreign key) can be specified. All the related table records with a matching value are processed, however many there are |
 | Related Table ID Column Literal Symbol | ○ | Whether the related table ID column needs quoting: `(none)` or `quotes(')` |
 
 **Soft Delete Columns**
 
 Configure these columns as follows:
 
-- Soft Delete Column Name: required whenever the task is Soft Delete, regardless of the process pattern. The Delete pattern uses it to soft-delete related table records; the Check and Skip Delete pattern uses it to exclude already-soft-deleted records from the existence check. When the task is Hard Delete it is optional: specifying it with the Delete pattern deletes only related records already soft-deleted (the column = true); the Check and Skip Delete pattern does not use it
-- The other "Soft Delete: ..." columns: optional when the task is Soft Delete (set them when a date/timestamp/user ID column needs to be updated on soft delete). They must be left empty when the task is Hard Delete. The value of Soft Delete: Update Date / Timestamp Column Name is automatically set to the current time. The three "Update User ID Column" fields must all be set together or all left empty
+- Soft Delete Column Name: required whenever the task is Soft Delete, regardless of the process pattern. The Delete pattern uses it to soft-delete related table records; the Check and Skip Delete pattern uses it to exclude already-soft-deleted records from the existence check. When the task is Hard Delete or Update it is optional: specifying it with the Delete pattern deletes only related records already soft-deleted (the column = true); the Check and Skip Delete pattern does not use it
+- The other "Soft Delete: ..." columns: optional when the task is Soft Delete (set them when a date/timestamp/user ID column needs to be updated on soft delete). They must be left empty when the task is Hard Delete or Update. The value of Soft Delete: Update Date / Timestamp Column Name is automatically set to the current time. The three "Update User ID Column" fields must all be set together or all left empty
 
 For details on these columns, see the "Soft Delete" example in [Housekeep DB Settings](page?id=housekeep-db/excel-settings/housekeep-db-settings&lang=en) (the columns work the same way there).
 
