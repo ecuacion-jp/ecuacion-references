@@ -3,7 +3,7 @@ A DataType captures the Java type, validation rules, and character constraints f
 
 ## Column Layout
 
-Table name: `Table2`, range: `A8:S{last row}`
+Table name: `Table2`, range: `A8:T{last row}`
 
 | Column | Field | Description |
 | --- | --- | --- |
@@ -21,9 +21,10 @@ Table name: `Table2`, range: `A8:S{last row}`
 | L | Decimal Digits | BIG_DECIMAL: number of decimal-part digits (required) |
 | M | Code Length | ENUM: fixed code length in characters (required) |
 | N | No Timezone | Date-time types: `○` = no timezone (`LocalDateTime`) (optional) |
-| O | Notes | Comments (not used in generation) |
-| P | Pattern Description (default lang) | Human-readable description of the data pattern (English) |
-| Q–S | Pattern Description (lang 1–3) | Language-specific pattern descriptions |
+| O | Max Size [MB] | BINARY: maximum size that can be stored, in megabytes; decimals allowed (required) |
+| P | Notes | Comments (not used in generation) |
+| Q | Pattern Description (default lang) | Human-readable description of the data pattern (English) |
+| R–T | Pattern Description (lang 1–3) | Language-specific pattern descriptions |
 
 ---
 
@@ -31,18 +32,19 @@ Table name: `Table2`, range: `A8:S{last row}`
 
 Available settings differ by type. ○ = required / △ = optional / (blank) = not applicable
 
-| Type | Min Length (C) | Max Length (D) | Data Pattern (E・F) | Regex (H) | Min Value (I) | Max Value (J) | Integer Digits (K) | Decimal Digits (L) | Code Length (M) | No Timezone (N) | Auto-assign (※1) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `STRING` | △ | ○ | ○ | △ | | | | | | | |
-| `INTEGER` | | | | | △ | △ | | | | | △ |
-| `SHORT` | | | | | △ | △ | | | | | |
-| `LONG` | | | | | △ | △ | | | | | △ |
-| `FLOAT` | | | | | △ | △ | | | | | |
-| `DOUBLE` | | | | | △ | △ | | | | | |
-| `BIG_DECIMAL` | | | | | △ | △ | ○ | ○ | | | |
-| `TIMESTAMP` | | | | | | | | | | △ | |
-| `ENUM` | | | | | | | | | ○ | | |
-| `BOOLEAN` | | | | | | | | | | | |
+| Type | Min Length (C) | Max Length (D) | Data Pattern (E・F) | Regex (H) | Min Value (I) | Max Value (J) | Integer Digits (K) | Decimal Digits (L) | Code Length (M) | No Timezone (N) | Max Size [MB] (O) | Auto-assign (※1) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `STRING` | △ | ○ | ○ | △ | | | | | | | | |
+| `INTEGER` | | | | | △ | △ | | | | | | △ |
+| `SHORT` | | | | | △ | △ | | | | | | |
+| `LONG` | | | | | △ | △ | | | | | | △ |
+| `FLOAT` | | | | | △ | △ | | | | | | |
+| `DOUBLE` | | | | | △ | △ | | | | | | |
+| `BIG_DECIMAL` | | | | | △ | △ | ○ | ○ | | | | |
+| `TIMESTAMP` | | | | | | | | | | △ | | |
+| `ENUM` | | | | | | | | | ○ | | | |
+| `BOOLEAN` | | | | | | | | | | | | |
+| `BINARY` | | | | | | | | | | | ○ | |
 
 ※1 Auto-assign is set in column H of the DB Definition sheet. It is listed here because it is type-dependent.
 
@@ -67,6 +69,32 @@ Available settings differ by type. ○ = required / △ = optional / (blank) = n
 | `DATE_TIME` | `LocalDateTime` | `timestamp` | Date and time (no timezone) |
 | `TIMESTAMP` | `LocalDateTime` | `timestamp` | Timestamp (no timezone) |
 | `BOOLEAN` | `Boolean` | `bool` | Boolean value |
+| `BINARY` | `byte[]` | `bytea` | Binary data (e.g. file contents). See "BINARY Type" below |
+
+## BINARY Type
+
+A type for storing byte sequences such as file contents in the DB.
+
+- **Max Size [MB] (column O) is required.** It is in megabytes and may have a decimal part such as `0.5` (1MB = 1024 × 1024 bytes, the same as Spring's `10MB` etc.).
+  It is converted to bytes at generation (the fraction is truncated) and the entity field gets `@Size(max = <bytes>)` (e.g. `10` → `@Size(max = 10485760)`). Exceeding it is a Bean Validation error.
+  The same value is set to `length` of `@Column`, so Hibernate picks the DB column type for the DB in use (`bytea` on PostgreSQL; `varbinary` / `mediumblob` / `longblob` etc. by capacity on MySQL / MariaDB).
+- **`@Lob` is not added.** With `@Lob`, a `byte[]` field becomes a large object (`oid`) on PostgreSQL, whose contents remain in the DB even after the row is physically deleted.
+- **BaseRecord holds the value as `byte[]` as it is** (not converted to a string, like `BOOLEAN`). It is copied as is from entity to record, and from record to entity **`null` leaves the column unchanged**, as with other types (the existing contents are kept).
+  To receive the input from the screen, add a separate field to the record (e.g. `MultipartFile iconImageFile`) and set its contents into the `byte[]` field (this conversion is written in the application).
+  Decide whether a file is chosen by **whether the filename is empty**, not by `isEmpty()`: a `MultipartFile` with an empty filename arrives even when no file is chosen, and `isEmpty()` (size 0) is also `true` for a chosen zero-byte file.
+
+  ```java
+  MultipartFile file = rec.getIconImageFile();
+  if (file != null && StringUtils.isNotEmpty(file.getOriginalFilename())) {
+    rec.setIconImage(file.getBytes());   // a zero-byte file is stored as a zero-length array
+  }
+  ```
+
+  To make it required, specify `notEmpty()` of `HtmlItem` on the receiving field (`iconImageFile`). The required check of ecuacion-splib-web also regards an empty filename as "not entered" (a zero-byte file is not an error).
+  Since a file is sent only when chosen, "clearing (deleting)" the contents needs to be done explicitly in the application, e.g. setting `null` when a checkbox is checked.
+- **For large files, keeping only the contents in a separate table is recommended** (e.g. file name, size etc. in `INQUIRY_ATTACHMENT`, and the contents in `INQUIRY_ATTACHMENT_CONTENT`, 1:1).
+  Otherwise the contents are loaded every time, even when only listing records. code-generator does not report an error when they are in the same table.
+- Before Bean Validation, the size of uploaded files is also limited by Spring's `spring.servlet.multipart.max-file-size` / `max-request-size` (1MB / 10MB by default). Set them in the application as needed.
 
 ## Data Patterns (STRING Type)
 
