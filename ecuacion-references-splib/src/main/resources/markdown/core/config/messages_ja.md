@@ -49,3 +49,20 @@ spring.messages.basename=messages_myapp
 - `spring.messages.common-messages`
 
 これらが必要な場合は`use-spring-native=true`に切り替えてください。
+
+## メッセージの言語（splib-web / splib-rest）
+
+splib-web・splib-restが出すメッセージや項目名（入力チェックエラー、業務エラー、削除確認、RESTのエラーレスポンスなど）は、Spring MVCが`LocaleResolver`でリクエストごとに決めた言語（`LocaleContextHolder.getLocale()`）で解決されます。これはThymeleafの`#{...}`や`#locale`が使う言語と同じなので、1つの画面に2つの言語が混ざることはありません。
+
+デフォルトではSpring Bootの`AcceptHeaderLocaleResolver`が使われるため、ブラウザの`Accept-Language`ヘッダの言語になります。これを変えたい場合（例: ユーザがプロフィール画面で選んだ言語にしたい場合）は、独自の`LocaleResolver` beanを定義してください。`DispatcherServlet`はbean名で探すため、bean名は`localeResolver`にする必要があります。
+
+```java
+@Bean
+LocaleResolver localeResolver() {
+  // 例: 言語をセッションに保持する。ユーザが言語を変えたときに
+  // localeResolver.setLocale(request, response, locale) で設定する
+  return new SessionLocaleResolver();
+}
+```
+
+`ecuacion-splib-web-markdown`は言語切り替え用に`SessionLocaleResolver`を登録しますが、これはアプリ側が`localeResolver` beanを定義していない場合のみです。

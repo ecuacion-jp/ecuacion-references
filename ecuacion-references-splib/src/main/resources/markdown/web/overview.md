@@ -20,6 +20,7 @@ protection, a common exception handler, and a few built-in operational features.
 | Common exception handling | `ViolationException`, `ConstraintViolationException`, and any other uncaught exception are each translated into a page or redirect, with different treatment for each.<br>See [Exception Handling](page?id=web/exception-handling&lang=en). |
 | Built-in operational endpoints | A properties-cache-clear action and a deliberate-system-error action, both under the built-in admin login above.<br>See [Operational Endpoints](page?id=web/operational-endpoints&lang=en). |
 | Security-conscious logging | Every request is logged at DEBUG with its parameters, with password-looking parameters masked and only the last 8 characters of the session ID recorded.<br>See [Logging](page?id=web/logging&lang=en). |
+| Audit log | Write operations, login, logout and switch user are recorded with who did it, from where and with what result, one line per record in a dedicated log file.<br>Disabled by default, and enabled by adding settings.<br>See [Audit Log](page?id=core/audit/audit-log&lang=en). |
 
 ## Fail-closed defaults
 
@@ -42,8 +43,10 @@ unprotected pages.
 
 ## Dependencies
 
-`ecuacion-splib-web` depends on `ecuacion-splib-core` and `ecuacion-splib-ui`, and pulls in
-`spring-boot-starter-webmvc`, `spring-boot-starter-security`, `spring-boot-starter-oauth2-client`,
-and `spring-boot-starter-thymeleaf` (with the layout-dialect and Spring-Security Thymeleaf
-extras). It does not provide Tomcat itself; add `spring-boot-starter-tomcat` with `provided`
-scope in the application.
+`ecuacion-splib-web` depends on `ecuacion-splib-core`, `ecuacion-splib-ui` and `ecuacion-splib-webmvc`, and pulls in
+`spring-boot-starter-webmvc`, `spring-boot-starter-security` and `spring-boot-starter-thymeleaf`
+(with the layout-dialect and Spring-Security Thymeleaf extras). It does not provide Tomcat
+itself; add `spring-boot-starter-tomcat` with `provided` scope in the application. It does not
+pull in `spring-boot-starter-oauth2-client` either; add it to the application's dependencies
+when using OAuth2 social login (see
+[Form Login & Access Control](page?id=web/security/form-login&lang=en)).

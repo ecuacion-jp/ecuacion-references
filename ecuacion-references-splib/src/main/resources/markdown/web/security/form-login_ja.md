@@ -18,10 +18,6 @@
 @EnableWebSecurity
 public class AppSecurityConfig extends SplibWebSecurityConfig {
 
-  public AppSecurityConfig() {
-    super(null, null, null); // OAuth2を使う場合はここにBeanを渡す。「ソーシャルログイン」節を参照
-  }
-
   @Override
   protected String getDefaultSuccessUrl() {
     return "/home/page";
@@ -55,9 +51,77 @@ public class AppSecurityConfig extends SplibWebSecurityConfig {
 
 `getRoleInfo()` が返す内容に加えて、`/account/**` には予約ロール `ACCOUNT_FULL_ACCESS` が自動的に付与されます。グループ管理者やパワーユーザーのロールに、サブパスを一つひとつ列挙することなくこの領域への全アクセス権を与えたい場合に便利です。
 
+### 未ログイン時の移動先
+
+ログインが必要なページに未ログインでアクセスされたとき、デフォルトでは `getAccessDeniedPage()` にリダイレクトします。移動先を変えたい場合（例えばログイン画面に移したい場合）は、`getAuthenticationEntryPoint()` をオーバーライドして独自の `AuthenticationEntryPoint` を返します。元のリクエストは、entry point が呼ばれる前にSpring Securityの `RequestCache` に保存されるため、entry point を差し替えても、OAuth2ログイン後には元のページに戻ります。
+
+```java
+@Override
+protected AuthenticationEntryPoint getAuthenticationEntryPoint() {
+  return (request, response, authException) -> response
+      .sendRedirect(request.getContextPath() + "/public/login/page");
+}
+```
+
 ### ソーシャルログイン（Google / Apple）
 
-OAuth2ソーシャルログインを有効にするには、`SplibOauth2UserHandler` のBeanを登録し、上記コンストラクタに `SplibOauth2AuthSuccessHandler`（Appleの場合はさらに `SplibAppleClientSecretService`）を渡します。クライアント登録自体はSpring Security標準の `spring.security.oauth2.client.*` プロパティで設定します。`ecuacion-splib-web` はこの用途に独自のプロパティを追加していません。AppleのAuthorizationコールバックは `POST`（`response_mode=form_post`）であるため、`SplibWebSecurityConfig` はこのコールバックのためだけに `/login/oauth2/code/*` をCSRF対象から除外しています。それ以外のパスはCSRF保護がかかったままです（[CSRF・トランザクショントークン](page?id=web/security/csrf-and-transaction-token&lang=ja)を参照）。
+OAuth2ソーシャルログインを有効にするには、`SplibWebSecurityConfig` の代わりに `SplibOauth2WebSecurityConfig` を継承し、そのコンストラクタに `SplibOauth2AuthSuccessHandler`・`SplibAppleClientSecretService`（Appleを使わない場合は `null`）・`ClientRegistrationRepository` を渡します。あわせて `SplibOauth2UserHandler` のBeanを登録します。コンストラクタに渡すsplibのBean（`SplibOauth2AuthSuccessHandler`・`SplibAppleClientSecretService`）と `SplibOauth2RegistrationConfirmService` は `SplibOauth2WebSecurityConfig` が登録するため、`jp.ecuacion.splib.web.oauth2` パッケージをコンポーネントスキャンする必要はありません。`SplibAppleClientSecretService` は `ecuacion.oauth2.apple.team-id` を設定したときだけ登録されます。クライアント登録自体はSpring Security標準の `spring.security.oauth2.client.*` プロパティで設定します。`ecuacion-splib-web` はこの用途に独自のプロパティを追加していません。AppleのAuthorizationコールバックは `POST`（`response_mode=form_post`）であるため、`SplibOauth2WebSecurityConfig` はこのコールバックのためだけに `/login/oauth2/code/*` をCSRF対象から除外しています。それ以外のパスはCSRF保護がかかったままです（[CSRF・トランザクショントークン](page?id=web/security/csrf-and-transaction-token&lang=ja)を参照）。
+
+```java
+@Configuration
+@EnableWebSecurity
+public class AppSecurityConfig extends SplibOauth2WebSecurityConfig {
+
+  public AppSecurityConfig(SplibOauth2AuthSuccessHandler oauth2SuccessHandler,
+      @Nullable SplibAppleClientSecretService appleClientSecretService,
+      ClientRegistrationRepository clientRegistrationRepository) {
+    super(oauth2SuccessHandler, appleClientSecretService, clientRegistrationRepository);
+  }
+
+  // getDefaultSuccessUrl() など、SplibWebSecurityConfig と同じメソッドを実装する
+}
+```
+
+#### 新規登録の前に確認画面を挟む
+
+`SplibOauth2UserHandler` の `findOrCreateUser` は、利用者が見つからなければその場で登録する前提です。登録する前に確認画面（利用規約への同意など）を挟みたい場合は、代わりに `SplibOauth2UserHandlerWithRegistrationConfirm` を実装します。
+
+```java
+@Component
+public class Oauth2UserHandlerImpl implements SplibOauth2UserHandlerWithRegistrationConfirm {
+
+  @Override
+  public @Nullable UserDetails findUser(String email, String name, String provider) {
+    // 見つからなければ null を返す（登録はしない）
+  }
+
+  @Override
+  public String getRegistrationConfirmPage() {
+    return "/public/registrationConfirm/page";
+  }
+}
+```
+
+`findUser` が `null` を返すと、利用者は**ログイン済みにならず**、プロバイダから受け取った情報（メールアドレス・名前・プロバイダ）が `SplibOauth2PendingRegistration` としてセッションにだけ保持された状態で、`getRegistrationConfirmPage()` にリダイレクトされます。Appleは名前を初回の認証のときにしか返しませんが、この名前も保持される情報に含まれます。この時点では未ログインなので、確認画面は `/public/**` 配下など、ログインなしで開けるURLにしてください。
+
+確認画面とその後の処理では、`SplibOauth2RegistrationConfirmService` を使います。
+
+| メソッド | 用途 |
+| --- | --- |
+| `getPendingRegistration(request)` | 保持されている情報を取得する。<br>セッションが切れた等で無い場合は `null`。 |
+| `discardPendingRegistration(request)` | 保持されている情報を捨てる（「やり直す」が押されたときなど）。 |
+| `loginAfterRegistration(request, response, userDetails)` | アプリが登録を終えた後に呼び、その利用者をログイン済みにする。<br>保持されていた情報は捨てられ、<br>通常のログインと同じく、セッションIDの付け替えとCSRFトークンの再発行が行われる。<br>戻り値はリダイレクト先のURL（ログイン前に覚えておいたURL、無ければ `getDefaultSuccessUrl()`）。 |
+
+```java
+@PostMapping("action")
+public String register(HttpServletRequest request, HttpServletResponse response) {
+  SplibOauth2PendingRegistration pending = service.getPendingRegistration(request);
+  // pending が null なら、ログイン画面へ戻す
+
+  UserDetails userDetails = // pending の情報で利用者を登録する
+  return "redirect:" + service.loginAfterRegistration(request, response, userDetails);
+}
+```
 
 ## `SplibWebSecurityConfigForNoLogin`
 
@@ -104,7 +168,48 @@ public class AppSwitchUserConfig extends SplibWebSecurityConfigForSwitchUser {
 ```
 
 - `POST /admin/switchUser`（パラメータ `switchUser.username`）は指定したユーザーへのなりすましを開始し、成功時は `getSwitchingUserDonePagePath()`、失敗時は `getSwitchingUserFailurePagePath()` にリダイレクトします。
-- `POST /account/exitUser` はなりすましを終了して元のユーザーに戻り、結果によらず `getExitingUserDonePagePath()` にリダイレクトします。
+- `POST /account/exitUser` はなりすましを終了して元のユーザーに戻り、`getExitingUserDonePagePath()` にリダイレクトします。
+
+### リクエストごとに移る画面を決める
+
+開始した画面によって移る画面を変えたい場合は、`HttpServletRequest` を引数に取る同名のメソッドをオーバーライドします。いずれもリクエストのたびに呼ばれ、既定の実装は引数なしのメソッドを呼びます。
+
+| メソッド | 呼ばれるとき |
+| --- | --- |
+| `getSwitchingUserDonePagePath(request)` | なりすましの開始に成功したとき |
+| `getSwitchingUserFailurePagePath(request)` | なりすましの開始に失敗したとき |
+| `getExitingUserDonePagePath(request)` | なりすましを終了したとき |
+| `onSwitchingUserDone(request, response, authentication)` | なりすましの開始に成功したとき（リダイレクトの直前）。<br>既定では何もしません。 |
+| `onExitingUserDone(request, response, authentication)` | なりすましを終了したとき（リダイレクトの直前）。<br>既定では何もしません。 |
+
+終了のリクエストには、どこから開始したかの情報がありません。そのため、開始時にセッションへ戻り先を覚えておき、終了時にそれを読みます（セッションは開始から終了まで引き継がれます）。`onXxxDone` はパスを決めるメソッドの後に呼ばれるので、パスを決めるのに使ったセッションの値はそこで消せます。
+
+```java
+@Override
+protected String getSwitchingUserDonePagePath(HttpServletRequest request) {
+  String id = request.getParameter("inquiryId");
+  if (id == null || !id.matches("[0-9]+")) {
+    return getSwitchingUserDonePagePath();
+  }
+
+  request.getSession().setAttribute("switchUserReturnPath", "/admin/inquiry/detail/page?id=" + id);
+  return "/account/inquiry/detail/page?id=" + id;
+}
+
+@Override
+protected String getExitingUserDonePagePath(HttpServletRequest request) {
+  return request.getSession().getAttribute("switchUserReturnPath") instanceof String path ? path
+      : getExitingUserDonePagePath();
+}
+
+@Override
+protected void onExitingUserDone(HttpServletRequest request, HttpServletResponse response,
+    Authentication authentication) {
+  request.getSession().removeAttribute("switchUserReturnPath");
+}
+```
+
+返すパスは、`/` で始まるアプリ内のパスでなければなりません。`//` や `/\` で始まるパスは外部のサイトへのURLになり得るため、`IllegalStateException` になります。リクエストのパラメータからパスを組み立てる場合は、上の例のように値を検証してください。
 
 ## Secure Cookie属性とTLS終端リバースプロキシ
 

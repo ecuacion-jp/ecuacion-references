@@ -9,6 +9,7 @@ convention, an API key authentication mechanism, and a common exception handler.
 | Endpoint-prefix security convention | Every endpoint is placed under one of four security policies based on its URL prefix.<br>See the "URL prefix conventions" table below for details, and [Public Endpoints](page?id=rest/security/public-endpoints&lang=en), [Built-in Key Endpoints](page?id=rest/security/builtin-api-key/overview&lang=en), and [API Key Authentication](page?id=rest/security/api-key/overview&lang=en). |
 | API key authentication | Header-based authentication (`X-Api-Key`) for machine-to-machine calls, with a pluggable lookup and a plain/hashed comparison mode.<br>`ecuacion-splib`'s own built-in endpoints with side effects use an independently-registered key set, kept separate from the application's `/api/key/**` keys. |
 | Common exception handling | `ViolationException`, `ResponseStatusException`, and any other uncaught exception are each translated into an HTTP response, with different treatment for each.<br>See [Exception Handling](page?id=rest/exception-handling&lang=en). |
+| Audit log | Write API calls and failed `X-Api-Key` authentications are recorded with the caller's key ID, where it came from and the result, in a dedicated log file.<br>Disabled by default.<br>See [Audit Log](page?id=core/audit/audit-log&lang=en). |
 
 ## URL prefix conventions
 
@@ -38,7 +39,7 @@ relies on that premise.
 
 ## Dependencies
 
-`ecuacion-splib-rest` depends on `ecuacion-splib-core`, and pulls in
+`ecuacion-splib-rest` depends on `ecuacion-splib-core` and `ecuacion-splib-webmvc`, and pulls in
 `spring-boot-starter-web-services` (a JAX-WS-free variant of Spring MVC's web starter) and
 `spring-boot-starter-security`. It does not provide Tomcat itself; add
 `spring-boot-starter-tomcat` with `provided` scope in the application.

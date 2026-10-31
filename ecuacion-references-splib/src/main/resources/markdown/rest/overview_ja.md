@@ -9,6 +9,7 @@ URL プレフィックスベースのセキュリティ規約、API キー認証
 | エンドポイントプレフィックスによるセキュリティ規約 | すべてのエンドポイントは URL プレフィックスに応じて 4 つのセキュリティポリシーのいずれかに属します。<br>詳細は下記の「URL プレフィックスの規約」表を参照してください。<br>[Public エンドポイント](page?id=rest/security/public-endpoints&lang=ja)、[組み込み Key エンドポイント](page?id=rest/security/builtin-api-key/overview&lang=ja)、[API キー認証](page?id=rest/security/api-key/overview&lang=ja) を参照してください。 |
 | API キー認証 | マシン間通信向けのヘッダーベース認証（`X-Api-Key`）。<br>キーの照合方法はプラガブルで、平文比較とハッシュ比較の 2 モードを選べます。<br>`ecuacion-splib` 自身の組み込みエンドポイントのうち副作用のあるものは、アプリケーション側の `/api/key/**` のキーとは別に、独立して登録されたキーセットを使用します。 |
 | 共通の例外処理 | `ViolationException`・`ResponseStatusException`・それ以外の未捕捉の例外をそれぞれ異なる扱いで HTTP レスポンスへ変換します。<br>[例外処理](page?id=rest/exception-handling&lang=ja) を参照してください。 |
+| 監査ログ | 書き込みの API 呼び出しと `X-Api-Key` による認証の失敗を、呼び出し元のキー ID・接続元・結果とともに専用のログファイルへ記録します。<br>既定では無効です。<br>[監査ログ](page?id=core/audit/audit-log&lang=ja) を参照してください。 |
 
 ## URL プレフィックスの規約
 
@@ -35,6 +36,4 @@ URL プレフィックスベースのセキュリティ規約、API キー認証
 
 ## 依存関係
 
-`ecuacion-splib-rest` は `ecuacion-splib-core` に依存し、`spring-boot-starter-web-services`
-（JAX-WS を含まない Spring MVC 用スターター）と `spring-boot-starter-security` を取り込みます。
-Tomcat 自体は提供しないため、アプリケーション側で `spring-boot-starter-tomcat` を `provided` スコープで追加してください。
+`ecuacion-splib-rest` は `ecuacion-splib-core` と `ecuacion-splib-webmvc` に依存し、`spring-boot-starter-web-services`（JAX-WS を含まない Spring MVC 用スターター）と `spring-boot-starter-security` を取り込みます。Tomcat 自体は提供しないため、アプリケーション側で `spring-boot-starter-tomcat` を `provided` スコープで追加してください。

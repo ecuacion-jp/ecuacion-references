@@ -13,6 +13,7 @@
 | 共通の例外処理 | `ViolationException`、`ConstraintViolationException`、その他の未捕捉の例外は、それぞれ異なる扱いでページ表示またはリダイレクトに変換されます。<br>[例外処理](page?id=web/exception-handling&lang=ja) を参照。 |
 | 組み込み運用エンドポイント | プロパティキャッシュをクリアするアクションと、意図的にシステムエラーを発生させるアクションがあり、<br>いずれも上記の組み込み管理者ログインの配下にあります。<br>[運用エンドポイント](page?id=web/operational-endpoints&lang=ja) を参照。 |
 | セキュリティに配慮したロギング | すべてのリクエストがパラメータ付きでDEBUGログに出力されますが、パスワードらしきパラメータはマスクされ、<br>セッションIDは末尾8文字のみが記録されます。<br>[ロギング](page?id=web/logging&lang=ja) を参照。 |
+| 監査ログ | 書き込みの操作・ログイン・ログアウト・代理ログインを、操作した人・接続元・結果とともに専用のログファイルへ1件1行で記録します。<br>既定では無効で、設定を足すだけで有効になります。<br>[監査ログ](page?id=core/audit/audit-log&lang=ja) を参照。 |
 
 ## フェイルクローズなデフォルト動作
 
@@ -25,4 +26,4 @@
 
 ## 依存関係
 
-`ecuacion-splib-web` は `ecuacion-splib-core` と `ecuacion-splib-ui` に依存し、`spring-boot-starter-webmvc`、`spring-boot-starter-security`、`spring-boot-starter-oauth2-client`、`spring-boot-starter-thymeleaf`（layout-dialectとSpring Security用Thymeleaf拡張を含む）を取り込みます。Tomcat自体は提供しないため、アプリケーション側で `spring-boot-starter-tomcat` を `provided` スコープで追加してください。
+`ecuacion-splib-web` は `ecuacion-splib-core`・`ecuacion-splib-ui`・`ecuacion-splib-webmvc` に依存し、`spring-boot-starter-webmvc`、`spring-boot-starter-security`、`spring-boot-starter-thymeleaf`（layout-dialectとSpring Security用Thymeleaf拡張を含む）を取り込みます。Tomcat自体は提供しないため、アプリケーション側で `spring-boot-starter-tomcat` を `provided` スコープで追加してください。`spring-boot-starter-oauth2-client` も取り込まないため、OAuth2ソーシャルログイン（[フォームログイン・アクセス制御](page?id=web/security/form-login&lang=ja)を参照）を使う場合は、アプリケーション側で依存に追加してください。

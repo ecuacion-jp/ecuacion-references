@@ -14,7 +14,9 @@ throw new ViolationException(...);
 ```
 
 Every violation the exception carries is included (not just the first), each message is localized to
-the request's locale, and the response is always `400 Bad Request` — no variety of statuses is needed
+the locale resolved by the application's `LocaleResolver` (by default, the request's `Accept-Language`;
+see [messages.properties](page?id=core/config/messages&lang=en)), and the response is always
+`400 Bad Request` — no variety of statuses is needed
 because nothing on the calling side is expected to branch on it, only display the text. The response
 body is a `ViolationsResponse` with a `messages` field holding the localized messages.
 

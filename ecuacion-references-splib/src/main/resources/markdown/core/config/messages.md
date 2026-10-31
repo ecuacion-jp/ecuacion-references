@@ -56,3 +56,27 @@ message, rather than being silently ignored:
 - `spring.messages.common-messages`
 
 Switch to `use-spring-native=true` if you need any of these.
+
+## Message language (splib-web / splib-rest)
+
+Messages and item names produced by splib-web and splib-rest (validation errors, business errors,
+delete confirmations, REST error responses, etc.) are resolved in the locale Spring MVC determines
+for the request through its `LocaleResolver` (`LocaleContextHolder.getLocale()`). This is the same
+locale Thymeleaf's `#{...}` and `#locale` use, so a page never mixes two languages.
+
+By default Spring Boot's `AcceptHeaderLocaleResolver` is used, so the language follows the
+browser's `Accept-Language` header. To change it — for example, to the language a user chose on a
+profile page — define your own `LocaleResolver` bean. It must be named `localeResolver`, the name
+`DispatcherServlet` looks it up by:
+
+```java
+@Bean
+LocaleResolver localeResolver() {
+  // e.g. keeps the language in the session; set it with
+  // localeResolver.setLocale(request, response, locale) when the user changes it
+  return new SessionLocaleResolver();
+}
+```
+
+`ecuacion-splib-web-markdown` registers a `SessionLocaleResolver` for its language switch, but only
+when the application does not define its own `localeResolver` bean.

@@ -39,6 +39,14 @@
 						#{navBar.core.config.validationMessages}, '')}"></div>
 			</div></th:block>
 
+			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(
+					#{navBar.core.audit}, ~{::navbarCoreAudit}, '')}"></div>
+			<th:block th:if="false"><div th:fragment="navbarCoreAudit" th:remove="tag">
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/audit/audit-log',lang=${lang})},
+						#{navBar.core.audit.auditLog}, '')}"></div>
+			</div></th:block>
+
 		</div></th:block>
 
 		<div th:replace="~{bootstrap/components :: navbarSubMenu(

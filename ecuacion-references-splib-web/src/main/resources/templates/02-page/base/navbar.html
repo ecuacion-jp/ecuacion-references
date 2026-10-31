@@ -47,6 +47,16 @@
 				} }, '')}"></tr>
 		</table>
 		
+		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.navbar.modelAttribute.title', 'page.base.navbar.modelAttribute.paragraph', '')}"></div>
+		<table class="table table-striped text-nowrap table-bordered">
+			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'設定項目', 'model 属性名', '定数', '設定値例', '説明'} }, '')}"></tr>
+			<tr th:replace="~{bootstrap/components :: staticTableBodyWithLines(
+				${ {
+						{'navbar の title', 'splibNavbarTitle', 'SplibWebConstants.KEY_NAVBAR_TITLE', '（任意文字列）', {'messages.properties のキーを指定するとその値を表示し、<br>該当するキーが無ければ指定した文字列をそのまま表示する。<br>HTML エスケープして表示する。', 'utext'}},
+						{'navbar の image', 'splibNavbarImagePath', 'SplibWebConstants.KEY_NAVBAR_IMAGE_PATH', '/my-app/account/icon?id=xxx', {'img の src にそのまま使用するため、context path を含めて指定する。<br>controller が画像を返す URL も指定可能。<br>画像は 30×24 の枠に縦横比を保って表示される。', 'utext'}}
+				} }, '')}"></tr>
+		</table>
+		
 		<div th:replace="~{bootstrap/components :: paragraphWithSubtitle('page.base.navbar.fragment.title', 'page.base.navbar.fragment.paragraph', '')}"></div>
 		<table class="table table-striped text-nowrap table-bordered">
 			<tr th:replace="~{bootstrap/components :: staticTableHeaderWithLine(${ {'分類', 'loginState', 'fragment', '説明'} }, '')}"></tr>

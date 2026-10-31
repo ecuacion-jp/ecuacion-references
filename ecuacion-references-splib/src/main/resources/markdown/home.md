@@ -17,6 +17,7 @@ ecuacion-splib consists of the following modules.
 | `ecuacion-splib-jpa` | JPA integration (entities, repositories) independent of the web layer |
 | `ecuacion-splib-batch` | Spring Batch integration, for jobs a scheduler triggers unattended |
 | `ecuacion-splib-ui` | UI-facing logic shared across `ecuacion-splib-web` and `ecuacion-splib-cli` (e.g. required-field violation filtering) — not used directly by application code |
+| `ecuacion-splib-webmvc` | Spring MVC (servlet) logic shared across `ecuacion-splib-web` and `ecuacion-splib-rest` (e.g. recording the audit log) — loaded automatically through them |
 | `ecuacion-splib-cli` | Lightweight foundation for command-line (CUI) applications a user runs directly and watches interactively |
 | `ecuacion-splib-web` | Full Spring MVC web application framework (controllers, forms, Thymeleaf/Bootstrap templates) |
 | `ecuacion-splib-web-jpa` | Glue between `ecuacion-splib-web` and `ecuacion-splib-jpa` |

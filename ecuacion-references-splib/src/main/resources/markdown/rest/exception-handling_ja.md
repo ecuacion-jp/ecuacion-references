@@ -12,7 +12,7 @@
 throw new ViolationException(...);
 ```
 
-例外が保持するすべての違反（最初の 1 件だけでなく）がレスポンスに含まれ、各メッセージはリクエストのロケールに合わせてローカライズされ、ステータスは常に `400 Bad Request` になります（呼び出し側はステータスで分岐する想定がなく、テキストを表示するだけなので、複数種類のステータスは不要です）。レスポンスボディは `ViolationsResponse` で、ローカライズ済みメッセージを保持する
+例外が保持するすべての違反（最初の 1 件だけでなく）がレスポンスに含まれ、各メッセージはアプリの`LocaleResolver`が決めた言語（デフォルトではリクエストの`Accept-Language`。[messages.properties](page?id=core/config/messages&lang=ja)を参照）に合わせてローカライズされ、ステータスは常に `400 Bad Request` になります（呼び出し側はステータスで分岐する想定がなく、テキストを表示するだけなので、複数種類のステータスは不要です）。レスポンスボディは `ViolationsResponse` で、ローカライズ済みメッセージを保持する
 `messages` フィールドを持ちます。
 
 ## `ResponseStatusException`（および `ResponseEntityExceptionHandler` の組み込み処理が扱うその他の例外）

@@ -16,6 +16,7 @@ ecuacion-splib は以下のモジュールで構成されています。
 | `ecuacion-splib-jpa` | Web 層に依存しない JPA 連携（エンティティ・リポジトリ） |
 | `ecuacion-splib-batch` | Spring Batch 連携。スケジューラーが無人でトリガーするジョブ向け |
 | `ecuacion-splib-ui` | `ecuacion-splib-web` と `ecuacion-splib-cli` で共有するUI表示ロジック（必須項目バリデーションエラーによる他エラーのマスキング等）。アプリケーションコードから直接使うものではない |
+| `ecuacion-splib-webmvc` | `ecuacion-splib-web` と `ecuacion-splib-rest` で共有する、Spring MVC（servlet）に依存する処理（監査ログの記録等）。両モジュールから自動で読み込まれる |
 | `ecuacion-splib-cli` | ユーザーが直接実行し対話的に結果を見るコマンドライン（CUI）アプリケーション向けの軽量な基盤 |
 | `ecuacion-splib-web` | Spring MVC を用いた Web アプリケーションフレームワーク一式（コントローラー・フォーム・Thymeleaf/Bootstrap テンプレート） |
 | `ecuacion-splib-web-jpa` | `ecuacion-splib-web` と `ecuacion-splib-jpa` を繋ぐ連携機能 |
