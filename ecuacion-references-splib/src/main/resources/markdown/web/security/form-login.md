@@ -271,6 +271,60 @@ The returned path must be one in the app, starting with `/`. A path starting wit
 can be a url to another site, so it causes an `IllegalStateException`. When building the path from
 request parameters, validate the values as in the example above.
 
+### Making the switch user view-only
+
+To keep an administrator from writing (registering, updating, deleting, etc.) as the switched
+user, override `isReadOnlyWhileSwitched()` to return `true`. It returns `false` by default, which
+restricts nothing.
+
+```java
+@Override
+protected boolean isReadOnlyWhileSwitched() {
+  return true;
+}
+```
+
+When enabled, requests to controllers that change something are rejected while switched: the
+user is sent back to the page the request was sent from, with the message "While switched to
+another user, you can only view pages. Registering, updating, deleting and other operations are
+not allowed." (message ID `jp.ecuacion.splib.web.switchUser.readOnly`). When the audit log is
+enabled, a rejected request is recorded as `BUSINESS_ERROR`.
+
+- Whether a request changes something is decided the same way as what the audit log records. By
+  default, requests other than `GET`, `HEAD`, `OPTIONS` and `TRACE` change something. Put
+  `@ReadOnlyOperation` on a `POST` that changes nothing (see "Changing what is recorded" in
+  [Audit log](page?id=core/audit/audit-log&lang=en)). `ecuacion-splib`'s own `POST`s that change
+  nothing (opening the detail page from a list, going back to the previous page, etc.) already
+  carry it.
+- Exiting the switch user (`POST /account/exitUser`) and logging out are never rejected.
+- It applies to requests to all pages while switched (not narrowed by URL).
+
+Pages can hide the buttons that cannot be used. `${@splibSwitchUserStatus.readOnly}` is `true`
+when the view-only setting is enabled and the user is switched. `${@splibSwitchUserStatus.switchedUser}`
+tells whether the user is switched. `ecuacion-splib`'s standard page parts (the save button of the
+edit page, etc.) are not hidden automatically.
+
+```html
+<button th:unless="${@splibSwitchUserStatus.readOnly}" ...>Save</button>
+```
+
+### Telling whether the user is switched
+
+In Java, use `SwitchUserUtil` (in `jp.ecuacion.splib.webmvc.util` of `ecuacion-splib-webmvc`) to
+tell whether the current user is switched.
+
+```java
+boolean switched = SwitchUserUtil.isSwitchedUser();
+// The original administrator's Authentication, null when not switched
+Authentication admin = SwitchUserUtil.getSwitchUserSource();
+```
+
+While switched, Spring Security adds the `ROLE_PREVIOUS_ADMINISTRATOR` authority to the
+`Authentication`, but not to the switched user's `UserDetails` (`@AuthenticationPrincipal
+UserDetails`, etc.). Checking the authorities of the `UserDetails` always answers "not switched",
+so use `SwitchUserUtil`. Thymeleaf's `sec:authorize="hasAuthority('ROLE_PREVIOUS_ADMINISTRATOR')"`
+looks at the `Authentication`, so it answers correctly.
+
 ## Secure cookie attribute and TLS-terminating reverse proxies
 
 `ecuacion-splib-web` does not set `server.servlet.session.cookie.secure=true`, nor register a

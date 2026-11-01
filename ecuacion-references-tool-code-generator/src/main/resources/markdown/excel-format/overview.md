@@ -15,7 +15,7 @@ db-column-definitions_fmt-v5.0.0-en_<project-name>.xlsx
 | DataType Definition | Field type definitions (`DT_XXXX` format) | [DataType Definition Sheet](page?id=excel-format/data-type-sheet&lang=en) |
 | DB Definition | Table and column definitions | [DB Definition Sheet](page?id=excel-format/db-definition-sheet&lang=en) |
 | DB Common Item Definition | Columns applied to every table (e.g. audit columns, soft-delete flag, optimistic-lock version),<br>without repeating them on each table | Same column layout as DB Definition.<br>See the [DB Definition Sheet](page?id=excel-format/db-definition-sheet&lang=en) for details |
-| Table List | Table display names per language. Populated automatically from the table names used in DB Definition | — |
+| Table List | Table display names per language, and whether to exclude the table from data change history. Table names are populated automatically from the table names used in DB Definition | For Exclude from Change History, see "Use of data change history" in the [General Settings sheet](page?id=excel-format/general-settings&lang=en) |
 | Enum Definition | Enumeration value definitions | [Enum Definition Sheet](page?id=excel-format/enum-sheet&lang=en) |
 
 ## Creating a File for a New Project

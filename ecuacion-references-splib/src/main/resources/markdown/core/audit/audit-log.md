@@ -31,7 +31,7 @@ The client IP address is recorded from `HttpServletRequest#getRemoteAddr()`. For
 
 | Kind (`eventType`) | When it is recorded |
 | --- | --- |
-| `OPERATION` | A request to a controller method.<br>By default, requests other than `GET`, `HEAD`, `OPTIONS` and `TRACE` (see "Changing what is recorded" below). |
+| `OPERATION` | A request to a controller method.<br>By default, requests other than those that change nothing.<br>Requests that change nothing are `GET`, `HEAD`, `OPTIONS` and `TRACE`, and requests to methods with `@ReadOnlyOperation` (see "Changing what is recorded" below). |
 | `LOGIN` | A successful (`result` is `SUCCESS`) or failed (`FAILURE`) login.<br>Form login, OAuth2 login and remember-me.<br>On `ecuacion-splib-rest`, failed `X-Api-Key` authentications are recorded too (see "REST" below). |
 | `LOGOUT` | A logout. |
 | `SWITCH_USER_START` | The start of a switch user (`SplibWebSecurityConfigForSwitchUser`). |
@@ -40,12 +40,13 @@ The client IP address is recorded from `HttpServletRequest#getRemoteAddr()`. For
 ## Recorded items
 
 ```json
-{"timestamp":"2026-10-29T12:34:56.789+09:00","eventType":"OPERATION","result":"BUSINESS_ERROR","actor":"user1","originalActor":"admin1","clientIp":"192.0.2.1","sessionIdSuffix":"IJKLMNOP","httpMethod":"POST","uri":"/account/inquiry/action","handler":"InquiryEditController#edit","loginState":"account","targets":[{"type":"Inquiry","id":"123"}],"error":"jp.ecuacion.lib.core.exception.ViolationException [MSG_ID_1]","attributes":{"systemCode":"S1"}}
+{"timestamp":"2026-10-29T12:34:56.789+09:00","operationId":"6f1c2a4e-8b3d-4f7a-9c0e-2d5b7a1e3f90","eventType":"OPERATION","result":"BUSINESS_ERROR","actor":"user1","originalActor":"admin1","clientIp":"192.0.2.1","sessionIdSuffix":"IJKLMNOP","httpMethod":"POST","uri":"/account/inquiry/action","handler":"InquiryEditController#edit","loginState":"account","targets":[{"type":"Inquiry","id":"123"}],"error":"jp.ecuacion.lib.core.exception.ViolationException [MSG_ID_1]","attributes":{"systemCode":"S1"}}
 ```
 
 | Item | Content |
 | --- | --- |
 | `timestamp` | When it was recorded (in the server's time zone). |
+| `operationId` | The ID of the operation (a UUID).<br>It is the same value as `operation_id` of the `revinfo` table of the [data change history](page?id=core/audit/data-change-history&lang=en), so the data the operation changed, and how, can be traced from it.<br>`null` except for `OPERATION`. |
 | `eventType` | The kind (see the table above). |
 | `result` | The result.<br>One of `SUCCESS`, `FAILURE` (a rejected login or authentication), `BUSINESS_ERROR` and `SYSTEM_ERROR`.<br>See "How the result is decided" below. |
 | `actor` | Who did it.<br>`Authentication#getName()` (the logged-in username), and `null` when not logged in.<br>For a failed login, the username as typed. |
@@ -71,11 +72,14 @@ The only value typed in by users that is recorded as is, is the username of a fa
 
 ## Changing what is recorded
 
-Put `@AuditLogTarget` on a controller method or class. An annotation on the method (including on the method it overrides) takes precedence over one on the class.
+Requests that change nothing are not recorded. By default, `GET`, `HEAD`, `OPTIONS` and `TRACE` are the requests that change nothing. When a request with another HTTP method changes nothing, put `@ReadOnlyOperation` (in `jp.ecuacion.splib.core.annotation` of `ecuacion-splib-core`) on the controller method or class. Conversely, put `@ReadOnlyOperation(false)` on a `GET` that changes something. `@ReadOnlyOperation` is also used by the setting that makes the switch user view-only (see `SplibWebSecurityConfigForSwitchUser` in [Form login](page?id=web/security/form-login&lang=en)): when it is enabled, only requests that change nothing are allowed while switched.
+
+To change only whether a request is recorded, put `@AuditLogTarget`. `@AuditLogTarget` takes precedence over `@ReadOnlyOperation`. For both, an annotation on the method (including on the method it overrides) takes precedence over one on the class.
 
 ```java
-// Not recorded: a POST that changes nothing (going back to the previous page, etc.)
-@AuditLogTarget(false)
+// A POST that changes nothing (going back to the previous page, etc.): not recorded, and allowed
+// even when the switch user is view-only
+@ReadOnlyOperation
 @PostMapping(value = "action", params = "action=back")
 public String back(...) { ... }
 
@@ -85,7 +89,9 @@ public String back(...) { ... }
 public ResponseEntity<byte[]> download(...) { ... }
 ```
 
-Methods of `ecuacion-splib`'s own controllers that accept a `POST` changing nothing (`SplibEditController#back`, `SplibSearchListController#showInsertForm` / `showUpdateForm`, `page` / `submitOnChangeToRefresh` of `SplibGeneral1FormController` / `SplibGeneral2FormsController`, and so on) already carry `@AuditLogTarget(false)`. They stay unrecorded when the application overrides them.
+Use `@AuditLogTarget(false)` for an operation that changes something but is not worth recording. A `POST` that changes nothing with `@AuditLogTarget(false)` is not recorded, but is rejected when the switch user is view-only. Put `@ReadOnlyOperation` on a `POST` that changes nothing.
+
+Methods of `ecuacion-splib`'s own controllers that accept a `POST` changing nothing (`SplibEditController#back`, `SplibSearchListController#showInsertForm` / `showUpdateForm`, `page` / `submitOnChangeToRefresh` of `SplibGeneral1FormController` / `SplibGeneral2FormsController`, and so on) already carry `@ReadOnlyOperation`. The application's overrides of them inherit it.
 
 ## How the result is decided
 
@@ -100,13 +106,17 @@ Exceptions handled by an application's own `@ExceptionHandler` are decided the s
 
 ## Adding target data
 
-The data an operation is about (its primary key, etc.) cannot be known generically, so add it with `AuditLogUtil.addTarget` while processing. It can be called from a controller, service or BL.
+For operations on the screens of `ecuacion-splib-web`, the target data is added automatically.
+
+- The records a form holds (the records directly under the form) that have an ID are added: the row the edit page shows, or the row whose button (delete, etc.) was pressed on the list page. The kind of the data is the `@ItemNameKeyClass` value of the record capitalized (the entity name, for records generated by `ecuacion-tool-code-generator`), and the ID is the record's own primary key. The primary keys of related rows are not added.
+- They are added in the controller's `prepare`, so an operation that fails, for example on input validation, still has its target data.
+- A new record has no ID until it is saved, so `SplibEditJpaService#insertOrUpdate` of `ecuacion-splib-web-jpa` adds it (the entity's class name and ID) after saving. On an update, both add the same data, but the record holds it once.
+
+Add any other data (rows changed by the application's own services, rows deleted by a bulk query, etc.) with `AuditLogUtil.addTarget` while processing. It can be called from a controller, service or BL. Data added more than once is held once in the record.
 
 ```java
 AuditLogUtil.addTarget("Inquiry", inquiry.getId());
 ```
-
-`SplibEditJpaService#insertOrUpdate` of `ecuacion-splib-web-jpa` adds the saved entity (its class name and ID) automatically. Add deleted rows, and rows changed by the application's own services, in the application.
 
 The methods of `AuditLogUtil` do nothing when no recorded request is being processed (the audit log is disabled, the request is a `GET`, batch, etc.), so they can be called unconditionally. The information is kept per thread, though: when handing work off to another thread (`@Async`, etc.), call them on the request's thread before that.
 

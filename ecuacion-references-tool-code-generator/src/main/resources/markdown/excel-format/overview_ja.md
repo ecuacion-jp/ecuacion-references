@@ -15,7 +15,7 @@ db-column-definitions_fmt-v5.0.0-ja_<プロジェクト名>.xlsx
 | dataType定義 | フィールドの型定義（`DT_XXXX` 形式） | [dataType定義シート](page?id=excel-format/data-type-sheet&lang=ja) |
 | DB項目定義 | テーブルとカラムの定義 | [DB項目定義シート](page?id=excel-format/db-definition-sheet&lang=ja) |
 | DB共通項目定義 | 全テーブルに共通で付与するカラム（監査カラム・ソフトデリートフラグ・楽観的排他制御バージョン等）を、<br>テーブルごとに繰り返し定義せずに一括指定 | 列構成はDB項目定義と同じ。<br>詳細は[DB項目定義シート](page?id=excel-format/db-definition-sheet&lang=ja)を参照 |
-| テーブル一覧 | テーブルの表示名（言語別）。DB項目定義で使われているテーブル名から自動で生成される | — |
+| テーブル一覧 | テーブルの表示名（言語別）と、データ変更履歴から除外するかどうか。テーブル名はDB項目定義で使われているテーブル名から自動で生成される | 変更履歴除外は[各種設定シート](page?id=excel-format/general-settings&lang=ja)の「データ変更履歴の使用」を参照 |
 | enum定義 | ENUM 型の値定義 | [enum定義シート](page?id=excel-format/enum-sheet&lang=ja) |
 
 ## 新規プロジェクトでの作成手順

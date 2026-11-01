@@ -31,7 +31,7 @@ jp.ecuacion.splib.core.audit-log.enabled=true
 
 | 種類（`eventType`） | 記録されるタイミング |
 | --- | --- |
-| `OPERATION` | コントローラのメソッドへのリクエスト。<br>既定では `GET`・`HEAD`・`OPTIONS`・`TRACE` 以外が対象です（後述の「記録の対象を変える」を参照）。 |
+| `OPERATION` | コントローラのメソッドへのリクエスト。<br>既定では、何も変更しないリクエスト以外が対象です。<br>何も変更しないリクエストは、<br>`GET`・`HEAD`・`OPTIONS`・`TRACE` と、`@ReadOnlyOperation` を付けたメソッドへのリクエストです（後述の「記録の対象を変える」を参照）。 |
 | `LOGIN` | ログインの成功（`result` が `SUCCESS`）と失敗（`FAILURE`）。<br>フォームログイン・OAuth2 ログイン・remember-me が対象です。<br>`ecuacion-splib-rest` では、`X-Api-Key` による認証の失敗も記録されます（後述の「REST の場合」を参照）。 |
 | `LOGOUT` | ログアウト。 |
 | `SWITCH_USER_START` | 代理ログイン（`SplibWebSecurityConfigForSwitchUser`）の開始。 |
@@ -40,12 +40,13 @@ jp.ecuacion.splib.core.audit-log.enabled=true
 ## 記録の項目
 
 ```json
-{"timestamp":"2026-10-29T12:34:56.789+09:00","eventType":"OPERATION","result":"BUSINESS_ERROR","actor":"user1","originalActor":"admin1","clientIp":"192.0.2.1","sessionIdSuffix":"IJKLMNOP","httpMethod":"POST","uri":"/account/inquiry/action","handler":"InquiryEditController#edit","loginState":"account","targets":[{"type":"Inquiry","id":"123"}],"error":"jp.ecuacion.lib.core.exception.ViolationException [MSG_ID_1]","attributes":{"systemCode":"S1"}}
+{"timestamp":"2026-10-29T12:34:56.789+09:00","operationId":"6f1c2a4e-8b3d-4f7a-9c0e-2d5b7a1e3f90","eventType":"OPERATION","result":"BUSINESS_ERROR","actor":"user1","originalActor":"admin1","clientIp":"192.0.2.1","sessionIdSuffix":"IJKLMNOP","httpMethod":"POST","uri":"/account/inquiry/action","handler":"InquiryEditController#edit","loginState":"account","targets":[{"type":"Inquiry","id":"123"}],"error":"jp.ecuacion.lib.core.exception.ViolationException [MSG_ID_1]","attributes":{"systemCode":"S1"}}
 ```
 
 | 項目 | 内容 |
 | --- | --- |
 | `timestamp` | 記録した日時（サーバーのタイムゾーン）。 |
+| `operationId` | 操作ごとの ID（UUID）。<br>[データの変更履歴](page?id=core/audit/data-change-history&lang=ja)の `revinfo` 表の `operation_id` と同じ値なので、<br>この操作でどのデータがどう変わったかをたどれます。<br>`OPERATION` 以外では `null` です。 |
 | `eventType` | 種類（上の表を参照）。 |
 | `result` | 結果。<br>`SUCCESS`（成功）、`FAILURE`（ログイン・認証の失敗）、`BUSINESS_ERROR`（業務エラー）、`SYSTEM_ERROR`（システムエラー）のいずれかです。<br>判定方法は後述の「結果の判定」を参照してください。 |
 | `actor` | 操作した人。<br>`Authentication#getName()`（ログインしたユーザー名）で、ログインしていない場合は `null` です。<br>ログインの失敗では、入力されたユーザー名がそのまま記録されます。 |
@@ -71,11 +72,13 @@ jp.ecuacion.splib.core.audit-log.enabled=true
 
 ## 記録の対象を変える
 
-`@AuditLogTarget` を、コントローラのメソッドまたはクラスに付けます。メソッドに付けたもの（オーバーライド元のメソッドに付いたものを含む）が、クラスに付けたものより優先されます。
+何も変更しないリクエストは記録しません。既定では `GET`・`HEAD`・`OPTIONS`・`TRACE` が何も変更しないリクエストです。それ以外の HTTP メソッドでも何も変更しない場合は、コントローラのメソッドまたはクラスに `@ReadOnlyOperation`（`ecuacion-splib-core` の `jp.ecuacion.splib.core.annotation`）を付けます。逆に、何かを変更する `GET` には `@ReadOnlyOperation(false)` を付けます。`@ReadOnlyOperation` は、代理ログインを「見るだけ」にする設定（[フォームログイン](page?id=web/security/form-login&lang=ja) の `SplibWebSecurityConfigForSwitchUser` を参照）でも使われ、その設定が有効なときは、代理ログイン中に何も変更しないリクエストだけが許可されます。
+
+記録するかどうかだけを変える場合は、`@AuditLogTarget` を付けます。`@AuditLogTarget` は `@ReadOnlyOperation` より優先されます。いずれも、メソッドに付けたもの（オーバーライド元のメソッドに付いたものを含む）が、クラスに付けたものより優先されます。
 
 ```java
-// 何も変更しない POST（前の画面に戻る等）を記録しない
-@AuditLogTarget(false)
+// 何も変更しない POST（前の画面に戻る等）。記録せず、代理ログインを「見るだけ」にしていても許可される
+@ReadOnlyOperation
 @PostMapping(value = "action", params = "action=back")
 public String back(...) { ... }
 
@@ -85,7 +88,9 @@ public String back(...) { ... }
 public ResponseEntity<byte[]> download(...) { ... }
 ```
 
-`ecuacion-splib` 自身のコントローラのうち、何も変更しない `POST` を受けるメソッド（`SplibEditController#back`、`SplibSearchListController#showInsertForm`・`showUpdateForm`、`SplibGeneral1FormController`・`SplibGeneral2FormsController` の `page`・`submitOnChangeToRefresh` 等）には、あらかじめ `@AuditLogTarget(false)` が付いています。アプリでこれらのメソッドをオーバーライドしても、記録されないままです。
+`@AuditLogTarget(false)` は、何かを変更するが記録するほどではない操作に使います。何も変更しない `POST` に `@AuditLogTarget(false)` を付けると、記録はされませんが、代理ログインを「見るだけ」にしている場合は拒否されます。何も変更しない `POST` には `@ReadOnlyOperation` を付けてください。
+
+`ecuacion-splib` 自身のコントローラのうち、何も変更しない `POST` を受けるメソッド（`SplibEditController#back`、`SplibSearchListController#showInsertForm`・`showUpdateForm`、`SplibGeneral1FormController`・`SplibGeneral2FormsController` の `page`・`submitOnChangeToRefresh` 等）には、あらかじめ `@ReadOnlyOperation` が付いています。アプリでこれらのメソッドをオーバーライドしても、引き継がれます。
 
 ## 結果の判定
 
@@ -100,13 +105,17 @@ public ResponseEntity<byte[]> download(...) { ... }
 
 ## 対象のデータを足す
 
-対象のデータ（主キー等）は汎用的には分からないため、処理の中で `AuditLogUtil.addTarget` を呼んで足します。コントローラ・サービス・BL のどこから呼んでもかまいません。
+`ecuacion-splib-web` の画面の操作では、対象のデータが自動で足されます。
+
+- 画面の form が持つ record（form 直下の record）のうち、ID を持つものを足します。編集画面で表示している行や、一覧画面でボタンを押した行（削除など）がこれにあたります。データの種類は、record の `@ItemNameKeyClass` の値の先頭を大文字にしたもの（`ecuacion-tool-code-generator` で生成した record ならエンティティ名）、ID は record 自身の主キーです。関連先の行の主キーは足しません。
+- コントローラの `prepare` で足すので、入力チェック等で失敗した操作にも対象のデータが残ります。
+- 新規登録は、保存するまで ID が無いため、`ecuacion-splib-web-jpa` の `SplibEditJpaService#insertOrUpdate` が保存した後に足します（エンティティのクラス名と ID）。更新では両方から同じデータが足されますが、記録には 1 つだけ入ります。
+
+それ以外のデータ（アプリ独自のサービスで変更した行、一括削除のクエリで削除した行等）は、処理の中で `AuditLogUtil.addTarget` を呼んで足します。コントローラ・サービス・BL のどこから呼んでもかまいません。同じデータを複数回足しても、記録には 1 つだけ入ります。
 
 ```java
 AuditLogUtil.addTarget("Inquiry", inquiry.getId());
 ```
-
-`ecuacion-splib-web-jpa` の `SplibEditJpaService#insertOrUpdate` は、保存したエンティティ（エンティティのクラス名と ID）を自動で足します。削除や、アプリ独自のサービスで変更した行は、アプリ側で足してください。
 
 `AuditLogUtil` のメソッドは、記録の対象のリクエストを処理していないとき（監査ログが無効、`GET` のリクエスト、バッチ等）には何もしないので、条件を付けずに呼んでかまいません。ただし、情報はスレッドごとに保持されるため、`@Async` 等で別のスレッドに処理を渡す場合は、渡す前にリクエストのスレッドで呼んでください。
 

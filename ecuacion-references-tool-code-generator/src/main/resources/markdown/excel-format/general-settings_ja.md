@@ -37,6 +37,7 @@
 | 行 | 項目 | 分類 | 説明 |
 | --- | --- | --- | --- |
 | 26 | グループフィルタなしのテーブル名 | 他グループを閲覧不可とする設定 | グループフィルタ列を持たないテーブル名を CSV で列挙（例: `ACC,ACC_ADMIN`）。グループ機能を使う場合のみ必須 |
+| 29 | データ変更履歴の使用 | データ変更履歴 | データ変更履歴（Hibernate Envers）を使うかどうか（`true` / `false`。空欄は `false`） |
 
 ### システム名
 
@@ -62,6 +63,26 @@ jp.example.myapp.base.bl.AccBl
 ### グループフィルタなしのテーブル名
 
 グループ機能を有効にした場合（「他グループを閲覧不可とする設定」分類のカラム名を設定した場合）、すべてのテーブルはグループ列を持つか、ここに明示的に列挙されている必要があります。グループ列を持たないテーブル（認証系テーブル `ACC`, `ACC_ADMIN` など）をここに列挙します。
+
+### データ変更履歴の使用
+
+`true` にすると、Hibernate Envers によるデータの変更履歴を記録するためのアノテーションが生成コードに付与されます。
+履歴の記録の仕組み（`<表名>_aud`・`revinfo` テーブル、記録される内容）は
+[ecuacion-splib のデータ変更履歴](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=core/audit/data-change-history&lang=ja)を参照してください。
+
+- 全 Entity と共通項目の親クラス（`AppCommon`）に `@Audited` が付与されます。
+- アプリの pom に `org.hibernate.orm:hibernate-envers` の依存を追加する必要があります（バージョンは Spring Boot の管理に任せる）。
+  `ecuacion-splib-jpa` は hibernate-envers に optional で依存しているため、追加しないと生成コードがコンパイルできません。
+- 空欄（または `false`）の場合は何も付与されず、従来と同じコードが生成されます。この行自体が無い Excel ファイルも同じ扱いです。
+
+履歴の対象は、次の列で除外できます（いずれも `○` を指定。空欄なら履歴の対象）。この行が `true` でない場合、これらの指定は無視されます。
+
+| 単位 | 指定場所 | 生成コード |
+| --- | --- | --- |
+| テーブル | 「テーブル一覧」シートの「変更履歴除外」列 | その Entity に `@Audited` を付けない |
+| カラム | 「DB項目定義」・「DB共通項目定義」シートの「変更履歴除外」列（[DB項目定義シート](page?id=excel-format/db-definition-sheet&lang=ja)参照） | そのフィールドに `@NotAudited` を付ける |
+
+履歴を取るテーブルから、テーブル単位で除外したテーブルへの関連には、`@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)` が自動で付与されます（付けないと起動時に Envers がエラーになるため）。
 
 ---
 

@@ -45,6 +45,9 @@
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 						@{/public/showMarkdown/page(id='core/audit/audit-log',lang=${lang})},
 						#{navBar.core.audit.auditLog}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/audit/data-change-history',lang=${lang})},
+						#{navBar.core.audit.dataChangeHistory}, '')}"></div>
 			</div></th:block>
 
 		</div></th:block>

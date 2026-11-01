@@ -211,6 +211,41 @@ protected void onExitingUserDone(HttpServletRequest request, HttpServletResponse
 
 返すパスは、`/` で始まるアプリ内のパスでなければなりません。`//` や `/\` で始まるパスは外部のサイトへのURLになり得るため、`IllegalStateException` になります。リクエストのパラメータからパスを組み立てる場合は、上の例のように値を検証してください。
 
+### なりすまし中は見るだけにする
+
+なりすまし中に、なりすまし先のユーザーとしての書き込み（登録・更新・削除等）をさせない場合は、`isReadOnlyWhileSwitched()` をオーバーライドして `true` を返します。既定は `false` で、何も制限しません。
+
+```java
+@Override
+protected boolean isReadOnlyWhileSwitched() {
+  return true;
+}
+```
+
+有効にすると、なりすまし中は、何かを変更するコントローラへのリクエストを拒否し、送信元の画面に戻して「代理ログイン中は画面の表示のみ可能です。登録・更新・削除等の操作はできません。」のメッセージを表示します（メッセージ ID は `jp.ecuacion.splib.web.switchUser.readOnly`）。監査ログを有効にしている場合、拒否したリクエストは `BUSINESS_ERROR` として記録されます。
+
+- 何かを変更するリクエストかどうかは、監査ログの記録の対象と同じ方法で決めます。既定では `GET`・`HEAD`・`OPTIONS`・`TRACE` 以外を、何かを変更するリクエストとみなします。何も変更しない `POST` には `@ReadOnlyOperation` を付けてください（[監査ログ](page?id=core/audit/audit-log&lang=ja) の「記録の対象を変える」を参照）。`ecuacion-splib` 自身の何も変更しない `POST`（一覧から詳細を開く、前の画面に戻る等）には、あらかじめ付いています。
+- なりすましの終了（`POST /account/exitUser`）とログアウトは拒否しません。
+- なりすまし中のすべての画面へのリクエストが対象です（URL では絞りません）。
+
+画面では、使えないボタン等を出さないようにできます。`${@splibSwitchUserStatus.readOnly}` は、見るだけにする設定が有効で、なりすまし中のときに `true` になります。`${@splibSwitchUserStatus.switchedUser}` は、なりすまし中かどうかです。`ecuacion-splib` の標準の画面部品（編集画面の保存ボタン等）は、自動では隠れません。
+
+```html
+<button th:unless="${@splibSwitchUserStatus.readOnly}" ...>保存</button>
+```
+
+### なりすまし中かどうかを判定する
+
+Java でなりすまし中かどうかを判定する場合は、`SwitchUserUtil`（`ecuacion-splib-webmvc` の `jp.ecuacion.splib.webmvc.util`）を使います。
+
+```java
+boolean switched = SwitchUserUtil.isSwitchedUser();
+// 元の管理者の Authentication。なりすまし中でなければ null
+Authentication admin = SwitchUserUtil.getSwitchUserSource();
+```
+
+なりすまし中は、Spring Security が `Authentication` に `ROLE_PREVIOUS_ADMINISTRATOR` の権限を足しますが、なりすまし先のユーザーの `UserDetails`（`@AuthenticationPrincipal UserDetails` 等）には付きません。`UserDetails` の権限で判定すると常に「なりすまし中でない」となるので、`SwitchUserUtil` を使ってください。Thymeleaf の `sec:authorize="hasAuthority('ROLE_PREVIOUS_ADMINISTRATOR')"` は `Authentication` を見るので、正しく判定できます。
+
 ## Secure Cookie属性とTLS終端リバースプロキシ
 
 `ecuacion-splib-web` は `server.servlet.session.cookie.secure=true` の設定も、`ForwardedHeaderFilter`

@@ -40,6 +40,7 @@ used:
 | Row | Field | Category | Description |
 | --- | --- | --- | --- |
 | 26 | Table names without grouping | Group Access Restriction Settings | Comma-separated list of table names that do NOT have the group filter column. Required only when using the grouping feature |
+| 29 | Use of data change history | Data Change History | Whether to use data change history (Hibernate Envers): `true` / `false` (blank means `false`) |
 
 ### System name
 
@@ -67,6 +68,31 @@ jp.example.myapp.base.bl.AccBl
 When the grouping feature is enabled (the "Group Access Restriction Settings" category's column name is set),
 every table must either have the group column or be explicitly listed here. List the tables that do NOT have this
 column (e.g., authentication tables such as `ACC`, `ACC_ADMIN`).
+
+### Use of data change history
+
+When set to `true`, the annotations for recording data change history with Hibernate Envers are added to the
+generated code. For how the history is recorded (the `<table>_aud` and `revinfo` tables and what they hold), see
+[data change history in ecuacion-splib](https://references.ecuacion.jp/ecuacion-references-splib/public/showMarkdown/page?id=core/audit/data-change-history&lang=en).
+
+- `@Audited` is added to every Entity and to the common superclass (`AppCommon`).
+- Add the `org.hibernate.orm:hibernate-envers` dependency to the app's pom (leave the version to Spring Boot).
+  `ecuacion-splib-jpa` depends on hibernate-envers only optionally, so the generated code does not compile
+  without it.
+- When blank (or `false`), nothing is added and the same code as before is generated. An Excel file without this
+  row is treated the same way.
+
+Tables and columns can be excluded from the history with the following columns (mark with `○`; blank means
+included). They are ignored unless this row is `true`.
+
+| Unit | Where | Generated code |
+| --- | --- | --- |
+| Table | "Exclude from Change History" column of the Table List sheet | `@Audited` is not added to the Entity |
+| Column | "Exclude from Change History" column of the DB Definition / DB Common Item Definition sheets (see [DB Definition sheet](page?id=excel-format/db-definition-sheet&lang=en)) | `@NotAudited` is added to the field |
+
+A relation from a table whose history is recorded to a table excluded as a whole gets
+`@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)` automatically (otherwise Envers fails at
+startup).
 
 ---
 
