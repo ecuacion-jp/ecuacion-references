@@ -111,6 +111,29 @@ public class AppSecurityConfig extends SplibOauth2WebSecurityConfig {
 }
 ```
 
+#### Behind a proxy
+
+The requests the server makes during login (exchanging the token, getting user information and getting the signing keys of the ID token) all use the [HTTP client](page?id=core/util/http-client&lang=en). Set the proxy and timeouts with `jp.ecuacion.splib.core.http-client.*` described there. With a proxy with credentials, add `httpclient5` to your app's dependencies (no startup option is needed).
+
+If the proxy restricts destinations, allow the domains in the "From the server" column.
+
+| Provider | From the server | From the user's browser |
+| --- | --- | --- |
+| Google | `www.googleapis.com` | `accounts.google.com` |
+| Apple | `appleid.apple.com` | `appleid.apple.com` |
+
+With `spring.security.oauth2.client.provider.*.issuer-uri`, Spring Security uses its own client to get the configuration, so these settings don't apply to it. Behind a proxy, specify `token-uri` and so on individually (Spring Security's defaults for Google already do so, so nothing is needed for Google).
+
+#### When the login fails
+
+When an OAuth2 login fails, the user is redirected to `getLoginNeededPage()` with `?oauth2Error`, and a message asks them to try again and to contact the administrator if the issue persists (the message ID is `jp.ecuacion.splib.web.login.message.oauth2Error`). It is separate from the message for a failed ID / password login (`?error`). To show your own contact information, for example, override it with the key without `.default`.
+
+When the user cancels on the provider's page (`access_denied`, or `user_cancelled_authorize` from Apple), they return to the login page with no message.
+
+The reason for the failure is logged with the registrationId, the error code, the description and the cause. The log level is `INFO` for cancellations and `authorization_request_not_found` (caused by an expired session or by accessing the callback URL without going through the login, for example), and `WARN` for the others.
+
+Exceptions thrown after the login (in `SplibOauth2UserHandler`, for example) are not included in these failures.
+
 #### Showing a confirm page before registration
 
 `SplibOauth2UserHandler#findOrCreateUser` is expected to register the user on the spot when not

@@ -15,6 +15,7 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.util;
 
+import java.util.Map;
 import jp.ecuacion.splib.jpa.util.SplibJpaFilterUtil;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,6 @@ import org.springframework.stereotype.Component;
 public class JpaFilterUtil extends SplibJpaFilterUtil {
 
   public JpaFilterUtil() {
-    super(true, false, null, false, null, null);
+    super(true, false, null, Map.of());
   }
 }

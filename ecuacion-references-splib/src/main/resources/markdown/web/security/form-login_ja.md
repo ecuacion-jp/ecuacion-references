@@ -82,6 +82,29 @@ public class AppSecurityConfig extends SplibOauth2WebSecurityConfig {
 }
 ```
 
+#### プロキシの裏に置く場合
+
+ログイン中にサーバから外部へ行う通信（トークンの交換、ユーザ情報の取得、ID トークンの署名鍵の取得）は、すべて [HTTPクライアント](page?id=core/util/http-client&lang=ja) を使います。プロキシとタイムアウトは、そこで説明している `jp.ecuacion.splib.core.http-client.*` で設定します。認証付きのプロキシでは、`httpclient5` をアプリの依存に追加してください（起動オプションは不要です）。
+
+プロキシで通信先を制限している場合は、サーバからの通信の列のドメインを許可してください。
+
+| 通信先 | サーバからの通信 | 利用者のブラウザからの通信 |
+| --- | --- | --- |
+| Google | `www.googleapis.com` | `accounts.google.com` |
+| Apple | `appleid.apple.com` | `appleid.apple.com` |
+
+`spring.security.oauth2.client.provider.*.issuer-uri` を使うと、Spring Security が設定の取得のために独自のクライアントで通信するので、この設定は効きません。プロキシの裏では、`token-uri` などを個別に指定してください（Google は Spring Security の既定値で個別に指定されているので、何もしなくても問題ありません）。
+
+#### ログインに失敗したとき
+
+OAuth2ログインに失敗すると、`getLoginNeededPage()` に `?oauth2Error` を付けてリダイレクトし、「もう一度試す、それでもだめなら管理者に連絡する」という内容のメッセージを表示します（メッセージ ID は `jp.ecuacion.splib.web.login.message.oauth2Error`）。ID・パスワードのログインの失敗（`?error`）とは別のメッセージです。問い合わせ先を案内したい場合などは、`.default` の無いキーで上書きしてください。
+
+利用者がプロバイダの画面でキャンセルした場合（`access_denied`、Apple の `user_cancelled_authorize`）は、メッセージを出さずにログイン画面に戻します。
+
+失敗の理由は、registrationId・エラーコード・説明・原因の例外とともにログに出ます。ログレベルは、キャンセルと `authorization_request_not_found`（セッション切れや、ログインを経ずにコールバックのURLへアクセスされた場合などに起きます）が `INFO`、それ以外が `WARN` です。
+
+なお、ログイン後の処理（`SplibOauth2UserHandler` など）で起きた例外は、ここでいう失敗には含まれません。
+
 #### 新規登録の前に確認画面を挟む
 
 `SplibOauth2UserHandler` の `findOrCreateUser` は、利用者が見つからなければその場で登録する前提です。登録する前に確認画面（利用規約への同意など）を挟みたい場合は、代わりに `SplibOauth2UserHandlerWithRegistrationConfirm` を実装します。

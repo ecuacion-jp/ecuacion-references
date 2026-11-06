@@ -41,6 +41,7 @@ used:
 | --- | --- | --- | --- |
 | 26 | Table names without grouping | Group Access Restriction Settings | Comma-separated list of table names that do NOT have the group filter column. Required only when using the grouping feature |
 | 29 | Use of data change history | Data Change History | Whether to use data change history (Hibernate Envers): `true` / `false` (blank means `false`) |
+| 30-32 | Admin scope column name / DataType name / table names without admin scope | Admin Scope | Settings narrowing the data of admins with a limited scope (see "Admin scope" below). Blank disables it |
 
 ### System name
 
@@ -68,6 +69,25 @@ jp.example.myapp.base.bl.AccBl
 When the grouping feature is enabled (the "Group Access Restriction Settings" category's column name is set),
 every table must either have the group column or be explicitly listed here. List the tables that do NOT have this
 column (e.g., authentication tables such as `ACC`, `ACC_ADMIN`).
+
+Tables listed here are not narrowed by group, so the data of all groups can be read from them,
+even by users for whom the group filter is enabled.
+
+- List only tables unrelated to groups (e.g., admin accounts, terms of use, mail authentication).
+- Do not list a child table whose group is determined by following its parent (e.g., messages of an inquiry);
+  give it the group column instead. If listed, the data of other groups can be read through paths that fetch
+  the child table directly by ID.
+- A table listed here cannot have the group column or a group identifier column (generation fails with an error).
+
+### Admin scope
+
+Generates filters narrowing the data of admins with a limited scope. Leaving the column name blank disables it.
+
+When enabled, every table must have the scope column, have an [admin scope identifier (column N)](page?id=excel-format/db-definition-sheet&lang=en)
+in the DB Item Definition, or be listed in "table names without admin scope". Otherwise generation fails with an error.
+
+Tables listed in "table names without admin scope" are not narrowed, so all of their data can be read even by admins
+with a limited scope.
 
 ### Use of data change history
 

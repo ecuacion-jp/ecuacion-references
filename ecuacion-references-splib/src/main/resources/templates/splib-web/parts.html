@@ -20,6 +20,9 @@
 				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
 						@{/public/showMarkdown/page(id='core/util/mail-util',lang=${lang})},
 						#{navBar.core.util.mailUtil}, '')}"></div>
+				<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+						@{/public/showMarkdown/page(id='core/util/http-client',lang=${lang})},
+						#{navBar.core.util.httpClient}, '')}"></div>
 			</div></th:block>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu(

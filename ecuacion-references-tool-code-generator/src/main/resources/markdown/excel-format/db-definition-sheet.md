@@ -20,21 +20,22 @@ Table name: `Table7`, range: `A5:AM{last row}`
 | K | Auto Update | `○` = auto-sets a value when null on update |
 | L | Force Update | `○` = always overwrites with updated value on update |
 | M | Group Identifier | `○` = marks this column as the group identifier |
-| N | Spring Audit | `CB` / `CD` / `LB` / `LD` (Spring Data audit annotations) |
-| O | Exclude from Change History | `○` = excluded from data change history (Hibernate Envers) (see "Exclude from Change History (Column O)" below) |
-| P | Relation: Type | `@ManyToOne` or `@OneToOne` (see [Defining Relationships](#defining-relationships)) |
-| Q | Relation: Direction | `unidirectional` / `bidirectional` |
-| R | Relation: Source Var Name | Java field name for the relation, on the owning (source) side (camelCase) |
-| S | Relation: Source Var itemNameKeyClass | Value of `@ItemNameKeyClass` put on the relation field on the source side (optional) |
-| T | Relation: Target Table | Referenced table name |
-| U | Relation: Target Column | Referenced column name (usually `ID`) |
-| V | Relation: Target Var Name | Reverse reference field name (bidirectional only) |
-| W | Relation: Target Var itemNameKeyClass | Value of `@ItemNameKeyClass` put on the reverse reference field (bidirectional only, optional) |
-| X | Relation: Eager | blank = lazy (default) / `○` = eager |
-| Y–AH | index1–10 | Assign sequential integers (optionally prefixed with `U`, e.g. `U1`, for a unique index) to define columns in an index in that order |
-| AI | Notes | Comments (not used in generation) |
-| AJ | Column Display Name (Default Lang) | Display name, default language |
-| AK–AM | Column Display Name (Additional Lang 1–3) | Language-specific display names |
+| N | Admin Scope Identifier | `○` = marks this column as the admin scope identifier (see "Admin Scope Identifier (Column N)" below) |
+| O | Spring Audit | `CB` / `CD` / `LB` / `LD` (Spring Data audit annotations) |
+| P | Exclude from Change History | `○` = excluded from data change history (Hibernate Envers) (see "Exclude from Change History (Column P)" below) |
+| Q | Relation: Type | `@ManyToOne` or `@OneToOne` (see [Defining Relationships](#defining-relationships)) |
+| R | Relation: Direction | `unidirectional` / `bidirectional` |
+| S | Relation: Source Var Name | Java field name for the relation, on the owning (source) side (camelCase) |
+| T | Relation: Source Var itemNameKeyClass | Value of `@ItemNameKeyClass` put on the relation field on the source side (optional) |
+| U | Relation: Target Table | Referenced table name |
+| V | Relation: Target Column | Referenced column name (usually `ID`) |
+| W | Relation: Target Var Name | Reverse reference field name (bidirectional only) |
+| X | Relation: Target Var itemNameKeyClass | Value of `@ItemNameKeyClass` put on the reverse reference field (bidirectional only, optional) |
+| Y | Relation: Eager | blank = lazy (default) / `○` = eager |
+| Z–AI | index1–10 | Assign sequential integers (optionally prefixed with `U`, e.g. `U1`, for a unique index) to define columns in an index in that order |
+| AJ | Notes | Comments (not used in generation) |
+| AK | Column Display Name (Default Lang) | Display name, default language |
+| AL–AN | Column Display Name (Additional Lang 1–3) | Language-specific display names |
 
 Table-level (rather than column-level) display names are set separately, in the **Table List** sheet.
 
@@ -134,11 +135,25 @@ Setting `M = ○` marks the column as the group identifier.
 
 Various settings can reference a group identifier column by name, but the key of the group table itself
 (e.g., `GROUP.ID`) is named `ID`, not the group column's configured name. To treat that `ID` as the group
-identifier in the same way, set `M = ○`. Normally only one column per system is marked this way.
+identifier in the same way, set `M = ○`.
+
+It can be set in multiple tables (a dedicated filter `groupFilter<TableName>` is generated for each table),
+but only one column per table.
 
 ---
 
-## Spring Audit (Column N)
+## Admin Scope Identifier (Column N)
+
+Setting `N = ○` marks the column as the admin scope identifier. The idea is the same as the group identifier:
+set it on a column holding the scope value under a name different from the admin scope column name in General
+Settings (e.g., `TARGET_SYSTEM.ID`, the primary key of the table representing the scope itself).
+
+It can be set in multiple tables (a dedicated filter `adminScopeFilter<TableName>` is generated for each table),
+but only one column per table, and not in the "DB Common Item Definition" sheet.
+
+---
+
+## Spring Audit (Column O)
 
 Attaches Spring Data audit annotations to the field.
 
@@ -168,14 +183,14 @@ detail, so it enforces a blanket ban on relations for CB/LB columns.
 
 ---
 
-## Exclude from Change History (Column O)
+## Exclude from Change History (Column P)
 
 When data change history (`ENABLED` of `DATA_CHANGE_HISTORY`) is set to `true` in the General Settings sheet,
 Hibernate Envers' `@Audited` is added to every Entity and to the common superclass (`AppCommon`), and changes to
 the data are recorded (see "Use of data change history" in the
 [General Settings sheet](page?id=excel-format/general-settings&lang=en) for details).
 
-A column with `○` in column O is excluded from the history, and `@NotAudited` is added to it in the generated code.
+A column with `○` in column P is excluded from the history, and `@NotAudited` is added to it in the generated code.
 
 ```java
 @Column(name = "AUTH_CODE", nullable = false, length = 100)
@@ -194,7 +209,7 @@ Notes:
 
 - It cannot be set on the Surrogate key (column F), since Envers needs the primary key in the history table.
   Setting it causes an error when code-generator runs.
-- When set on a relation column (one with column P), `@NotAudited` is added to the relation field. For
+- When set on a relation column (one with column Q), `@NotAudited` is added to the relation field. For
   `bidirectional` relations, it is also added to the reverse reference field generated on the referenced side.
 - When data change history is not used (`ENABLED` blank or `false`), this column is ignored.
 - To exclude a whole table, use the "Exclude from Change History" column of the Table List sheet.
@@ -203,9 +218,9 @@ Notes:
 
 ## Defining Relationships
 
-Relationships between tables are defined in columns P through X.
+Relationships between tables are defined in columns Q through Y.
 
-Column P (Relation: Type) only accepts `@ManyToOne` or `@OneToOne` as input. `@OneToMany` is never entered
+Column Q (Relation: Type) only accepts `@ManyToOne` or `@OneToOne` as input. `@OneToMany` is never entered
 directly — it is generated automatically on the referenced table's side of a `bidirectional` `@ManyToOne`
 relation (see below). The FK Types reference sheet in the workbook lists only these two supported shapes;
 one-to-many and many-to-many relations from the "many" side are not supported by the framework.
@@ -213,7 +228,7 @@ one-to-many and many-to-many relations from the "many" side are not supported by
 ### @ManyToOne (Most Common)
 
 ```
-Table     | Column   | dataType  | ... | P            | Q               | R        | S | T           | U   | V            | W | X |
+Table     | Column   | dataType  | ... | Q            | R               | S        | T | U           | V   | W            | X | Y |
 ----------|----------|-----------|-----|--------------|-----------------|----------|---|-------------|-----|--------------|---|---|
 MY_TABLE  | GROUP_ID | DT_SERIAL | ... | @ManyToOne   | unidirectional  | groupVar |   | GROUP_TABLE | ID  |              |   |   |
 ```
@@ -232,7 +247,7 @@ private GroupEntity groupVar;
 ### @ManyToOne (Bidirectional)
 
 To navigate the association in both directions, set the direction to `bidirectional`
-and provide the reverse reference field name in column V:
+and provide the reverse reference field name in column W:
 
 ```
 ... | @ManyToOne | bidirectional | parentVar | | PARENT_TABLE | ID | childListVar | | |
@@ -249,9 +264,9 @@ private List<ChildEntity> childListVar;
 
 One-to-one relationship. Specified the same way as `@ManyToOne`.
 
-### Relation: Eager (Column X)
+### Relation: Eager (Column Y)
 
-Column X is blank for lazy (default) fetch; set `○` for eager fetch.
+Column Y is blank for lazy (default) fetch; set `○` for eager fetch.
 
 Eager is acceptable when the relation clearly points to a parent entity in the DB structure and is
 `unidirectional`. Use lazy when self-referencing or when a circular reference through other entities
@@ -259,19 +274,19 @@ is possible.
 
 ---
 
-## Index (Columns Y–AH)
+## Index (Columns Z–AI)
 
-Assign integers starting from 1 in columns Y–AH (index1–10) to create an index with the columns
+Assign integers starting from 1 in columns Z–AI (index1–10) to create an index with the columns
 ordered by those numbers.
 
 Example: creating a composite index `(COL_A, COL_B)` on `MY_TABLE`:
 
-| Column | Y (index1) | Z (index2) |
+| Column | Z (index1) | AA (index2) |
 | --- | --- | --- |
 | COL_A | 1 | |
 | COL_B | 2 | |
 
-To define multiple indexes, use index2 (column Z) onward in the same way.
+To define multiple indexes, use index2 (column AA) onward in the same way.
 
 ### Unique Index
 
@@ -280,7 +295,7 @@ index as a unique index (`@Index(unique = true)`) instead of a normal one.
 
 Example: creating a unique index on `CODE` on `MY_TABLE`:
 
-| Column | Y (index1) |
+| Column | Z (index1) |
 | --- | --- |
 | CODE | U1 |
 
@@ -314,7 +329,7 @@ For rows outside the named table range, use a cell reference instead:
 
 The **DB Common Item Definition** sheet defines columns that are applied to **every** table automatically, instead
 of repeating the same columns on each table in DB Definition. It has the exact same column layout described above
-(columns A–AM), with one difference: column A (Table Name) is left blank, since the row applies to all tables
+(columns A–AN), with one difference: column A (Table Name) is left blank, since the row applies to all tables
 rather than one specific table.
 
 This is the conventional place to define cross-cutting columns such as audit columns (created/last-modified by and
