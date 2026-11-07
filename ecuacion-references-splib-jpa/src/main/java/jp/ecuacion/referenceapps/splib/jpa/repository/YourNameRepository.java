@@ -17,9 +17,7 @@ package jp.ecuacion.referenceapps.splib.jpa.repository;
 
 import jp.ecuacion.referenceapps.splib.jpa.entity.YourName;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface YourNameRepository
     extends YourNameBaseRepository, JpaSpecificationExecutor<YourName> {
 

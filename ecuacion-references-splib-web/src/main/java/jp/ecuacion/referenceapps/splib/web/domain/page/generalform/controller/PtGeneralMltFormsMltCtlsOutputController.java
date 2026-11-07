@@ -21,7 +21,6 @@ import jp.ecuacion.splib.web.bean.ReturnUrlBuilder;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
 import jp.ecuacion.splib.web.util.SplibLoginStateUtil;
 import jp.ecuacion.splib.web.util.SplibSavedModelUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,12 +35,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class PtGeneralMltFormsMltCtlsOutputController
     extends SplibGeneralController<PtGeneralMultipleFormsMultipleCtlsOutputService> {
 
-  @Autowired
-  private SplibLoginStateUtil loginStateUtil;
+  private final SplibLoginStateUtil loginStateUtil;
 
-  public PtGeneralMltFormsMltCtlsOutputController() {
+  public PtGeneralMltFormsMltCtlsOutputController(SplibLoginStateUtil loginStateUtil) {
     super("ptGeneralMltFormsMltCtls",
         newContext().subFunction("output").htmlFilenamePostfix("").mainRootRecordName("greeting"));
+    this.loginStateUtil = loginStateUtil;
   }
 
   @RequestMapping(value = "page", method = {RequestMethod.POST, RequestMethod.GET})

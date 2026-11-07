@@ -26,8 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BookRentalStatusBaseBl extends AppCommonBaseBl<BookRentalStatus, Long> {
 
-  @Autowired
   protected BookRentalStatusBaseRepository repo;
+
+  @Autowired
+  public void setRepo(BookRentalStatusBaseRepository repo) {
+    this.repo = repo;
+  }
 
   @Override
   public @NonNull SplibRepository<BookRentalStatus, Long> getRepositoryForOptimisticLocking() {

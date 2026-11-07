@@ -25,24 +25,27 @@ import jp.ecuacion.referenceapps.splib.jpa.form.PtGeneralMultipleTablesAndLockFo
 import jp.ecuacion.referenceapps.splib.jpa.record.BookRentalStatusRecord;
 import jp.ecuacion.referenceapps.splib.jpa.repository.BookRentalStatusRepository;
 import jp.ecuacion.splib.web.jpa.service.SplibGeneralJpaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PtGeneralMultipleTablesAndLockService
     extends SplibGeneralJpaService<BookRentalStatus> {
 
-  @Autowired
-  private HttpServletRequest request;
+  private final HttpServletRequest request;
 
-  @Autowired
-  BookRentalStatusRepository repo;
+  private final BookRentalStatusRepository repo;
 
-  @Autowired
-  BookRentalStatusBl bl;
+  private final BookRentalStatusBl bl;
 
-  @Autowired
-  BookBl bookBl;
+  private final BookBl bookBl;
+
+  public PtGeneralMultipleTablesAndLockService(HttpServletRequest request,
+      BookRentalStatusRepository repo, BookRentalStatusBl bl, BookBl bookBl) {
+    this.request = request;
+    this.repo = repo;
+    this.bl = bl;
+    this.bookBl = bookBl;
+  }
 
   public void page(PtGeneralMultipleTablesAndLockForm form, String function) {
     List<BookRentalStatus> list = repo.findAll();

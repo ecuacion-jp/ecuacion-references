@@ -30,11 +30,16 @@ public abstract class BookBaseBl extends AppCommonBaseBl<Book, Long> {
 
   protected BookBaseRepository repo;
 
-  @Autowired
   protected BookRentalStatusBaseRepository bookRentalStatusRepo;
 
-  public BookBaseBl(BookBaseRepository bookBaseRepository) {
-    this.repo = bookBaseRepository;
+  @Autowired
+  public void setRepo(BookBaseRepository repo) {
+    this.repo = repo;
+  }
+
+  @Autowired
+  public void setBookRentalStatusRepo(BookRentalStatusBaseRepository bookRentalStatusRepo) {
+    this.bookRentalStatusRepo = bookRentalStatusRepo;
   }
 
   @Override

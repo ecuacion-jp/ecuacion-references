@@ -22,7 +22,6 @@ import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.service.PtGen
 import jp.ecuacion.splib.web.bean.ReturnUrlBuilder;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
 import jp.ecuacion.splib.web.util.SplibLoginStateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,11 +37,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/public/ptGeneralFeatures")
 public class PtGeneralFeaturesController extends SplibGeneralController<PtGeneralFeaturesService> {
 
-  @Autowired
-  private SplibLoginStateUtil loginStateUtil;
+  private final SplibLoginStateUtil loginStateUtil;
 
-  public PtGeneralFeaturesController() {
+  public PtGeneralFeaturesController(SplibLoginStateUtil loginStateUtil) {
     super("ptGeneralFeatures");
+    this.loginStateUtil = loginStateUtil;
   }
 
   @GetMapping("page")

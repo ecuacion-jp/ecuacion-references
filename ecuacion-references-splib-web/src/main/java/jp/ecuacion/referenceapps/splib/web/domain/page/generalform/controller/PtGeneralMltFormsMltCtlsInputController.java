@@ -21,7 +21,6 @@ import jp.ecuacion.splib.web.bean.ReturnUrlBuilder;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
 import jp.ecuacion.splib.web.util.SplibLoginStateUtil;
 import jp.ecuacion.splib.web.util.SplibSavedModelUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,12 +39,12 @@ public class PtGeneralMltFormsMltCtlsInputController
 
   private static final String forwardSubFunction = "output";
 
-  @Autowired
-  private SplibLoginStateUtil loginStateUtil;
+  private final SplibLoginStateUtil loginStateUtil;
 
-  public PtGeneralMltFormsMltCtlsInputController() {
+  public PtGeneralMltFormsMltCtlsInputController(SplibLoginStateUtil loginStateUtil) {
     super("ptGeneralMltFormsMltCtls",
         newContext().subFunction("input").mainRootRecordName("greeting"));
+    this.loginStateUtil = loginStateUtil;
   }
 
   @GetMapping(value = "page")

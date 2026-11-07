@@ -24,17 +24,19 @@ import jp.ecuacion.referenceapps.splib.jpa.form.PtGeneralJpaForm;
 import jp.ecuacion.referenceapps.splib.jpa.record.YourNameRecord;
 import jp.ecuacion.referenceapps.splib.jpa.repository.YourNameRepository;
 import jp.ecuacion.splib.web.jpa.service.SplibGeneralJpaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PtGeneralJpaService extends SplibGeneralJpaService<YourName> {
 
-  @Autowired
-  YourNameRepository repo;
+  private final YourNameRepository repo;
 
-  @Autowired
-  YourNameBl bl;
+  private final YourNameBl bl;
+
+  public PtGeneralJpaService(YourNameRepository repo, YourNameBl bl) {
+    this.repo = repo;
+    this.bl = bl;
+  }
 
   public void page(PtGeneralJpaForm form, String function) {
     List<YourName> list = repo.findAll();

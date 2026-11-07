@@ -31,7 +31,6 @@ import jp.ecuacion.referenceapps.splib.web.domain.page.sle.form.PtSle21PtnListFo
 import jp.ecuacion.referenceapps.splib.web.domain.page.sle.form.PtSle21PtnSearchForm;
 import jp.ecuacion.splib.core.record.SplibRecord;
 import jp.ecuacion.splib.web.service.SplibSearchListService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -43,11 +42,15 @@ public class PtSle21PtnSearchListService
 
   private static final String FUNCTION_NAME = "ptSle21Ptn";
 
-  @Autowired
-  private ServletContext context;
+  private final ServletContext context;
 
-  @Autowired
-  private ServiceCommonUtil serviceUtil;
+  private final ServiceCommonUtil serviceUtil;
+
+  public PtSle21PtnSearchListService(ServletContext context,
+      ServiceCommonUtil serviceUtil) {
+    this.context = context;
+    this.serviceUtil = serviceUtil;
+  }
 
   @Override
   public void prepareForm(PtSle21PtnSearchForm searchForm, PtSle21PtnListForm listForm,

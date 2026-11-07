@@ -17,9 +17,7 @@ package jp.ecuacion.referenceapps.splib.jpa.repository;
 
 import jp.ecuacion.referenceapps.splib.jpa.entity.BookRentalStatus;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface BookRentalStatusRepository
     extends BookRentalStatusBaseRepository, JpaSpecificationExecutor<BookRentalStatus> {
 

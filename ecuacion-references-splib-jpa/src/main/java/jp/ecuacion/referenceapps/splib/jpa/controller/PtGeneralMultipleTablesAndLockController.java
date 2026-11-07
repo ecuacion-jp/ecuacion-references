@@ -20,7 +20,6 @@ import jp.ecuacion.referenceapps.splib.jpa.service.PtGeneralMultipleTablesAndLoc
 import jp.ecuacion.splib.web.bean.ReturnUrlBuilder;
 import jp.ecuacion.splib.web.controller.SplibGeneralController;
 import jp.ecuacion.splib.web.util.SplibLoginStateUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,12 +35,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PtGeneralMultipleTablesAndLockController
     extends SplibGeneralController<PtGeneralMultipleTablesAndLockService> {
 
-  @Autowired
-  private SplibLoginStateUtil loginStateUtil;
+  private final SplibLoginStateUtil loginStateUtil;
 
-  public PtGeneralMultipleTablesAndLockController() {
+  public PtGeneralMultipleTablesAndLockController(SplibLoginStateUtil loginStateUtil) {
     super("ptGeneralMultipleTablesAndLock",
         newContext().mainRootRecordName("bookRentalStatus").functionKinds("02-page/general-form"));
+    this.loginStateUtil = loginStateUtil;
   }
 
   @GetMapping("page")

@@ -16,7 +16,6 @@
 package jp.ecuacion.referenceapps.splib.web.domain.page.sle.service;
 
 import jakarta.servlet.ServletContext;
-import jakarta.servlet.http.HttpServletRequest;
 import java.nio.channels.OverlappingFileLockException;
 import jp.ecuacion.lib.core.violation.BusinessViolation;
 import jp.ecuacion.lib.core.violation.Violations;
@@ -26,7 +25,6 @@ import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.record.MonthR
 import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.record.RecordWithId;
 import jp.ecuacion.referenceapps.splib.web.domain.page.sle.form.PtSle21PtnEditForm;
 import jp.ecuacion.splib.web.service.SplibEditService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -37,13 +35,11 @@ public class PtSle21PtnEditService extends SplibEditService<PtSle21PtnEditForm> 
 
   private static final String function = "ptSle21Ptn";
 
-  @Autowired
-  HttpServletRequest request;
+  private final ServletContext context;
 
-  @Autowired
-  private ServletContext context;
-
-  public PtSle21PtnEditService() {}
+  public PtSle21PtnEditService(ServletContext context) {
+    this.context = context;
+  }
 
   @Override
   public void prepareForm(PtSle21PtnEditForm form, UserDetails loginUser) {}

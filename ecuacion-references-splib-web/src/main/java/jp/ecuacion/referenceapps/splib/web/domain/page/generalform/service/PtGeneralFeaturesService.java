@@ -25,14 +25,16 @@ import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.ServiceCommon
 import jp.ecuacion.referenceapps.splib.web.domain.page.generalform.form.PtGeneralFeaturesForm;
 import jp.ecuacion.splib.web.service.SplibGeneralService;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class PtGeneralFeaturesService extends SplibGeneralService {
 
-  @Autowired
-  private ServiceCommonUtil serviceUtil;
+  private final ServiceCommonUtil serviceUtil;
+
+  public PtGeneralFeaturesService(ServiceCommonUtil serviceUtil) {
+    this.serviceUtil = serviceUtil;
+  }
 
   public void page(PtGeneralFeaturesForm form, String function) throws IOException {
 

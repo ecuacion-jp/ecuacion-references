@@ -15,14 +15,9 @@
  */
 package jp.ecuacion.referenceapps.splib.jpa.bl;
 
-import jp.ecuacion.referenceapps.splib.jpa.repository.BookBaseRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookBl extends BookBaseBl {
-
-  public BookBl(BookBaseRepository bookBaseRepository) {
-    super(bookBaseRepository);
-  }
 
 }
