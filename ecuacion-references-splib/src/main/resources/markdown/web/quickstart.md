@@ -47,12 +47,12 @@ jp.ecuacion.splib.web.builtin-admin-login.password-plain=change-me
 
 ## 4. Confirm it
 
-Start the application locally and open the built-in admin login page:
+Start the application locally and open the built-in admin page:
 
 ```
-http://localhost:8080/ecuacion-splib/public/adminLogin/page
+http://localhost:8080/ecuacion-splib/admin/config/page
 ```
 
-Log in with username `ecuacion-splib` and the password set in step 3. A successful login lands on
-`/ecuacion-splib/admin/config/page` — see
+The browser asks for credentials (HTTP Basic authentication). Enter username `ecuacion-splib` and
+the password set in step 3 — see
 [Operational Endpoints](page?id=web/operational-endpoints&lang=en) for what that page can do.

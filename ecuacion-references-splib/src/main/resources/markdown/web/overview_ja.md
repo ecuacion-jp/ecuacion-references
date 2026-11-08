@@ -7,11 +7,11 @@
 | 機能 | 説明 |
 | --- | --- |
 | フォームログイン・アクセス制御 | セッションベースのフォームログイン、OAuth2（Google/Apple）ソーシャルログイン、ロール／権限ベースの `authorizeHttpRequests` ルールを、`SplibWebSecurityConfig`（またはログイン不要・管理者向け・なりすましログイン向けの各バリエーション）を継承することで構成できます。<br>[フォームログイン・アクセス制御](page?id=web/security/form-login&lang=ja) を参照。 |
-| 組み込み管理者認証 | `ecuacion-splib` 自身が提供する `/ecuacion-splib/admin/**` 配下のページ（後述の運用エンドポイントなど）は、<br>アプリ自体のログインとは独立した、固定資格情報による専用ログインで保護されています。<br>[組み込み管理者認証](page?id=web/security/builtin-admin&lang=ja) を参照。 |
+| 組み込み管理者認証 | `ecuacion-splib` 自身が提供する `/ecuacion-splib/admin/**` 配下のページ（後述の運用エンドポイントなど）は、<br>アプリ自体のログインとは独立した、固定資格情報によるHTTP Basic 認証で保護されています。<br>[組み込み管理者認証](page?id=web/security/builtin-admin&lang=ja) を参照。 |
 | CSRF・二重送信対策 | Spring Securityのセッションベースの標準CSRF保護がデフォルトで有効になっており、<br>その上にワンタイムのトランザクショントークンを重ねることで、Submitボタンの二重クリックのようなフォームの二重送信を検出します。<br>[CSRF・トランザクショントークン](page?id=web/security/csrf-and-transaction-token&lang=ja) を参照。 |
 | オープンリダイレクト対策 | 「元のページに戻る」形でリダイレクトする例外ハンドラは、リダイレクト先を `Referer` ヘッダーから取り出しますが、<br>ブラウザを外部サイトへ送ることが絶対にないよう検証してから使用します。<br>[オープンリダイレクト対策](page?id=web/security/open-redirect-protection&lang=ja) を参照。 |
 | 共通の例外処理 | `ViolationException`、`ConstraintViolationException`、その他の未捕捉の例外は、それぞれ異なる扱いでページ表示またはリダイレクトに変換されます。<br>[例外処理](page?id=web/exception-handling&lang=ja) を参照。 |
-| 組み込み運用エンドポイント | プロパティキャッシュをクリアするアクションと、意図的にシステムエラーを発生させるアクションがあり、<br>いずれも上記の組み込み管理者ログインの配下にあります。<br>[運用エンドポイント](page?id=web/operational-endpoints&lang=ja) を参照。 |
+| 組み込み運用エンドポイント | プロパティキャッシュをクリアするアクションと、意図的にシステムエラーを発生させるアクションがあり、<br>いずれも上記の組み込み管理者認証の配下にあります。<br>[運用エンドポイント](page?id=web/operational-endpoints&lang=ja) を参照。 |
 | セキュリティに配慮したロギング | すべてのリクエストがパラメータ付きでDEBUGログに出力されますが、パスワードらしきパラメータはマスクされ、<br>セッションIDは末尾8文字のみが記録されます。<br>[ロギング](page?id=web/logging&lang=ja) を参照。 |
 | 監査ログ | 書き込みの操作・ログイン・ログアウト・代理ログインを、操作した人・接続元・結果とともに専用のログファイルへ1件1行で記録します。<br>既定では無効で、設定を足すだけで有効になります。<br>[監査ログ](page?id=core/audit/audit-log&lang=ja) を参照。 |
 

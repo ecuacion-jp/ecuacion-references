@@ -34,10 +34,10 @@ jp.ecuacion.splib.web.builtin-admin-login.password-plain=change-me
 
 ## 4. 動作確認する
 
-アプリケーションをローカルで起動し、組み込み管理者ログイン画面を開きます。
+アプリケーションをローカルで起動し、組み込み管理画面を開きます。
 
 ```
-http://localhost:8080/ecuacion-splib/public/adminLogin/page
+http://localhost:8080/ecuacion-splib/admin/config/page
 ```
 
-ユーザー名 `ecuacion-splib` と、手順3で設定したパスワードでログインします。ログインに成功すると `/ecuacion-splib/admin/config/page` に遷移します。このページでできることは[運用エンドポイント](page?id=web/operational-endpoints&lang=ja)を参照してください。
+ブラウザが資格情報を求めてくる（HTTP Basic 認証）ので、ユーザー名 `ecuacion-splib` と、手順3で設定したパスワードを入力します。このページでできることは[運用エンドポイント](page?id=web/operational-endpoints&lang=ja)を参照してください。

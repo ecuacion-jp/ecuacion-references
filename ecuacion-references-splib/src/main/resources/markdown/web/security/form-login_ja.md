@@ -95,13 +95,21 @@ public class AppSecurityConfig extends SplibOauth2WebSecurityConfig {
 
 `spring.security.oauth2.client.provider.*.issuer-uri` を使うと、Spring Security が設定の取得のために独自のクライアントで通信するので、この設定は効きません。プロキシの裏では、`token-uri` などを個別に指定してください（Google は Spring Security の既定値で個別に指定されているので、何もしなくても問題ありません）。
 
+#### プロバイダから受け取る情報
+
+`SplibOauth2UserHandler` には、プロバイダから受け取った情報が `SplibOauth2UserInfo`（メールアドレス・名前・プロバイダ・`sub`）として渡されます。
+
+利用者は、メールアドレスではなく、プロバイダと `sub`（プロバイダ内で利用者ごとに一意で、別の人に使い回されない ID）の組で照合してください。メールアドレスは別の人に引き継がれることがあり（退職した社員の会社のアドレスなど）、メールアドレスで照合すると、新しい持ち主が前の持ち主としてログインできてしまいます。同じ人でもプロバイダが違えば `sub` は別の値になるので、同じメールアドレスの Google と Apple のアカウントを同じ利用者として扱うかどうかは、アプリで決めてください。
+
+プロバイダがメールアドレスを確認済みでない場合（`email_verified` が `true` でない場合。未設定も含みます）は、ログインを失敗にします（エラーコードは `email_not_verified`）。メールアドレスが返されない場合も失敗にします（エラーコードは `email_not_provided`。`email` スコープの指定漏れなどで起きます）。そのため、アプリに渡されるメールアドレスは、常に確認済みのものです。
+
 #### ログインに失敗したとき
 
 OAuth2ログインに失敗すると、`getLoginNeededPage()` に `?oauth2Error` を付けてリダイレクトし、「もう一度試す、それでもだめなら管理者に連絡する」という内容のメッセージを表示します（メッセージ ID は `jp.ecuacion.splib.web.login.message.oauth2Error`）。ID・パスワードのログインの失敗（`?error`）とは別のメッセージです。問い合わせ先を案内したい場合などは、`.default` の無いキーで上書きしてください。
 
 利用者がプロバイダの画面でキャンセルした場合（`access_denied`、Apple の `user_cancelled_authorize`）は、メッセージを出さずにログイン画面に戻します。
 
-失敗の理由は、registrationId・エラーコード・説明・原因の例外とともにログに出ます。ログレベルは、キャンセルと `authorization_request_not_found`（セッション切れや、ログインを経ずにコールバックのURLへアクセスされた場合などに起きます）が `INFO`、それ以外が `WARN` です。
+失敗の理由は、registrationId・エラーコード・説明・原因の例外とともにログに出ます。ログレベルは、キャンセルと `authorization_request_not_found`（セッション切れや、ログインを経ずにコールバックのURLへアクセスされた場合などに起きます）と `email_not_verified`（プロバイダ側の利用者のアカウントの状態によって起きます）が `INFO`、それ以外が `WARN` です。
 
 なお、ログイン後の処理（`SplibOauth2UserHandler` など）で起きた例外は、ここでいう失敗には含まれません。
 
@@ -114,8 +122,8 @@ OAuth2ログインに失敗すると、`getLoginNeededPage()` に `?oauth2Error`
 public class Oauth2UserHandlerImpl implements SplibOauth2UserHandlerWithRegistrationConfirm {
 
   @Override
-  public @Nullable UserDetails findUser(String email, String name, String provider) {
-    // 見つからなければ null を返す（登録はしない）
+  public @Nullable UserDetails findUser(SplibOauth2UserInfo userInfo) {
+    // userInfo.provider() と userInfo.subject() で探し、見つからなければ null を返す（登録はしない）
   }
 
   @Override
@@ -125,7 +133,7 @@ public class Oauth2UserHandlerImpl implements SplibOauth2UserHandlerWithRegistra
 }
 ```
 
-`findUser` が `null` を返すと、利用者は**ログイン済みにならず**、プロバイダから受け取った情報（メールアドレス・名前・プロバイダ）が `SplibOauth2PendingRegistration` としてセッションにだけ保持された状態で、`getRegistrationConfirmPage()` にリダイレクトされます。Appleは名前を初回の認証のときにしか返しませんが、この名前も保持される情報に含まれます。この時点では未ログインなので、確認画面は `/public/**` 配下など、ログインなしで開けるURLにしてください。
+`findUser` が `null` を返すと、利用者は**ログイン済みにならず**、プロバイダから受け取った情報（`findUser` に渡されたものと同じ `SplibOauth2UserInfo`）が `SplibOauth2PendingRegistration` としてセッションにだけ保持された状態で、`getRegistrationConfirmPage()` にリダイレクトされます。Appleは名前を初回の認証のときにしか返しませんが、この名前も保持される情報に含まれます。この時点では未ログインなので、確認画面は `/public/**` 配下など、ログインなしで開けるURLにしてください。
 
 確認画面とその後の処理では、`SplibOauth2RegistrationConfirmService` を使います。
 
@@ -141,7 +149,7 @@ public String register(HttpServletRequest request, HttpServletResponse response)
   SplibOauth2PendingRegistration pending = service.getPendingRegistration(request);
   // pending が null なら、ログイン画面へ戻す
 
-  UserDetails userDetails = // pending の情報で利用者を登録する
+  UserDetails userDetails = // pending.userInfo() の情報で利用者を登録する（プロバイダと sub も保存する）
   return "redirect:" + service.loginAfterRegistration(request, response, userDetails);
 }
 ```
@@ -159,7 +167,7 @@ public class AppSecurityConfig extends SplibWebSecurityConfigForNoLogin {
 
 ## `SplibWebSecurityConfigForAdmin`
 
-（前述の `ecuacion-splib` 組み込み管理者ログインとは別に、[組み込み管理者認証](page?id=web/security/builtin-admin&lang=ja)を参照）アプリ自身の管理画面向けに、独立した2つ目のログインが必要な場合に使います。`@Order(21)` で独自の `SecurityFilterChain` を登録し（`/public/admin*/**` と `/admin/**` のみにマッチ）、フォームログインは `POST /public/adminLogin/action`（`adminLogin.username`/`adminLogin.password`）、ログアウトは `POST /public/adminLogout` に紐づきます。前述の `ACCOUNT_FULL_ACCESS` と同様、`/admin/**` には予約ロール `ADMIN_FULL_ACCESS` が自動的に付与されます。
+（前述の `ecuacion-splib` 組み込み管理者認証とは別に、[組み込み管理者認証](page?id=web/security/builtin-admin&lang=ja)を参照）アプリ自身の管理画面向けに、独立した2つ目のログインが必要な場合に使います。`@Order(21)` で独自の `SecurityFilterChain` を登録し（`/public/admin*/**` と `/admin/**` のみにマッチ）、フォームログインは `POST /public/adminLogin/action`（`adminLogin.username`/`adminLogin.password`）、ログアウトは `POST /public/adminLogout` に紐づきます。前述の `ACCOUNT_FULL_ACCESS` と同様、`/admin/**` には予約ロール `ADMIN_FULL_ACCESS` が自動的に付与されます。
 
 ## `SplibWebSecurityConfigForSwitchUser`
 

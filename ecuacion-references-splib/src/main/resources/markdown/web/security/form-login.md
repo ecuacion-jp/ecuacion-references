@@ -124,13 +124,21 @@ If the proxy restricts destinations, allow the domains in the "From the server" 
 
 With `spring.security.oauth2.client.provider.*.issuer-uri`, Spring Security uses its own client to get the configuration, so these settings don't apply to it. Behind a proxy, specify `token-uri` and so on individually (Spring Security's defaults for Google already do so, so nothing is needed for Google).
 
+#### Information received from the provider
+
+The information received from the provider is passed to `SplibOauth2UserHandler` as `SplibOauth2UserInfo` (email address, name, provider and `sub`).
+
+Identify the user with the pair of the provider and `sub` (an ID unique to each user within the provider and never passed to another person), not with the email address. An email address may be passed to another person (for example, a company address after the employee leaves), and identifying the user by it lets the new owner log in as the previous one. `sub` differs between providers even for the same person, so whether the Google and Apple accounts with the same email address are treated as the same user is up to your app.
+
+When the provider has not verified the email address (`email_verified` is not `true`, including when it is not set), the login fails (the error code is `email_not_verified`). It also fails when no email address is returned (the error code is `email_not_provided`; caused by a missing `email` scope, for example). So the email address passed to your app is always a verified one.
+
 #### When the login fails
 
 When an OAuth2 login fails, the user is redirected to `getLoginNeededPage()` with `?oauth2Error`, and a message asks them to try again and to contact the administrator if the issue persists (the message ID is `jp.ecuacion.splib.web.login.message.oauth2Error`). It is separate from the message for a failed ID / password login (`?error`). To show your own contact information, for example, override it with the key without `.default`.
 
 When the user cancels on the provider's page (`access_denied`, or `user_cancelled_authorize` from Apple), they return to the login page with no message.
 
-The reason for the failure is logged with the registrationId, the error code, the description and the cause. The log level is `INFO` for cancellations and `authorization_request_not_found` (caused by an expired session or by accessing the callback URL without going through the login, for example), and `WARN` for the others.
+The reason for the failure is logged with the registrationId, the error code, the description and the cause. The log level is `INFO` for cancellations, `authorization_request_not_found` (caused by an expired session or by accessing the callback URL without going through the login, for example) and `email_not_verified` (caused by the state of the user's account at the provider), and `WARN` for the others.
 
 Exceptions thrown after the login (in `SplibOauth2UserHandler`, for example) are not included in these failures.
 
@@ -145,8 +153,9 @@ implement `SplibOauth2UserHandlerWithRegistrationConfirm` instead.
 public class Oauth2UserHandlerImpl implements SplibOauth2UserHandlerWithRegistrationConfirm {
 
   @Override
-  public @Nullable UserDetails findUser(String email, String name, String provider) {
-    // returns null when not found (doesn't register)
+  public @Nullable UserDetails findUser(SplibOauth2UserInfo userInfo) {
+    // finds by userInfo.provider() and userInfo.subject(),
+    // and returns null when not found (doesn't register)
   }
 
   @Override
@@ -157,7 +166,7 @@ public class Oauth2UserHandlerImpl implements SplibOauth2UserHandlerWithRegistra
 ```
 
 When `findUser` returns `null`, the user is **not** logged in. The information received from the
-provider (email address, name and provider) is kept only in the session as
+provider (the same `SplibOauth2UserInfo` as passed to `findUser`) is kept only in the session as
 `SplibOauth2PendingRegistration`, and the user is redirected to `getRegistrationConfirmPage()`.
 Apple returns the name only on the first authentication, and that name is kept as well. Since the
 user is not logged in at this point, the confirm page must be accessible without login (for
@@ -177,7 +186,7 @@ public String register(HttpServletRequest request, HttpServletResponse response)
   SplibOauth2PendingRegistration pending = service.getPendingRegistration(request);
   // if pending is null, go back to the login page
 
-  UserDetails userDetails = // register the user with the information in pending
+  UserDetails userDetails = // register the user with pending.userInfo() (save the provider and sub too)
   return "redirect:" + service.loginAfterRegistration(request, response, userDetails);
 }
 ```
@@ -201,7 +210,7 @@ public class AppSecurityConfig extends SplibWebSecurityConfigForNoLogin {
 ## `SplibWebSecurityConfigForAdmin`
 
 For an application that needs a second, independent login for its own admin area (distinct from
-the built-in `ecuacion-splib` admin login — see
+the built-in `ecuacion-splib` admin authentication — see
 [Built-in Admin Authentication](page?id=web/security/builtin-admin&lang=en)). Registers its own
 `SecurityFilterChain` at `@Order(21)` (matching only `/public/admin*/**` and `/admin/**`), with
 form login at `POST /public/adminLogin/action` (`adminLogin.username` / `adminLogin.password`) and
