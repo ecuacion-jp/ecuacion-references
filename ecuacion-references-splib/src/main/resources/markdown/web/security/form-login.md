@@ -140,7 +140,7 @@ When the user cancels on the provider's page (`access_denied`, or `user_cancelle
 
 The reason for the failure is logged with the registrationId, the error code, the description and the cause. The log level is `INFO` for cancellations, `authorization_request_not_found` (caused by an expired session or by accessing the callback URL without going through the login, for example) and `email_not_verified` (caused by the state of the user's account at the provider), and `WARN` for the others.
 
-Exceptions thrown after the login (in `SplibOauth2UserHandler`, for example) are not included in these failures.
+Exceptions thrown after the login (in `SplibOauth2UserHandler`, for example) are not included in these failures. To reject the login on the app's decision, see "Rejecting the login by the app" below.
 
 #### Showing a confirm page before registration
 
@@ -178,7 +178,8 @@ The confirm page and the following steps use `SplibOauth2RegistrationConfirmServ
 | --- | --- |
 | `getPendingRegistration(request)` | Gets the kept information.<br>`null` if not exists, for example when the session has expired. |
 | `discardPendingRegistration(request)` | Discards the kept information (for example, when the user cancels). |
-| `loginAfterRegistration(request, response, userDetails)` | Call it after the app has registered the user to log the user in.<br>The kept information is discarded, and the session id is changed and the CSRF token is renewed, as with the regular login.<br>Returns the url to redirect to (the url saved before login, or `getDefaultSuccessUrl()` if not saved). |
+| `loginAfterRegistration(request, response, userDetails)` | Call it after the app has registered the user to log the user in.<br>The kept information is discarded, and the session id is changed and the CSRF token is renewed, as with the regular login.<br>Returns the url to redirect to (the url saved before login, or `getDefaultSuccessUrl()` if not saved).<br>When `userDetails` is disabled, for example,<br>the login is rejected as with `rejectLogin` (the registered user remains). |
+| `rejectLogin(request, response, reason)` | Call it instead of `loginAfterRegistration` to reject the login (for example, when the user cannot be registered).<br>The kept information is discarded, and the user is not logged in.<br>`reason` is written only to the log.<br>Returns the url to redirect to (`getLoginNeededPage()` with `?oauth2Rejected`). |
 
 ```java
 @PostMapping("action")
@@ -190,6 +191,19 @@ public String register(HttpServletRequest request, HttpServletResponse response)
   return "redirect:" + service.loginAfterRegistration(request, response, userDetails);
 }
 ```
+
+#### Rejecting the login by the app
+
+Even after the authentication at the provider succeeds, the app can reject the login in either of the following ways.
+
+- When the `UserDetails` returned by `findOrCreateUser` / `findUser` is locked (`isAccountNonLocked()` is `false`), disabled (`isEnabled()` is `false`) or expired (`isAccountNonExpired()` is `false`). These are the same items Spring Security checks on the ID / password login (`isCredentialsNonExpired()` is not checked since the OAuth2 login doesn't use passwords). To stop a user disabled by the administrator, return it with `.disabled(true)` on `User.builder()`.
+- When `findOrCreateUser` / `findUser` throws `SplibOauth2LoginRejectedException`. Use it when the account cannot be created, for example. To reject in the registration on the confirm page, call `SplibOauth2RegistrationConfirmService#rejectLogin` instead of throwing the exception.
+
+When the login is rejected, the user is not logged in (the OAuth2 authentication that Spring Security has saved to the session is also cleared), `afterLoginSuccess` is not called, and the user is redirected to `getLoginNeededPage()` with `?oauth2Rejected`, where a message tells that they cannot log in with this account and asks them to contact the administrator (the message ID is `jp.ecuacion.splib.web.login.message.oauth2Rejected`). The reason is not shown to the user. It is logged with `INFO` together with the provider and `sub` (which item it was rejected by for a disabled user, for example, or the message of the exception).
+
+`findOrCreateUser` / `findUser` being called doesn't mean the login succeeds. Write what must be done only on a successful login, such as recording the login, in `afterLoginSuccess`.
+
+If you override the template of the login page, add the message for `?oauth2Rejected` as well.
 
 ## `SplibWebSecurityConfigForNoLogin`
 

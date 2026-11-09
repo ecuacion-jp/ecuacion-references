@@ -30,7 +30,7 @@ public class PtGeneralFeaturesRecord extends SplibRecord implements HtmlItemCont
   private String validationTest;
 
   static {
-    getStringLengthMap().put("validationTest", 4);
+    getStringLengthMap(PtGeneralFeaturesRecord.class).put("validationTest", 4);
   }
 
   public String getVersion() {

@@ -111,7 +111,7 @@ OAuth2ログインに失敗すると、`getLoginNeededPage()` に `?oauth2Error`
 
 失敗の理由は、registrationId・エラーコード・説明・原因の例外とともにログに出ます。ログレベルは、キャンセルと `authorization_request_not_found`（セッション切れや、ログインを経ずにコールバックのURLへアクセスされた場合などに起きます）と `email_not_verified`（プロバイダ側の利用者のアカウントの状態によって起きます）が `INFO`、それ以外が `WARN` です。
 
-なお、ログイン後の処理（`SplibOauth2UserHandler` など）で起きた例外は、ここでいう失敗には含まれません。
+なお、ログイン後の処理（`SplibOauth2UserHandler` など）で起きた例外は、ここでいう失敗には含まれません。アプリの判断でログインを断りたい場合は、後述の「アプリがログインを断る」を参照してください。
 
 #### 新規登録の前に確認画面を挟む
 
@@ -141,7 +141,8 @@ public class Oauth2UserHandlerImpl implements SplibOauth2UserHandlerWithRegistra
 | --- | --- |
 | `getPendingRegistration(request)` | 保持されている情報を取得する。<br>セッションが切れた等で無い場合は `null`。 |
 | `discardPendingRegistration(request)` | 保持されている情報を捨てる（「やり直す」が押されたときなど）。 |
-| `loginAfterRegistration(request, response, userDetails)` | アプリが登録を終えた後に呼び、その利用者をログイン済みにする。<br>保持されていた情報は捨てられ、<br>通常のログインと同じく、セッションIDの付け替えとCSRFトークンの再発行が行われる。<br>戻り値はリダイレクト先のURL（ログイン前に覚えておいたURL、無ければ `getDefaultSuccessUrl()`）。 |
+| `loginAfterRegistration(request, response, userDetails)` | アプリが登録を終えた後に呼び、その利用者をログイン済みにする。<br>保持されていた情報は捨てられ、<br>通常のログインと同じく、セッションIDの付け替えとCSRFトークンの再発行が行われる。<br>戻り値はリダイレクト先のURL（ログイン前に覚えておいたURL、無ければ `getDefaultSuccessUrl()`）。<br>`userDetails` が無効などの場合は、<br>`rejectLogin` と同じくログインを断る（登録した利用者は残る）。 |
+| `rejectLogin(request, response, reason)` | `loginAfterRegistration` の代わりに呼び、ログインを断る（登録できない場合など）。<br>保持されていた情報は捨てられ、ログイン済みにはならない。<br>`reason` はログにだけ出る。<br>戻り値はリダイレクト先のURL（`getLoginNeededPage()` に `?oauth2Rejected` を付けたもの）。 |
 
 ```java
 @PostMapping("action")
@@ -153,6 +154,19 @@ public String register(HttpServletRequest request, HttpServletResponse response)
   return "redirect:" + service.loginAfterRegistration(request, response, userDetails);
 }
 ```
+
+#### アプリがログインを断る
+
+プロバイダでの認証が成功した後でも、アプリの判断でログインを断れます。断り方は次の2つです。
+
+- `findOrCreateUser`・`findUser` が返す `UserDetails` が、ロックされている（`isAccountNonLocked()` が `false`）、無効（`isEnabled()` が `false`）、期限切れ（`isAccountNonExpired()` が `false`）のいずれかの場合。ID・パスワードのログインでSpring Securityが確認するのと同じ項目です（OAuth2ログインではパスワードを使わないので、`isCredentialsNonExpired()` は見ません）。管理者が無効にした利用者を止めたい場合は、`User.builder()` に `.disabled(true)` を付けて返します。
+- `findOrCreateUser`・`findUser` が `SplibOauth2LoginRejectedException` を投げた場合。アカウントを作れない場合などに使います。確認画面での登録の処理で断りたい場合は、例外を投げる代わりに `SplibOauth2RegistrationConfirmService#rejectLogin` を呼びます。
+
+断ったときは、ログイン済みにせず（Spring Securityがセッションに保存したOAuth2の認証も消します）、`afterLoginSuccess` も呼ばずに、`getLoginNeededPage()` に `?oauth2Rejected` を付けてリダイレクトし、「このアカウントではログインできない、管理者に連絡する」という内容のメッセージを表示します（メッセージ ID は `jp.ecuacion.splib.web.login.message.oauth2Rejected`）。断った理由は画面には出さず、プロバイダ・`sub` とともに `INFO` でログに出します（無効などの場合はどの項目で断ったか、例外の場合はそのメッセージ）。
+
+`findOrCreateUser`・`findUser` が呼ばれても、ログインが成功するとは限りません。ログイン実績の記録など、ログインが成功したときだけ行う処理は `afterLoginSuccess` に書いてください。
+
+ログイン画面のテンプレートを上書きしている場合は、`?oauth2Rejected` のメッセージも表示するよう追加してください。
 
 ## `SplibWebSecurityConfigForNoLogin`
 

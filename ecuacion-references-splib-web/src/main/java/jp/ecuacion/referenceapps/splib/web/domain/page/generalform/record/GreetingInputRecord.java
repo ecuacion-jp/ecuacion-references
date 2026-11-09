@@ -24,7 +24,7 @@ public class GreetingInputRecord extends SplibRecord implements HtmlItemContaine
   private String name;
 
   static {
-    getStringLengthMap().put("name", 20);
+    getStringLengthMap(GreetingInputRecord.class).put("name", 20);
   }
   
   public GreetingInputRecord() {

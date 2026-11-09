@@ -39,8 +39,8 @@ public abstract class BookRentalStatusBaseRecord extends AppCommonBaseRecord
   protected String status;
 
   static {
-    getStringLengthMap().put("bookId", null);
-    getStringLengthMap().put("status", 30);
+    getStringLengthMap(BookRentalStatusBaseRecord.class).put("bookId", null);
+    getStringLengthMap(BookRentalStatusBaseRecord.class).put("status", 30);
   }
 
   public BookRentalStatusBaseRecord() {

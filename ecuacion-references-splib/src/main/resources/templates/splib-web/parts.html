@@ -90,6 +90,15 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
+					#{navBar.web.grp.components}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='web/components/row-addable-table',lang=${lang})},
+					#{navBar.web.components.rowAddableTable}, '')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(
 					#{navBar.web.grp.other}, '')}"></div>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(

@@ -35,8 +35,8 @@ public abstract class YourNameBaseRecord extends AppCommonBaseRecord implements 
   protected String name;
 
   static {
-    getStringLengthMap().put("id", null);
-    getStringLengthMap().put("name", 30);
+    getStringLengthMap(YourNameBaseRecord.class).put("id", null);
+    getStringLengthMap(YourNameBaseRecord.class).put("name", 30);
   }
 
   public YourNameBaseRecord() {

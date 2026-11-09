@@ -37,8 +37,8 @@ public abstract class BookBaseRecord extends AppCommonBaseRecord implements Item
   protected String name;
 
   static {
-    getStringLengthMap().put("id", null);
-    getStringLengthMap().put("name", 30);
+    getStringLengthMap(BookBaseRecord.class).put("id", null);
+    getStringLengthMap(BookBaseRecord.class).put("name", 30);
   }
 
   public BookBaseRecord() {

@@ -144,7 +144,7 @@ public class InputController
             new String[] {"B", "selection-B"}, new String[] {"C", "selection-C"}});
 
     static {
-      getStringLengthMap().put("inputText", 3);
+      getStringLengthMap(InputRecord.class).put("inputText", 3);
     }
 
     @Override

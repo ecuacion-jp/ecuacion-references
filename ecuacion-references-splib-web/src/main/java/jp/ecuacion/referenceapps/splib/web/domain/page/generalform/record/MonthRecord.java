@@ -51,13 +51,13 @@ public class MonthRecord extends RecordWithId
           };
 
   static {
-    getStringLengthMap().put("id", 30);
-    getStringLengthMap().put("nameJapanese", 30);
-    getStringLengthMap().put("nameJapaneseOld", 30);
-    getStringLengthMap().put("nameEnglish", 30);
-    getStringLengthMap().put("nameGerman", 30);
-    getStringLengthMap().put("nameFrench", 30);
-    getStringLengthMap().put("numberOfDays", 2);
+    getStringLengthMap(MonthRecord.class).put("id", 30);
+    getStringLengthMap(MonthRecord.class).put("nameJapanese", 30);
+    getStringLengthMap(MonthRecord.class).put("nameJapaneseOld", 30);
+    getStringLengthMap(MonthRecord.class).put("nameEnglish", 30);
+    getStringLengthMap(MonthRecord.class).put("nameGerman", 30);
+    getStringLengthMap(MonthRecord.class).put("nameFrench", 30);
+    getStringLengthMap(MonthRecord.class).put("numberOfDays", 2);
   }
   
   public MonthRecord() {

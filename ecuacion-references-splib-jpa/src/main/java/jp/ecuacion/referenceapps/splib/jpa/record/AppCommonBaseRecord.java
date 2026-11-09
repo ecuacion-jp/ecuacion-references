@@ -38,11 +38,11 @@ public abstract class AppCommonBaseRecord extends SplibRecord {
   protected String version;
 
   static {
-    getStringLengthMap().put("createAccId", null);
-    getStringLengthMap().put("createTime", null);
-    getStringLengthMap().put("lstUpdAccId", null);
-    getStringLengthMap().put("lstUpdTime", null);
-    getStringLengthMap().put("version", null);
+    getStringLengthMap(AppCommonBaseRecord.class).put("createAccId", null);
+    getStringLengthMap(AppCommonBaseRecord.class).put("createTime", null);
+    getStringLengthMap(AppCommonBaseRecord.class).put("lstUpdAccId", null);
+    getStringLengthMap(AppCommonBaseRecord.class).put("lstUpdTime", null);
+    getStringLengthMap(AppCommonBaseRecord.class).put("version", null);
   }
 
   public AppCommonBaseRecord() {
