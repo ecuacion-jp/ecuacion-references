@@ -26,14 +26,14 @@
 
 	<div layout:fragment="edit-fields-content" th:remove="tag">
 		<div class="row mb-5">
-			<div th:replace="~{bootstrap/components-input :: text('id', *{isInsert ? '' : 'readOnly'})}"></div>
-			<div th:replace="~{bootstrap/components-input :: text('nameJapanese', '')}"></div>
-			<div th:replace="~{bootstrap/components-input :: text('nameJapaneseOld', '')}"></div>
-			<div th:replace="~{bootstrap/components-input :: text('nameEnglish', '')}"></div>
-			<div th:replace="~{bootstrap/components-input :: text('nameGerman', '')}"></div>
-			<div th:replace="~{bootstrap/components-input :: text('nameFrench', '')}"></div>
-			<div th:replace="~{bootstrap/components-input :: selectFromEnum('season', '')}"></div>
-			<div th:replace="~{bootstrap/components-input :: number('numberOfDays', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputText('id', *{isInsert ? '' : 'readOnly'})}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputText('nameJapanese', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputText('nameJapaneseOld', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputText('nameEnglish', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputText('nameGerman', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputText('nameFrench', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputSelectFromEnum('season', '')}"></div>
+			<div th:replace="~{bootstrap/components-input :: inputNumber('numberOfDays', '')}"></div>
  		</div>
 	</div>
 	

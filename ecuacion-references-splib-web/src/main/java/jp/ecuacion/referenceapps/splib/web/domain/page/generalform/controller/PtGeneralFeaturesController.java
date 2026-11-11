@@ -34,13 +34,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneralFeatures")
+@RequestMapping("/public/02-page/general-form/ptGeneralFeatures")
 public class PtGeneralFeaturesController extends SplibGeneralController<PtGeneralFeaturesService> {
 
   private final SplibLoginStateUtil loginStateUtil;
 
   public PtGeneralFeaturesController(SplibLoginStateUtil loginStateUtil) {
-    super("ptGeneralFeatures");
+    super("ptGeneralFeatures", newContext().functionKinds("02-page", "general-form"));
     this.loginStateUtil = loginStateUtil;
   }
 
@@ -134,7 +134,7 @@ public class PtGeneralFeaturesController extends SplibGeneralController<PtGenera
   public String transitionTo(Model model, PtGeneralFeaturesForm form) throws Exception {
 
     prepare(model, form);
-    return "ptGeneralFeaturesTransitionTo";
+    return "02-page/general-form/ptGeneralFeaturesTransitionTo";
   }
 }
 

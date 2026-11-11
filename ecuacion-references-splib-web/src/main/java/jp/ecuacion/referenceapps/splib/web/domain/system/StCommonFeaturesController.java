@@ -60,14 +60,14 @@ public class StCommonFeaturesController
   public static class StCommonFeaturesForm extends SplibGeneralForm {
 
     @Valid
-    private StCommonFeaturesRecord stCommonFunctions = new StCommonFeaturesRecord();
+    private StCommonFeaturesRecord stCommonFeatures = new StCommonFeaturesRecord();
 
-    public StCommonFeaturesRecord getStCommonFunctions() {
-      return stCommonFunctions;
+    public StCommonFeaturesRecord getStCommonFeatures() {
+      return stCommonFeatures;
     }
 
-    public void setStCommonFunctions(StCommonFeaturesRecord stCommonFunctions) {
-      this.stCommonFunctions = stCommonFunctions;
+    public void setStCommonFeatures(StCommonFeaturesRecord stCommonFeatures) {
+      this.stCommonFeatures = stCommonFeatures;
     }
   }
   

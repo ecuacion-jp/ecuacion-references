@@ -35,13 +35,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneralMltForms1CtlWithSubFunction/inputOutput")
+@RequestMapping("/public/02-page/general-form/ptGeneralMltForms1CtlWithSubFunction/inputOutput")
 public class PtGeneralMltForms1CtlWithSubFunctionInputOutputController
     extends SplibGeneralController<PtGeneralMltForms1CtlWithSubFunctionInputOutputService> {
 
   public PtGeneralMltForms1CtlWithSubFunctionInputOutputController() {
     super("ptGeneralMltForms1CtlWithSubFunction",
-        newContext().subFunction("inputOutput").mainRootRecordName("greeting"));
+        newContext().functionKinds("02-page", "general-form").subFunction("inputOutput")
+            .mainRootRecordName("greeting"));
   }
 
   @GetMapping(value = "page")

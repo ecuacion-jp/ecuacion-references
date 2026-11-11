@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //@formatter:off
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptSle21Ptn/searchList")
+@RequestMapping("/public/02-page/ptSle21Ptn/searchList")
 public class PtSle21PtnSearchListController extends SplibSearchListController
     <PtSle21PtnSearchForm, PtSle21PtnListForm, PtSle21PtnSearchListService> {
   //@formatter:on

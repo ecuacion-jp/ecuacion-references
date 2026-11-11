@@ -111,7 +111,7 @@
 	<div th:fragment="box-speechBalloon" th:remove="tag">
 		<div th:replace="~{bootstrap/components :: referenceBox(${htmlFileName}, 'component.components.message.speechBalloon', '')}"></div>
 		<div class="mt-5"></div>
-		<div th:replace="~{bootstrap/components :: speechBalloon('Someone\'s speechBalloon', false, 'John', ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}, '')}"></div>
+		<div th:replace="~{bootstrap/components :: speechBalloon('Someone’s speechBalloon', false, 'John', ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}, '')}"></div>
 		<div th:replace="~{bootstrap/components :: speechBalloon('My speechBalloon', true, '', ${#dates.format(#dates.createNow(), 'yyyy-MM-dd HH:mm:ss')}, '')}"></div>
 	</div>
 	

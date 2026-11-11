@@ -33,7 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneralMltFormsMltCtls/input")
+@RequestMapping("/public/02-page/general-form/ptGeneralMltFormsMltCtls/input")
 public class PtGeneralMltFormsMltCtlsInputController
     extends SplibGeneralController<PtGeneralMltFormsMltCtlsInputService> {
 
@@ -43,7 +43,8 @@ public class PtGeneralMltFormsMltCtlsInputController
 
   public PtGeneralMltFormsMltCtlsInputController(SplibLoginStateUtil loginStateUtil) {
     super("ptGeneralMltFormsMltCtls",
-        newContext().subFunction("input").mainRootRecordName("greeting"));
+        newContext().functionKinds("02-page", "general-form").subFunction("input")
+            .mainRootRecordName("greeting"));
     this.loginStateUtil = loginStateUtil;
   }
 

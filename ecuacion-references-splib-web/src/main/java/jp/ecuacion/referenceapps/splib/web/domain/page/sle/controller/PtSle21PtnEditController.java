@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptSle21Ptn/edit")
+@RequestMapping("/public/02-page/ptSle21Ptn/edit")
 public class PtSle21PtnEditController
     extends SplibEditController<PtSle21PtnEditForm, PtSle21PtnEditService> {
 

@@ -30,12 +30,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneral1Form1Record")
+@RequestMapping("/public/02-page/general-form/ptGeneral1Form1Record")
 public class PtGeneral1Form1RecordController
     extends SplibGeneralController<PtGeneral1Form1RecordService> {
 
   public PtGeneral1Form1RecordController() {
-    super("ptGeneral1Form1Record", newContext().mainRootRecordName("greeting"));
+    super("ptGeneral1Form1Record",
+        newContext().functionKinds("02-page", "general-form").mainRootRecordName("greeting"));
   }
 
   @GetMapping("page")

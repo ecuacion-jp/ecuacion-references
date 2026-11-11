@@ -34,11 +34,11 @@
 	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components-input :: text('firstName', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('firstName', '')}"></div>
 		<div th:replace="~{bootstrap/components-input :: submitButton('greetingButton', #{greetingBox.button}, '')}"></div>
 		
 		<div class="mt-7"></div>
-		<div th:replace="~{bootstrap/components-input :: text('message', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('message', 'readOnly')}"></div>
 	</div>
 </body>
 </html>

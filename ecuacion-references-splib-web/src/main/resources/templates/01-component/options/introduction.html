@@ -38,12 +38,12 @@
 	</div>
 
 	<div th:fragment="box-readOnly" th:remove="tag">
-		<div th:replace="~{bootstrap/components-input :: text('firstName', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('firstName', 'readOnly')}"></div>
 	</div>
 
 	<div th:fragment="box-width" th:remove="tag">
-		<div th:replace="~{bootstrap/components-input :: text('firstName', 'width=half')}"></div>
-		<div th:replace="~{bootstrap/components-input :: text('firstName', 'width=full')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('firstName', 'width=half')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('firstName', 'width=full')}"></div>
 	</div>
 </body>
 </html>

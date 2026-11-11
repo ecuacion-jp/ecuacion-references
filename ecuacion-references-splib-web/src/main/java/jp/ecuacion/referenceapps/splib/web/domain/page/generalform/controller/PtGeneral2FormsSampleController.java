@@ -31,14 +31,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 //@formatter:off
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneral2FormsSample")
+@RequestMapping("/public/02-page/general-form/ptGeneral2FormsSample")
 public class PtGeneral2FormsSampleController extends
     SplibGeneral2FormsController<PtGeneral2FormsSampleInputForm, 
     PtGeneral2FormsSampleOutputForm, PtGeneral2FormsSampleService> {
   //@formatter:on
 
   public PtGeneral2FormsSampleController() {
-    super("ptGeneral2FormsSample", newContext().mainRootRecordName("greeting"));
+    super("ptGeneral2FormsSample",
+        newContext().functionKinds("02-page", "general-form").mainRootRecordName("greeting"));
   }
 
   @PostMapping(value = "action", params = "greetingBtn")

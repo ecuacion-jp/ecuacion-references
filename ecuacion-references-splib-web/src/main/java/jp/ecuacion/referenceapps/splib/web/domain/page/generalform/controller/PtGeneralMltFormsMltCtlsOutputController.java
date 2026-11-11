@@ -31,7 +31,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneralMltFormsMltCtls/output")
+@RequestMapping("/public/02-page/general-form/ptGeneralMltFormsMltCtls/output")
 public class PtGeneralMltFormsMltCtlsOutputController
     extends SplibGeneralController<PtGeneralMultipleFormsMultipleCtlsOutputService> {
 
@@ -39,7 +39,8 @@ public class PtGeneralMltFormsMltCtlsOutputController
 
   public PtGeneralMltFormsMltCtlsOutputController(SplibLoginStateUtil loginStateUtil) {
     super("ptGeneralMltFormsMltCtls",
-        newContext().subFunction("output").htmlFilenamePostfix("").mainRootRecordName("greeting"));
+        newContext().functionKinds("02-page", "general-form").subFunction("output")
+            .htmlFilenamePostfix("").mainRootRecordName("greeting"));
     this.loginStateUtil = loginStateUtil;
   }
 
@@ -47,6 +48,17 @@ public class PtGeneralMltFormsMltCtlsOutputController
   public String page(Model model, PtGeneralMltFormsMltCtlsOutputForm outputForm) throws Exception {
 
     prepare(model, outputForm);
+
+    // forward元（input側ctl）の form と BindingResult は request 属性として渡ってくるので、
+    // 画面描画時に参照できるよう本ctlの model に載せる。
+    String inputFormName = "ptGeneralMltFormsMltCtlsInputForm";
+    for (String key : new String[] {inputFormName,
+        BindingResult.MODEL_KEY_PREFIX + inputFormName}) {
+      Object value = request.getAttribute(key);
+      if (value != null && !model.containsAttribute(key)) {
+        model.addAttribute(key, value);
+      }
+    }
 
     // エラーがある場合は処理結果を表示しない
     BindingResult br = (BindingResult) model.getAttribute(
@@ -60,7 +72,7 @@ public class PtGeneralMltFormsMltCtlsOutputController
     return getDefaultHtmlPageName();
   }
 
-  @RequestMapping(value = "action", params = "forwarded",
+  @RequestMapping(value = "action", params = "forward",
       method = {RequestMethod.POST, RequestMethod.GET})
   public String action(Model model, PtGeneralMltFormsMltCtlsOutputForm outputForm,
       RedirectAttributes redirectAttributes) throws Exception {

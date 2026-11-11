@@ -34,12 +34,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptGeneralMltForms1Ctl")
+@RequestMapping("/public/02-page/general-form/ptGeneralMltForms1Ctl")
 public class PtGeneralMltForms1CtlController
     extends SplibGeneralController<PtGeneralMltForms1CtlService> {
 
   public PtGeneralMltForms1CtlController() {
-    super("ptGeneralMltForms1Ctl", newContext().mainRootRecordName("greeting"));
+    super("ptGeneralMltForms1Ctl",
+        newContext().functionKinds("02-page", "general-form").mainRootRecordName("greeting"));
   }
 
   @GetMapping(value = "page")

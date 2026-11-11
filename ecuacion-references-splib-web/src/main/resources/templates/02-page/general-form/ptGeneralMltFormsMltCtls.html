@@ -39,16 +39,16 @@
  	</div>
 
 	<div th:fragment="box-1" th:remove="tag">
-		<div th:replace="~{bootstrap/components-input :: text('name', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('name', '')}"></div>
 		<div th:replace="~{bootstrap/components-input :: submitButton('greetingBtn', #{PT_COMMON_GREETING_BUTTON}, '')}"></div>
 	</div>
 
 	<div layout:fragment="form-content-2">
-		<div th:replace="~{bootstrap/components :: box(~{::box-2}, '縺疲肩諡ｶ', '縺疲肩諡ｶ縺励∪縺吶��', '')}"></div>
+		<div th:replace="~{bootstrap/components :: box(~{::box-2}, 'ご挨拶', 'ご挨拶します。', '')}"></div>
 	</div>
 
 	<div th:fragment="box-2" th:remove="tag">
-		<div th:replace="~{bootstrap/components-input :: text('greetingMessage', 'readOnly')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('greetingMessage', 'readOnly')}"></div>
 	</div>
 		<!--/* 
  */-->

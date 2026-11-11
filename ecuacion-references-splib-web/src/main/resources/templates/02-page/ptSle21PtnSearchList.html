@@ -29,12 +29,12 @@
 <body>
 	<div layout:fragment="search-content" th:remove="tag">
 		<div class="row">
-			<div th:replace="~{bootstrap/components-search :: text('nameJapanese', '')}"></div>
-			<div th:replace="~{bootstrap/components-search :: text('nameJapaneseOld', '')}"></div>
-			<div th:replace="~{bootstrap/components-search :: text('nameEnglish', '')}"></div>
-			<div th:replace="~{bootstrap/components-search :: text('nameGerman', '')}"></div>
-			<div th:replace="~{bootstrap/components-search :: text('nameFrench', '')}"></div>
-			<div th:replace="~{bootstrap/components-search :: selectFromEnum('season', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: searchText('nameJapanese', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: searchText('nameJapaneseOld', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: searchText('nameEnglish', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: searchText('nameGerman', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: searchText('nameFrench', '')}"></div>
+			<div th:replace="~{bootstrap/components-search :: searchSelectFromEnum('season', '')}"></div>
  		</div>
 	</div>
 
@@ -47,22 +47,22 @@
 		<th th:replace="~{bootstrap/components-list :: headerSortable('nameFrench', '')}"></th>
 		<th th:replace="~{bootstrap/components-list :: headerSortable('season', '')}"></th>
 		<th th:replace="~{bootstrap/components-list :: headerSortable('numberOfDays', '')}"></th>
-		<th th:replace="~{bootstrap/components-list :: headerFreeText(#{jp.ecuacion.splib.web.common.button.update}, 'center')}"></th>
-		<th th:replace="~{bootstrap/components-list :: headerFreeText(#{jp.ecuacion.splib.web.common.button.delete}, 'center')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerUpdateButton('')}"></th>
+		<th th:replace="~{bootstrap/components-list :: headerDeleteButton('')}"></th>
 	</div>
 
 	<div layout:fragment="list-table-body-content" th:remove="tag">
 		<tr>
-			<td th:replace="~{bootstrap/components-list :: readOnlyText('id', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameJapanese', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameJapaneseOld', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameEnglish', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameGerman', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyText('nameFrench', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyEnumText('season', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: readOnlyNumber('numberOfDays', '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: updateButton(*{id}, *{version}, '')}"></td>
-			<td th:replace="~{bootstrap/components-list :: deleteButton(*{id}, *{nameJapanese}, *{version}, '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyText('id', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyText('nameJapanese', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyText('nameJapaneseOld', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyText('nameEnglish', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyText('nameGerman', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyText('nameFrench', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyEnumText('season', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: listReadOnlyNumber('numberOfDays', '')}"></td>
+			<td th:replace="~{bootstrap/components-list :: updateButton('')}"></td>
+			<td th:replace="~{bootstrap/components-list :: deleteButton(*{nameJapanese}, '')}"></td>
 		</tr>
 	</div>
 

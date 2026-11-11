@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Scope("prototype")
-@RequestMapping("/public/ptBaseBsBgGradient")
+@RequestMapping("/public/02-page/ptBaseBsBgGradient")
 public class PtBaseBsBgGradientController
     extends SplibGeneralController<SplibGeneralDoNothingService> {
 

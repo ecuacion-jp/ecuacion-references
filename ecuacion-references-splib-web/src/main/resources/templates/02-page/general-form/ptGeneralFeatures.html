@@ -49,7 +49,7 @@
 	</div>
 
 	<div th:fragment="box-5" th:remove="tag">
-		<div th:replace="~{bootstrap/components-input :: text('validationTest', '')}"></div>
+		<div th:replace="~{bootstrap/components-input :: inputText('validationTest', '')}"></div>
 		<div th:replace="~{bootstrap/components-input :: submitButton('validationTrue', #{PT_GENERAL_FEATURES_VALIDATION_TRUE_BUTTON}, '')}"></div>
 		<div th:replace="~{bootstrap/components-input :: submitButton('validationFalse', #{PT_GENERAL_FEATURES_VALIDATION_FALSE_BUTTON}, '')}"></div>
 	</div>

@@ -152,28 +152,28 @@
 
 
 			
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/general-form/ptGeneral}, #{PT_GENERAL_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneralFeatures/page}, #{PT_GENERAL_FEATURES_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/general-form/introduction}, #{PT_GENERAL_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneralFeatures/page}, #{PT_GENERAL_FEATURES_TITLE}, '')}"></div>
 					<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
 					<div th:replace="~{bootstrap/components :: navbarDropDownMenuGroupLabel(#{NAVBAR_MENU_GROUP_PT_GENERAL_COMPOSITION_PATTERNS}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=ptGeneralCompositionPatterns}, #{PT_GENERAL_COMPOSITION_PATTERNS_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=ptGeneralSubFunction}, #{PT_GENERAL_SUBFUNCTION_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneral1Form1Record/page}, #{PT_GENERAL_1_FORM_1_RECORD_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneral1FormMltRecords/page}, #{PT_GENERAL_1_FORM_MLT_RECORDS_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneralMltForms1Ctl/page}, #{PT_GENERAL_MLT_FORMS_1_CTL_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneral1Form1CtlWithSubFunction/inputOutput/page}, #{PT_GENERAL_1_FORM_1_CTL_WITH_FN_PF_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneralMltForms1CtlWithSubFunction/inputOutput/page}, #{PT_GENERAL_MLT_FORMS_1_CTL_WITH_FN_PF_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneralMltFormsMltCtls/input/page}, #{PT_GENERAL_MLT_FORMS_MLT_CTLS_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/general-form/ptGeneralCompositionPatterns}, #{PT_GENERAL_COMPOSITION_PATTERNS_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/general-form/ptGeneralSubFunction}, #{PT_GENERAL_SUBFUNCTION_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneral1Form1Record/page}, #{PT_GENERAL_1_FORM_1_RECORD_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneral1FormMltRecords/page}, #{PT_GENERAL_1_FORM_MLT_RECORDS_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneralMltForms1Ctl/page}, #{PT_GENERAL_MLT_FORMS_1_CTL_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneral1Form1CtlWithSubFunction/inputOutput/page}, #{PT_GENERAL_1_FORM_1_CTL_WITH_FN_PF_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneralMltForms1CtlWithSubFunction/inputOutput/page}, #{PT_GENERAL_MLT_FORMS_1_CTL_WITH_FN_PF_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneralMltFormsMltCtls/input/page}, #{PT_GENERAL_MLT_FORMS_MLT_CTLS_TITLE}, '')}"></div>
 				</div>
 			</th:block>
 
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('★X-form[s] general-page template', ~{::navbarSubMenuPageTemplateGeneralXForms}, '')}"></div>
 			<th:block th:if="false">
 				<div th:fragment="navbarSubMenuPageTemplateGeneralXForms" th:remove="tag">
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=ptGeneralXForms}, #{PT_GENERAL_X_FORMS_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/general-form/ptGeneralXForms}, #{PT_GENERAL_X_FORMS_TITLE}, '')}"></div>
 					<div th:replace="~{bootstrap/components :: navbarDropDownMenuDivider('')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneral1FormSample/page}, #{PT_GENERAL_1_FORM_SAMPLE_TITLE}, '')}"></div>
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptGeneral2FormsSample/page}, #{PT_GENERAL_2_FORMS_SAMPLE_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneral1FormSample/page}, #{PT_GENERAL_1_FORM_SAMPLE_TITLE}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/general-form/ptGeneral2FormsSample/page}, #{PT_GENERAL_2_FORMS_SAMPLE_TITLE}, '')}"></div>
 				</div>
 			</th:block>
 			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/show/page?id=02-page/general-form/ptGeneralMemo}, 'memo!!', '')}"></div>
@@ -216,7 +216,7 @@
 			<div th:replace="~{bootstrap/components :: navbarDropDownSubMenu('★search-list-edit page template', ~{::navbarSubMenuPageTemplateSle}, '')}"></div>
 			<th:block th:if="false">
 				<div th:fragment="navbarSubMenuPageTemplateSle" th:remove="tag">
-					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptSle21Ptn/searchList/page}, #{NAVBAR_L3_PT_SLE_2_1}, '')}"></div>
+					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/02-page/ptSle21Ptn/searchList/page}, #{NAVBAR_L3_PT_SLE_2_1}, '')}"></div>
 					<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(@{/public/ptSle3Ptn/searchList/page}, #{NAVBAR_L3_PT_SLE_3}, '')}"></div>
 				</div>
 			</th:block>

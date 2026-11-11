@@ -17,9 +17,11 @@ package jp.ecuacion.referenceapps.splib.web.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ComponentScan(basePackages = "jp.ecuacion.splib.web.config")
+@PropertySource("classpath:application-builtin.properties")
 public class AppConfig {
 
 }
