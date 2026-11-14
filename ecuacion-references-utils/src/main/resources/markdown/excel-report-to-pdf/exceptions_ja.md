@@ -4,7 +4,7 @@ PDF生成が、指定されたExcelファイルの内容や、それが依存す
 `ViolationException` を継承）。`abstract` なので直接スローされることはなく、
 必ず下記のいずれかの具象サブクラスがスローされます。
 
-Excelファイルの読み込みやPDFファイルの書き込み中に起きる純粋に技術的な失敗（ファイル破損、ディスクI/Oエラーなど）は `PdfGenerateException` では表現されません。
+Excelファイルの読み込みやPDFファイルの書き込み中に起きる純粋に技術的な失敗（ファイルが存在しない、ディスクI/Oエラーなど）は `PdfGenerateException` では表現されません。
 `generate()` はその場合、`java.io.UncheckedIOException`（非検査例外）をスローします。
 `getCause()` で元の `IOException` を取得できます。
 
@@ -17,9 +17,15 @@ Excelファイルの読み込みやPDFファイルの書き込み中に起きる
 | `SystemFontNotFoundException` | `useSystemFonts` 有効時、workbookの既定フォントが実行環境にインストールされておらず、フォールバックフォントも設定されていない |
 | `FontLoadFailedException` | システムフォントファイルは見つかったが、`TrueTypeFont` として読み込めなかった |
 | `CharacterNotRenderableException` | セル内の文字が、既定フォント・設定済みのフォールバックフォントのいずれでもエンコードできない |
+| `FileFormatNotSupportedException` | 対応形式（xlsx, xlsm, xls）のExcel ファイルでない（Word ファイル、他のアプリケーションのファイル、壊れたファイル・空のファイルなど） |
+| `FilePasswordRequiredException` | ファイルがパスワードで保護されており、`excelPassword` が指定されていない |
+| `FilePasswordIncorrectException` | ファイルがパスワードで保護されており、`excelPassword` が誤っている |
 
-5つとも `jp.ecuacion.util.pdf.excel.report.exception` パッケージに属し、
-`PdfGenerateException` を継承しています。
+8つとも `PdfGenerateException` を継承しています。シート関連の2つは
+`jp.ecuacion.util.pdf.excel.report.exception` パッケージに属します。`PdfGenerateException` 自体と
+その他の6つ（フォント関連・ファイル関連）は、`ecuacion-util-word-document-to-pdf` と共用するため
+`jp.ecuacion.util.pdf.common.exception` パッケージ（依存として自動的に読み込まれる
+`ecuacion-util-pdf-common` モジュール）に属します。
 
 ### キャッチ方法
 
@@ -27,8 +33,8 @@ Excelファイルの読み込みやPDFファイルの書き込み中に起きる
 型でcatchします。
 
 ```java
-import jp.ecuacion.util.pdf.excel.report.exception.PdfGenerateException;
-import jp.ecuacion.util.pdf.excel.report.exception.SystemFontNotFoundException;
+import jp.ecuacion.util.pdf.common.exception.PdfGenerateException;
+import jp.ecuacion.util.pdf.common.exception.SystemFontNotFoundException;
 
 try {
     ExcelToPdfUtil.generate(excelPath, sheetNames, outputPath, options);
@@ -39,7 +45,7 @@ try {
     String messageId = ex.getMessageId();
     System.err.println("PDF生成エラー: " + messageId);
 } catch (UncheckedIOException ex) {
-    // 純粋に技術的な失敗（ファイル破損、ディスクエラーなど）。ex.getCause()がIOException
+    // 純粋に技術的な失敗（ファイルが存在しない、ディスクエラーなど）。ex.getCause()がIOException
 }
 ```
 
@@ -47,8 +53,9 @@ try {
 
 `ExcelTableException` と同様、`PdfGenerateException` も `messageId`（`getMessageId()`、
 `ViolationException` から継承）を保持しており、エンドユーザー向けのi18n表示を意図しています。
-メッセージ本文は `messages_util_excel_report_to_pdf.properties` /
-`messages_util_excel_report_to_pdf_ja.properties` に定義されています。
+メッセージ本文は、シート関連の例外は `messages_util_excel_report_to_pdf.properties`、
+その他の例外は `messages_util_pdf_common.properties` に定義されています
+（いずれも `_ja` などの各言語版ファイルあり）。
 
 ```java
 } catch (PdfGenerateException ex) {

@@ -59,6 +59,10 @@ PdfGenerateOptions options = PdfGenerateOptions.builderForSystemFonts()
 macOS 版 Excel が CJK フォントの既定表示ウェイトとして Medium を使用する挙動に合わせたものです。
 また、通常（立体）フォントを要求した際には **イタリック**・**ボールド** のバリアントを正しく除外するため、Calibri のようなフォントも確実に Regular 書体へ解決されます。
 
+太字テキストには、**同じファミリー**の太字書体がシステムにある場合だけそれを使います（例: 游ゴシック Bold、Arial Bold）。
+無い場合は Excel と同じく標準書体を太らせて描画し、名前の似た別ファミリーの太字書体（游明朝に対する「游明朝 Demibold」、
+Century に対する「Century Schoolbook Bold」など）は使いません。
+
 ワークブックの既定フォントが CJK グリフを含まない場合（例: Calibri）、セル内の CJK 文字は設定済みのフォールバックフォントを使って、1文字単位で自動的に描画されます。
 
 ## セル単位フォント解決
@@ -73,6 +77,7 @@ macOS 版 Excel が CJK フォントの既定表示ウェイトとして Medium 
 ## フォントファイルの指定
 
 通常テキストに使用する TTF フォントファイルを `builderForExplicitFont` の引数に指定します。
+TrueType Collection（`.ttc`）ファイルも指定でき、その場合は先頭のフォントを使います。
 日本語テキストを含む場合は日本語対応フォント（例：Noto Sans JP）を使用してください。
 
 ```java

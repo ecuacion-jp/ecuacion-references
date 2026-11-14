@@ -4,7 +4,7 @@ Excel ファイルの読み書きや PDF 生成など、実務でよく使うユ
 ## ecuacion-utils とは
 
 ecuacion-utils は、アプリケーション開発で必要となる汎用ユーティリティ機能を提供するライブラリ群です。
-現在は Excel 操作に特化した 2 つのモジュールで構成されています。
+現在は Excel 操作と、Excel・Word ファイルからの PDF 生成のモジュールで構成されています。
 
 ## モジュール構成
 
@@ -12,6 +12,7 @@ ecuacion-utils は、アプリケーション開発で必要となる汎用ユ�
 | --- | --- |
 | `ecuacion-util-excel-table` | Excel ファイルのテーブルデータを読み書きするユーティリティ |
 | `ecuacion-util-excel-report-to-pdf` | Excel ファイルを PDF に変換するユーティリティ |
+| `ecuacion-util-word-document-to-pdf` | Word ファイル（契約書・利用規約など）を PDF に変換するユーティリティ |
 
 詳細はナビゲーションの各ページを参照してください。
 
@@ -33,3 +34,4 @@ ecuacion-utils は、アプリケーション開発で必要となる汎用ユ�
 
 - `ecuacion-util-excel-table`: [セットアップ](page?id=excel-tables/setup&lang=ja)
 - `ecuacion-util-excel-report-to-pdf`: [セットアップ](page?id=excel-report-to-pdf/setup&lang=ja)
+- `ecuacion-util-word-document-to-pdf`: [セットアップ](page?id=word-document-to-pdf/setup&lang=ja)

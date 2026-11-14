@@ -74,6 +74,34 @@
 					#{navBar.ertp.notes}, '')}"></div>
 
 		</div></th:block>
+
+		<div th:replace="~{bootstrap/components :: navbarSubMenu(
+				#{navBar.wdtp}, ~{::navbarWordDocumentToPdf}, '')}"></div>
+		<th:block th:if="false"><div th:fragment="navbarWordDocumentToPdf" th:remove="tag">
+
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/overview',lang=${lang})},
+					#{navBar.wdtp.overview}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/setup',lang=${lang})},
+					#{navBar.wdtp.setup}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/quickstart',lang=${lang})},
+					#{navBar.wdtp.quickstart}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/options',lang=${lang})},
+					#{navBar.wdtp.options}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/exceptions',lang=${lang})},
+					#{navBar.wdtp.exceptions}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/features',lang=${lang})},
+					#{navBar.wdtp.features}, '')}"></div>
+			<div th:replace="~{bootstrap/components :: navbarDropDownMenuItem(
+					@{/public/showMarkdown/page(id='word-document-to-pdf/notes',lang=${lang})},
+					#{navBar.wdtp.notes}, '')}"></div>
+
+		</div></th:block>
 	</div>
 
 	<div th:fragment="nav-bar-public-right" th:remove="tag">

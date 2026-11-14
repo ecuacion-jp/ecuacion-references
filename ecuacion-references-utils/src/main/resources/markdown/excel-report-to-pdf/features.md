@@ -50,7 +50,10 @@ The following features have been verified through automated tests, grouped by ar
 ### Cell Text
 
 - Font size is accurately reflected in the PDF
-- **Bold** is supported
+- **Bold** is supported. As in Excel, a bold face is used only when the font family has one
+  of its own (e.g. Yu Gothic, Arial, Meiryo). Fonts without one (e.g. Yu Mincho, Century,
+  MS Mincho) are drawn emboldened from the regular face, instead of with a bold face of
+  another family with a similar name (e.g. "Yu Mincho Demibold", "Century Schoolbook Bold")
 - **Italic** is supported (rendered as synthetic italic using a shear transformation;
   the embedded font has no true italic face)
 - **Strikethrough** is supported

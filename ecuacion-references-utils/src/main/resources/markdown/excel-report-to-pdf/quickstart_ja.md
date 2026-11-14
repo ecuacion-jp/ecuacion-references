@@ -22,7 +22,7 @@ public static void generate(
 ```java
 import jp.ecuacion.util.pdf.excel.report.options.PdfGenerateOptions;
 import jp.ecuacion.util.pdf.excel.report.util.ExcelToPdfUtil;
-import jp.ecuacion.util.pdf.excel.report.exception.PdfGenerateException;
+import jp.ecuacion.util.pdf.common.exception.PdfGenerateException;
 import java.nio.file.Path;
 import java.util.List;
 

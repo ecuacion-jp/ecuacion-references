@@ -5,7 +5,7 @@ such as reading/writing Excel files and generating PDFs.
 ## What is ecuacion-utils?
 
 ecuacion-utils is a collection of general-purpose utility libraries.
-Currently it consists of two modules focused on Excel operations.
+Currently it consists of modules for Excel operations and PDF generation from Excel and Word files.
 
 ## Module Structure
 
@@ -13,6 +13,7 @@ Currently it consists of two modules focused on Excel operations.
 | --- | --- |
 | `ecuacion-util-excel-table` | Utility for reading and writing table data from/to Excel files |
 | `ecuacion-util-excel-report-to-pdf` | Utility for converting Excel files to PDF |
+| `ecuacion-util-word-document-to-pdf` | Utility for converting Word files (contracts, terms of service etc.) to PDF |
 
 See the navigation links for details on each module.
 
@@ -34,3 +35,4 @@ See the following pages for details on each module, such as additional dependenc
 
 - `ecuacion-util-excel-table`: [Setup](page?id=excel-tables/setup&lang=en)
 - `ecuacion-util-excel-report-to-pdf`: [Setup](page?id=excel-report-to-pdf/setup&lang=en)
+- `ecuacion-util-word-document-to-pdf`: [Setup](page?id=word-document-to-pdf/setup&lang=en)

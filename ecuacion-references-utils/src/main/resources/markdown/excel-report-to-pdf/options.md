@@ -60,6 +60,11 @@ Excel on macOS which uses Medium as the default display weight for CJK fonts. Fo
 correctly excludes **italic** and **bold** variants when a regular (upright) font is requested, so
 fonts such as Calibri are reliably resolved to their Regular face.
 
+For bold text, the bold face of the **same family** is used only when the system has one
+(e.g. Yu Gothic Bold, Arial Bold). Otherwise the regular face is drawn emboldened, as Excel
+does: a bold face of another family with a similar name (e.g. "Yu Mincho Demibold" for Yu
+Mincho, "Century Schoolbook Bold" for Century) is never taken.
+
 When the workbook's default font does not contain CJK glyphs (e.g. Calibri), any CJK characters in
 cell text are automatically rendered using the configured fallback font, on a character-by-character
 basis.
@@ -79,7 +84,8 @@ workbook's default font itself cannot be resolved and no fallback font is config
 
 ## Font File
 
-Specify a TTF font file as the `builderForExplicitFont` argument.
+Specify a TTF font file as the `builderForExplicitFont` argument. A TrueType Collection (`.ttc`)
+file can be given as well: its first font is used.
 For documents containing Japanese text, use a Japanese-compatible font (e.g. Noto Sans JP).
 
 ```java
