@@ -23,8 +23,8 @@ Table name: `Table2`, range: `A8:T{last row}`
 | N | No Timezone | Date-time types: `○` = no timezone (`LocalDateTime`) (optional) |
 | O | Max Size [MB] | BINARY: maximum size that can be stored, in megabytes; decimals allowed (required) |
 | P | Notes | Comments (not used in generation) |
-| Q | Pattern Description (default lang) | Human-readable description of the data pattern (English) |
-| R–T | Pattern Description (lang 1–3) | Language-specific pattern descriptions |
+| Q | Pattern Description (default lang) | Description of the Regex (column H) in the default language, shown in error messages instead of the regex (optional: the regex itself is shown when omitted; must be blank when Regex is blank) |
+| R–T | Pattern Description (lang 1–3) | Language-specific descriptions of the Regex. Required when the default-language description is given and the corresponding additional language is configured in General Settings; blank otherwise |
 
 ---
 
@@ -117,6 +117,12 @@ Column E holds the display name shown in the dropdown; column F is auto-populate
 | `Alphabetic` | `REG_EX_HAN_UC_LC` | Uppercase and lowercase ASCII letters |
 | `Alphabetic + Underscore` | `REG_EX_HAN_UC_LC_US` | Uppercase and lowercase ASCII letters, and underscore |
 | `Full-width` | `REG_EX_ZEN` | Full-width characters only (excludes ASCII and half-width kana) |
+
+When a value violates its data pattern, the error message shows the display name above
+(in Japanese for Japanese, and in English for any other language).
+The generated `@PatternWithDescription` uses `dataPattern.<enumValue>` (e.g. `dataPattern.REG_EX_HAN`) as `description`,
+and the descriptions of all patterns except `REG_EX_ALL` are output to `ValidationMessagesPatternDescriptions_base*.properties`
+in the base module.
 
 ## Conventional DataTypes
 
