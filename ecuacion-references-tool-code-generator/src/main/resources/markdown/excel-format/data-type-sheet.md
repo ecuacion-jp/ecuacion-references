@@ -114,8 +114,8 @@ Column E holds the display name shown in the dropdown; column F is auto-populate
 | `Numeric + Uppercase + Underscore` | `REG_EX_HAN_NUM_UC_US` | Digits, uppercase letters, and underscore |
 | `Numeric + Lowercase` | `REG_EX_HAN_NUM_LC` | Digits and lowercase letters |
 | `Numeric + Lowercase + Underscore` | `REG_EX_HAN_NUM_LC_US` | Digits, lowercase letters, and underscore |
-| `Alphanumeric` | `REG_EX_HAN_NUM_UC_LC` | Uppercase and lowercase ASCII letters (despite the name, no digits) |
-| `Alphanumeric + Underscore` | `REG_EX_HAN_NUM_UC_LC_US` | Uppercase and lowercase ASCII letters, and underscore |
+| `Alphabetic` | `REG_EX_HAN_UC_LC` | Uppercase and lowercase ASCII letters |
+| `Alphabetic + Underscore` | `REG_EX_HAN_UC_LC_US` | Uppercase and lowercase ASCII letters, and underscore |
 | `Full-width` | `REG_EX_ZEN` | Full-width characters only (excludes ASCII and half-width kana) |
 
 ## Conventional DataTypes
